@@ -13,6 +13,12 @@ html {
 body {
   margin: 0;
 }
+.table h1, 
+.table h2,
+.table h3{
+margin: 0px;
+padding:0px;
+}
 article,
 aside,
 details,
