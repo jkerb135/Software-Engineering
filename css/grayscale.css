@@ -4,6 +4,41 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 
+::-moz-selection {
+    text-shadow: none;
+    background: #FFCC00;
+}
+
+::selection {
+    text-shadow: none;
+    background: #FFCC00;
+}
+::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: #FFCC00;
+}
+img::selection {
+    background: 0 0;
+}
+
+img::-moz-selection {
+    background: 0 0;
+}
+
+body {
+    webkit-tap-highlight-color: #004c00;
+}
 body {
     width: 100%;
     height: 100%;
