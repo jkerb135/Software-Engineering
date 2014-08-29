@@ -53,7 +53,10 @@
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">About</a>
+                        <a class="page-scroll" href="#about">Our Team</a>
+                    </li>
+					<li>
+                        <a class="page-scroll" href="#work">Work Breakdown Structure</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#download">GitHub</a>
@@ -86,7 +89,7 @@
     </header>
 
     <!-- About Section -->
-    <section id="about" class="container content-section text-center">
+    <section id="about" class="container content-section text-center" style="height:100%">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>Our Team</h2>
@@ -102,22 +105,71 @@
         </div>
     </section>
 
+	<section id="work" class="container content text-center">
+		<h2>Work Breakdown Schedule </h2>
+		<table class="table">
+		<thead><td>Phase </td><td>Task</td><td>Days</td><td>Date Due</td><td>Resource(s)</td></thead>
+		<tr><td rowspan="4">0</td><td>First Team Meeting</td><td>1</td><td>28-Aug</td><td>All</td></tr>
+		<tr><td>Understanding the Problem</td><td>2</td><td>29-Aug</td><td>All</td></tr>
+		<tr><td>Work Breakdown Structure</td><td>1</td><td>29-Aug</td><td>:jkerb :awell</td></tr>
+		<tr><td>Client Meeting (Dr. Tan)</td><td>1</td><td>2-Sep</td><td>All</td></tr>
+		<tr><td rowspan="6">1</td><td>Team Meeting</td><td>1</td><td>2-Sep</td><td>All</td></tr>
+		<tr><td>Build Software Project Plan</td><td>5</td><td>3-Sep</td><td>:awell :dtall</td></tr>
+		<tr><td>Build Information Gathering Report</td><td>6</td><td>3-Sep</td><td>:emill</td></tr>
+		<tr><td>Architectural Design</td><td>4</td><td>10-Sep</td><td>TBD</td></tr>
+		<tr><td>Risk Management Plan</td><td>5</td><td>10-Sep</td><td>:jkerb :awell</td></tr>
+		<tr><td>Software Requirment Specs</td><td>4</td><td>10-Sep</td><td>:emill</td></tr>
+		<tr><td rowspan="8">2 - Sprint 1 </td><td>Meet with Client</td><td>1</td><td>15-Sep</td><td>All</td></tr>
+		<tr><td>Software Development Plan</td><td>2</td><td>17-Sep</td><td>:awell</td></tr>
+		<tr><td>Software Design Specification</td><td>2</td><td>17-Sep</td><td>:dtall :acres</td></tr>
+		<tr><td>Database Design & UI Design</td><td>6</td><td>19-Sep</td><td>:dtall :acres</td></tr>
+		<tr><td>Test-Driven Development</td><td>10</td><td>19-Sep</td><td>:dtall :acres</td></tr>
+		<tr><td>Test Specifications</td><td>3</td><td>24-Sep</td><td>:jkerb :emill</td></tr>
+		<tr><td>Modification Request Report</td><td>3</td><td>24-Sep</td><td>:jkerb :emill</td></tr>
+		<tr><td>Work on Prototype</td><td>10</td><td>25-Sep</td><td>:dtall :acres</td></tr>
+		<tr><td rowspan="4">2 - Sprint 2</td><td>Review Risk Management Plan</td><td>2</td><td>8-Oct</td><td>:awell :jkerb</td></tr>
+		<tr><td>Test Specifications and Testing</td><td>10</td><td>15-Oct</td><td>:jkerb :emill</td></tr>
+		<tr><td>Update UI and Database</td><td>7</td><td>15-Oct</td><td>:dtall :acres</td></tr>
+		<tr><td>Present to Client</td><td>1</td><td>TBD</td><td>All</td></tr>
+		<tr><td rowspan="5">3 - Sprint 1</td><td>Update SPP SRS IGR</td><td>4</td><td>22-Oct</td><td>:emill :awell</td></tr>
+		<tr><td>Testing UI and Unit</td><td>12</td><td>27-Oct</td><td>:jkerb :emill</td></tr>
+		<tr><td>Review Risks and System Design</td><td>4</td><td>29-Oct</td><td>:emill</td></tr>
+		<tr><td>Update SDP TS</td><td>4</td><td>29-Oct</td><td>:emill :jkerb</td></tr>
+		<tr><td>Confim additional functionality</td><td>1</td><td>TBD</td><td>All</td></tr>
+		<tr><td rowspan="7">3 - Sprint 2</td><td>SPP IGR Final</td><td>4</td><td>5-Nov</td><td>:emill :awell</td></tr>
+		<tr><td>Testing UI and Unit</td><td>12</td><td>12-Nov</td><td>:emill :jkerb</td></tr>
+		<tr><td>SRS SDP Final</td><td>4</td><td>12-Nov</td><td>:awell :emill</td></tr>
+		<tr><td>TS RMP Final</td><td>4</td><td>19-Nov</td><td>:jkerb :emill</td></tr>
+		<tr><td>Release Testing</td><td>5</td><td>20-Nov</td><td>:jkerb :emill</td></tr>
+		<tr><td>Client Acceptance Testing</td><td>3</td><td>20-Nov</td><td>:jkerb :emill</td></tr>
+		<tr><td>Present to Client</td><td>1</td><td>TBD</td><td>All</td></tr>
+		<tr><td rowspan="4">4</td><td>Final System Delivery</td><td>1</td><td>24-Nov</td><td>All</td></tr>
+		<tr><td>Release Testing</td><td>5</td><td>27-Nov</td><td>:jkerb :emill</td></tr>
+		<tr><td>WBS MRR Final</td><td>4</td><td>26-Nov</td><td>:awell :jkerb :emill</td></tr>
+		<tr><td>Deploy iPAWS System / Manual</td><td>3</td><td>4-Dec</td><td>All</td></tr>
+		</table>
+		<a href="WBS.pdf" class="btn btn-default btn-lg"><i class="fa fa-info fa-fw"></i> <span class="network-name">Work Breakdown PDF</span></a>
+	</section>
+	
     <!-- Download Section -->
     <section id="download" class="content-section text-center">
         <div class="download-section">
             <div class="container">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2>GitHub</h2>
-                    <p>Kepp up with the development of the iPAWS project</p>
+                    <h2>Ongoing Project Status</h2>
+					<table class="table">
+						<tr></td><td>Project Phase ~ Zero </td><td>Ongoing</td></tr>
+						<tr></td><td>Project Phase ~ One </td><td>Not Started</td></tr>
+						<tr></td><td>Project Phase ~ Two Sprint One </td><td>Not Started</td></tr>
+						<tr></td><td>Project Phase ~ Two Sprint Two </td><td>Not Started</td></tr>
+						<tr></td><td>Project Phase ~ Three Sprint One </td><td>Not Started</td></tr>
+						<tr></td><td>Project Phase ~ Three Sprint Two </td><td>Not Started</td></tr>
+						<tfoot></td><td>Project Phase ~ Four </td><td>Not Started</td></tfoot>
+					</table>
+                    <p>Keep up with the development of the iPAWS project</p>
                     <ul class="list-inline banner-social-buttons">
 						<li>
-							<a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-						</li>
-						<li>
-							<a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-						</li>
-						<li>
-							<a href="https://plus.google.com/+Startbootstrap/posts" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
+							<a href="https://github.com/jkerb135/Software-Engineering" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
 						</li>
 					</ul>
                 </div>
@@ -129,21 +181,22 @@
     <section id="contact" class="container content-section text-center">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
-                <h2>Contact Our Awesome Staff</h2>
+                <h2>Contact Us</h2>
                 <p>Feel free to email us to provide some feedback on our project, give us suggestions for additions to use or to just say hello!</p>
-                <p><a href=""></a>
+				<!-- Contimplating whether or not to set up mailing-->
+                <a href="#" class="btn btn-default btn-lg"><i class="fa fa-envelope fa-fw"></i> <span class="network-name">Mail Us</span></a>
                 </p>
             </div>
         </div>
     </section>
-
+	
     <!-- Map Section -->
     <div id="map"></div>
 
     <!-- Footer -->
     <footer>
         <div class="container text-center">
-            <p>Copyright &copy; Your Website 2014</p>
+            <p>Copyright &copy; Software Engineering 2014</p>
         </div>
     </footer>
 
