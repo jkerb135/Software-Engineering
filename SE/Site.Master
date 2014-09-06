@@ -284,6 +284,9 @@
                                     <li>
                                         <a href="<%=ResolveUrl("~/Admin/Users.aspx") %>">Manage Users</a>
                                     </li>
+                                    <li>
+                                        <a href="<%=ResolveUrl("~/Admin/Users.aspx?CreateUser=1") %>">Create User</a>
+                                    </li>
                                 </ul>
                                 <!-- /.nav-second-level -->
                             </li>

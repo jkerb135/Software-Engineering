@@ -14,7 +14,7 @@ namespace SE
         {
             if (!User.Identity.IsAuthenticated)
             {
-                Response.Redirect(ResolveUrl("~/Login.aspx"));
+                Response.Redirect("~/Login.aspx");
             }
         }
     }

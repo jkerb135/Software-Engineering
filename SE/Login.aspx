@@ -46,7 +46,7 @@
                                     <h3 class="panel-title">Please Sign In</h3>
                                 </div>
                                 <div class="panel-body">
-                                    <div role="form">
+                                    <div class="login-form">
                                         <fieldset>
                                             <div class="form-group">
                                                 <asp:TextBox ID="UserName" CssClass="form-control" PlaceHolder="Username" 
@@ -61,12 +61,12 @@
                                                     <asp:CheckBox ID="RememberMe" runat="server" />
                                                     Remember Me
                                                 </label>
-                                            &nbsp;&nbsp;</div>
+                                            </div>
                                             <asp:Button ID="Login" CommandName="Login" CssClass="btn btn-lg btn-success btn-block" Text="Submit" runat="server"  />
                                         </fieldset>
                                     </div>
-                                </div>  
-                            </div>  
+                                </div>   
+                            </div>
                             <div>
                                 <asp:Label ID="FailureText" CssClass="error-message" runat="server" Text=""></asp:Label>
                             </div>

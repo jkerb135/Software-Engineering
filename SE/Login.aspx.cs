@@ -21,13 +21,13 @@ namespace SE
 
             if (Roles.IsUserInRole(user.UserName, "User"))
             {
-                Response.Redirect(ResolveUrl("~/Default.aspx"));
+                Response.Redirect("~/Default.aspx");
             }
 
             if (Roles.IsUserInRole(user.UserName, "Manager") || 
                 Roles.IsUserInRole(user.UserName, "Supervisor"))
             {
-                Response.Redirect(ResolveUrl("~/Admin/Dashboard.aspx"));
+                Response.Redirect("~/Admin/Dashboard.aspx");
             }
         }
     }
