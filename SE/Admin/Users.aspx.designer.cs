@@ -121,13 +121,13 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Label EditPasswordLabel;
         
         /// <summary>
-        /// ConfirmPasswordCompare control.
+        /// EditPasswordCompare control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CompareValidator ConfirmPasswordCompare;
+        protected global::System.Web.UI.WebControls.CompareValidator EditPasswordCompare;
         
         /// <summary>
         /// EditPassword control.

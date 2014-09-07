@@ -101,7 +101,7 @@
                         </div>
                         <div class="form-group">
                             <asp:Label ID="EditPasswordLabel" runat="server" Text="Password"></asp:Label>
-                            <asp:CompareValidator ID="ConfirmPasswordCompare" ControlToValidate="EditPassword" Display="None"
+                            <asp:CompareValidator ID="EditPasswordCompare" ControlToValidate="EditPassword" Display="None"
                                 ControlToCompare="EditConfirmPassword" runat="server" ErrorMessage="Passwords must match." 
                                 ValidationGroup="EditUser"></asp:CompareValidator>
                             <asp:TextBox ID="EditPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
