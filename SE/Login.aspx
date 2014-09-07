@@ -68,7 +68,7 @@
                                 </div>   
                             </div>
                             <div>
-                                <asp:Label ID="FailureText" CssClass="error-message" runat="server" Text=""></asp:Label>
+                                <asp:Label ID="FailureText" CssClass="error-messages" runat="server" Text=""></asp:Label>
                             </div>
                         </LayoutTemplate>
                     </asp:Login>

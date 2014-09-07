@@ -16,16 +16,16 @@ namespace SE
         }
         protected void MainLogin_LoggedIn(object sender, EventArgs e)
         {
-            System.Web.UI.WebControls.Login controlLogin = (Login)sender;
-            MembershipUser user = (MembershipUser)Membership.GetUser(controlLogin.UserName);
+            var controlLogin = (Login)sender;
+            var User = Membership.GetUser(controlLogin.UserName);
 
-            if (Roles.IsUserInRole(user.UserName, "Manager") ||
-                Roles.IsUserInRole(user.UserName, "Supervisor"))
+            if (Roles.IsUserInRole(User.UserName, "Manager") ||
+                Roles.IsUserInRole(User.UserName, "Supervisor"))
             {
                 Response.Redirect("~/Admin/Dashboard.aspx");
             }
 
-            if (Roles.IsUserInRole(user.UserName, "User"))
+            if (Roles.IsUserInRole(User.UserName, "User"))
             {
                 Response.Redirect("~/Default.aspx");
             }

@@ -19,6 +19,10 @@
                         <WizardSteps>
                             <asp:CreateUserWizardStep ID="CreateUserWizardStep" runat="server">
                                 <ContentTemplate>
+                                    <div class="error-messages">
+                                        <asp:Literal ID="ErrorMessage" runat="server"></asp:Literal>
+                                        <asp:ValidationSummary ID="ValidationSummary" runat="server" ValidationGroup="CreateUserWizard" />
+                                    </div>
                                     <div class="form-group">
                                         <asp:Label ID="UserNameLabel" runat="server" Text="Username"></asp:Label>
                                         <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
@@ -55,10 +59,6 @@
                                             <asp:ListItem>User</asp:ListItem>
                                         </asp:DropDownList>
                                     </div>
-                                    <div class="error-message">
-                                        <asp:Literal ID="ErrorMessage" runat="server"></asp:Literal>
-                                        <asp:ValidationSummary ID="ValidationSummary" runat="server" ValidationGroup="CreateUserWizard" />
-                                    </div>
                                 </ContentTemplate>
                                 <CustomNavigationTemplate>
                                     <asp:Button ID="CreateUserButton" CommandName="MoveNext" CssClass="btn btn-default" runat="server" 
@@ -77,10 +77,46 @@
 
                 <asp:View ID="EditUser" runat="server">
                     <h2>Edit User</h2>
+                    <p>Note: all fields are optional</p>
+                    <div class="col-md-6 col-xs-12">
+                        <div class="form-messages">
+                            <asp:Label ID="EditMessage" runat="server"></asp:Label>
+                        </div>
+                        <div class="form-group">
+                            <asp:Label ID="EditEmailLabel" runat="server" Text="Email"></asp:Label>
+                            <asp:TextBox ID="EditEmail" CssClass="form-control" runat="server"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <asp:Label ID="EditPasswordLabel" runat="server" Text="Password"></asp:Label>
+                            <asp:TextBox ID="EditPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <asp:Label ID="EditConfirmPasswordLabel" runat="server" Text="Confirm Password"></asp:Label>
+                            <asp:TextBox ID="EditConfirmPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <asp:Label ID="EditUserRoleLabel" runat="server" Text="User Role"></asp:Label>
+                            <asp:DropDownList ID="EditUserRole" CssClass="form-control" runat="server">
+                                <asp:ListItem></asp:ListItem>
+                                <asp:ListItem>Supervisor</asp:ListItem>
+                                <asp:ListItem>User</asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                        <div>
+                            <asp:Button ID="DeleteUserButton" CssClass="btn btn-danger btn-lg" runat="server" Text="Delete User" 
+                                onclick="DeleteUserButton_Click" OnClientClick="return confirm('Are you sure you want to delete this user?');" />
+                        </div>
+                        <asp:Button ID="EditUserButton" CssClass="btn btn-default right" runat="server" 
+                            Text="Submit" onclick="EditUserButton_Click" />
+                    </div>
                 </asp:View>
 
                 <asp:View ID="ManageUsers" runat="server">
                     <h2>Manage Users</h2>
+                    <div class="table-responsive">
+                        <asp:DataGrid ID="UserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" OnPageIndexChanged="UserList_Change">
+                        </asp:DataGrid>
+                    </div>
                 </asp:View>
 
             </asp:MultiView>
