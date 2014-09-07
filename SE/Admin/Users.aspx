@@ -119,7 +119,7 @@
                             </asp:DropDownList>
                         </div>
                         <div>
-                            <asp:Button ID="DeleteUserButton" CssClass="btn btn-danger btn-lg" runat="server" Text="Delete User" 
+                            <asp:Button ID="DeleteUserButton" CssClass="btn btn-danger btn-lg" runat="server" Text="Delete User" UseSubmitBehavior="false"
                                 onclick="DeleteUserButton_Click" OnClientClick="return confirm('Are you sure you want to delete this user?');" />
                         </div>
                         <asp:Button ID="EditUserButton" CssClass="btn btn-default right" runat="server" 
