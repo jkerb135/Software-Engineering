@@ -58,13 +58,31 @@ namespace SE {
         protected global::System.Web.UI.WebControls.View EditUser;
         
         /// <summary>
-        /// EditMessage control.
+        /// EditErrorMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label EditMessage;
+        protected global::System.Web.UI.WebControls.Label EditErrorMessage;
+        
+        /// <summary>
+        /// EditValidationSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary EditValidationSummary;
+        
+        /// <summary>
+        /// EditSuccessMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditSuccessMessage;
         
         /// <summary>
         /// EditEmailLabel control.
@@ -74,6 +92,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label EditEmailLabel;
+        
+        /// <summary>
+        /// EditEmailValid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator EditEmailValid;
         
         /// <summary>
         /// EditEmail control.
@@ -92,6 +119,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label EditPasswordLabel;
+        
+        /// <summary>
+        /// ConfirmPasswordCompare control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator ConfirmPasswordCompare;
         
         /// <summary>
         /// EditPassword control.

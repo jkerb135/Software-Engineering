@@ -3,3 +3,9 @@
 .clear {clear: both}
 
 #MainLogin {width: 100%}
+
+.error-messages {color: red}
+.success-messages {color: green}
+
+.error-messages ul, .success-messages ul {padding-left: 0}
+.error-messages li, .success-messages li {list-style: none}

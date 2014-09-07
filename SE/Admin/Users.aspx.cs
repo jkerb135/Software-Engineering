@@ -111,16 +111,18 @@ namespace SE
         /// </summary> 
         private void EditUserNow() {
             var User = Membership.GetUser(Request.QueryString["username"]);
-            String Message = "";
+            String ErrorMessage = "";
+            String SuccessMessage = "";
 
-            EditMessage.Text = String.Empty;
+            EditErrorMessage.Text = String.Empty;
+            EditSuccessMessage.Text = String.Empty;
 
             // User email
             if (!String.IsNullOrEmpty(EditEmail.Text))
             {
                 User.Email = EditEmail.Text;
                 Membership.UpdateUser(User);
-                Message += "Email successfully updated.<br/>";
+                SuccessMessage += "Email successfully updated.<br/>";
             }
 
             // User password
@@ -128,17 +130,10 @@ namespace SE
             {
                 Boolean Error = false;
 
-                // Passwords do not match
-                if (EditPassword.Text.Trim() != EditConfirmPassword.Text.Trim())
-                {
-                    Message += "Passwords must match.<br/>";
-                    Error = true;
-                }
-
                 // Password is less then required length
                 if (EditPassword.Text.Length < Membership.MinRequiredPasswordLength)
                 {
-                    Message += "Password must be at least " +
+                    ErrorMessage += "Password must be at least " +
                         Membership.MinRequiredPasswordLength + " characters.<br/>";
                     Error = true;
                 }
@@ -147,7 +142,7 @@ namespace SE
                 if (EditPassword.Text.Count(c => !char.IsLetterOrDigit(c)) <
                     Membership.MinRequiredNonAlphanumericCharacters)
                 {
-                    Message += "Password must contain at least " + 
+                    ErrorMessage += "Password must contain at least " + 
                         Membership.MinRequiredNonAlphanumericCharacters + 
                         " non-alphanumeric characters.<br/>";
                     Error = true;
@@ -157,7 +152,7 @@ namespace SE
                 if (!Error)
                 {
                     User.ChangePassword(User.ResetPassword(), EditPassword.Text);
-                    Message += "Password successfully updated.<br/>";
+                    SuccessMessage += "Password successfully updated.<br/>";
                 }
             }
 
@@ -172,18 +167,19 @@ namespace SE
                     // Remove users previous role
                     Roles.RemoveUserFromRole(User.UserName, RemoveRole);
 
-                    Message += "User role successfully updated.";
+                    SuccessMessage += "User role successfully updated.";
                 }
                 else
                 {
-                    Message += "User is already a " + EditUserRole.SelectedValue + ".";
+                    ErrorMessage += "User is already a " + EditUserRole.SelectedValue + ".";
                 }
             }
 
-            // Display Message
-            EditMessage.Text = Message;
+            // Display messages
+            EditErrorMessage.Text = ErrorMessage;
+            EditSuccessMessage.Text = SuccessMessage;
 
-            // Clear fields
+            // Clear fields and focus email field
             EditEmail.Text = String.Empty;
             EditPassword.Text = String.Empty;
             EditConfirmPassword.Text = String.Empty;
