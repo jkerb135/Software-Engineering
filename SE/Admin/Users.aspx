@@ -13,7 +13,7 @@
             <asp:MultiView ID="UsersMultiView" ActiveViewIndex="0" runat="server">
                 
                 <asp:View ID="CreateUser" runat="server">
-                    <h1>Create User</h1>
+                    <h2>Create User</h2>
                     <asp:CreateUserWizard ID="CreateUserWizard" CssClass="col-md-6 col-xs-12" 
                         runat="server" oncreateduser="CreateUserWizard_CreatedUser" LoginCreatedUser="false" ContinueDestinationPageUrl="~/Admin/Users.aspx">
                         <WizardSteps>
@@ -61,21 +61,25 @@
                                     </div>
                                 </ContentTemplate>
                                 <CustomNavigationTemplate>
-                                    <asp:Button CommandName="MoveNext" runat="server" ID="CreateUserButton" CausesValidation="true" Text="Submit" />
+                                    <asp:Button CommandName="MoveNext" CssClass="btn btn-default" runat="server" ID="CreateUserButton" CausesValidation="true" Text="Submit" />
                                 </CustomNavigationTemplate>
                             </asp:CreateUserWizardStep>
                             <asp:CompleteWizardStep runat="server">
+                                <ContentTemplate>
+                                    <p>Account has been successfully created.</p>
+                                    <asp:Button ID="ContinueButton" CommandName="Continue" CssClass="btn btn-default" runat="server" Text="Continue" />
+                                </ContentTemplate>
                             </asp:CompleteWizardStep>
                         </WizardSteps>
                     </asp:CreateUserWizard>
                 </asp:View>
 
                 <asp:View ID="EditUser" runat="server">
-                    <h1>Edit User</h1>
+                    <h2>Edit User</h2>
                 </asp:View>
 
                 <asp:View ID="ManageUsers" runat="server">
-                    <h1>Manage Users</h1>
+                    <h2>Manage Users</h2>
                 </asp:View>
 
             </asp:MultiView>

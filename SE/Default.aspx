@@ -9,7 +9,8 @@
 <body>
     <form id="MainForm" runat="server">
     <div>
-        <h1>Welcome <asp:LoginName ID="UserLoginName" runat="server" />!</h1> 
+        <h1>Welcome <asp:LoginName ID="UserLoginName" runat="server" />!</h1>
+        <asp:LoginStatus ID="LoginStatus" runat="server" />
     </div>
     </form>
 </body>

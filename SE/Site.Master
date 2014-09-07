@@ -252,7 +252,7 @@
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                             </li>
                             <li class="divider"></li>
-                            <li><asp:LoginStatus ID="SiteLoginStatus" runat="server"></asp:LoginStatus>
+                            <li><asp:LinkButton ID="LogoutButton" runat="server" onclick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw'></i> Logout</asp:LinkButton>
                             </li>
                         </ul>
                         <!-- /.dropdown-user -->
@@ -266,7 +266,7 @@
                         <ul class="nav" id="side-menu">
                             <li class="sidebar-search">
                                 <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Search...">
+                                    <input type="text" class="form-control" placeholder="Search..." />
                                     <span class="input-group-btn">
                                     <button class="btn btn-default" type="button">
                                         <i class="fa fa-search"></i>
@@ -278,14 +278,14 @@
                             <li>
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                             </li>
-                            <li>
+                            <li id="CreateUserMenu" runat="server">
                                 <a href="#"><i class="fa fa-wrench fa-fw"></i> Users<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
                                         <a href="<%=ResolveUrl("~/Admin/Users.aspx") %>">Manage Users</a>
                                     </li>
                                     <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Users.aspx?CreateUser=1") %>">Create User</a>
+                                        <a href="<%=ResolveUrl("~/Admin/Users.aspx?userpage=createuser") %>">Create User</a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->
@@ -296,7 +296,7 @@
                             <li>
                                 <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i> Categories</a>
                             </li>
-                            <li>
+                            <li id="ReportsMenu" runat="server">
                                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Reports<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>

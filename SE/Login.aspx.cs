@@ -12,22 +12,22 @@ namespace SE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
         }
         protected void MainLogin_LoggedIn(object sender, EventArgs e)
         {
             System.Web.UI.WebControls.Login controlLogin = (Login)sender;
             MembershipUser user = (MembershipUser)Membership.GetUser(controlLogin.UserName);
 
-            if (Roles.IsUserInRole(user.UserName, "User"))
-            {
-                Response.Redirect("~/Default.aspx");
-            }
-
-            if (Roles.IsUserInRole(user.UserName, "Manager") || 
+            if (Roles.IsUserInRole(user.UserName, "Manager") ||
                 Roles.IsUserInRole(user.UserName, "Supervisor"))
             {
                 Response.Redirect("~/Admin/Dashboard.aspx");
+            }
+
+            if (Roles.IsUserInRole(user.UserName, "User"))
+            {
+                Response.Redirect("~/Default.aspx");
             }
         }
     }

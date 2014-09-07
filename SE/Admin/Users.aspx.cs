@@ -11,7 +11,7 @@ namespace SE
     public partial class Users : System.Web.UI.Page
     {
         public DropDownList UserRole;
-        public enum ShowPage
+        public enum UserPage
         {
             NotSet = -1,
             CreateUser = 0,
@@ -26,17 +26,17 @@ namespace SE
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.QueryString["CreateUser"] == "1")
+            if (Request.QueryString["userpage"] == "createuser")
             {
-                UsersMultiView.ActiveViewIndex = (int) ShowPage.CreateUser;
+                UsersMultiView.ActiveViewIndex = (int) UserPage.CreateUser;
             }
-            else if (Request.QueryString["EditUser"] == "1")
+            else if (Request.QueryString["userpage"] == "edituser")
             {
-                UsersMultiView.ActiveViewIndex = (int) ShowPage.EditUser;
+                UsersMultiView.ActiveViewIndex = (int) UserPage.EditUser;
             }
             else
             {
-                UsersMultiView.ActiveViewIndex = (int) ShowPage.ManageUsers;
+                UsersMultiView.ActiveViewIndex = (int) UserPage.ManageUsers;
             }
         }
 

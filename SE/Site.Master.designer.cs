@@ -31,13 +31,31 @@ namespace SE {
         protected global::System.Web.UI.HtmlControls.HtmlForm masterForm;
         
         /// <summary>
-        /// SiteLoginStatus control.
+        /// LogoutButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LoginStatus SiteLoginStatus;
+        protected global::System.Web.UI.WebControls.LinkButton LogoutButton;
+        
+        /// <summary>
+        /// CreateUserMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl CreateUserMenu;
+        
+        /// <summary>
+        /// ReportsMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ReportsMenu;
         
         /// <summary>
         /// SiteBody control.

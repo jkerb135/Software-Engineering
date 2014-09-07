@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Security;
 
 namespace SE
 {
@@ -11,7 +12,19 @@ namespace SE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            String UserName = System.Web.HttpContext.Current.User.Identity.Name;
 
+            if (!Roles.IsUserInRole(UserName, "Manager"))
+            {
+                CreateUserMenu.Visible = false;
+                ReportsMenu.Visible = false;
+            }
+        }
+
+        protected void LogoutButton_Click(object sender, EventArgs e)
+        {
+            FormsAuthentication.SignOut();
+            FormsAuthentication.RedirectToLoginPage();
         }
     }
 }
