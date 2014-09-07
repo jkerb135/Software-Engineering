@@ -33,10 +33,10 @@
                                     </div>
                                     <div class="form-group">
                                         <asp:Label ID="ConfirmPasswordLabel" runat="server" Text="Confirm Password"></asp:Label>
-                                        <asp:CompareValidator ID="ConfirmPasswordCompare" ControlToValidate="ConfirmPassword" 
-                                            ControlToCompare="Password" runat="server" ErrorMessage="- Passwords must match."></asp:CompareValidator>
                                         <asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" 
                                             ErrorMessage="Confirm Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                        <asp:CompareValidator ID="ConfirmPasswordCompare" ControlToValidate="ConfirmPassword" 
+                                            ControlToCompare="Password" runat="server" ErrorMessage="- Passwords must match."></asp:CompareValidator>
                                         <asp:TextBox ID="ConfirmPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
                                     </div>
                                     <div class="form-group">
@@ -61,7 +61,8 @@
                                     </div>
                                 </ContentTemplate>
                                 <CustomNavigationTemplate>
-                                    <asp:Button CommandName="MoveNext" CssClass="btn btn-default" runat="server" ID="CreateUserButton" CausesValidation="true" Text="Submit" />
+                                    <asp:Button ID="CreateUserButton" CommandName="MoveNext" CssClass="btn btn-default" runat="server" 
+                                        ValidationGroup="CreateUserWizard" CausesValidation="true" Text="Submit" />
                                 </CustomNavigationTemplate>
                             </asp:CreateUserWizardStep>
                             <asp:CompleteWizardStep runat="server">
