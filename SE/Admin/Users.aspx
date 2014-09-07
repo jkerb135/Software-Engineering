@@ -118,12 +118,10 @@
                                 <asp:ListItem>User</asp:ListItem>
                             </asp:DropDownList>
                         </div>
-                        <div>
-                            <asp:Button ID="DeleteUserButton" CssClass="btn btn-danger btn-lg" runat="server" Text="Delete User" UseSubmitBehavior="false"
-                                onclick="DeleteUserButton_Click" OnClientClick="return confirm('Are you sure you want to delete this user?');" />
-                        </div>
                         <asp:Button ID="EditUserButton" CssClass="btn btn-default right" runat="server" 
-                            ValidationGroup="EditUser" CausesValidation="true" Text="Submit" onclick="EditUserButton_Click" />
+                            ValidationGroup="EditUser" CausesValidation="true" Text="Submit" onclick="EditUserButton_Click" />                      
+                        <asp:Button ID="DeleteUserButton" CssClass="btn btn-danger btn-lg clear block" runat="server" Text="Delete User"
+                            onclick="DeleteUserButton_Click" OnClientClick="return confirm('Are you sure you want to delete this user?');" />
                     </div>
                 </asp:View>
 

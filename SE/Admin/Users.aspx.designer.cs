@@ -175,15 +175,6 @@ namespace SE {
         protected global::System.Web.UI.WebControls.DropDownList EditUserRole;
         
         /// <summary>
-        /// DeleteUserButton control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button DeleteUserButton;
-        
-        /// <summary>
         /// EditUserButton control.
         /// </summary>
         /// <remarks>
@@ -191,6 +182,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button EditUserButton;
+        
+        /// <summary>
+        /// DeleteUserButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeleteUserButton;
         
         /// <summary>
         /// ManageUsers control.

@@ -1,6 +1,7 @@
 ﻿.left {float: left}
 .right {float: right}
 .clear {clear: both}
+.block {display: block}
 
 #MainLogin {width: 100%}
 
