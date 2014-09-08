@@ -119,15 +119,18 @@
 	</section>
 	<section id="files" class="container content-section text-center" style="height:100%">
 	<div class="row">
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-lg-12">
 				<h2>Development Files</h2>
+				<hr>
 				<a href="SPP.pdf" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Software Project Plan (SPP)</span></a>
 				<a href="RMP.pdf" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Risk Management Plan (RMP)</span></a>
 				<a href="WBS.pdf" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Work Breakdown PDF</span></a>
 				<br/>
 				<br/>
 				<h2>Meeting Minutes</h2>
-				<p>To be added...</p>
+				<hr>
+				<a href="8_28_14_Minutes.pdf" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">August 28th, 2014</span></a>
+				<a href="9_4_14_Minutes.pdf" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">September 4th, 2014</span></a>
 			</div>
 		</div>
 	</section>
@@ -273,7 +276,7 @@
 		},1000);
 	//Check Date for whats due..
 	var today = new Date();
-		var dates = ['9/9/2014','9/11/2014','9/11/2014','9/11/2014','9/15/2014','9/16/2014',
+		var dates = ['9/11/2014','9/11/2014','9/11/2014','9/15/2014','9/16/2014',
 						'9/18/2014','9/18/2014','9/18/2014','9/22/2014','9/22/2014','9/25/2014',
 						'9/25/2014','9/30/2014','10/7/2014','10/9/2014','10/9/2014','10/14/2014',
 						'10/21/2014','10/21/2014','10/21/2014','10/23/2014','10/23/2014','10/23/2014',
@@ -289,9 +292,8 @@
 							'Write SRS Final','Write SDP Final','Write TS Final','Write RMP Final','Release Testing',
 							'Client Acceptence Testing','Final System Delivery','Release Testing','Write WBS Final',
 							'Write MRR Final','Deploy iPAWS System/Manual'];
-			
-		$('#dueDate').append('Due in the next 7 days from ' + today.toLocaleDateString());
 		var weekLater = new Date(new Date().setDate(new Date().getDate() + 7));
+		$('#dueDate').append('Week Span of ' + today.toLocaleDateString() + ' to ' + weekLater.toLocaleDateString());
 		var i = today;
 		for (var i = today; i < weekLater; new Date(i.setDate(new Date(i.getDate() + 1)))){
 			for(var j = 0; j < dates.length && i.toLocaleDateString() <= dates[j]; j++){
