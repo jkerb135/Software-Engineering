@@ -55,6 +55,9 @@
                         <a class="page-scroll" href="#about">Our Team</a>
                     </li>
 					<li>
+                        <a class="page-scroll" href="#due">What's Due</a>
+                    </li>
+					<li>
                         <a class="page-scroll" href="#files">Files</a>
                     </li>
 					<li>
@@ -106,7 +109,14 @@
             </div>
         </div>
     </section>
-
+	<section id="due" class="container content-section text-center" style="height:100%">
+		<div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+				<h2 id="dueDate"></h2>
+				<table class="table" id="work"></table>
+			</div>
+		</div>
+	</section>
 	<section id="files" class="container content-section text-center" style="height:100%">
 	<div class="row">
             <div class="col-lg-8 col-lg-offset-2">
@@ -261,6 +271,35 @@
 				$('.ongoing').css('color','#FFCC00');
 			}
 		},1000);
+	//Check Date for whats due..
+	var today = new Date();
+		var dates = ['9/9/2014','9/11/2014','9/11/2014','9/11/2014','9/15/2014','9/16/2014',
+						'9/18/2014','9/18/2014','9/18/2014','9/22/2014','9/22/2014','9/25/2014',
+						'9/25/2014','9/30/2014','10/7/2014','10/9/2014','10/9/2014','10/14/2014',
+						'10/21/2014','10/21/2014','10/21/2014','10/23/2014','10/23/2014','10/23/2014',
+						'10/23/2014','10/28/2014','10/28/2014','11/5/2014','11/5/2014','11/12/2014',
+						'11/12/2014','11/12/2014','11/19/2014','11/19/2014','11/20/2014','11/20/2014',
+						'11/24/2014','11/26/2014','11/26/2014','12/4/2014/'];
+		var assignments = ['Architectural Design','Write RMP','Write SRS','Meet With Client','Write SDP','Write SDS',
+							'Database and UI Design','Perform Test-Driven Development','Write Test Specifications',
+							'Write MRR','Work on Prototype','Update RMP','Update Test Specifications',
+							'Update DP and Database','Present To Client','Deliver System for Testing','Update SPP',
+							'Update SRS','Update IGR','Testing UI','Unit Testing','Review Risks','System Design',
+							'Update SDP','Update TS','Write SPP Final','Write IGR Final','Testing UI and Unit Testing',
+							'Write SRS Final','Write SDP Final','Write TS Final','Write RMP Final','Release Testing',
+							'Client Acceptence Testing','Final System Delivery','Release Testing','Write WBS Final',
+							'Write MRR Final','Deploy iPAWS System/Manual'];
+			
+		$('#dueDate').append('Due in the next 7 days from ' + today.toLocaleDateString());
+		var weekLater = new Date(new Date().setDate(new Date().getDate() + 7));
+		var i = today;
+		for (var i = today; i < weekLater; new Date(i.setDate(new Date(i.getDate() + 1)))){
+			for(var j = 0; j < dates.length && i.toLocaleDateString() <= dates[j]; j++){
+				if(i.toLocaleDateString() == dates[j]){
+					$('#work').append('<tr><td>' + dates[j] + '</td><td>' + assignments[j] + '</td></tr>');
+				}
+			}
+		}
 	});
 	</script>
 
