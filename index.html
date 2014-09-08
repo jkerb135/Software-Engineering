@@ -113,7 +113,7 @@
 		<div class="row">
             <div class="col-lg-8 col-lg-offset-2">
 				<h2 id="dueDate"></h2>
-				<table class="table" id="work"></table>
+				<table class="table" id="workDue"></table>
 			</div>
 		</div>
 	</section>
@@ -296,7 +296,7 @@
 		for (var i = today; i < weekLater; new Date(i.setDate(new Date(i.getDate() + 1)))){
 			for(var j = 0; j < dates.length && i.toLocaleDateString() <= dates[j]; j++){
 				if(i.toLocaleDateString() == dates[j]){
-					$('#work').append('<tr><td>' + dates[j] + '</td><td>' + assignments[j] + '</td></tr>');
+					$('#workDue').append('<tr><td>' + dates[j] + '</td><td>' + assignments[j] + '</td></tr>');
 				}
 			}
 		}
