@@ -28,7 +28,6 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
@@ -169,8 +168,8 @@
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2>Ongoing Project Status</h2>
 					<table class="table">
-						<tr></td><td>Project Phase ~ Zero </td><td>Ongoing</td></tr>
-						<tr></td><td>Project Phase ~ One </td><td>Not Started</td></tr>
+						<tr></td><td>Project Phase ~ Zero </td><td style='color:green'>Completed</td></tr>
+						<tr></td><td>Project Phase ~ One </td><td class="ongoing">Ongoing</td></tr>
 						<tr></td><td>Project Phase ~ Two Sprint One </td><td>Not Started</td></tr>
 						<tr></td><td>Project Phase ~ Two Sprint Two </td><td>Not Started</td></tr>
 						<tr></td><td>Project Phase ~ Three Sprint One </td><td>Not Started</td></tr>
@@ -231,6 +230,21 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="js/grayscale.js"></script>
+		<script>
+	$(function(){
+		var state = true;
+		setInterval(function(){
+			if(state){
+				state = false;
+				$('.ongoing').css('color','Red');
+			}
+			else{
+				state = true;
+				$('.ongoing').css('color','#FFCC00');
+			}
+		},1000);
+	});
+	</script>
 
 </body>
 
