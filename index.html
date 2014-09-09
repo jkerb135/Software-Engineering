@@ -275,6 +275,9 @@
 			}
 		},1000);
 	//Check Date for whats due..
+	/************************************************************************************
+	*	NOMINATING THIS CODE FOR WORST CODING STYLE AND FUNCTIONALITY IN NORTH AMERICA	*
+	************************************************************************************/
 	var today = new Date();
 		var dates = ['9/9/2014','9/11/2014','9/11/2014','9/15/2014','9/16/2014',
 						'9/18/2014','9/18/2014','9/18/2014','9/22/2014','9/22/2014','9/25/2014',
@@ -292,17 +295,26 @@
 							'Write SRS Final','Write SDP Final','Write TS Final','Write RMP Final','Release Testing',
 							'Client Acceptence Testing','Final System Delivery','Release Testing','Write WBS Final',
 							'Write MRR Final','Deploy iPAWS System/Manual'];
+		var workers = ['TBD',':jkerb :awell',':emill','All',':awell',':dtall :acres',':dtall :acres',':dtall :jkerb',
+						':acres :emill',':acres :emill',':dtall :jkerb',':awell :jkerb',':acres :emill',':dtall :jkerb','ALL','ALL',':emill :awell',':emill :awell',':emil',':acres :emill',
+						':acres :emill',':emil',':dtall',':emill :jkerb',':emill :acres',':awell',':emill',':emill :acres',':emil',
+						':awell',':acres :emill',':jkerb :awell',':acres :emill',':acres :emill','ALL',':acres :emill',':awell :jkerb',
+						':acres :emill','ALL']
+		console.log(dates.length);
+		console.log(assignments.length);
+		console.log(workers.length);
 		var weekLater = new Date(new Date().setDate(new Date().getDate() + 7));
 		$('#dueDate').append('Week Span of ' + today.toLocaleDateString() + ' to ' + weekLater.toLocaleDateString());
 		var i = today;
-		for (var i = today; i < weekLater; new Date(i.setDate(new Date(i.getDate() + 1)))){
-			for(var j = 0; j < dates.length && i.toLocaleDateString() <= dates[j]; j++){
+		for (var i = today; i <= weekLater; new Date(i.setDate(new Date(i.getDate() + 1)))){
+			for(var j = 0; j < dates.length; j++){
 				if(i.toLocaleDateString() == dates[j]){
-					$('#workDue').append('<tr><td>' + dates[j] + '</td><td>' + assignments[j] + '</td></tr>');
+					$('#workDue').append('<tr><td>' + dates[j] + '</td><td>' + assignments[j] + '</td><td>' + workers[j] + '</td></tr>');
 				}
 			}
 		}
 	});
+	//End Of Worst Code
 	</script>
 
 </body>
