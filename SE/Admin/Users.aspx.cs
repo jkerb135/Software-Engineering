@@ -34,7 +34,7 @@ namespace SE
             AssignedTo = (DropDownList)CreateUserWizard.CreateUserStep.ContentTemplateContainer.FindControl("AssignedTo");
 
             // Selected user (used on edit user page)
-            UserName = Request.QueryString["username"];
+            UserName = (Request.QueryString["username"] != null) ? Request.QueryString["username"] : "";
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -51,7 +51,7 @@ namespace SE
 
             // Edit user page
             else if (Request.QueryString["userpage"] == "edituser" && 
-                Membership.GetUser(UserName) != null)
+                Membership.GetUser(UserName) != null && !Roles.IsUserInRole(UserName, "Manager"))
             {
                 UsersMultiView.ActiveViewIndex = (int) UserPage.EditUser;
 
