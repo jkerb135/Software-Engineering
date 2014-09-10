@@ -188,6 +188,21 @@ namespace SE
             EditErrorMessage.Text = String.Empty;
             EditSuccessMessage.Text = String.Empty;
 
+            // Assigned to
+            if (!String.IsNullOrEmpty(EditAssignedTo.SelectedValue))
+            {
+                if (!String.Equals(DBMethods.UserAssignedTo(User.UserName).Trim(),
+                    EditAssignedTo.SelectedValue.Trim()))
+                {
+                    EditAssignToUser(User.UserName, EditAssignedTo.SelectedValue);
+                    SuccessMessage += "User successfully reassigned.<br/>";
+                }
+                else
+                {
+                    ErrorMessage += "User is already assigned to this supervisor.<br/>";
+                }
+            }
+
             // User email
             if (!String.IsNullOrEmpty(EditEmail.Text))
             {
@@ -224,21 +239,6 @@ namespace SE
                 {
                     User.ChangePassword(User.ResetPassword(), EditPassword.Text);
                     SuccessMessage += "Password successfully updated.<br/>";
-                }
-            }
-
-            // Assigned to
-            if (!String.IsNullOrEmpty(EditAssignedTo.SelectedValue))
-            {
-                if (!String.Equals(DBMethods.UserAssignedTo(User.UserName).Trim(), 
-                    EditAssignedTo.SelectedValue.Trim()))
-                {
-                    EditAssignToUser(User.UserName, EditAssignedTo.SelectedValue);
-                    SuccessMessage += "User has been successfully reassigned.";
-                }
-                else
-                {
-                    ErrorMessage += "User is already assigned to this supervisor.";
                 }
             }
 
