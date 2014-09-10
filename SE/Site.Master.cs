@@ -12,7 +12,7 @@ namespace SE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            String UserName = System.Web.HttpContext.Current.User.Identity.Name;
+            string UserName = System.Web.HttpContext.Current.User.Identity.Name;
 
             if (!Roles.IsUserInRole(UserName, "Manager"))
             {

@@ -24,6 +24,23 @@
                                         <asp:ValidationSummary ID="ValidationSummary" runat="server" ValidationGroup="CreateUserWizard" />
                                     </div>
                                     <div class="form-group">
+                                        <asp:Label ID="UserRoleLabel" runat="server" Text="User Role"></asp:Label>
+                                        <asp:RequiredFieldValidator ID="UserRoleRequired" runat="server" ControlToValidate="UserRole" 
+                                            ErrorMessage="User Role is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="UserRole" CssClass="form-control" runat="server" 
+                                            AutoPostBack="true" onselectedindexchanged="UserRole_SelectedIndexChanged">
+                                            <asp:ListItem></asp:ListItem>
+                                            <asp:ListItem>Supervisor</asp:ListItem>
+                                            <asp:ListItem>User</asp:ListItem>
+                                        </asp:DropDownList>
+                                    </div>
+                                    <asp:Panel ID="AssignedToContainer" CssClass="form-group" runat="server">
+                                        <asp:Label ID="AssignedToLabel" runat="server" Text="Assigned To"></asp:Label>
+                                        <asp:RequiredFieldValidator ID="AssignedToRequired" runat="server" ControlToValidate="AssignedTo"
+                                            ErrorMessage="Assigned To is required" ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                        <asp:DropDownList ID="AssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
+                                    </asp:Panel>
+                                    <div class="form-group">
                                         <asp:Label ID="UserNameLabel" runat="server" Text="Username"></asp:Label>
                                         <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
                                             ErrorMessage="Username is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
@@ -54,16 +71,6 @@
                                         </asp:RegularExpressionValidator>
                                         <asp:TextBox ID="Email" CssClass="form-control" runat="server"></asp:TextBox>
                                     </div>
-                                    <div class="form-group">
-                                        <asp:Label ID="UserRoleLabel" runat="server" Text="User Role"></asp:Label>
-                                        <asp:RequiredFieldValidator ID="UserRoleRequired" runat="server" ControlToValidate="UserRole" 
-                                            ErrorMessage="User Role is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                        <asp:DropDownList ID="UserRole" CssClass="form-control" runat="server">
-                                            <asp:ListItem></asp:ListItem>
-                                            <asp:ListItem>Supervisor</asp:ListItem>
-                                            <asp:ListItem>User</asp:ListItem>
-                                        </asp:DropDownList>
-                                    </div>
                                 </ContentTemplate>
                                 <CustomNavigationTemplate>
                                     <asp:Button ID="CreateUserButton" CommandName="MoveNext" CssClass="btn btn-default" runat="server" 
@@ -91,6 +98,10 @@
                         <div class="success-messages">
                             <asp:Label ID="EditSuccessMessage" runat="server"></asp:Label>
                         </div>
+                        <asp:Panel ID="EditAssignedToContainer" CssClass="form-group" runat="server">
+                            <asp:Label ID="EditAssignedToLabel" runat="server" Text="Assign User To"></asp:Label>
+                            <asp:DropDownList ID="EditAssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
+                        </asp:Panel>
                         <div class="form-group">
                             <asp:Label ID="EditEmailLabel" runat="server" Text="Email"></asp:Label>
                             <asp:RegularExpressionValidator ID="EditEmailValid" runat="server" 
@@ -109,14 +120,6 @@
                         <div class="form-group">
                             <asp:Label ID="EditConfirmPasswordLabel" runat="server" Text="Confirm Password"></asp:Label>
                             <asp:TextBox ID="EditConfirmPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
-                        </div>
-                        <div class="form-group">
-                            <asp:Label ID="EditUserRoleLabel" runat="server" Text="User Role"></asp:Label>
-                            <asp:DropDownList ID="EditUserRole" CssClass="form-control" runat="server">
-                                <asp:ListItem></asp:ListItem>
-                                <asp:ListItem>Supervisor</asp:ListItem>
-                                <asp:ListItem>User</asp:ListItem>
-                            </asp:DropDownList>
                         </div>
                         <asp:Button ID="EditUserButton" CssClass="btn btn-default right" runat="server" 
                             ValidationGroup="EditUser" CausesValidation="true" Text="Submit" onclick="EditUserButton_Click" />                      

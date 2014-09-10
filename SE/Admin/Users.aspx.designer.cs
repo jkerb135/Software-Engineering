@@ -85,6 +85,33 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Label EditSuccessMessage;
         
         /// <summary>
+        /// EditAssignedToContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel EditAssignedToContainer;
+        
+        /// <summary>
+        /// EditAssignedToLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditAssignedToLabel;
+        
+        /// <summary>
+        /// EditAssignedTo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList EditAssignedTo;
+        
+        /// <summary>
         /// EditEmailLabel control.
         /// </summary>
         /// <remarks>
@@ -155,24 +182,6 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox EditConfirmPassword;
-        
-        /// <summary>
-        /// EditUserRoleLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label EditUserRoleLabel;
-        
-        /// <summary>
-        /// EditUserRole control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList EditUserRole;
         
         /// <summary>
         /// EditUserButton control.
