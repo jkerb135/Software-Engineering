@@ -291,10 +291,28 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="<%=ResolveUrl("~/Admin/Tasks.aspx") %>"><i class="fa fa-table fa-fw"></i> Tasks</a>
+                                <a href="#"><i class="fa fa-table fa-fw"></i> Tasks<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="<%=ResolveUrl("~/Admin/Tasks.aspx") %>">Manage Tasks</a>
+                                    </li>
+                                    <li>
+                                        <a href="<%=ResolveUrl("~/Admin/Tasks.aspx?taskpage=createtask") %>">Create Task</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i> Categories</a>
+                                <a href="#"><i class="fa fa-edit fa-fw"></i> Categories<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>">Manage Categories</a>
+                                    </li>
+                                    <li>
+                                        <a href="<%=ResolveUrl("~/Admin/Categories.aspx?categorypage=createcategory") %>">Create Category</a>
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
                             </li>
                             <li id="ReportsMenu" runat="server">
                                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Reports<span class="fa arrow"></span></a>
@@ -303,7 +321,7 @@
                                         <a href="<%=ResolveUrl("~/Admin/Reports.aspx") %>">View Reports</a>
                                     </li>
                                     <li>
-                                        <a href="#">Print Reports</a>
+                                        <a href="<%=ResolveUrl("~/Admin/Reports.aspx?reportpage=printreports") %>">Print Reports</a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->
