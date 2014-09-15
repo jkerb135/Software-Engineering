@@ -110,7 +110,6 @@
 		<div class="row">
             <div class="col-lg-8 col-lg-offset-2">
 				<h2 id="dueDate"></h2>
-				<div id="visualization_div" style="width: 600px; height: 400px;"></div>
 				<table class="table" id="workDue"></table>
 			</div>
 		</div>
@@ -119,13 +118,11 @@
 	<div class="row">
             <div class="col-lg-12">
 				<h2>Development Files</h2>
-				<p>These links take you to public files on google drive. This will make it easier for us for editing and viewing the documents</p>
 				<hr>
-				<a href="https://docs.google.com/document/d/11XYaF95EyYQ2S3H5nkundYVSB10aLb35y64vHUF_ydU/edit" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Template For Documents</span></a>
-				<a href="https://docs.google.com/document/d/1Ef-nyFVKX2_sO2Wy40AE5fcUqsXw9ZHHurVpooqJi3M/edit" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Software Project Plan (SPP)</span></a>
-				<a href="https://docs.google.com/document/d/15vXmTK4gsse42Al5HmCa7cWoxRKFQo-YhbR6wA7q4ns/edit" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Risk Management Plan (RMP)</span></a>
-				<a href="https://docs.google.com/document/d/1GbVpBjsHop3Kjrw2bttNQduD9spXA2RKCCcVGHFb51w/edit" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Development Plan (DP)</span></a>
-				<a href="https://docs.google.com/document/d/1S9gBMSLfFyl0pHoL-qtW7oSEqeGx-QM0R_v5VJ5X3rU/edit" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Work Breakdown Schedule (WBS)</span></a>
+				<a href="SPP.docx" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Template For Documents</span></a>
+				<a href="SPP.pdf" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Software Project Plan (SPP)</span></a>
+				<a href="RMP.pdf" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Risk Management Plan (RMP)</span></a>
+				<a href="WBS.pdf" class="btn btn-default btn-lg"><i class="fa fa-file-pdf-o fa-fw"></i> <span class="network-name">Work Breakdown PDF</span></a>
 				<br/>
 				<br/>
 				<h2>Meeting Minutes</h2>
@@ -218,25 +215,45 @@
 				$('.ongoing').css('color','#FFCC00');
 			}
 		},1000);
-		
-		google.load('visualization', '1', {packages: ['corechart']});
-    function drawVisualization() {
-      var queryText = encodeURIComponent("SELECT Year, Austria, Bulgaria, Denmark, Greece FROM 18k8XNgsc5ktLP2EHMCpoKIwymsVlzVV-xVuceA");
-      google.visualization.drawChart({
-        "containerId": "visualization_div",
-        "dataSourceUrl": 'https://www.google.com/fusiontables/gvizdata?tq=',
-        "query":"SELECT Year, Austria, Bulgaria, Denmark, Greece FROM 18k8XNgsc5ktLP2EHMCpoKIwymsVlzVV-xVuceA",
-        "refreshInterval": 5,
-        "chartType": "BarChart",
-        "options": {
-          "title":"Yearly Coffee Consumption by Country",
-          "vAxis": {"title": "Year"},
-          "hAxis": {"title": "Cups"}
-        }
-      });
-    }
-
-    google.setOnLoadCallback(drawVisualization);
+		//Check Date for whats due..
+		/************************************************************************************
+		 * NOMINATING THIS CODE FOR WORST CODING STYLE AND FUNCTIONALITY IN NORTH AMERICA	*
+		 ************************************************************************************/
+		var today = new Date();
+		var dates = ['9/9/2014', '9/11/2014', '9/11/2014', '9/15/2014', '9/16/2014',
+			'9/18/2014', '9/18/2014', '9/18/2014', '9/22/2014', '9/22/2014', '9/25/2014',
+			'9/25/2014', '9/30/2014', '10/7/2014', '10/9/2014', '10/9/2014', '10/14/2014',
+			'10/21/2014', '10/21/2014', '10/21/2014', '10/23/2014', '10/23/2014', '10/23/2014',
+			'10/23/2014', '10/28/2014', '10/28/2014', '11/5/2014', '11/5/2014', '11/12/2014',
+			'11/12/2014', '11/12/2014', '11/19/2014', '11/19/2014', '11/20/2014', '11/20/2014',
+			'11/24/2014', '11/26/2014', '11/26/2014', '12/4/2014/'
+		];
+		var assignments = ['Architectural Design', 'Write RMP', 'Write SRS', 'Meet With Client', 'Write SDP', 'Write SDS',
+			'Database and UI Design', 'Perform Test-Driven Development', 'Write Test Specifications',
+			'Write MRR', 'Work on Prototype', 'Update RMP', 'Update Test Specifications',
+			'Update DP and Database', 'Present To Client', 'Deliver System for Testing', 'Update SPP',
+			'Update SRS', 'Update IGR', 'Testing UI', 'Unit Testing', 'Review Risks', 'System Design',
+			'Update SDP', 'Update TS', 'Write SPP Final', 'Write IGR Final', 'Testing UI and Unit Testing',
+			'Write SRS Final', 'Write SDP Final', 'Write TS Final', 'Write RMP Final', 'Release Testing',
+			'Client Acceptence Testing', 'Final System Delivery', 'Release Testing', 'Write WBS Final',
+			'Write MRR Final', 'Deploy iPAWS System/Manual'
+		];
+		var workers = ['TBD', ':jkerb :awell', ':emill', 'All', ':awell', ':dtall :jkerb', ':dtall :acres', ':dtall :jkerb',
+			':acres :emill', ':acres :emill', ':dtall :jkerb', ':awell :jkerb', ':acres :emill', ':dtall :jkerb', 'ALL', 'ALL', ':emill :awell', 
+			':emill :awell', ':emil', ':acres :emill',':acres :emill', ':emil', ':dtall', ':emill :jkerb', ':emill :acres', ':awell', 
+			':emill', ':emill :acres', ':emil',':awell', ':acres :emill', ':jkerb :awell', ':acres :emill', ':acres :emill', 'ALL', 
+			':acres :emill', ':awell :jkerb',':acres :emill', 'ALL'
+		];
+		var weekLater = new Date(new Date().setDate(new Date().getDate() + 7));
+		$('#dueDate').append('Week Span of ' + today.toLocaleDateString() + ' to ' + weekLater.toLocaleDateString());
+		var i = today;
+		for (var i = today; i <= weekLater; new Date(i.setDate(new Date(i.getDate() + 1)))) {
+			for (var j = 0; j < dates.length; j++) {
+				if (i.toLocaleDateString() == dates[j]) {
+					$('#workDue').append('<tr><td>' + dates[j] + '</td><td>' + assignments[j] + '</td><td>' + workers[j] + '</td></tr>');
+				}
+			}
+		}
 		});
 		//End Of Worst Code
 	</script>
