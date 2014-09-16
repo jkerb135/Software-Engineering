@@ -215,36 +215,31 @@
 				$('.ongoing').css('color','#FFCC00');
 			}
 		},1000);
-		//Check Date for whats due..
-		/************************************************************************************
-		 * NOMINATING THIS CODE FOR WORST CODING STYLE AND FUNCTIONALITY IN NORTH AMERICA	*
-		 ************************************************************************************/
-		var today = new Date();
-		var dates = ['9/9/2014', '9/11/2014', '9/11/2014', '9/15/2014', '9/16/2014',
-			'9/18/2014', '9/18/2014', '9/18/2014', '9/22/2014', '9/22/2014', '9/25/2014',
-			'9/25/2014', '9/30/2014', '10/7/2014', '10/9/2014', '10/9/2014', '10/14/2014',
-			'10/21/2014', '10/21/2014', '10/21/2014', '10/23/2014', '10/23/2014', '10/23/2014',
-			'10/23/2014', '10/28/2014', '10/28/2014', '11/5/2014', '11/5/2014', '11/12/2014',
-			'11/12/2014', '11/12/2014', '11/19/2014', '11/19/2014', '11/20/2014', '11/20/2014',
-			'11/24/2014', '11/26/2014', '11/26/2014', '12/4/2014/'
-		];
-		var assignments = ['Architectural Design', 'Write RMP', 'Write SRS', 'Meet With Client', 'Write SDP', 'Write SDS',
-			'Database and UI Design', 'Perform Test-Driven Development', 'Write Test Specifications',
-			'Write MRR', 'Work on Prototype', 'Update RMP', 'Update Test Specifications',
-			'Update DP and Database', 'Present To Client', 'Deliver System for Testing', 'Update SPP',
-			'Update SRS', 'Update IGR', 'Testing UI', 'Unit Testing', 'Review Risks', 'System Design',
-			'Update SDP', 'Update TS', 'Write SPP Final', 'Write IGR Final', 'Testing UI and Unit Testing',
-			'Write SRS Final', 'Write SDP Final', 'Write TS Final', 'Write RMP Final', 'Release Testing',
-			'Client Acceptence Testing', 'Final System Delivery', 'Release Testing', 'Write WBS Final',
-			'Write MRR Final', 'Deploy iPAWS System/Manual'
-		];
-		var workers = ['TBD', ':jkerb :awell', ':emill', 'All', ':awell', ':dtall :jkerb', ':dtall :acres', ':dtall :jkerb',
-			':acres :emill', ':acres :emill', ':dtall :jkerb', ':awell :jkerb', ':acres :emill', ':dtall :jkerb', 'ALL', 'ALL', ':emill :awell', 
-			':emill :awell', ':emil', ':acres :emill',':acres :emill', ':emil', ':dtall', ':emill :jkerb', ':emill :acres', ':awell', 
-			':emill', ':emill :acres', ':emil',':awell', ':acres :emill', ':jkerb :awell', ':acres :emill', ':acres :emill', 'ALL', 
-			':acres :emill', ':awell :jkerb',':acres :emill', 'ALL'
-		];
-		var weekLater = new Date(new Date().setDate(new Date().getDate() + 7));
+		$(function(){
+			var state = true;
+			setInterval(function(){
+			if(state){
+				state = false;
+				$('.ongoing').css('color','Red');
+			}
+			else{
+				state = true;
+				$('.ongoing').css('color','#FFCC00');
+			}
+		},1000);
+		
+			var today = new Date();
+			var weekLater = new Date(new Date().setDate(new Date().getDate() + 7));
+			var dates = new Array();
+			var assignments  = new Array();
+			var workers = new Array();
+		$.getJSON('https://spreadsheets.google.com/feeds/list/1eXr1YGTkkUkKcQHQ4pmytQLubO5d-diNgfbaGqza9K4/od6/public/values?alt=json', function(data) {
+			var projects = data.feed.entry;
+			for (var i = 0; i < projects.length; i++){
+				dates.push(projects[i].gsx$due.$t);
+				assignments.push(projects[i].gsx$title.$t);
+				workers.push(projects[i].gsx$working.$t);
+			}
 		$('#dueDate').append('Week Span of ' + today.toLocaleDateString() + ' to ' + weekLater.toLocaleDateString());
 		var i = today;
 		for (var i = today; i <= weekLater; new Date(i.setDate(new Date(i.getDate() + 1)))) {
@@ -255,7 +250,7 @@
 			}
 		}
 		});
-		//End Of Worst Code
+		});
 	</script>
 
 </body>
