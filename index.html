@@ -215,17 +215,6 @@
 				$('.ongoing').css('color','#FFCC00');
 			}
 		},1000);
-			var state = true;
-			setInterval(function(){
-			if(state){
-				state = false;
-				$('.ongoing').css('color','Red');
-			}
-			else{
-				state = true;
-				$('.ongoing').css('color','#FFCC00');
-			}
-		},1000);
 		
 			var today = new Date();
 			var weekLater = new Date(new Date().setDate(new Date().getDate() + 7));
