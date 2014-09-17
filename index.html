@@ -236,6 +236,7 @@
 				assignments.push(projects[i].gsx$title.$t);
 				workers.push(projects[i].gsx$working.$t);
 			}
+			console.log(data);
 		$('#dueDate').append('Week Span of ' + today.toLocaleDateString() + ' to ' + weekLater.toLocaleDateString());
 		var i = today;
 		for (var i = today; i <= weekLater; new Date(i.setDate(new Date(i.getDate() + 1)))) {
