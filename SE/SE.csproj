@@ -125,7 +125,9 @@
     <None Include="Fonts\glyphicons-halflings-regular.eot" />
     <None Include="Fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
