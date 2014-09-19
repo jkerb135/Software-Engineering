@@ -303,16 +303,7 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-edit fa-fw"></i> Categories<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>">Manage Categories</a>
-                                    </li>
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Categories.aspx?categorypage=createcategory") %>">Create Category</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
+                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i> Categories</a>
                             </li>
                             <li id="ReportsMenu" runat="server">
                                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Reports<span class="fa arrow"></span></a>

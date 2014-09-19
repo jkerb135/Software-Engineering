@@ -46,7 +46,10 @@ namespace SE
             {
                 UsersMultiView.ActiveViewIndex = (int) UserPage.CreateUser;
                 AssignedToContainer.Visible = false;
-                BindSupervisors(AssignedTo);
+                if (!IsPostBack)
+                {
+                    BindSupervisors(AssignedTo);
+                }
             }
 
             // Edit user page
@@ -58,7 +61,10 @@ namespace SE
                 // Populate list of supervisors if selected is a "user"
                 if (Roles.IsUserInRole(UserName, "User"))
                 {
-                    BindSupervisors(EditAssignedTo);
+                    if (!IsPostBack)
+                    {
+                        BindSupervisors(EditAssignedTo);
+                    }
                 }
                 else
                 {
@@ -70,7 +76,7 @@ namespace SE
             else
             {
                 UsersMultiView.ActiveViewIndex = (int) UserPage.ManageUsers;
-                UserList.DataSource = CustomGetAllUsers();
+                UserList.DataSource = Member.CustomGetAllUsers();
                 UserList.DataBind();
             }
         }
@@ -91,96 +97,12 @@ namespace SE
             // Assign the user to supervisor
             if (UserRole.SelectedValue == "User")
             {
-                AssignToUser(CreateUserWizard.UserName, AssignedTo.SelectedValue);
+                Member.AssignToUser(CreateUserWizard.UserName, AssignedTo.SelectedValue);
             }
         }
 
         protected void EditUserButton_Click(object sender, EventArgs e)
         {
-            EditUserNow();
-        }
-
-        protected void DeleteUserButton_Click(object sender, EventArgs e)
-        {
-            bool Error = false;
-
-            if (Roles.IsUserInRole(UserName, "User"))
-            {
-                RemoveAssignedUser(UserName);
-            }
-            else 
-            {
-                if (DBMethods.SupervisorHasUsers(UserName))
-                {
-                    Error = true;
-                    EditErrorMessage.Text = "This account has users assigned to it. " +
-                        "Please reassign them to another supervisor before deleting";
-                }
-            }
-
-            if (!Error)
-            {
-                Membership.DeleteUser(UserName, true);
-                Response.Redirect("~/Admin/Users.aspx");
-            }
-        }
-
-        protected void UserList_Change(Object sender, DataGridPageChangedEventArgs e)
-        {
-            // Set CurrentPageIndex to the page the user clicked.
-            UserList.CurrentPageIndex = e.NewPageIndex;
-
-            // Rebind the data. 
-            UserList.DataSource = CustomGetAllUsers();
-            UserList.DataBind();
-        }
-
-        /// <summary>Populates a dataset of all users by username, email and user role
-        /// </summary> 
-        private DataSet CustomGetAllUsers()
-        {
-            DataSet ds = new DataSet();
-            DataTable dt = new DataTable();
-            dt = ds.Tables.Add("Users");
-
-            MembershipUserCollection muc;
-            muc = Membership.GetAllUsers();
-
-            bool UserIsSupervisor;
-
-            dt.Columns.Add("Username", Type.GetType("System.String"));
-            dt.Columns.Add("Email", Type.GetType("System.String"));
-            dt.Columns.Add("User Role", Type.GetType("System.String"));
-            dt.Columns.Add("Assigned To", Type.GetType("System.String"));
-
-            /* Here is the list of columns returned of the Membership.GetAllUsers() method
-             * UserName, Email, PasswordQuestion, Comment, IsApproved
-             * IsLockedOut, LastLockoutDate, CreationDate, LastLoginDate
-             * LastActivityDate, LastPasswordChangedDate, IsOnline, ProviderName
-             */
-
-            foreach (MembershipUser mu in muc)
-            {
-                if (!Roles.IsUserInRole(mu.UserName, "Manager"))
-                {
-                    DataRow dr;
-                    UserIsSupervisor = Roles.IsUserInRole(mu.UserName, "Supervisor");
-
-                    dr = dt.NewRow();
-                    dr["Username"] = "<a href='?userpage=edituser&username=" + mu.UserName + "'>" + mu.UserName + "</a>";
-                    dr["Email"] = mu.Email;
-                    dr["User Role"] = UserIsSupervisor ? "Supervisor" : "User";
-                    dr["Assigned To"] = !UserIsSupervisor ? DBMethods.UserAssignedTo(mu.UserName) : "";
-
-                    dt.Rows.Add(dr);
-                }
-            }
-            return ds;
-        }
-
-        /// <summary>Updates a specific users information
-        /// </summary> 
-        private void EditUserNow() {
             var User = Membership.GetUser(UserName);
             string ErrorMessage = "";
             string SuccessMessage = "";
@@ -191,10 +113,10 @@ namespace SE
             // Assigned to
             if (!String.IsNullOrEmpty(EditAssignedTo.SelectedValue))
             {
-                if (!String.Equals(DBMethods.UserAssignedTo(User.UserName).Trim(),
+                if (!String.Equals(Member.UserAssignedTo(User.UserName).Trim(),
                     EditAssignedTo.SelectedValue.Trim()))
                 {
-                    EditAssignToUser(User.UserName, EditAssignedTo.SelectedValue);
+                    Member.EditAssignToUser(User.UserName, EditAssignedTo.SelectedValue);
                     SuccessMessage += "User successfully reassigned.<br/>";
                 }
                 else
@@ -228,8 +150,8 @@ namespace SE
                 if (EditPassword.Text.Count(c => !char.IsLetterOrDigit(c)) <
                     Membership.MinRequiredNonAlphanumericCharacters)
                 {
-                    ErrorMessage += "Password must contain at least " + 
-                        Membership.MinRequiredNonAlphanumericCharacters + 
+                    ErrorMessage += "Password must contain at least " +
+                        Membership.MinRequiredNonAlphanumericCharacters +
                         " non-alphanumeric characters.<br/>";
                     Error = true;
                 }
@@ -254,89 +176,47 @@ namespace SE
             EditEmail.Focus();
         }
 
+        protected void DeleteUserButton_Click(object sender, EventArgs e)
+        {
+            bool Error = false;
+
+            if (Roles.IsUserInRole(UserName, "User"))
+            {
+                Member.RemoveAssignedUser(UserName);
+            }
+            else 
+            {
+                if (Member.SupervisorHasUsers(UserName))
+                {
+                    Error = true;
+                    EditErrorMessage.Text = "This account has users assigned to it. " +
+                        "Please reassign them to another supervisor before deleting";
+                }
+            }
+
+            if (!Error)
+            {
+                Membership.DeleteUser(UserName, true);
+                Response.Redirect("~/Admin/Users.aspx");
+            }
+        }
+
+        protected void UserList_Change(Object sender, DataGridPageChangedEventArgs e)
+        {
+            // Set CurrentPageIndex to the page the user clicked.
+            UserList.CurrentPageIndex = e.NewPageIndex;
+
+            // Rebind the data. 
+            UserList.DataSource = Member.CustomGetAllUsers();
+            UserList.DataBind();
+        }
+
         private void BindSupervisors(DropDownList drp)
         {
-            if (!IsPostBack)
-            {
-                drp.DataSource = Roles.GetUsersInRole("Supervisor");
-                drp.DataBind();
+            drp.DataSource = Roles.GetUsersInRole("Supervisor");
+            drp.DataBind();
 
-                // Add default blank list item
-                drp.Items.Insert(0, new ListItem(String.Empty, String.Empty));
-                drp.SelectedIndex = 0;
-            }
-        }
-
-        /// <summary>Assign user to supervisor
-        /// </summary> 
-        private void AssignToUser(string User, string Supervisor)
-        {
-            string queryString =
-                "INSERT INTO MemberAssignments (AssignedUser, AssignedSupervisor) " +
-                "VALUES (@user,@supervisor)";
-
-            using (SqlConnection con = new SqlConnection(
-                DBMethods.GetConnectionString()))
-            {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-
-                cmd.Parameters.AddWithValue("@user", User);
-                cmd.Parameters.AddWithValue("@supervisor", Supervisor);
-
-                con.Open();
-
-                cmd.ExecuteNonQuery();
-
-                con.Close();
-            }
-        }
-
-        /// <summary>Edit assign user to supervisor
-        /// </summary> 
-        private void EditAssignToUser(string User, string Supervisor)
-        {
-            string queryString =
-                "UPDATE MemberAssignments " +
-                "SET AssignedSupervisor=@supervisor " +
-                "WHERE AssignedUser=@user";
-
-            using (SqlConnection con = new SqlConnection(
-                DBMethods.GetConnectionString()))
-            {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-
-                cmd.Parameters.AddWithValue("@user", User);
-                cmd.Parameters.AddWithValue("@supervisor", Supervisor);
-
-                con.Open();
-
-                cmd.ExecuteNonQuery();
-
-                con.Close();
-            }
-        }
-
-        /// <summary>Remove user assignment row
-        /// </summary> 
-        private void RemoveAssignedUser(string User)
-        {
-            string queryString =
-                "DELETE FROM MemberAssignments " +
-                "WHERE AssignedUser=@user";
-
-            using (SqlConnection con = new SqlConnection(
-                DBMethods.GetConnectionString()))
-            {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-
-                cmd.Parameters.AddWithValue("@user", User);
-
-                con.Open();
-
-                cmd.ExecuteNonQuery();
-
-                con.Close();
-            }
+            Methods.AddBlankToDropDownList(drp);
         }
     }
 }
