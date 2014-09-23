@@ -206,6 +206,39 @@ namespace SE.Classes
             return HasUsers;
         }
 
+        public static List<string> UsersAssignedToSupervisor(string Supervisor)
+        {
+            List<string> UsersAssignedToSupervisor = new List<string>();
+
+            string queryString = 
+                "SELECT * FROM MemberAssignments " +
+                "WHERE AssignedSupervisor=@supervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    if (!UsersAssignedToSupervisor.Contains(dr["AssignedUser"].ToString()))
+                    {
+                        UsersAssignedToSupervisor.Add(dr["AssignedUser"].ToString());
+                    }
+                }
+
+                con.Close();
+            }
+
+            return UsersAssignedToSupervisor;
+        }
+
         public static List<string> UsersAssignedToCategory(int CategoryID)
         {
             List<string> UsersAssignedToCategory = new List<string>();
@@ -237,6 +270,43 @@ namespace SE.Classes
             }
 
             return UsersAssignedToCategory;
+        }
+
+        public static List<string> UsersAssignedToSupervisorAssignedToCategory(
+            string Supervisor, int CategoryID)
+        {
+            List<string> UsersAssignedToSupervisorAssignedToCategory = new List<string>();
+
+            string queryString =
+                "SELECT * FROM MemberAssignments " +
+                "INNER JOIN CategoryAssignments ON MemberAssignments.AssignedUser=CategoryAssignments.AssignedUser " +
+                "WHERE CategoryAssignments.CategoryID=@categoryid " +
+                "AND MemberAssignments.AssignedSupervisor=@assignedsupervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd.Parameters.AddWithValue("@assignedsupervisor", Supervisor);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    if (!UsersAssignedToSupervisorAssignedToCategory.Contains(dr["AssignedUser"].ToString()))
+                    {
+                        UsersAssignedToSupervisorAssignedToCategory.Add(dr["AssignedUser"].ToString());
+                    }
+                }
+
+                con.Close();
+            }
+
+            return UsersAssignedToSupervisorAssignedToCategory;
         }
     }
 }

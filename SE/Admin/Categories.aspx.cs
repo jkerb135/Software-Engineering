@@ -40,15 +40,33 @@ namespace SE
             }
             else
             {
-                List<string> UsersAssignedToCategory = Member.UsersAssignedToCategory(Convert.ToInt32(CategoryList.SelectedValue));
-
-                AllUsers.DataSource = Roles.GetUsersInRole("User");
-                AllUsers.DataBind();
-
-                if (UsersAssignedToCategory.Count > 0)
+                string UserName = System.Web.HttpContext.Current.User.Identity.Name;
+                
+                if(Roles.IsUserInRole(UserName, "Manager"))
                 {
-                    UsersInCategory.DataSource = UsersAssignedToCategory;
-                    UsersInCategory.DataBind();
+                    List<string> UsersAssignedToCategory = Member.UsersAssignedToCategory(Convert.ToInt32(CategoryList.SelectedValue));
+
+                    AllUsers.DataSource = Roles.GetUsersInRole("User");
+                    AllUsers.DataBind();
+
+                    if (UsersAssignedToCategory.Count > 0)
+                    {
+                        UsersInCategory.DataSource = UsersAssignedToCategory;
+                        UsersInCategory.DataBind();
+                    }
+                }
+                else if(Roles.IsUserInRole(UserName, "Supervisor"))
+                {
+                    List<string> UsersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(UserName, Convert.ToInt32(CategoryList.SelectedValue));
+
+                    AllUsers.DataSource = Member.UsersAssignedToSupervisor(UserName);
+                    AllUsers.DataBind();
+
+                    if (UsersAssignedToSupervisorAssignedToCategory.Count > 0)
+                    {
+                        UsersInCategory.DataSource = UsersAssignedToSupervisorAssignedToCategory;
+                        UsersInCategory.DataBind();
+                    }
                 }
 
                 Cat = (Category)ViewState["Category"];
