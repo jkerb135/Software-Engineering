@@ -13,9 +13,6 @@ namespace SE
 {
     public partial class Users : System.Web.UI.Page
     {
-        private Panel AssignedToContainer;
-        private DropDownList UserRole;
-        private DropDownList AssignedTo;
         private String UserName = String.Empty;
       
         private enum UserPage
@@ -28,11 +25,6 @@ namespace SE
 
         protected void Page_Init(object sender, EventArgs e)
         {
-            // Items from CreateUserWizard
-            UserRole = (DropDownList)CreateUserWizard.CreateUserStep.ContentTemplateContainer.FindControl("UserRole");
-            AssignedToContainer = (Panel)CreateUserWizard.CreateUserStep.ContentTemplateContainer.FindControl("AssignedToContainer");
-            AssignedTo = (DropDownList)CreateUserWizard.CreateUserStep.ContentTemplateContainer.FindControl("AssignedTo");
-
             // Selected user (used on edit user page)
             UserName = (Request.QueryString["username"] != null) ? Request.QueryString["username"] : "";
         }
@@ -91,6 +83,8 @@ namespace SE
 
         protected void CreateUserWizard_CreatedUser(object sender, EventArgs e)
         {
+            UserRoleContainer.Visible = false;
+
             // Add user to role
             Roles.AddUserToRole(CreateUserWizard.UserName, UserRole.SelectedValue);
            

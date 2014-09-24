@@ -16,36 +16,39 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-md-6 col-xs-12">
+                    <asp:UpdatePanel ID="UserRoleContainer" runat="server">
+                        <ContentTemplate>
+                            <div class="error-messages form-group">
+                                <asp:ValidationSummary ID="ValidationSummary" runat="server" ValidationGroup="CreateUserWizard" />
+                            </div>
+                            <div class="form-group">
+                                <asp:Label ID="UserRoleLabel" runat="server" Text="User Role"></asp:Label>
+                                <asp:RequiredFieldValidator ID="UserRoleRequired" runat="server" ControlToValidate="UserRole" 
+                                    ErrorMessage="User Role is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                <asp:DropDownList ID="UserRole" CssClass="form-control" runat="server" 
+                                    AutoPostBack="true" onselectedindexchanged="UserRole_SelectedIndexChanged">
+                                    <asp:ListItem></asp:ListItem>
+                                    <asp:ListItem>Supervisor</asp:ListItem>
+                                    <asp:ListItem>User</asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                            <asp:Panel ID="AssignedToContainer" CssClass="form-group" runat="server">
+                                <asp:Label ID="AssignedToLabel" runat="server" Text="Assigned To"></asp:Label>
+                                <asp:RequiredFieldValidator ID="AssignedToRequired" runat="server" ControlToValidate="AssignedTo"
+                                    ErrorMessage="Assigned To is required" ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                <asp:DropDownList ID="AssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
+                            </asp:Panel>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>   
+                </div>
+            </div>
+            <div class="row">
                 <asp:CreateUserWizard ID="CreateUserWizard" CssClass="col-md-6 col-xs-12 create-user-wizard" 
                     runat="server" oncreateduser="CreateUserWizard_CreatedUser" LoginCreatedUser="false" ContinueDestinationPageUrl="~/Admin/Users.aspx">
                     <WizardSteps>
                         <asp:CreateUserWizardStep ID="CreateUserWizardStep" runat="server">
                             <ContentTemplate>
-                                <div class="error-messages">
-                                    <asp:Literal ID="ErrorMessage" runat="server"></asp:Literal>
-                                    <asp:ValidationSummary ID="ValidationSummary" runat="server" ValidationGroup="CreateUserWizard" />
-                                </div>
-                                <asp:UpdatePanel ID="UserRoleContainer" runat="server">
-                                    <ContentTemplate>
-                                        <div class="form-group">
-                                            <asp:Label ID="UserRoleLabel" runat="server" Text="User Role"></asp:Label>
-                                            <asp:RequiredFieldValidator ID="UserRoleRequired" runat="server" ControlToValidate="UserRole" 
-                                                ErrorMessage="User Role is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                            <asp:DropDownList ID="UserRole" CssClass="form-control" runat="server" 
-                                                AutoPostBack="true" onselectedindexchanged="UserRole_SelectedIndexChanged">
-                                                <asp:ListItem></asp:ListItem>
-                                                <asp:ListItem>Supervisor</asp:ListItem>
-                                                <asp:ListItem>User</asp:ListItem>
-                                            </asp:DropDownList>
-                                        </div>
-                                        <asp:Panel ID="AssignedToContainer" CssClass="form-group" runat="server">
-                                            <asp:Label ID="AssignedToLabel" runat="server" Text="Assigned To"></asp:Label>
-                                            <asp:RequiredFieldValidator ID="AssignedToRequired" runat="server" ControlToValidate="AssignedTo"
-                                                ErrorMessage="Assigned To is required" ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                            <asp:DropDownList ID="AssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
-                                        </asp:Panel>
-                                    </ContentTemplate>
-                                </asp:UpdatePanel>
                                 <div class="form-group">
                                     <asp:Label ID="UserNameLabel" runat="server" Text="Username"></asp:Label>
                                     <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
@@ -76,6 +79,9 @@
                                         ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="CreateUserWizard">
                                     </asp:RegularExpressionValidator>
                                     <asp:TextBox ID="Email" CssClass="form-control" runat="server"></asp:TextBox>
+                                </div>
+                                <div class="error-messages form-group">
+                                    <asp:Literal ID="ErrorMessage" runat="server"></asp:Literal>
                                 </div>
                             </ContentTemplate>
                             <CustomNavigationTemplate>
