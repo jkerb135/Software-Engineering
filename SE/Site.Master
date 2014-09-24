@@ -37,6 +37,8 @@
 </head>
 <body>
     <form id="masterForm" runat="server">
+        <asp:ScriptManager ID="ScriptManage" runat="server">
+        </asp:ScriptManager>
         <div id="wrapper">
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">

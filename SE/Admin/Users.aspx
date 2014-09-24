@@ -25,23 +25,27 @@
                                     <asp:Literal ID="ErrorMessage" runat="server"></asp:Literal>
                                     <asp:ValidationSummary ID="ValidationSummary" runat="server" ValidationGroup="CreateUserWizard" />
                                 </div>
-                                <div class="form-group">
-                                    <asp:Label ID="UserRoleLabel" runat="server" Text="User Role"></asp:Label>
-                                    <asp:RequiredFieldValidator ID="UserRoleRequired" runat="server" ControlToValidate="UserRole" 
-                                        ErrorMessage="User Role is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                    <asp:DropDownList ID="UserRole" CssClass="form-control" runat="server" 
-                                        AutoPostBack="true" onselectedindexchanged="UserRole_SelectedIndexChanged">
-                                        <asp:ListItem></asp:ListItem>
-                                        <asp:ListItem>Supervisor</asp:ListItem>
-                                        <asp:ListItem>User</asp:ListItem>
-                                    </asp:DropDownList>
-                                </div>
-                                <asp:Panel ID="AssignedToContainer" CssClass="form-group" runat="server">
-                                    <asp:Label ID="AssignedToLabel" runat="server" Text="Assigned To"></asp:Label>
-                                    <asp:RequiredFieldValidator ID="AssignedToRequired" runat="server" ControlToValidate="AssignedTo"
-                                        ErrorMessage="Assigned To is required" ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                    <asp:DropDownList ID="AssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
-                                </asp:Panel>
+                                <asp:UpdatePanel ID="UserRoleContainer" runat="server">
+                                    <ContentTemplate>
+                                        <div class="form-group">
+                                            <asp:Label ID="UserRoleLabel" runat="server" Text="User Role"></asp:Label>
+                                            <asp:RequiredFieldValidator ID="UserRoleRequired" runat="server" ControlToValidate="UserRole" 
+                                                ErrorMessage="User Role is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                            <asp:DropDownList ID="UserRole" CssClass="form-control" runat="server" 
+                                                AutoPostBack="true" onselectedindexchanged="UserRole_SelectedIndexChanged">
+                                                <asp:ListItem></asp:ListItem>
+                                                <asp:ListItem>Supervisor</asp:ListItem>
+                                                <asp:ListItem>User</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                        <asp:Panel ID="AssignedToContainer" CssClass="form-group" runat="server">
+                                            <asp:Label ID="AssignedToLabel" runat="server" Text="Assigned To"></asp:Label>
+                                            <asp:RequiredFieldValidator ID="AssignedToRequired" runat="server" ControlToValidate="AssignedTo"
+                                                ErrorMessage="Assigned To is required" ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                            <asp:DropDownList ID="AssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
+                                        </asp:Panel>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
                                 <div class="form-group">
                                     <asp:Label ID="UserNameLabel" runat="server" Text="Username"></asp:Label>
                                     <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
