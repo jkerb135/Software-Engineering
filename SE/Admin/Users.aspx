@@ -20,6 +20,7 @@
                     <asp:UpdatePanel ID="UserRoleContainer" runat="server">
                         <ContentTemplate>
                             <div class="error-messages form-group">
+                                <asp:Literal ID="CreateUserErrorMessage" runat="server"></asp:Literal>
                                 <asp:ValidationSummary ID="ValidationSummary" runat="server" ValidationGroup="CreateUserWizard" />
                             </div>
                             <div class="form-group">
@@ -41,62 +42,41 @@
                             </asp:Panel>
                         </ContentTemplate>
                     </asp:UpdatePanel>   
+                    <div class="form-group">
+                        <asp:Label ID="UserNameLabel" runat="server" Text="Username"></asp:Label>
+                        <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
+                            ErrorMessage="Username is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                        <asp:TextBox ID="UserName" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <asp:Label ID="PasswordLabel" runat="server" Text="Password"></asp:Label>
+                        <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" 
+                            ErrorMessage="Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                        <asp:CompareValidator ID="PasswordCompare" ControlToValidate="Password" Display="None"
+                            ControlToCompare="ConfirmPassword" runat="server" ErrorMessage="Passwords must match." 
+                            ValidationGroup="CreateUserWizard"></asp:CompareValidator>
+                        <asp:TextBox ID="Password" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <asp:Label ID="ConfirmPasswordLabel" runat="server" Text="Confirm Password"></asp:Label>
+                        <asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" 
+                            ErrorMessage="Confirm Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                        <asp:TextBox ID="ConfirmPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <asp:Label ID="EmailLabel" runat="server" Text="Email"></asp:Label>
+                        <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email" 
+                            ErrorMessage="Email is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                        <asp:RegularExpressionValidator ID="EmailValid" runat="server" 
+                            ControlToValidate="Email" ErrorMessage="E-mail address must be in a valid format" Display="None" 
+                            ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="CreateUserWizard">
+                        </asp:RegularExpressionValidator>
+                        <asp:TextBox ID="Email" CssClass="form-control" runat="server"></asp:TextBox>
+                    </div>
+                    <asp:Button ID="CreateUserButton" CssClass="btn btn-default right" runat="server" 
+                        ValidationGroup="CreateUserWizard" CausesValidation="true" Text="Submit" 
+                        onclick="CreateUserButton_Click" />
                 </div>
-            </div>
-            <div class="row">
-                <asp:CreateUserWizard ID="CreateUserWizard" CssClass="col-md-6 col-xs-12 create-user-wizard" 
-                    runat="server" oncreateduser="CreateUserWizard_CreatedUser" LoginCreatedUser="false" ContinueDestinationPageUrl="~/Admin/Users.aspx">
-                    <WizardSteps>
-                        <asp:CreateUserWizardStep ID="CreateUserWizardStep" runat="server">
-                            <ContentTemplate>
-                                <div class="form-group">
-                                    <asp:Label ID="UserNameLabel" runat="server" Text="Username"></asp:Label>
-                                    <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
-                                        ErrorMessage="Username is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                    <asp:TextBox ID="UserName" CssClass="form-control" runat="server"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <asp:Label ID="PasswordLabel" runat="server" Text="Password"></asp:Label>
-                                    <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" 
-                                        ErrorMessage="Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                    <asp:CompareValidator ID="PasswordCompare" ControlToValidate="Password" Display="None"
-                                        ControlToCompare="ConfirmPassword" runat="server" ErrorMessage="Passwords must match." 
-                                        ValidationGroup="CreateUserWizard"></asp:CompareValidator>
-                                    <asp:TextBox ID="Password" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <asp:Label ID="ConfirmPasswordLabel" runat="server" Text="Confirm Password"></asp:Label>
-                                    <asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" 
-                                        ErrorMessage="Confirm Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                    <asp:TextBox ID="ConfirmPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
-                                </div>
-                                <div class="form-group">
-                                    <asp:Label ID="EmailLabel" runat="server" Text="Email"></asp:Label>
-                                    <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email" 
-                                        ErrorMessage="Email is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
-                                    <asp:RegularExpressionValidator ID="EmailValid" runat="server" 
-                                        ControlToValidate="Email" ErrorMessage="E-mail address must be in a valid format" Display="None" 
-                                        ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="CreateUserWizard">
-                                    </asp:RegularExpressionValidator>
-                                    <asp:TextBox ID="Email" CssClass="form-control" runat="server"></asp:TextBox>
-                                </div>
-                                <div class="error-messages form-group">
-                                    <asp:Literal ID="ErrorMessage" runat="server"></asp:Literal>
-                                </div>
-                            </ContentTemplate>
-                            <CustomNavigationTemplate>
-                                <asp:Button ID="CreateUserButton" CommandName="MoveNext" CssClass="btn btn-default" runat="server" 
-                                    ValidationGroup="CreateUserWizard" CausesValidation="true" Text="Submit" />
-                            </CustomNavigationTemplate>
-                        </asp:CreateUserWizardStep>
-                        <asp:CompleteWizardStep runat="server">
-                            <ContentTemplate>
-                                <p>Account has been successfully created.</p>
-                                <asp:Button ID="ContinueButton" CommandName="Continue" CssClass="btn btn-default" runat="server" Text="Continue" />
-                            </ContentTemplate>
-                        </asp:CompleteWizardStep>
-                    </WizardSteps>
-                </asp:CreateUserWizard>
             </div>
         </asp:View>
 
@@ -109,11 +89,11 @@
             </div>
             <div class="row">
                 <div class="col-md-6 col-xs-12">
-                    <div class="error-messages">
+                    <div class="error-messages form-group">
                         <asp:Label ID="EditErrorMessage" runat="server"></asp:Label>
                         <asp:ValidationSummary ID="EditValidationSummary" ValidationGroup="EditUser" runat="server" />
                     </div>
-                    <div class="success-messages">
+                    <div class="success-messages form-group">
                         <asp:Label ID="EditSuccessMessage" runat="server"></asp:Label>
                     </div>
                     <asp:Panel ID="EditAssignedToContainer" CssClass="form-group" runat="server">
@@ -151,11 +131,17 @@
             <div class="row">
                 <div class="col-lg-12">  
                     <h2>Manage Users</h2>
-            
-                    <div class="table-responsive">
-                        <asp:DataGrid ID="UserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" OnPageIndexChanged="UserList_Change">
-                        </asp:DataGrid>
-                    </div>
+                    <asp:UpdatePanel ID="ManageUserGrid" runat="server">
+                        <ContentTemplate>
+                            <div class="success-messages form-group">
+                                <asp:Label ID="SuccessMessage" runat="server"></asp:Label>
+                            </div>
+                            <div class="table-responsive">
+                                <asp:DataGrid ID="UserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" OnPageIndexChanged="UserList_Change">
+                                </asp:DataGrid>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
             </div>
         </asp:View>

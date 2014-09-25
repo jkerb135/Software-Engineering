@@ -35,7 +35,7 @@ namespace SE.Classes
         public void CreateCategory()
         {
             string queryString =
-                "INSERT INTO Categories (Name) " +
+                "INSERT INTO Categories (CategoryName) " +
                 "VALUES (@categoryname)";
 
             using (SqlConnection con = new SqlConnection(
@@ -57,7 +57,7 @@ namespace SE.Classes
         {
             string queryString =
                 "UPDATE Categories " +
-                "SET Name=@categoryname " +
+                "SET CategoryName=@categoryname " +
                 "WHERE CategoryID=@categoryid";
 
             using (SqlConnection con = new SqlConnection(
@@ -166,7 +166,7 @@ namespace SE.Classes
                 {
                     Category cat = new Category();
                     cat.CategoryID = Convert.ToInt32(dr["CategoryID"]);
-                    cat.CategoryName = dr["Name"].ToString();
+                    cat.CategoryName = dr["CategoryName"].ToString();
                     AssignedCategories.Add(cat);
                 }
 
@@ -229,7 +229,7 @@ namespace SE.Classes
                 {
                     Category cat = new Category();
                     cat.CategoryID = Convert.ToInt32(dr["CategoryID"]);
-                    cat.CategoryName = dr["Name"].ToString();
+                    cat.CategoryName = dr["CategoryName"].ToString();
                     AllCategories.Add(cat);
                 }
 

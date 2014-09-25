@@ -11,6 +11,31 @@ namespace SE.Classes
 {
     public static class Member
     {
+        public static bool ValidatePassword(string Password, ref string ErrorMessage)
+        {
+            bool Valid = true;
+
+            // Password is less then required length
+            if (Password.Length < Membership.MinRequiredPasswordLength)
+            {
+                ErrorMessage += "Password must be at least " +
+                    Membership.MinRequiredPasswordLength + " characters.<br/>";
+                Valid = false;
+            }
+
+            // Password does not contain minimum special characters
+            if (Password.Count(c => !char.IsLetterOrDigit(c)) <
+                Membership.MinRequiredNonAlphanumericCharacters)
+            {
+                ErrorMessage += "Password must contain at least " +
+                    Membership.MinRequiredNonAlphanumericCharacters +
+                    " non-alphanumeric characters.<br/>";
+                Valid = false;
+            }
+
+            return Valid;
+        }
+
         /// <summary>Populates a dataset of all users by username, email and user role
         /// </summary> 
         public static DataSet CustomGetAllUsers()

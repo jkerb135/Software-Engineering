@@ -145,7 +145,6 @@
     <Compile Include="Classes\DetailedStep.cs" />
     <Compile Include="Classes\MainStep.cs" />
     <Compile Include="Classes\Report.cs" />
-    <Compile Include="Classes\Step.cs" />
     <Compile Include="Classes\Task.cs" />
     <Compile Include="Classes\Member.cs" />
     <Compile Include="Default.aspx.cs">

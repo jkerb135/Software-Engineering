@@ -12,10 +12,10 @@
         <div class="col-md-6 col-xs-12">
             <asp:UpdatePanel ID="CategoryContainer" runat="server">
                 <ContentTemplate>
-                    <div class="error-messages">
+                    <div class="error-messages form-group">
                         <asp:Label ID="ErrorMessage" runat="server"></asp:Label>
                     </div>
-                    <div class="success-messages">
+                    <div class="success-messages form-group">
                         <asp:Label ID="SuccessMessage" runat="server"></asp:Label>
                     </div>
                     <asp:Panel ID="AddNewCategoryPanel" CssClass="form-group" runat="server">
@@ -23,13 +23,13 @@
                             <asp:TextBox ID="AddNewCategoryName" runat="server" 
                                 CssClass="form-control"></asp:TextBox>
                             <asp:Button ID="AddNewCategoryButton" runat="server"
-                                CssClass="btn btn-default" Text="Add New" 
+                                CssClass="btn btn-default" Text="Add New Category" 
                                 onclick="AddNewCategory_Click" />
                         </div>
                     </asp:Panel>
                     <div class="form-group">
                         <asp:DropDownList ID="CategoryList" runat="server" CssClass="form-control"
-                            DataValueField="CategoryID" DataTextField="Name" AutoPostBack="true"
+                            DataValueField="CategoryID" DataTextField="CategoryName" AutoPostBack="true"
                             onselectedindexchanged="CategoryList_SelectedIndexChanged">
                         </asp:DropDownList>
                     </div>

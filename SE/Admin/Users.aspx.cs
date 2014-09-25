@@ -8,12 +8,13 @@ using System.Web.Security;
 using System.Data;
 using SE.Classes;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace SE
 {
     public partial class Users : System.Web.UI.Page
     {
-        private String UserName = String.Empty;
+        private String SelectedUserName = String.Empty;
       
         private enum UserPage
         {
@@ -26,7 +27,7 @@ namespace SE
         protected void Page_Init(object sender, EventArgs e)
         {
             // Selected user (used on edit user page)
-            UserName = (Request.QueryString["username"] != null) ? Request.QueryString["username"] : "";
+            SelectedUserName = (Request.QueryString["username"] != null) ? Request.QueryString["username"] : "";
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -34,42 +35,37 @@ namespace SE
             // Show different content based on querystring
             
             // Create user page
-            if (Request.QueryString["userpage"] == "createuser")
+            if (!IsPostBack)
             {
-                UsersMultiView.ActiveViewIndex = (int) UserPage.CreateUser;
-                AssignedToContainer.Visible = false;
-                if (!IsPostBack)
+                if (Request.QueryString["userpage"] == "createuser")
                 {
+                    UsersMultiView.ActiveViewIndex = (int)UserPage.CreateUser;
+                    AssignedToContainer.Visible = false;
                     BindSupervisors(AssignedTo);
                 }
-            }
 
-            // Edit user page
-            else if (Request.QueryString["userpage"] == "edituser" && 
-                Membership.GetUser(UserName) != null && !Roles.IsUserInRole(UserName, "Manager"))
-            {
-                UsersMultiView.ActiveViewIndex = (int) UserPage.EditUser;
-
-                // Populate list of supervisors if selected is a "user"
-                if (Roles.IsUserInRole(UserName, "User"))
+                // Edit user page
+                else if (Request.QueryString["userpage"] == "edituser" &&
+                    Membership.GetUser(SelectedUserName) != null && !Roles.IsUserInRole(SelectedUserName, "Manager"))
                 {
-                    if (!IsPostBack)
+                    UsersMultiView.ActiveViewIndex = (int)UserPage.EditUser;
+
+                    // Populate list of supervisors if selected is a "user"
+                    if (Roles.IsUserInRole(SelectedUserName, "User"))
                     {
                         BindSupervisors(EditAssignedTo);
                     }
+                    else
+                    {
+                        EditAssignedToContainer.Visible = false;
+                    }
                 }
+
+                // Manage user page
                 else
                 {
-                    EditAssignedToContainer.Visible = false;
+                    ShowManageUserPage();
                 }
-            }
-
-            // Manage user page
-            else
-            {
-                UsersMultiView.ActiveViewIndex = (int) UserPage.ManageUsers;
-                UserList.DataSource = Member.CustomGetAllUsers();
-                UserList.DataBind();
             }
         }
 
@@ -81,23 +77,45 @@ namespace SE
             }
         }
 
-        protected void CreateUserWizard_CreatedUser(object sender, EventArgs e)
+        protected void CreateUserButton_Click(object sender, EventArgs e)
         {
-            UserRoleContainer.Visible = false;
+            string ErrorMessage = "";
 
-            // Add user to role
-            Roles.AddUserToRole(CreateUserWizard.UserName, UserRole.SelectedValue);
-           
-            // Assign the user to supervisor
-            if (UserRole.SelectedValue == "User")
+            if (Member.ValidatePassword(Password.Text, ref ErrorMessage))
             {
-                Member.AssignToUser(CreateUserWizard.UserName, AssignedTo.SelectedValue);
+                if (Membership.GetUser(UserName.Text) == null)
+                {
+                    // Add user to role
+                    Roles.AddUserToRole(UserName.Text, UserRole.SelectedValue);
+
+                    // Assign the user to supervisor
+                    if (UserRole.SelectedValue == "User")
+                    {
+                        Member.AssignToUser(UserName.Text, AssignedTo.SelectedValue);
+                    }
+
+                    // Create User
+                    Membership.CreateUser(UserName.Text, Password.Text);
+                    MembershipUser NewMember = Membership.GetUser(UserName.Text);
+                    NewMember.Email = Email.Text;
+                    Membership.UpdateUser(NewMember);
+
+                    //Success
+                    ShowManageUserPage();
+                    SuccessMessage.Text = "User has been successfully created";
+                }
+                else
+                {
+                    ErrorMessage = "Username already exists";
+                }
             }
+
+            CreateUserErrorMessage.Text = ErrorMessage;
         }
 
         protected void EditUserButton_Click(object sender, EventArgs e)
         {
-            var User = Membership.GetUser(UserName);
+            var User = Membership.GetUser(SelectedUserName);
             string ErrorMessage = "";
             string SuccessMessage = "";
 
@@ -119,43 +137,20 @@ namespace SE
                 }
             }
 
+            // User password
+            if (!String.IsNullOrEmpty(EditPassword.Text) &&
+                Member.ValidatePassword(EditPassword.Text, ref ErrorMessage))
+            {
+                User.ChangePassword(User.ResetPassword(), EditPassword.Text);
+                SuccessMessage += "Password successfully updated.<br/>";
+            }
+
             // User email
             if (!String.IsNullOrEmpty(EditEmail.Text))
             {
                 User.Email = EditEmail.Text;
                 Membership.UpdateUser(User);
                 SuccessMessage += "Email successfully updated.<br/>";
-            }
-
-            // User password
-            if (!String.IsNullOrEmpty(EditPassword.Text))
-            {
-                bool Error = false;
-
-                // Password is less then required length
-                if (EditPassword.Text.Length < Membership.MinRequiredPasswordLength)
-                {
-                    ErrorMessage += "Password must be at least " +
-                        Membership.MinRequiredPasswordLength + " characters.<br/>";
-                    Error = true;
-                }
-
-                // Password does not contain minimum special characters
-                if (EditPassword.Text.Count(c => !char.IsLetterOrDigit(c)) <
-                    Membership.MinRequiredNonAlphanumericCharacters)
-                {
-                    ErrorMessage += "Password must contain at least " +
-                        Membership.MinRequiredNonAlphanumericCharacters +
-                        " non-alphanumeric characters.<br/>";
-                    Error = true;
-                }
-
-                // Success
-                if (!Error)
-                {
-                    User.ChangePassword(User.ResetPassword(), EditPassword.Text);
-                    SuccessMessage += "Password successfully updated.<br/>";
-                }
             }
 
             // Display messages
@@ -174,13 +169,13 @@ namespace SE
         {
             bool Error = false;
 
-            if (Roles.IsUserInRole(UserName, "User"))
+            if (Roles.IsUserInRole(SelectedUserName, "User"))
             {
-                Member.RemoveAssignedUser(UserName);
+                Member.RemoveAssignedUser(SelectedUserName);
             }
             else 
             {
-                if (Member.SupervisorHasUsers(UserName))
+                if (Member.SupervisorHasUsers(SelectedUserName))
                 {
                     Error = true;
                     EditErrorMessage.Text = "This account has users assigned to it. " +
@@ -190,13 +185,16 @@ namespace SE
 
             if (!Error)
             {
-                Membership.DeleteUser(UserName, true);
-                Response.Redirect("~/Admin/Users.aspx");
+                Membership.DeleteUser(SelectedUserName, true);
+                ShowManageUserPage();
+                SuccessMessage.Text = "User has been successfully deleted";
             }
         }
 
         protected void UserList_Change(Object sender, DataGridPageChangedEventArgs e)
         {
+            SuccessMessage.Text = "";
+
             // Set CurrentPageIndex to the page the user clicked.
             UserList.CurrentPageIndex = e.NewPageIndex;
 
@@ -211,6 +209,13 @@ namespace SE
             drp.DataBind();
 
             Methods.AddBlankToDropDownList(drp);
+        }
+
+        private void ShowManageUserPage()
+        {
+            UsersMultiView.ActiveViewIndex = (int)UserPage.ManageUsers;
+            UserList.DataSource = Member.CustomGetAllUsers();
+            UserList.DataBind();
         }
     }
 }

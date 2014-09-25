@@ -5,10 +5,13 @@ using System.Web;
 
 namespace SE.Classes
 {
-    public class MainStep : Step
+    public class MainStep
     {
         #region Properties
 
+        public int MainStepID { get; set; }
+        public string MainStepName { get; set; }
+        public string MainStepText { get; set; }
         public string AudioPath { get; set; }
         public string VideoPath { get; set; }
 
@@ -18,11 +21,26 @@ namespace SE.Classes
 
         public MainStep()
         {
+            this.MainStepID = 0;
+            this.MainStepName = String.Empty;
+            this.MainStepText = String.Empty;
             this.AudioPath = String.Empty;
             this.VideoPath = String.Empty;
         }
 
         #endregion
+
+        public void CreateMainStep()
+        {
+        }
+
+        public void UpdateMainStep()
+        {
+        }
+
+        public void DeleteMainStep()
+        {
+        }
 
         public void CompleteMainStep()
         {

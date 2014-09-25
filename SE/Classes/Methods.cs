@@ -5,10 +5,11 @@ using System.Web;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace SE.Classes
 {
-    public partial class Methods
+    public static class Methods
     {
         public static string GetConnectionString()
         {
