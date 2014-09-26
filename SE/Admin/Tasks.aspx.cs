@@ -7,13 +7,18 @@ using System.Web.UI.WebControls;
 using SE.Classes;
 using System.Web.Security;
 using System.Diagnostics;
+using System.Data.SqlClient;
 
 namespace SE
 {
     public partial class Tasks : System.Web.UI.Page
     {
+        #region "Variables"
+
         string UserName = System.Web.HttpContext.Current.User.Identity.Name;
         Task ITask = new Task();
+        MainStep IMainStep = new MainStep();
+        DetailedStep IDetailedStep = new DetailedStep();
 
         private enum TaskPage
         {
@@ -23,9 +28,15 @@ namespace SE
             ManageTasks = 2
         }
 
+        #endregion
+
+        #region "LifeCycle"
+
         protected void Page_Init(object sender, EventArgs e)
         {
             ViewState.Add("Task", ITask);
+            ViewState.Add("MainStep", IMainStep);
+            ViewState.Add("DetailedStep", IDetailedStep);
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -53,16 +64,14 @@ namespace SE
                     ITask.TaskID = Convert.ToInt32(Request.QueryString["taskid"]);
                     ViewState.Add("Task", ITask);
 
+                    IMainStep = (MainStep)ViewState["MainStep"];
+                    IMainStep.TaskID = Convert.ToInt32(Request.QueryString["taskid"]);
+                    ViewState.Add("MainStep", IMainStep);
+
                     TasksMultiView.ActiveViewIndex = (int)TaskPage.EditTask;
-                    EditMainStepPanel.Visible = false;
-                    MainStepPanel.Visible = false;
 
                     BindCategories(EditAssignTaskToCategory);
                     BindUsers(EditAssignUserToTask);
-
-                    MainStepList.DataSource = MainStepListSource;
-                    MainStepList.DataBind();
-                    Methods.AddBlankToDropDownList(MainStepList);
                 }
 
                 // Manage task page
@@ -72,6 +81,10 @@ namespace SE
                 }
             }
         }
+
+        #endregion
+
+        #region "Task Management"
 
         protected void CreateTaskButton_Click(object sender, EventArgs e)
         {
@@ -109,8 +122,6 @@ namespace SE
 
             ITask = (Task)ViewState["Task"];
 
-            Debug.WriteLine(ITask.TaskID);
-
             if(!String.IsNullOrEmpty(EditAssignTaskToCategory.SelectedItem.Text))
             {
                 ITask.CategoryID = Convert.ToInt32(EditAssignTaskToCategory.SelectedValue);
@@ -139,35 +150,532 @@ namespace SE
                 EditTaskName.Text = "";
             }
         }
-        protected void NewMainStepButton_Click(object sender, EventArgs e)
+
+        protected void ViewMainStepButton_Click(object sender, EventArgs e)
         {
+            ManageMainStepPanel.Visible = true;
             EditTaskPanel.Visible = false;
-            EditMainStepPanel.Visible = true;
             EditSuccessMessage.Text = "";
+
+            BindMainSteps();
         }
+
+        #endregion
+
+        #region "Main Step Management"
 
         protected void BackToTask_Click(object sender, EventArgs e)
         {
-            EditMainStepPanel.Visible = false;
             EditTaskPanel.Visible = true;
-            EditSuccessMessage.Text = "";
-        }
-
-        protected void MainStepList_SelectedIndexChanged(Object sender, EventArgs e)
-        {
+            ManageMainStepPanel.Visible = false;
+            EditMainStepPanel.Visible = false;
         }
 
         protected void AddNewMainStep_Click(Object sender, EventArgs e)
         {
+            NewMainStepPanel.Visible = true;
+            ManageMainStepPanel.Visible = false;
             EditMainStepPanel.Visible = false;
-            MainStepPanel.Visible = true;
         }
 
         protected void MainStepCancel_Click(object sender, EventArgs e)
         {
-            MainStepPanel.Visible = false;
-            EditMainStepPanel.Visible = true;
+            ManageMainStepPanel.Visible = true;
+            NewMainStepPanel.Visible = false;
         }
+
+        protected void MainStepButton_Click(object sender, EventArgs e)
+        {
+            IMainStep = (MainStep)ViewState["MainStep"];
+
+            IMainStep.MainStepName = MainStepName.Text;
+
+            IMainStep.MainStepText = 
+                !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
+
+            IMainStep.CreateMainStep();
+
+            MainStepName.Text = "";
+            MainStepText.Text = "";
+
+            BindMainSteps();
+            ManageMainStepPanel.Visible = true;
+            NewMainStepPanel.Visible = false;
+        }
+
+        protected void MainStepMoveDown_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "" && MainStepList.SelectedIndex != MainStepList.Items.Count-1)
+            {
+                IMainStep = (MainStep)ViewState["MainStep"];
+
+                string queryString =
+                    "SELECT ListOrder " +
+                    "FROM MainSteps " +
+                    "WHERE MainStepID=@mainstepid";
+
+                string queryString2 =
+                    "SELECT MIN(ListOrder) " +
+                    "FROM MainSteps " +
+                    "WHERE ListOrder > @listorder " +
+                    "AND TaskID=@taskid";
+
+                string queryString3 =
+                    "SELECT MainStepID " +
+                    "FROM MainSteps " +
+                    "WHERE ListOrder = ( " +
+                        "SELECT MIN(ListOrder) " +
+                        "FROM MainSteps " +
+                        "WHERE ListOrder > @listorder " +
+                        "AND TaskID=@taskid " +
+                    ") " +
+                    "AND TaskID=@taskid";
+
+                string queryString4 =
+                    "UPDATE MainSteps " +
+                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                    "WHERE MainStepID IN (@mainstepid1, @mainstepid2)";
+
+                using (SqlConnection con = new SqlConnection(
+                    Methods.GetConnectionString()))
+                {
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+
+                    // Get First Value
+                    cmd.Parameters.AddWithValue("@mainstepid", Convert.ToInt32(MainStepList.SelectedValue));
+
+                    con.Open();
+
+                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Get Second Value
+                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd2.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+
+                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd3.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+
+                    con.Open();
+
+                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Swap Values
+                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@mainstepid1", Convert.ToInt32(MainStepList.SelectedValue));
+                    cmd4.Parameters.AddWithValue("@mainstepid2", ThirdValue);
+
+                    con.Open();
+
+                    cmd4.ExecuteNonQuery();
+
+                    con.Close();
+                }
+
+                BindMainSteps();
+            }
+        }
+
+        protected void MainStepMoveUp_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "" && MainStepList.SelectedIndex != 0)
+            {
+                IMainStep = (MainStep)ViewState["MainStep"];
+
+                string queryString =
+                    "SELECT ListOrder " +
+                    "FROM MainSteps " +
+                    "WHERE MainStepID=@mainstepid";
+
+                string queryString2 =
+                    "SELECT MAX(ListOrder) " +
+                    "FROM MainSteps " +
+                    "WHERE ListOrder < @listorder " +
+                    "AND TaskID=@taskid";
+
+                string queryString3 =
+                    "SELECT MainStepID " +
+                    "FROM MainSteps " +
+                    "WHERE ListOrder = ( " +
+                        "SELECT MAX(ListOrder) " +
+                        "FROM MainSteps " +
+                        "WHERE ListOrder < @listorder " +
+                        "AND TaskID=@taskid " +
+                    ") " +
+                    "AND TaskID=@taskid";
+
+                string queryString4 =
+                    "UPDATE MainSteps " +
+                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                    "WHERE MainStepID IN (@mainstepid1, @mainstepid2)";
+
+                using (SqlConnection con = new SqlConnection(
+                    Methods.GetConnectionString()))
+                {
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+
+                    // Get First Value
+                    cmd.Parameters.AddWithValue("@mainstepid", Convert.ToInt32(MainStepList.SelectedValue));
+
+                    con.Open();
+
+                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Get Second Value
+                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd2.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+
+                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd3.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+
+                    con.Open();
+
+                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Swap Values
+                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@mainstepid1", Convert.ToInt32(MainStepList.SelectedValue));
+                    cmd4.Parameters.AddWithValue("@mainstepid2", ThirdValue);
+
+                    con.Open();
+
+                    cmd4.ExecuteNonQuery();
+
+                    con.Close();
+                }
+
+                BindMainSteps();
+            }
+        }
+
+        protected void MainStepEdit_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "" && !EditMainStepPanel.Visible)
+            {
+                EditMainStepPanel.Visible = true;
+            }
+            else
+            {
+                EditMainStepPanel.Visible = false;
+            }
+        }
+
+        protected void EditMainStepButton_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "")
+            {
+                IMainStep.MainStepID = Convert.ToInt32(MainStepList.SelectedValue);
+
+                IMainStep.MainStepName = 
+                    !String.IsNullOrEmpty(EditMainStepName.Text) ? EditMainStepName.Text : null;
+                IMainStep.MainStepText = 
+                    !String.IsNullOrEmpty(EditMainStepText.Text) ? EditMainStepText.Text : null;
+
+                IMainStep.UpdateMainStep();
+
+                EditMainStepName.Text = "";
+                EditMainStepText.Text = "";
+
+                BindMainSteps();
+                EditMainStepPanel.Visible = false;
+            }
+        }
+
+        protected void MainStepDelete_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "")
+            {
+                IMainStep.MainStepID = Convert.ToInt32(MainStepList.SelectedValue);
+                IMainStep.DeleteMainStep();
+
+                BindMainSteps();
+            }
+        }
+
+        protected void ViewDetailedSteps_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "")
+            {
+                IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
+                IDetailedStep.MainStepID = Convert.ToInt32(MainStepList.SelectedValue);
+                ViewState.Add("DetailedStep", IDetailedStep);
+
+                ManageDetailedStepPanel.Visible = true;
+                ManageMainStepPanel.Visible = false;
+                EditMainStepPanel.Visible = false;
+                BindDetailedSteps();
+            }
+        }
+
+        #endregion
+
+        #region "Detailed Step Management"
+
+        protected void BackToMainStep_Click(object sender, EventArgs e)
+        {
+            ManageMainStepPanel.Visible = true;
+            ManageDetailedStepPanel.Visible = false;
+            EditDetailedStepPanel.Visible = false;
+        }
+
+        protected void AddNewDetailedStep_Click(object sender, EventArgs e)
+        {
+            NewDetailedStepPanel.Visible = true;
+            ManageDetailedStepPanel.Visible = false;
+            EditDetailedStepPanel.Visible = false;
+        }
+
+        protected void DetailedStepCancel_Click(object sender, EventArgs e)
+        {
+            ManageDetailedStepPanel.Visible = true;
+            NewDetailedStepPanel.Visible = false;
+        }
+
+        protected void DetailedStepButton_Click(object sender, EventArgs e)
+        {
+            IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
+
+            IDetailedStep.DetailedStepName = DetailedStepName.Text;
+
+            IDetailedStep.DetailedStepText = 
+                !String.IsNullOrEmpty(DetailedStepText.Text) ? DetailedStepText.Text : null;
+
+            IDetailedStep.CreateDetailedStep();
+
+            DetailedStepName.Text = "";
+            DetailedStepText.Text = "";
+
+            BindDetailedSteps();
+            ManageDetailedStepPanel.Visible = true;
+            NewDetailedStepPanel.Visible = false;
+        }
+
+        protected void DetailedStepMoveDown_Click(object sender, EventArgs e)
+        {
+            if (DetailedStepList.SelectedValue != "" && DetailedStepList.SelectedIndex != DetailedStepList.Items.Count - 1)
+            {
+                IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
+
+                string queryString =
+                    "SELECT ListOrder " +
+                    "FROM DetailedSteps " +
+                    "WHERE DetailedStepID=@detailedstepid";
+
+                string queryString2 =
+                    "SELECT MIN(ListOrder) " +
+                    "FROM DetailedSteps " +
+                    "WHERE ListOrder > @listorder " +
+                    "AND MainStepID=@mainstepid";
+
+                string queryString3 =
+                    "SELECT DetailedStepID " +
+                    "FROM DetailedSteps " +
+                    "WHERE ListOrder = ( " +
+                        "SELECT MIN(ListOrder) " +
+                        "FROM DetailedSteps " +
+                        "WHERE ListOrder > @listorder " +
+                        "AND MainStepID=@mainstepid " +
+                    ") " +
+                    "AND MainStepID=@mainstepid";
+
+                string queryString4 =
+                    "UPDATE DetailedSteps " +
+                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                    "WHERE DetailedStepID IN (@detailedstepid1, @detailedstepid2)";
+
+                using (SqlConnection con = new SqlConnection(
+                    Methods.GetConnectionString()))
+                {
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+
+                    // Get First Value
+                    cmd.Parameters.AddWithValue("@detailedstepid", Convert.ToInt32(DetailedStepList.SelectedValue));
+
+                    con.Open();
+
+                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Get Second Value
+                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd2.Parameters.AddWithValue("@mainstepid", IDetailedStep.MainStepID);
+
+                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd3.Parameters.AddWithValue("@mainstepid", IDetailedStep.MainStepID);
+
+                    con.Open();
+
+                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Swap Values
+                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@detailedstepid1", Convert.ToInt32(DetailedStepList.SelectedValue));
+                    cmd4.Parameters.AddWithValue("@detailedstepid2", ThirdValue);
+
+                    con.Open();
+
+                    cmd4.ExecuteNonQuery();
+
+                    con.Close();
+                }
+
+                BindDetailedSteps();
+            }
+        }
+
+        protected void DetailedStepMoveUp_Click(object sender, EventArgs e)
+        {
+            if (DetailedStepList.SelectedValue != "" && DetailedStepList.SelectedIndex != 0)
+            {
+                IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
+
+                string queryString =
+                    "SELECT ListOrder " +
+                    "FROM DetailedSteps " +
+                    "WHERE DetailedStepID=@detailedstepid";
+
+                string queryString2 =
+                    "SELECT MAX(ListOrder) " +
+                    "FROM DetailedSteps " +
+                    "WHERE ListOrder < @listorder " +
+                    "AND MainStepID=@mainstepid";
+
+                string queryString3 =
+                    "SELECT DetailedStepID " +
+                    "FROM DetailedSteps " +
+                    "WHERE ListOrder = ( " +
+                        "SELECT MAX(ListOrder) " +
+                        "FROM DetailedSteps " +
+                        "WHERE ListOrder < @listorder " +
+                        "AND MainStepID=@mainstepid " +
+                    ") " +
+                    "AND MainStepID=@mainstepid";
+
+                string queryString4 =
+                    "UPDATE DetailedSteps " +
+                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                    "WHERE DetailedStepID IN (@detailedstepid1, @detailedstepid2)";
+
+                using (SqlConnection con = new SqlConnection(
+                    Methods.GetConnectionString()))
+                {
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+
+                    // Get First Value
+                    cmd.Parameters.AddWithValue("@detailedstepid", Convert.ToInt32(DetailedStepList.SelectedValue));
+
+                    con.Open();
+
+                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Get Second Value
+                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd2.Parameters.AddWithValue("@mainstepid", IDetailedStep.MainStepID);
+
+                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd3.Parameters.AddWithValue("@mainstepid", IDetailedStep.MainStepID);
+
+                    con.Open();
+
+                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Swap Values
+                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@detailedstepid1", Convert.ToInt32(DetailedStepList.SelectedValue));
+                    cmd4.Parameters.AddWithValue("@detailedstepid2", ThirdValue);
+
+                    con.Open();
+
+                    cmd4.ExecuteNonQuery();
+
+                    con.Close();
+                }
+
+                BindDetailedSteps();
+            }
+        }
+
+        protected void DetailedStepEdit_Click(object sender, EventArgs e)
+        {
+            if (DetailedStepList.SelectedValue != "" && !EditDetailedStepPanel.Visible)
+            {
+                EditDetailedStepPanel.Visible = true;
+            }
+            else
+            {
+                EditDetailedStepPanel.Visible = false;
+            }
+        }
+
+        protected void EditDetailedStepButton_Click(object sender, EventArgs e)
+        {
+            if (DetailedStepList.SelectedValue != "")
+            {
+                IDetailedStep.DetailedStepID = Convert.ToInt32(DetailedStepList.SelectedValue);
+
+                IDetailedStep.DetailedStepName = 
+                    !String.IsNullOrEmpty(EditDetailedStepName.Text) ? EditDetailedStepName.Text : null;
+                IDetailedStep.DetailedStepText = 
+                    !String.IsNullOrEmpty(EditDetailedStepText.Text) ? EditDetailedStepText.Text : null;
+
+                IDetailedStep.UpdateDetailedStep();
+
+                EditDetailedStepName.Text = "";
+                EditDetailedStepText.Text = "";
+
+                BindDetailedSteps();
+                EditDetailedStepPanel.Visible = false;
+            }
+        }
+
+        protected void DetailedStepDelete_Click(object sender, EventArgs e)
+        {
+            if (DetailedStepList.SelectedValue != "")
+            {
+                IDetailedStep.DetailedStepID = Convert.ToInt32(DetailedStepList.SelectedValue);
+                IDetailedStep.DeleteDetailedStep();
+
+                BindDetailedSteps();
+            }
+        }
+
+        #endregion
+
+        #region "Functions"
 
         private void BindCategories(DropDownList drp)
         {
@@ -192,11 +700,25 @@ namespace SE
             Methods.AddBlankToDropDownList(drp);
         }
 
+        private void BindMainSteps()
+        {
+            MainStepList.DataSource = MainStepListSource;
+            MainStepList.DataBind();
+        }
+
+        private void BindDetailedSteps()
+        {
+            DetailedStepList.DataSource = DetailedStepListSource;
+            DetailedStepList.DataBind();
+        }
+
         private void ShowManageTasks()
         {
             TasksMultiView.ActiveViewIndex = (int)TaskPage.ManageTasks;
             TaskList.DataSource = Task.ManageTasksList();
             TaskList.DataBind();
         }
+
+        #endregion
     }
 }

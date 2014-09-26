@@ -39,13 +39,9 @@ namespace SE.Classes
 
         public void CreateTask()
         {
-            string queryString = "";
-
-            queryString =
-                "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive) " +
-                "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @IsActive)";
-
-            Debug.WriteLine(AssignedUser);
+            string queryString =
+                "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime) " +
+                "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime)";
           
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -58,6 +54,7 @@ namespace SE.Classes
                 cmd.Parameters.AddWithValue("@taskname", TaskName);
                 cmd.Parameters.AddWithValue("@tasktime", TaskTime);
                 cmd.Parameters.AddWithValue("@isactive", IsActive);
+                cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
 
                 con.Open();
 
@@ -65,7 +62,6 @@ namespace SE.Classes
 
                 con.Close();
             }
-          
         }
 
         public void UpdateTask()

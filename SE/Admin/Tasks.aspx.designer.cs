@@ -175,6 +175,15 @@ namespace SE {
         protected global::System.Web.UI.WebControls.ValidationSummary CreateMainStepValidationSummary;
         
         /// <summary>
+        /// CreateDetailedStepValidationSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary CreateDetailedStepValidationSummary;
+        
+        /// <summary>
         /// EditTaskPanel control.
         /// </summary>
         /// <remarks>
@@ -247,22 +256,22 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Button EditTaskButton;
         
         /// <summary>
-        /// NewMainStepButton control.
+        /// ViewMainStepButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button NewMainStepButton;
+        protected global::System.Web.UI.WebControls.Button ViewMainStepButton;
         
         /// <summary>
-        /// EditMainStepPanel control.
+        /// ManageMainStepPanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel EditMainStepPanel;
+        protected global::System.Web.UI.WebControls.Panel ManageMainStepPanel;
         
         /// <summary>
         /// BackToTask control.
@@ -298,16 +307,61 @@ namespace SE {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList MainStepList;
+        protected global::System.Web.UI.WebControls.ListBox MainStepList;
         
         /// <summary>
-        /// MainStepPanel control.
+        /// MainStepMoveDown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel MainStepPanel;
+        protected global::System.Web.UI.WebControls.Button MainStepMoveDown;
+        
+        /// <summary>
+        /// MainStepMoveUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button MainStepMoveUp;
+        
+        /// <summary>
+        /// MainStepEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button MainStepEdit;
+        
+        /// <summary>
+        /// MainStepDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button MainStepDelete;
+        
+        /// <summary>
+        /// ViewDetailedSteps control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ViewDetailedSteps;
+        
+        /// <summary>
+        /// NewMainStepPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel NewMainStepPanel;
         
         /// <summary>
         /// MainStepNameLabel control.
@@ -409,6 +463,339 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Button MainStepButton;
         
         /// <summary>
+        /// EditMainStepPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel EditMainStepPanel;
+        
+        /// <summary>
+        /// EditMainStepNameLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditMainStepNameLabel;
+        
+        /// <summary>
+        /// EditMainStepName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox EditMainStepName;
+        
+        /// <summary>
+        /// EditMainStepTextLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditMainStepTextLabel;
+        
+        /// <summary>
+        /// EditMainStepText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox EditMainStepText;
+        
+        /// <summary>
+        /// EditMainStepAudioLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditMainStepAudioLabel;
+        
+        /// <summary>
+        /// EditMainStepAudio control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload EditMainStepAudio;
+        
+        /// <summary>
+        /// EditMainStepVideoLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditMainStepVideoLabel;
+        
+        /// <summary>
+        /// EditMainStepVideo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload EditMainStepVideo;
+        
+        /// <summary>
+        /// EditMainStepButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button EditMainStepButton;
+        
+        /// <summary>
+        /// ManageDetailedStepPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel ManageDetailedStepPanel;
+        
+        /// <summary>
+        /// BackToMainStep control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BackToMainStep;
+        
+        /// <summary>
+        /// AddNewDetailedStepButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddNewDetailedStepButton;
+        
+        /// <summary>
+        /// DetailedStepListLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DetailedStepListLabel;
+        
+        /// <summary>
+        /// DetailedStepList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox DetailedStepList;
+        
+        /// <summary>
+        /// DetailedStepMoveDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DetailedStepMoveDown;
+        
+        /// <summary>
+        /// DetailedStepMoveUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DetailedStepMoveUp;
+        
+        /// <summary>
+        /// DetailedStepEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DetailedStepEdit;
+        
+        /// <summary>
+        /// DetailedStepDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DetailedStepDelete;
+        
+        /// <summary>
+        /// NewDetailedStepPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel NewDetailedStepPanel;
+        
+        /// <summary>
+        /// DetailedStepNameLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DetailedStepNameLabel;
+        
+        /// <summary>
+        /// DetailedStepNameRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator DetailedStepNameRequired;
+        
+        /// <summary>
+        /// DetailedStepName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox DetailedStepName;
+        
+        /// <summary>
+        /// DetailedStepTextLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DetailedStepTextLabel;
+        
+        /// <summary>
+        /// DetailedStepText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox DetailedStepText;
+        
+        /// <summary>
+        /// DetailedStepImageLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DetailedStepImageLabel;
+        
+        /// <summary>
+        /// DetailedStepImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload DetailedStepImage;
+        
+        /// <summary>
+        /// DetailedStepCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DetailedStepCancel;
+        
+        /// <summary>
+        /// DetailedStepButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DetailedStepButton;
+        
+        /// <summary>
+        /// EditDetailedStepPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel EditDetailedStepPanel;
+        
+        /// <summary>
+        /// EditDetailedStepNameLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditDetailedStepNameLabel;
+        
+        /// <summary>
+        /// EditDetailedStepName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox EditDetailedStepName;
+        
+        /// <summary>
+        /// EditDetailedStepTextLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditDetailedStepTextLabel;
+        
+        /// <summary>
+        /// EditDetailedStepText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox EditDetailedStepText;
+        
+        /// <summary>
+        /// EditDetailedStepImageLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EditDetailedStepImageLabel;
+        
+        /// <summary>
+        /// EditDetailedStepImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload EditDetailedStepImage;
+        
+        /// <summary>
+        /// EditDetailedStepButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button EditDetailedStepButton;
+        
+        /// <summary>
         /// MainStepListSource control.
         /// </summary>
         /// <remarks>
@@ -416,6 +803,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource MainStepListSource;
+        
+        /// <summary>
+        /// DetailedStepListSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource DetailedStepListSource;
         
         /// <summary>
         /// ManageTasks control.
