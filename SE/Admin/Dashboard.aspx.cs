@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SE.Classes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,11 @@ namespace SE
         protected void Page_Load(object sender, EventArgs e)
         {
 
+        }
+        protected void getActiveUsers()
+        {
+            activeUserList.DataSource = Member.CustomGetActiveUsers();
+            activeUserList.DataBind();
         }
     }
 }

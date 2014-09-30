@@ -79,6 +79,31 @@ namespace SE.Classes
             return ds;
         }
 
+        public static DataSet CustomGetActiveUsers()
+        {
+            DataSet activeUsers = new DataSet();
+            DataTable userTable = new DataTable();
+            userTable = activeUsers.Tables.Add("Users");
+
+            MembershipUserCollection activeUserCollection;
+            activeUserCollection = Membership.GetAllUsers();
+
+            userTable.Columns.Add("Username", Type.GetType("System.String"));
+
+            foreach (MembershipUser membership in activeUserCollection)
+            {
+                if (!Roles.IsUserInRole(membership.UserName, "Manager") && (membership.IsOnline))
+                {
+                    DataRow row;
+                    row = userTable.NewRow();
+                    row["Users"] = membership.UserName;
+                    userTable.Rows.Add(row);
+                }
+            }
+            return activeUsers;
+        }
+
+
         /// <summary>Assign user to supervisor
         /// </summary> 
         public static void AssignToUser(string User, string Supervisor)
@@ -235,7 +260,7 @@ namespace SE.Classes
         {
             List<string> UsersAssignedToSupervisor = new List<string>();
 
-            string queryString = 
+            string queryString =
                 "SELECT * FROM MemberAssignments " +
                 "WHERE AssignedSupervisor=@supervisor";
 
@@ -268,7 +293,7 @@ namespace SE.Classes
         {
             List<string> UsersAssignedToCategory = new List<string>();
 
-            string queryString = 
+            string queryString =
                 "SELECT * FROM CategoryAssignments " +
                 "WHERE CategoryID=@categoryid";
 
