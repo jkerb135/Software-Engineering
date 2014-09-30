@@ -87,7 +87,6 @@ namespace SE.Classes
 
             MembershipUserCollection activeUserCollection;
             activeUserCollection = Membership.GetAllUsers();
-            userTable.Columns.Add("Username", Type.GetType("System.String"));
             foreach (MembershipUser membership in activeUserCollection)
             {
                 if (!Roles.IsUserInRole(membership.UserName, "Manager") && (membership.IsOnline))
