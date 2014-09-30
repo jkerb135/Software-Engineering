@@ -40,8 +40,8 @@ namespace SE.Classes
         public void CreateTask()
         {
             string queryString =
-                "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime) " +
-                "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime)";
+                "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
+                "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
           
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -55,6 +55,8 @@ namespace SE.Classes
                 cmd.Parameters.AddWithValue("@tasktime", TaskTime);
                 cmd.Parameters.AddWithValue("@isactive", IsActive);
                 cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
+                cmd.Parameters.AddWithValue("@createdby", 
+                    System.Web.HttpContext.Current.User.Identity.Name);
 
                 con.Open();
 
@@ -155,7 +157,8 @@ namespace SE.Classes
         {
             string queryString =
                 "SELECT * FROM Tasks " +
-                "INNER JOIN Categories ON Tasks.CategoryID=Categories.CategoryID";
+                "INNER JOIN Categories ON Tasks.CategoryID=Categories.CategoryID " +
+                "WHERE Tasks.CreatedBy=@createdby";
 
             DataSet ds = new DataSet();
             DataTable dt = new DataTable();
@@ -169,6 +172,9 @@ namespace SE.Classes
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@createdby", 
+                    System.Web.HttpContext.Current.User.Identity.Name);
 
                 con.Open();
 

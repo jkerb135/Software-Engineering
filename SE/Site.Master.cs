@@ -19,6 +19,11 @@ namespace SE
                 CreateUserMenu.Visible = false;
                 ReportsMenu.Visible = false;
             }
+            else
+            {
+                TaskManageMenu.Visible = false;
+                CategoriesMenu.Visible = false;
+            }
         }
 
         protected void LogoutButton_Click(object sender, EventArgs e)

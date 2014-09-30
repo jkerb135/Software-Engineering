@@ -686,16 +686,8 @@ namespace SE
 
         private void BindUsers(DropDownList drp)
         {
-            if (Roles.IsUserInRole(UserName, "Manager"))
-            {
-                drp.DataSource = Roles.GetUsersInRole("User");
-                drp.DataBind();
-            }
-            else if (Roles.IsUserInRole(UserName, "Supervisor"))
-            {
-                drp.DataSource = Member.UsersAssignedToSupervisor(UserName);
-                drp.DataBind();
-            }
+            drp.DataSource = Member.UsersAssignedToSupervisor(UserName);
+            drp.DataBind();
 
             Methods.AddBlankToDropDownList(drp);
         }

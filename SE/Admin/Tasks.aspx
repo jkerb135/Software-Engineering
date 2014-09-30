@@ -46,7 +46,13 @@
             </div>
             <asp:SqlDataSource ID="CategoryListSource" runat="server" 
                 ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>" 
-                SelectCommand="SELECT * FROM [Categories]"></asp:SqlDataSource>
+                
+                SelectCommand="SELECT * FROM [Categories] WHERE ([CreatedBy] = @CreatedBy)" 
+                ProviderName="System.Data.SqlClient">
+                <SelectParameters>
+                    <asp:SessionParameter Name="CreatedBy" SessionField="UserName" Type="String" />
+                </SelectParameters>
+            </asp:SqlDataSource>
         </asp:View>
 
         <asp:View ID="EditTask" runat="server">

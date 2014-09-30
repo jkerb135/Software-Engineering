@@ -58,6 +58,24 @@ namespace SE {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl CreateUserMenu;
         
         /// <summary>
+        /// TaskManageMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TaskManageMenu;
+        
+        /// <summary>
+        /// CategoriesMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl CategoriesMenu;
+        
+        /// <summary>
         /// ReportsMenu control.
         /// </summary>
         /// <remarks>

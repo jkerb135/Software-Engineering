@@ -35,8 +35,8 @@ namespace SE.Classes
         public void CreateCategory()
         {
             string queryString =
-                "INSERT INTO Categories (CategoryName) " +
-                "VALUES (@categoryname)";
+                "INSERT INTO Categories (CategoryName, CreatedBy) " +
+                "VALUES (@categoryname, @createdby)";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -44,6 +44,8 @@ namespace SE.Classes
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@categoryname", CategoryName);
+                cmd.Parameters.AddWithValue("@createdby", 
+                    System.Web.HttpContext.Current.User.Identity.Name);
 
                 con.Open();
 

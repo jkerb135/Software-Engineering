@@ -19,6 +19,8 @@ namespace SE
             var controlLogin = (Login)sender;
             var User = Membership.GetUser(controlLogin.UserName);
 
+            Session["UserName"] = User.UserName;
+
             if (Roles.IsUserInRole(User.UserName, "Manager") ||
                 Roles.IsUserInRole(User.UserName, "Supervisor"))
             {

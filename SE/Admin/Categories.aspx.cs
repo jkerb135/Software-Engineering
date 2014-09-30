@@ -41,32 +41,16 @@ namespace SE
             else
             {
                 string UserName = System.Web.HttpContext.Current.User.Identity.Name;
-                
-                if(Roles.IsUserInRole(UserName, "Manager"))
+
+                List<string> UsersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(UserName, Convert.ToInt32(CategoryList.SelectedValue));
+
+                AllUsers.DataSource = Member.UsersAssignedToSupervisor(UserName);
+                AllUsers.DataBind();
+
+                if (UsersAssignedToSupervisorAssignedToCategory.Count > 0)
                 {
-                    List<string> UsersAssignedToCategory = Member.UsersAssignedToCategory(Convert.ToInt32(CategoryList.SelectedValue));
-
-                    AllUsers.DataSource = Roles.GetUsersInRole("User");
-                    AllUsers.DataBind();
-
-                    if (UsersAssignedToCategory.Count > 0)
-                    {
-                        UsersInCategory.DataSource = UsersAssignedToCategory;
-                        UsersInCategory.DataBind();
-                    }
-                }
-                else if(Roles.IsUserInRole(UserName, "Supervisor"))
-                {
-                    List<string> UsersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(UserName, Convert.ToInt32(CategoryList.SelectedValue));
-
-                    AllUsers.DataSource = Member.UsersAssignedToSupervisor(UserName);
-                    AllUsers.DataBind();
-
-                    if (UsersAssignedToSupervisorAssignedToCategory.Count > 0)
-                    {
-                        UsersInCategory.DataSource = UsersAssignedToSupervisorAssignedToCategory;
-                        UsersInCategory.DataBind();
-                    }
+                    UsersInCategory.DataSource = UsersAssignedToSupervisorAssignedToCategory;
+                    UsersInCategory.DataBind();
                 }
 
                 Cat = (Category)ViewState["Category"];
