@@ -1,4 +1,4 @@
-﻿using SE.Classes;
+using SE.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ namespace SE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            getActiveUsers();
         }
         protected void getActiveUsers()
         {
