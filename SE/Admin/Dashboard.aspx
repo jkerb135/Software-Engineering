@@ -8,6 +8,15 @@
         </div>
         <!-- /.col-lg-12 -->
     </div>
+    <div class="row">
+        <div class="panel-heading">
+            <i class="fa fa-bar-user fa-fw"></i> Active Users
+            <div class="table-responsive">
+                <asp:DataGrid ID="activeUserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True">
+                </asp:DataGrid>
+            </div>
+        </div>
+    </div>
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-3 col-md-6">
