@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -87,19 +87,21 @@ namespace SE.Classes
 
             MembershipUserCollection activeUserCollection;
             activeUserCollection = Membership.GetAllUsers();
-
             userTable.Columns.Add("Username", Type.GetType("System.String"));
-
             foreach (MembershipUser membership in activeUserCollection)
             {
                 if (!Roles.IsUserInRole(membership.UserName, "Manager") && (membership.IsOnline))
                 {
                     DataRow row;
                     row = userTable.NewRow();
-                    row["Users"] = membership.UserName;
+                    row["Users"] = "<a href='?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
                     userTable.Rows.Add(row);
                 }
             }
+                DataRow newRow;
+                newRow = userTable.NewRow();
+                newRow["Username"] = "There are currently no users logged in";
+                userTable.Rows.Add(newRow);
             return activeUsers;
         }
 
