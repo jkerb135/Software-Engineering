@@ -93,7 +93,7 @@ namespace SE.Classes
                 {
                     DataRow row;
                     row = userTable.NewRow();
-                    row["Username"] = "<a href='http://ipawsteamb.csweb.kutztown.edu/Admin/Users.aspx?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    row["Username"] = membership.UserName;
                     userTable.Rows.Add(row);
                 }
             }
@@ -122,7 +122,7 @@ namespace SE.Classes
                 {
                     DataRow row;
                     row = users.NewRow();
-                    row["Username"] = "<a href='http://ipawsteamb.csweb.kutztown.edu/Admin/Users.aspx?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    row["Username"] = membership.UserName;
                     users.Rows.Add(row);
                 }
             }
