@@ -217,6 +217,12 @@ namespace SE
             UserList.DataSource = Member.CustomGetAllUsers();
             UserList.DataBind();
         }
+
+        protected void Sorting(object source, DataGridSortCommandEventArgs e)
+        {
+
+        }
+
     }
 }
 

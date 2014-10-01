@@ -137,7 +137,7 @@
                                 <asp:Label ID="SuccessMessage" runat="server"></asp:Label>
                             </div>
                             <div class="table-responsive">
-                                <asp:DataGrid ID="UserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" OnPageIndexChanged="UserList_Change">
+                                <asp:DataGrid ID="UserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" OnPageIndexChanged="UserList_Change" AllowSorting="true" OnSelectedIndexChanged="UserList_SelectedIndexChanged" OnSortCommand="Sorting">
                                 </asp:DataGrid>
                             </div>
                         </ContentTemplate>
