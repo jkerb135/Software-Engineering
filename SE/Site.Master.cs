@@ -13,7 +13,7 @@ namespace SE
         protected void Page_Load(object sender, EventArgs e)
         {
             string UserName = System.Web.HttpContext.Current.User.Identity.Name;
-
+            username.Text = " " + Membership.GetUser().UserName.ToUpper() + " ";
             if (!Roles.IsUserInRole(UserName, "Manager"))
             {
                 CreateUserMenu.Visible = false;

@@ -13,13 +13,13 @@ namespace SE {
     public partial class Dashboard {
         
         /// <summary>
-        /// UsersMultiView control.
+        /// DashboardView control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView UsersMultiView;
+        protected global::System.Web.UI.WebControls.MultiView DashboardView;
         
         /// <summary>
         /// Manager control.
@@ -29,6 +29,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View Manager;
+        
+        /// <summary>
+        /// Supervisor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View Supervisor;
         
         /// <summary>
         /// activeUserList control.

@@ -12,6 +12,11 @@ namespace SE
     public partial class Dashboard : System.Web.UI.Page
     {
         private String SelectedUserName = String.Empty;
+        private enum DashView
+        {
+            Manager = 0,
+            Supervisor = 1,
+        }
         protected void Page_Init(object sender, EventArgs e)
         {
             // Selected user (used on edit user page)
@@ -19,12 +24,17 @@ namespace SE
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack && Roles.IsUserInRole(SelectedUserName, "Supervisor"))
-            {
-                getActiveUsers();
-                getRecentUsers();
+            if (!IsPostBack){
+                if (Roles.IsUserInRole(SelectedUserName, "Supervisor"))
+                {
+                    DashboardView.ActiveViewIndex = (int)DashView.Supervisor;
+                    getActiveUsers();
+                    getRecentUsers();
+                }
+                else if (Roles.IsUserInRole(SelectedUserName, "Manager")){
+                    DashboardView.ActiveViewIndex = (int)DashView.Manager;
+                }
             }
-            
         }
         protected void getActiveUsers()
         {
