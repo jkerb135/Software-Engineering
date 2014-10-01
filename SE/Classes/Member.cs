@@ -118,7 +118,7 @@ namespace SE.Classes
             DateTime aWeekAgo = DateTime.Now.AddDays(-7);
             foreach (MembershipUser membership in recentUser)
             {
-                if (!Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo))
+                if (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo))
                 {
                     DataRow row;
                     row = users.NewRow();
