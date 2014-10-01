@@ -93,14 +93,18 @@ namespace SE.Classes
                 {
                     DataRow row;
                     row = userTable.NewRow();
-                    row["Username"] = "<a href='?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    row["Username"] = "<a href='http://ipawsteamb.csweb.kutztown.edu/Admin/Users.aspx?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
                     userTable.Rows.Add(row);
                 }
             }
+            if (activeUserCollection.Count == 0)
+            {
                 DataRow newRow;
                 newRow = userTable.NewRow();
                 newRow["Username"] = "There are currently no users logged in";
                 userTable.Rows.Add(newRow);
+            }
+                
             return activeUsers;
         }
 
@@ -114,18 +118,22 @@ namespace SE.Classes
             DateTime aWeekAgo = DateTime.Now.AddDays(-7);
             foreach (MembershipUser membership in recentUser)
             {
-                if (!Roles.IsUserInRole(membership.UserName, "Manager") && (membership.CreationDate >= aWeekAgo))
+                if (!Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo))
                 {
                     DataRow row;
                     row = users.NewRow();
-                    row["Username"] = "<a href='?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    row["Username"] = "<a href='http://ipawsteamb.csweb.kutztown.edu/Admin/Users.aspx?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
                     users.Rows.Add(row);
                 }
             }
+            if (recentUser.Count == 0)
+            {
                 DataRow newRow;
                 newRow = users.NewRow();
                 newRow["Username"] = aWeekAgo.ToShortDateString();
                 users.Rows.Add(newRow);
+            }
+                
             return recentUsers;
         }
 

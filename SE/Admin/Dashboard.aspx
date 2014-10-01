@@ -9,6 +9,8 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
+    <asp:MultiView ID="UsersMultiView" ActiveViewIndex="0" runat="server">
+        <asp:View ID="Manager" runat="server">
      <div class="row">
          <div class="col-lg-4">
         <div class="panel panel-primary">
@@ -33,4 +35,6 @@
             </div>
         </div>
     </div>
+            </asp:View>
+    </asp:MultiView>
 </asp:Content>

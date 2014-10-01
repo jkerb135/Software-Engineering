@@ -218,11 +218,6 @@ namespace SE
             UserList.DataBind();
         }
 
-        protected void Sorting(object source, DataGridSortCommandEventArgs e)
-        {
-
-        }
-
     }
 }
 
