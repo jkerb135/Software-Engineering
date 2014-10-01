@@ -89,7 +89,7 @@ namespace SE.Classes
             activeUserCollection = Membership.GetAllUsers();
             foreach (MembershipUser membership in activeUserCollection)
             {
-                if (Roles.IsUserInRole(membership.UserName, "User")// && (membership.IsOnline))
+                if (Roles.IsUserInRole(membership.UserName, "User"))// && (membership.IsOnline))
                 {
                     DataRow row;
                     row = userTable.NewRow();
