@@ -14,24 +14,19 @@ namespace SE
         private String SelectedUserName = String.Empty;
         private enum DashView
         {
-            Manager = 0,
-            Supervisor = 1,
-        }
-        protected void Page_Init(object sender, EventArgs e)
-        {
-            // Selected user (used on edit user page)
-            SelectedUserName = (Request.QueryString["username"] != null) ? Request.QueryString["username"] : "";
+            Supervisor = 1, Manager = 0
         }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack){
-                if (Roles.IsUserInRole(SelectedUserName, "Supervisor"))
+                if (Roles.IsUserInRole(Membership.GetUser().UserName, "Supervisor"))
                 {
                     DashboardView.ActiveViewIndex = (int)DashView.Supervisor;
                     getActiveUsers();
                     getRecentUsers();
                 }
-                else if (Roles.IsUserInRole(SelectedUserName, "Manager")){
+                else if (Roles.IsUserInRole(Membership.GetUser().UserName, "Manager"))
+                {
                     DashboardView.ActiveViewIndex = (int)DashView.Manager;
                 }
             }
