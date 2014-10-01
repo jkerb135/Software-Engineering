@@ -12,12 +12,22 @@ namespace SE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            getActiveUsers();
+            if (!IsPostBack)
+            {
+                getActiveUsers();
+                getRecentUsers();
+            }
+            
         }
         protected void getActiveUsers()
         {
             activeUserList.DataSource = Member.CustomGetActiveUsers();
             activeUserList.DataBind();
+        }
+        protected void getRecentUsers()
+        {
+            newMembers.DataSource = Member.CustomRecentlyAssigned();
+            newMembers.DataBind();
         }
     }
 }

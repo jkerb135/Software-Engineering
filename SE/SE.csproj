@@ -108,9 +108,9 @@
     <None Include="Fonts\glyphicons-halflings-regular.eot" />
     <None Include="Fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Web.config">
+    <None Include="Web.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -119,6 +119,7 @@
     </Content>
     <Content Include="Admin\Dashboard.aspx" />
     <Content Include="Members\web.config" />
+    <None Include="Properties\PublishProfiles\iPaws.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\Categories.aspx.cs">

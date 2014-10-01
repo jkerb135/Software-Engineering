@@ -84,7 +84,7 @@ namespace SE.Classes
             DataSet activeUsers = new DataSet();
             DataTable userTable = new DataTable();
             userTable = activeUsers.Tables.Add("Users");
-
+            userTable.Columns.Add("Username", Type.GetType("System.String"));
             MembershipUserCollection activeUserCollection;
             activeUserCollection = Membership.GetAllUsers();
             foreach (MembershipUser membership in activeUserCollection)
@@ -93,7 +93,7 @@ namespace SE.Classes
                 {
                     DataRow row;
                     row = userTable.NewRow();
-                    row["Users"] = "<a href='?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    row["Username"] = "<a href='?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
                     userTable.Rows.Add(row);
                 }
             }
@@ -104,6 +104,30 @@ namespace SE.Classes
             return activeUsers;
         }
 
+        public static DataSet CustomRecentlyAssigned()
+        {
+            DataSet recentUsers = new DataSet();
+            DataTable users = new DataTable();
+            users = recentUsers.Tables.Add("Users");
+            users.Columns.Add("Username", Type.GetType("System.String"));
+            MembershipUserCollection recentUser = Membership.GetAllUsers();
+            DateTime aWeekAgo = DateTime.Now.AddDays(-7);
+            foreach (MembershipUser membership in recentUser)
+            {
+                if (!Roles.IsUserInRole(membership.UserName, "Manager") && (membership.CreationDate >= aWeekAgo))
+                {
+                    DataRow row;
+                    row = users.NewRow();
+                    row["Username"] = "<a href='?userpage=edituser&username=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    users.Rows.Add(row);
+                }
+            }
+                DataRow newRow;
+                newRow = users.NewRow();
+                newRow["Username"] = aWeekAgo.ToShortDateString();
+                users.Rows.Add(newRow);
+            return recentUsers;
+        }
 
         /// <summary>Assign user to supervisor
         /// </summary> 
