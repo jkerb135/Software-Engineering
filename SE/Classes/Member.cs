@@ -89,7 +89,7 @@ namespace SE.Classes
             activeUserCollection = Membership.GetAllUsers();
             foreach (MembershipUser membership in activeUserCollection)
             {
-                if (Roles.IsUserInRole(membership.UserName, "User") && UserAssignedTo(membership.UserName) == Membership.GetUser().UserName)// && (membership.IsOnline))
+                if (Roles.IsUserInRole(membership.UserName, "User") && (UserAssignedTo(membership.UserName).ToLower() == Membership.GetUser().UserName.ToLower()) && (membership.IsOnline))
                 {
                     DataRow row;
                     row = userTable.NewRow();
@@ -97,7 +97,7 @@ namespace SE.Classes
                     userTable.Rows.Add(row);
                 }
             }
-            if (activeUserCollection.Count == 0)
+            if (userTable.Rows.Count == 0)
             {
                 DataRow newRow;
                 newRow = userTable.NewRow();
@@ -118,7 +118,7 @@ namespace SE.Classes
             DateTime aWeekAgo = DateTime.Now.AddDays(-7);
             foreach (MembershipUser membership in recentUser)
             {
-                if (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo) && UserAssignedTo(membership.UserName) == Membership.GetUser().UserName)
+                if (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo) && UserAssignedTo(membership.UserName).ToLower() == Membership.GetUser().UserName.ToLower())
                 {
                     DataRow row;
                     row = users.NewRow();
@@ -126,11 +126,11 @@ namespace SE.Classes
                     users.Rows.Add(row);
                 }
             }
-            if (recentUser.Count == 0)
+            if (users.Rows.Count == 0)
             {
                 DataRow newRow;
                 newRow = users.NewRow();
-                newRow["Username"] = aWeekAgo.ToShortDateString();
+                newRow["Username"] = "No new users assigned";
                 users.Rows.Add(newRow);
             }
                 

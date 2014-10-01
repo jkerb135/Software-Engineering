@@ -5,6 +5,7 @@
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">
     <!-- /.row -->
     <asp:Label ID="label" runat="server" Text=""></asp:Label>
+    <asp:Label ID="label2" runat="server" Text=""></asp:Label>
     <asp:MultiView ID="DashboardView" ActiveViewIndex="0" runat="server">
         <asp:View ID="Manager" runat="server">
             <div class="row">
