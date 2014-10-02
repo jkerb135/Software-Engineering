@@ -191,23 +191,11 @@ namespace SE.Classes
         public static void RemoveAssignedUser(string User)
         {
             string queryString =
-                "DELETE FROM CategoryAssignments " +
-                "WHERE AssignedUser=@user";
-
-            string queryString2 =
                 "UPDATE Tasks " +
                 "SET AssignedUser=NULL " +
                 "WHERE AssignedUser=@user";
 
-            string queryString3 =
-                "DELETE FROM CompletedMainSteps " +
-                "WHERE AssignedUser=@user";
-
-            string queryString4 =
-                "DELETE FROM CompletedTasks " +
-                "WHERE AssignedUser=@user";
-
-            string queryString5 =
+            string queryString2 =
                 "DELETE FROM MemberAssignments " +
                 "WHERE AssignedUser=@user";
 
@@ -216,23 +204,37 @@ namespace SE.Classes
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
                 SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
-                SqlCommand cmd4 = new SqlCommand(queryString4, con);
-                SqlCommand cmd5 = new SqlCommand(queryString5, con);
 
                 cmd.Parameters.AddWithValue("@user", User);
                 cmd2.Parameters.AddWithValue("@user", User);
-                cmd3.Parameters.AddWithValue("@user", User);
-                cmd4.Parameters.AddWithValue("@user", User);
-                cmd5.Parameters.AddWithValue("@user", User);
 
                 con.Open();
 
                 cmd.ExecuteNonQuery();
                 cmd2.ExecuteNonQuery();
-                cmd3.ExecuteNonQuery();
-                cmd4.ExecuteNonQuery();
-                cmd5.ExecuteNonQuery();
+
+                con.Close();
+            }
+        }
+
+        /// <summary>Remove Supervisor
+        /// </summary> 
+        public static void RemoveSupervisor(string Supervisor)
+        {
+            string queryString =
+                "DELETE FROM Categories " +
+                "WHERE CreatedBy=@createdby";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@createdby", Supervisor);
+
+                con.Open();
+
+                cmd.ExecuteNonQuery();
 
                 con.Close();
             }

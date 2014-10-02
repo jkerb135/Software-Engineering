@@ -173,14 +173,6 @@ namespace SE.Classes
         public void DeleteMainStep()
         {
             string queryString =
-                "DELETE FROM DetailedSteps " +
-                "WHERE MainStepID=@mainstepid";
-
-            string queryString2 =
-                "DELETE FROM CompletedMainSteps " +
-                "WHERE MainStepID=@mainstepid";
-
-            string queryString3 =
                 "DELETE FROM MainSteps " +
                 "WHERE MainStepID=@mainstepid";
 
@@ -188,18 +180,12 @@ namespace SE.Classes
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
 
                 cmd.Parameters.AddWithValue("@mainstepid", MainStepID);
-                cmd2.Parameters.AddWithValue("@mainstepid", MainStepID);
-                cmd3.Parameters.AddWithValue("@mainstepid", MainStepID);
 
                 con.Open();
 
                 cmd.ExecuteNonQuery();
-                cmd2.ExecuteNonQuery();
-                cmd3.ExecuteNonQuery();
 
                 con.Close();
             }

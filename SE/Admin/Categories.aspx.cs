@@ -140,16 +140,9 @@ namespace SE
         {
             Cat = (Category)ViewState["Category"];
 
-            if (!Cat.CategoryIsAssigned())
-            {
-                Cat.DeleteCategory();
-                BindCategories();
-                SuccessMessage.Text = "Category successfully deleted.";
-            }
-            else
-            {
-                ErrorMessage.Text = "Category has assigned users or tasks please reassign before deleting.";
-            }
+            Cat.DeleteCategory();
+            BindCategories();
+            SuccessMessage.Text = "Category successfully deleted.";
         }
 
         private void BindCategories()

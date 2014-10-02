@@ -181,6 +181,10 @@ namespace SE
                     EditErrorMessage.Text = "This account has users assigned to it. " +
                         "Please reassign them to another supervisor before deleting";
                 }
+                else
+                {
+                    Member.RemoveSupervisor(SelectedUserName);
+                }
             }
 
             if (!Error)
