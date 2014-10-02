@@ -36,7 +36,7 @@
     <asp:ContentPlaceHolder ID="SiteHead" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
-    <form id="masterForm" runat="server">
+    <form id="masterForm" enctype="multipart/form-data" runat="server">
         <asp:ScriptManager ID="ScriptManage" runat="server">
         </asp:ScriptManager>
         <div id="wrapper">

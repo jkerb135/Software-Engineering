@@ -193,6 +193,22 @@ namespace SE
             IMainStep.MainStepText = 
                 !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
 
+            if (MainStepAudio.HasFile)
+            {
+                Methods.UploadFile(MainStepAudio);
+
+                IMainStep.AudioFilename = MainStepAudio.FileName;
+                IMainStep.AudioPath = "~/Uploads/" + MainStepAudio.FileName;
+            }
+
+            if (MainStepVideo.HasFile)
+            {
+                Methods.UploadFile(MainStepVideo);
+
+                IMainStep.VideoFilename = MainStepVideo.FileName;
+                IMainStep.VideoPath = "~/Uploads/" + MainStepVideo.FileName;
+            }
+
             IMainStep.CreateMainStep();
 
             MainStepName.Text = "";
@@ -388,6 +404,22 @@ namespace SE
                 IMainStep.MainStepText = 
                     !String.IsNullOrEmpty(EditMainStepText.Text) ? EditMainStepText.Text : null;
 
+                if (EditMainStepAudio.HasFile)
+                {
+                    Methods.UploadFile(EditMainStepAudio);
+
+                    IMainStep.AudioFilename = EditMainStepAudio.FileName;
+                    IMainStep.AudioPath = "~/Uploads/" + EditMainStepAudio.FileName;
+                }
+
+                if (EditMainStepVideo.HasFile)
+                {
+                    Methods.UploadFile(EditMainStepVideo);
+
+                    IMainStep.VideoFilename = EditMainStepVideo.FileName;
+                    IMainStep.VideoPath = "~/Uploads/" + EditMainStepVideo.FileName;
+                }
+
                 IMainStep.UpdateMainStep();
 
                 EditMainStepName.Text = "";
@@ -456,6 +488,14 @@ namespace SE
 
             IDetailedStep.DetailedStepText = 
                 !String.IsNullOrEmpty(DetailedStepText.Text) ? DetailedStepText.Text : null;
+
+            if (DetailedStepImage.HasFile)
+            {
+                Methods.UploadFile(DetailedStepImage);
+
+                IDetailedStep.ImageFilename = DetailedStepImage.FileName;
+                IDetailedStep.ImagePath = "~/Uploads/" + DetailedStepImage.FileName;
+            }
 
             IDetailedStep.CreateDetailedStep();
 
@@ -651,6 +691,14 @@ namespace SE
                     !String.IsNullOrEmpty(EditDetailedStepName.Text) ? EditDetailedStepName.Text : null;
                 IDetailedStep.DetailedStepText = 
                     !String.IsNullOrEmpty(EditDetailedStepText.Text) ? EditDetailedStepText.Text : null;
+
+                if (EditDetailedStepImage.HasFile)
+                {
+                    Methods.UploadFile(EditDetailedStepImage);
+
+                    IDetailedStep.ImageFilename = EditDetailedStepImage.FileName;
+                    IDetailedStep.ImagePath = "~/Uploads/" + EditDetailedStepImage.FileName;
+                }
 
                 IDetailedStep.UpdateDetailedStep();
 

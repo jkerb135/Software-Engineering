@@ -64,6 +64,12 @@
             <div class="row">
                 <div class="col-md-6 col-xs-12">
                     <asp:UpdatePanel ID="EditTaskContainer" runat="server">
+                        <Triggers>
+                            <asp:PostBackTrigger ControlID="MainStepButton" />
+                            <asp:PostBackTrigger ControlID="EditMainStepButton" />
+                            <asp:PostBackTrigger ControlID="DetailedStepButton" />
+                            <asp:PostBackTrigger ControlID="EditDetailedStepButton" />
+                        </Triggers>
                         <ContentTemplate>
                             <div class="success-messages form-group">
                                 <asp:Label ID="EditSuccessMessage" runat="server"></asp:Label>

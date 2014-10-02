@@ -22,5 +22,23 @@ namespace SE.Classes
             drp.Items.Insert(0, new ListItem(String.Empty, String.Empty));
             drp.SelectedIndex = 0;
         }
+
+        public static string UploadFile(FileUpload File)
+        {
+            String path = System.Web.HttpContext.Current.Server.MapPath("~/Uploads/");
+            string Message = "";
+
+            try
+            {
+                File.PostedFile.SaveAs(path
+                    + File.FileName);
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+
+            return Message;
+        }
     }
 }
