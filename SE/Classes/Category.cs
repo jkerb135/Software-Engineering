@@ -177,6 +177,38 @@ namespace SE.Classes
             
             return AssignedCategories;
         }
+        public static List<Category> GetSupervisorCategories(string Username)
+        {
+            List<Category> AssignedCategories = new List<Category>();
+
+            string queryString =
+                "SELECT * FROM Categories " +
+                "WHERE CreatedBy=@assignedSupervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Category cat = new Category();
+                    cat.CategoryID = Convert.ToInt32(dr["CategoryID"]);
+                    cat.CategoryName = dr["CategoryName"].ToString();
+                    AssignedCategories.Add(cat);
+                }
+
+                con.Close();
+            }
+
+            return AssignedCategories;
+        }
 
         public bool CategoryIsAssigned()
         {

@@ -46,6 +46,17 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <i class="fa fa-users fa-fw"></i>Active Supervisors
+                        </div>
+                        <div class="panel-body">
+                            <asp:DataGrid ID="signededIn" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False">
+                            </asp:DataGrid>
+                        </div>
+                    </div>
+                </div>
             </div>
         </asp:View>
     </asp:MultiView>

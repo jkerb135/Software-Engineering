@@ -6,13 +6,15 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SE.Classes;
 using System.Web.Security;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace SE
 {
     public partial class Categories : System.Web.UI.Page
     {
         Category Cat = new Category();
-
+        DataTable CategoriesTable = new DataTable();
         protected void Page_Init(object sender, EventArgs e)
         {
             ViewState.Add("Category", Cat);
@@ -23,6 +25,8 @@ namespace SE
             if (!IsPostBack)
             {
                 BindCategories();
+                GenerateList();
+                AddNewCategoryPanel.Visible = false;
             }
             else
             {
@@ -35,7 +39,7 @@ namespace SE
         {
             if (CategoryList.SelectedValue == "")
             {
-                AddNewCategoryPanel.Visible = true;
+                AddNewCategoryPanel.Visible = false;
                 EditCategoryPanel.Visible = false;
             }
             else
@@ -150,6 +154,141 @@ namespace SE
             CategoryList.DataSource = CategoryListSource;
             CategoryList.DataBind();
             Methods.AddBlankToDropDownList(CategoryList);
+        }
+        private void GenerateList()
+        {
+            CategoriesTable.Columns.Add("Name", Type.GetType("System.String"));
+            foreach (Category cat in Category.GetSupervisorCategories(Membership.GetUser().UserName.ToLower()))
+            {
+                DataRow row;
+                row = CategoriesTable.NewRow();
+                row["Name"] = cat.CategoryName;
+                CategoriesTable.Rows.Add(row);
+            }
+            catList.DataTextField = "Name";
+            catList.DataSource = CategoriesTable;
+            catList.DataBind();
+            if (catList.Items.Count == 0)
+            {
+                catList.Items.Add("No Categories");
+                catList.Attributes.Add("disabled", "true");
+                taskList.Attributes.Add("disabled", "true");
+                mainStep.Attributes.Add("disabled", "true");
+                detailedStep.Attributes.Add("disabled", "true");
+            }
+            Button1.Text = "Create Category";
+        }
+
+        protected void QueryTasks(object sender, EventArgs e)
+        {
+            Button1.Text = "Create Task";
+            taskList.Attributes.Remove("disabled");
+            mainStep.Attributes.Remove("disabled");
+            detailedStep.Attributes.Remove("disabled");
+            string queryString = "SELECT CategoryID FROM Categories WHERE CategoryName ='" + catList.SelectedItem.Text + "'";
+            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    queryString = "SELECT TaskName FROM Tasks WHERE CategoryID ='" + Convert.ToString(dr["CategoryID"]) + "'";
+                }
+                con.Close();
+                cmd = new SqlCommand(queryString, con);
+                con.Open();
+                dr = cmd.ExecuteReader();
+                taskList.Items.Clear();
+                mainStep.Items.Clear();
+                detailedStep.Items.Clear();
+                while (dr.Read())
+                {
+                    taskList.Items.Add(Convert.ToString(dr["TaskName"]));
+                }
+                if (taskList.Items.Count == 0)
+                {
+                    taskList.Items.Add("No Tasks");
+                    taskList.Attributes.Add("disabled", "true");
+                    mainStep.Attributes.Add("disabled", "true");
+                    detailedStep.Attributes.Add("disabled", "true");
+                }
+            }
+        }
+        protected void QueryMainStep(object sender, EventArgs e)
+        {
+            Button1.Text = "Create Main Step";
+            mainStep.Attributes.Remove("disabled");
+            detailedStep.Attributes.Remove("disabled");
+            string queryString = "SELECT TaskID FROM Tasks WHERE TaskName ='" + taskList.SelectedItem.Text + "'";
+            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    queryString = "SELECT MainStepName FROM MainSteps WHERE TaskID ='" + Convert.ToString(dr["TaskID"]) + "'";
+                }
+                con.Close();
+                cmd = new SqlCommand(queryString, con);
+                con.Open();
+                dr = cmd.ExecuteReader();
+                mainStep.Items.Clear();
+                detailedStep.Items.Clear();
+                while (dr.Read())
+                {
+                    mainStep.Items.Add(Convert.ToString(dr["MainStepName"]));
+                }
+                if (mainStep.Items.Count == 0)
+                {
+                    mainStep.Items.Add("No Main Steps");
+                    mainStep.Attributes.Add("disabled", "true");
+                    detailedStep.Attributes.Add("disabled", "true");
+                }
+            }
+        }
+        protected void QueryDetailedStep(object sender, EventArgs e)
+        {
+            Button1.Text = "Create Detailed Step";
+            detailedStep.Attributes.Remove("disabled");
+            string queryString = "SELECT MainStepID FROM MainSteps WHERE MainStepName ='" + mainStep.SelectedItem.Text + "'";
+            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    queryString = "SELECT DetailedStepName FROM DetailedSteps WHERE MainStepID ='" + Convert.ToString(dr["MainStepID"]) + "'";
+                }
+                con.Close();
+                cmd = new SqlCommand(queryString, con);
+                con.Open();
+                dr = cmd.ExecuteReader();
+                detailedStep.Items.Clear();
+                while (dr.Read())
+                {
+                    detailedStep.Items.Add(Convert.ToString(dr["DetailedStepName"]));
+                }
+                if (detailedStep.Items.Count == 0)
+                {
+                    detailedStep.Items.Add("No Detailed Steps");
+                    detailedStep.Attributes.Add("disabled", "true");
+                }
+            }
+        }
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Button1.Text = "Clicked";
+            ListBoxPanel.Visible = true;
+        }
+        protected void catFilter_TextChanged(object sender, EventArgs e)
+        {
+            DataView Dv = CategoriesTable.DefaultView;
+            Dv.RowFilter = "Name like '" + catFilter.Text + "%'";
+            catList.DataSource = Dv;
+            catList.DataBind();
         }
     }
 }

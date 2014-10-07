@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SE</RootNamespace>
     <AssemblyName>SE</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -23,6 +23,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,35 +43,93 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Categories.aspx" />
     <Content Include="Admin\Reports.aspx" />
     <Content Include="Admin\Tasks.aspx" />
     <Content Include="Admin\Users.aspx" />
+    <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
     <Content Include="FontAwesome\css\font-awesome.css" />
     <Content Include="FontAwesome\css\font-awesome.min.css" />
     <Content Include="FontAwesome\css\fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\accent.png" />
+    <Content Include="Images\bullet.png" />
+    <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\orderedList0.png" />
+    <Content Include="Images\orderedList1.png" />
+    <Content Include="Images\orderedList2.png" />
+    <Content Include="Images\orderedList3.png" />
+    <Content Include="Images\orderedList4.png" />
+    <Content Include="Images\orderedList5.png" />
+    <Content Include="Images\orderedList6.png" />
+    <Content Include="Images\orderedList7.png" />
+    <Content Include="Images\orderedList8.png" />
+    <Content Include="Images\orderedList9.png" />
     <Content Include="Login.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -105,9 +166,13 @@
     <Content Include="FontAwesome\css\fonts\fontawesome-webfont.ttf" />
     <Content Include="FontAwesome\css\fonts\fontawesome-webfont.woff" />
     <Content Include="FontAwesome\css\fonts\FontAwesome.otf" />
+    <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Context.tt" />
+    <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Entity.tt" />
+    <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Mapping.tt" />
     <None Include="Fonts\glyphicons-halflings-regular.eot" />
     <None Include="Fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="packages.config" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -136,6 +201,7 @@
     <Compile Include="Admin\Reports.aspx.designer.cs">
       <DependentUpon>Reports.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\RouteEventArgs.cs" />
     <Compile Include="Admin\Tasks.aspx.cs">
       <DependentUpon>Tasks.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -150,6 +216,10 @@
     <Compile Include="Admin\Users.aspx.designer.cs">
       <DependentUpon>Users.aspx</DependentUpon>
     </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Classes\Category.cs" />
     <Compile Include="Classes\Methods.cs" />
     <Compile Include="Classes\DetailedStep.cs" />
@@ -157,12 +227,22 @@
     <Compile Include="Classes\Report.cs" />
     <Compile Include="Classes\Task.cs" />
     <Compile Include="Classes\Member.cs" />
+    <Compile Include="Controllers\CategoryController.cs" />
+    <Compile Include="Controllers\CompletedMainStepController.cs" />
+    <Compile Include="Controllers\CompletedTaskController.cs" />
+    <Compile Include="Controllers\DetailedStepController.cs" />
+    <Compile Include="Controllers\MainStepController.cs" />
+    <Compile Include="Controllers\MemberAssignmentController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>
@@ -171,6 +251,59 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\aspnet_Applications.cs" />
+    <Compile Include="Models\aspnet_Membership.cs" />
+    <Compile Include="Models\aspnet_Paths.cs" />
+    <Compile Include="Models\aspnet_PersonalizationAllUsers.cs" />
+    <Compile Include="Models\aspnet_PersonalizationPerUser.cs" />
+    <Compile Include="Models\aspnet_Profile.cs" />
+    <Compile Include="Models\aspnet_Roles.cs" />
+    <Compile Include="Models\aspnet_SchemaVersions.cs" />
+    <Compile Include="Models\aspnet_Users.cs" />
+    <Compile Include="Models\aspnet_WebEvent_Events.cs" />
+    <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CompletedMainStep.cs" />
+    <Compile Include="Models\CompletedTask.cs" />
+    <Compile Include="Models\DetailedStep.cs" />
+    <Compile Include="Models\dpt_seContext.cs" />
+    <Compile Include="Models\MainStep.cs" />
+    <Compile Include="Models\Mapping\aspnet_ApplicationsMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_MembershipMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_PathsMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_PersonalizationAllUsersMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_PersonalizationPerUserMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_ProfileMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_RolesMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_SchemaVersionsMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_UsersMap.cs" />
+    <Compile Include="Models\Mapping\aspnet_WebEvent_EventsMap.cs" />
+    <Compile Include="Models\Mapping\CategoryMap.cs" />
+    <Compile Include="Models\Mapping\CompletedMainStepMap.cs" />
+    <Compile Include="Models\Mapping\CompletedTaskMap.cs" />
+    <Compile Include="Models\Mapping\DetailedStepMap.cs" />
+    <Compile Include="Models\Mapping\MainStepMap.cs" />
+    <Compile Include="Models\Mapping\MemberAssignmentMap.cs" />
+    <Compile Include="Models\Mapping\TaskMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_ApplicationsMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_MembershipUsersMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_ProfilesMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_RolesMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_UsersInRolesMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_UsersMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_WebPartState_PathsMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_WebPartState_SharedMap.cs" />
+    <Compile Include="Models\Mapping\vw_aspnet_WebPartState_UserMap.cs" />
+    <Compile Include="Models\MemberAssignment.cs" />
+    <Compile Include="Models\Task.cs" />
+    <Compile Include="Models\vw_aspnet_Applications.cs" />
+    <Compile Include="Models\vw_aspnet_MembershipUsers.cs" />
+    <Compile Include="Models\vw_aspnet_Profiles.cs" />
+    <Compile Include="Models\vw_aspnet_Roles.cs" />
+    <Compile Include="Models\vw_aspnet_Users.cs" />
+    <Compile Include="Models\vw_aspnet_UsersInRoles.cs" />
+    <Compile Include="Models\vw_aspnet_WebPartState_Paths.cs" />
+    <Compile Include="Models\vw_aspnet_WebPartState_Shared.cs" />
+    <Compile Include="Models\vw_aspnet_WebPartState_User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

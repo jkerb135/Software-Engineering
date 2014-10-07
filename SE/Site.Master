@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="SE.Site" %>
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -12,7 +13,7 @@
     <title>iPAWS Web App</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="<%=ResolveUrl("~/StyleSheets/bootstrap.min.css") %>" rel="stylesheet">
+    <link href="<%=ResolveUrl("~/StyleSheets/bootstrap.css") %>" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
     <link href="<%=ResolveUrl("~/StyleSheets/plugins/metisMenu/metisMenu.min.css") %>" rel="stylesheet">
@@ -49,14 +50,20 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.html">iPAWS v1.0</a>
+                    <ul class="ripple">
+                        <li>i</li>
+                        <li>P</li>
+                        <li>A</li>
+                        <li>W</li>
+                        <li>S</li>
+                    </ul>
                 </div>
                 <!-- /.navbar-header -->
 
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-envelope fa-fw"></i><i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-messages">
                             <li>
@@ -107,7 +114,7 @@
                     <!-- /.dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-tasks fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-tasks fa-fw"></i><i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-tasks">
                             <li>
@@ -186,13 +193,13 @@
                     <!-- /.dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                            <i class="fa fa-bell fa-fw"></i><i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-alerts">
                             <li>
                                 <a href="#">
                                     <div>
-                                        <i class="fa fa-comment fa-fw"></i> New Comment
+                                        <i class="fa fa-comment fa-fw"></i>New Comment
                                         <span class="pull-right text-muted small">4 minutes ago</span>
                                     </div>
                                 </a>
@@ -201,7 +208,7 @@
                             <li>
                                 <a href="#">
                                     <div>
-                                        <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                        <i class="fa fa-twitter fa-fw"></i>3 New Followers
                                         <span class="pull-right text-muted small">12 minutes ago</span>
                                     </div>
                                 </a>
@@ -210,7 +217,7 @@
                             <li>
                                 <a href="#">
                                     <div>
-                                        <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                        <i class="fa fa-envelope fa-fw"></i>Message Sent
                                         <span class="pull-right text-muted small">4 minutes ago</span>
                                     </div>
                                 </a>
@@ -219,7 +226,7 @@
                             <li>
                                 <a href="#">
                                     <div>
-                                        <i class="fa fa-tasks fa-fw"></i> New Task
+                                        <i class="fa fa-tasks fa-fw"></i>New Task
                                         <span class="pull-right text-muted small">4 minutes ago</span>
                                     </div>
                                 </a>
@@ -228,7 +235,7 @@
                             <li>
                                 <a href="#">
                                     <div>
-                                        <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                        <i class="fa fa-upload fa-fw"></i>Server Rebooted
                                         <span class="pull-right text-muted small">4 minutes ago</span>
                                     </div>
                                 </a>
@@ -246,15 +253,17 @@
                     <!-- /.dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-fw"></i><asp:Label ID="username" runat="server" Text=""></asp:Label><i class="fa fa-caret-down"></i>
+                            <i class="fa fa-user fa-fw"></i>
+                            <asp:Label ID="username" runat="server" Text=""></asp:Label><i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                            <li><a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
                             </li>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            <li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
                             </li>
                             <li class="divider"></li>
-                            <li><asp:LinkButton ID="LogoutButton" runat="server" onclick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw'></i> Logout</asp:LinkButton>
+                            <li>
+                                <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw'></i> Logout</asp:LinkButton>
                             </li>
                         </ul>
                         <!-- /.dropdown-user -->
@@ -270,18 +279,18 @@
                                 <div class="input-group custom-search-form">
                                     <input type="text" class="form-control" placeholder="Search..." />
                                     <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                                        <button class="btn btn-default" type="button">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
                                 </div>
                                 <!-- /input-group -->
                             </li>
                             <li>
-                                <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                                <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                             </li>
                             <li id="CreateUserMenu" runat="server">
-                                <a href="#"><i class="fa fa-wrench fa-fw"></i> Users<span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-wrench fa-fw"></i>Users<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
                                         <a href="<%=ResolveUrl("~/Admin/Users.aspx") %>">Manage Users</a>
@@ -293,7 +302,7 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li id="TaskManageMenu" runat="server">
-                                <a href="#"><i class="fa fa-table fa-fw"></i> Tasks<span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-table fa-fw"></i>Tasks<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
                                         <a href="<%=ResolveUrl("~/Admin/Tasks.aspx") %>">Manage Tasks</a>
@@ -305,10 +314,10 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li id="CategoriesMenu" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i> Categories</a>
+                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Categories</a>
                             </li>
                             <li id="ReportsMenu" runat="server">
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Reports<span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li>
                                         <a href="<%=ResolveUrl("~/Admin/Reports.aspx") %>">View Reports</a>
@@ -329,8 +338,10 @@
             <!-- Page Content -->
             <div id="page-wrapper">
                 <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder>
-            </div><!-- /#page-wrapper -->
-        </div><!-- /#wrapper -->
+            </div>
+            <!-- /#page-wrapper -->
+        </div>
+        <!-- /#wrapper -->
 
         <!-- jQuery Version 1.11.0 -->
         <script src="<%=ResolveUrl("~/Scripts/jquery-1.11.0.js") %>"></script>
