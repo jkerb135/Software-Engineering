@@ -246,5 +246,34 @@ namespace SE.Classes
                 con.Close();
             }
         }
+        public static int getTaskID(string TaskName)
+        {
+            int id = -1;
+
+            string queryString =
+                "SELECT TaskID " +
+                "FROM Tasks " +
+                "WHERE TaskName=@taskName";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@taskName", TaskName);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    id = Convert.ToInt32(dr["TaskID"]);
+                }
+
+                con.Close();
+            }
+            return id;
+        }
     }
 }

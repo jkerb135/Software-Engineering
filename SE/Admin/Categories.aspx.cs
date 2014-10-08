@@ -25,7 +25,6 @@ namespace SE
         {
             ViewState.Add("Category", Cat);
         }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -42,7 +41,6 @@ namespace SE
                 SuccessMessage.Text = String.Empty;
             }
         }
-
         protected void Page_PreRender(object sender, EventArgs e)
         {
             if (CategoryList.SelectedValue == "")
@@ -68,89 +66,8 @@ namespace SE
                 ViewState.Add("Category", Cat);
             }
         }
-        protected void AddNewCategory_Click(object sender, EventArgs e)
-        {
-            EditCategoryName.Text = String.Empty;
-            AddNewCategoryPanel.Visible = false;
-            ListBoxPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
-            EditCategoryPanel.Visible = true;
-            EditCategoryButton.Text = "Add New Category";
-        }
-        protected void AddNewTask_Click(object sender, EventArgs e)
-        {
-            EditTaskName.Text = String.Empty;
-            AddNewCategoryPanel.Visible = false;
-            ListBoxPanel.Visible = false;
-            EditCategoryPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
-            TaskPanel.Visible = true;
-            EditTaskButton.Text = "Add New Task";
-        }
-        protected void UpdateCategory_Click(object sender, EventArgs e)
-        {
-            AddNewCategoryPanel.Visible = false;
-            ListBoxPanel.Visible = false;
-            EditCategoryPanel.Visible = true;
-            TaskPanel.Visible = false;
-            EditCategoryName.Text = catList.SelectedValue;
-            EditCategoryButton.Text = "Update Category";
-        }
-        protected void UpdateTask_Click(object sender, EventArgs e)
-        {
-            AddNewCategoryPanel.Visible = false;
-            ListBoxPanel.Visible = false;
-            EditCategoryPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
-            TaskPanel.Visible = true;
-            EditTaskName.Text = taskList.SelectedValue;
-            EditTaskButton.Text = "Update Task";
-        }
-        protected void DeleteCategoryButton_Click(object sender, EventArgs e)
-        {
-            Cat.DeleteCategory(catList.SelectedValue);
-            BindCategories();
-            SuccessMessage.Text = "Category successfully deleted.";
-            GenerateList();
-        }
-        protected void DeleteTaskButton_Click(object sender, EventArgs e)
-        {
-            ITask.DeleteTask(taskList.SelectedValue);
-            SuccessMessage.Text = "Task successfully deleted.";
-            refreshTasks();
-        }
-        protected void CategoryList_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CategoryList.SelectedValue != "")
-            {
-                AllUsers.Items.Clear();
-                UsersInCategory.Items.Clear();
-                AddNewCategoryPanel.Visible = false;
-                EditCategoryPanel.Visible = true;
-            }
-        }
-
-        protected void MoveLeft_Click(object sender, EventArgs e)
-        {
-            if (UsersInCategory.SelectedItem != null)
-            {
-                Cat = (Category)ViewState["Category"];
-                Cat.UnAssignUserFromCategory(UsersInCategory.SelectedValue.ToString());
-                UsersInCategory.Items.Remove(UsersInCategory.SelectedItem);
-            }
-        }
-
-        protected void MoveRight_Click(object sender, EventArgs e)
-        {
-            if (AllUsers.SelectedItem != null &&
-                !UsersInCategory.Items.Contains(AllUsers.SelectedItem))
-            {
-                Cat = (Category)ViewState["Category"];
-                Cat.AssignUserToCategory(AllUsers.SelectedValue.ToString());
-                UsersInCategory.Items.Add(AllUsers.SelectedValue.ToString());
-            }
-        }
-
+        
+        /* Management CRUD Functionality */
         protected void EditCategoryButton_Click(object sender, EventArgs e)
         {
             if (EditCategoryButton.Text == "Add New Category")
@@ -198,12 +115,195 @@ namespace SE
                 }
             }
         }
+        protected void EditTaskButton_Click(object sender, EventArgs e)
+        {
+            if (EditTaskButton.Text == "Add New Task")
+            {
+                Cat.CategoryName = catList.Items[catIDX].Text;
+                if (EditTaskName.Text != String.Empty)
+                {
+                    ITask.TaskName = EditTaskName.Text;
+                    ITask.CategoryID = Category.getCategoryID(Cat.CategoryName);
+                    ITask.CreateTask();
 
+                    SuccessMessage.Text = "New task successfully added.";
+
+                    EditTaskName.Text = String.Empty;
+                    AddNewCategoryPanel.Visible = false;
+                    ListBoxPanel.Visible = true;
+                    EditCategoryPanel.Visible = false;
+                    TaskPanel.Visible = false;
+                    refreshTasks();
+                }
+                else
+                {
+                    ErrorMessage.Text = "Error creating new task";
+                }
+            }
+            else if (EditTaskButton.Text == "Update Task")
+            {
+                if (EditCategoryName.Text != String.Empty)
+                {
+                    ITask.TaskName = EditTaskName.Text;
+                    ITask.UpdateTask();
+
+                    SuccessMessage.Text = "Task successfully updated.";
+
+                    EditTaskName.Text = String.Empty;
+                    AddNewCategoryPanel.Visible = false;
+                    ListBoxPanel.Visible = true;
+                    EditCategoryPanel.Visible = false;
+                    TaskPanel.Visible = false;
+                    refreshTasks();
+                }
+                else
+                {
+                    ErrorMessage.Text = "Error Updating Task";
+                }
+            }
+        }
+        protected void EditMainStepButton_Click(object sender, EventArgs e)
+        {
+            ITask.TaskName = taskList.Items[taskIDX].Text;
+            if (Button2.Text == "Add New Main Step")
+            {
+                ITask.TaskID = Task.getTaskID(ITask.TaskName);
+                if (MainStepName.Text != String.Empty)
+                {
+                    IMainStep.MainStepName = MainStepName.Text;
+                    IMainStep.TaskID = ITask.TaskID;
+                    IMainStep.MainStepText =
+                        !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
+
+                    if (MainStepAudio.HasFile)
+                    {
+                        Methods.UploadFile(MainStepAudio);
+
+                        IMainStep.AudioFilename = MainStepAudio.FileName;
+                        IMainStep.AudioPath = "~/Uploads/" + MainStepAudio.FileName;
+                    }
+
+                    if (MainStepVideo.HasFile)
+                    {
+                        Methods.UploadFile(MainStepVideo);
+
+                        IMainStep.VideoFilename = MainStepVideo.FileName;
+                        IMainStep.VideoPath = "~/Uploads/" + MainStepVideo.FileName;
+                    }
+
+                    IMainStep.CreateMainStep();
+
+                    MainStepName.Text = "";
+                    MainStepText.Text = "";
+
+                    BindMainSteps();
+                }
+            }
+        }
+        protected void AddNewCategory_Click(object sender, EventArgs e)
+        {
+            EditCategoryName.Text = String.Empty;
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            TaskManagmentPanel.Visible = false;
+            EditCategoryPanel.Visible = true;
+            ManageMainStepPanel.Visible = false;
+            EditCategoryButton.Text = "Add New Category";
+        }
+        protected void AddNewTask_Click(object sender, EventArgs e)
+        {
+            EditTaskName.Text = String.Empty;
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            EditCategoryPanel.Visible = false;
+            TaskManagmentPanel.Visible = false;
+            ManageMainStepPanel.Visible = false;
+            TaskPanel.Visible = true;
+            EditTaskButton.Text = "Add New Task";
+        }
+        protected void AddNewMainStep_Click(object sender, EventArgs e)
+        {
+            MainStepManagement.Visible = false;
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            TaskManagmentPanel.Visible = false;
+            EditCategoryPanel.Visible = false;
+            ManageMainStepPanel.Visible = true;
+            MainStepButton.Text = "Add New Main Step";
+        }
+        protected void UpdateCategory_Click(object sender, EventArgs e)
+        {
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            EditCategoryPanel.Visible = true;
+            TaskPanel.Visible = false;
+            EditCategoryName.Text = catList.SelectedValue;
+            EditCategoryButton.Text = "Update Category";
+        }
+        protected void UpdateTask_Click(object sender, EventArgs e)
+        {
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            EditCategoryPanel.Visible = false;
+            TaskManagmentPanel.Visible = false;
+            TaskPanel.Visible = true;
+            EditTaskName.Text = taskList.SelectedValue;
+            EditTaskButton.Text = "Update Task";
+        }
+        protected void DeleteCategoryButton_Click(object sender, EventArgs e)
+        {
+            Cat.DeleteCategory(catList.SelectedValue);
+            BindCategories();
+            SuccessMessage.Text = "Category successfully deleted.";
+            GenerateList();
+        }
+        protected void DeleteTaskButton_Click(object sender, EventArgs e)
+        {
+            ITask.DeleteTask(taskList.SelectedValue);
+            SuccessMessage.Text = "Task successfully deleted.";
+            refreshTasks();
+        }
+      
+        /*Button Binding Events*/
+        protected void CategoryList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CategoryList.SelectedValue != "")
+            {
+                AllUsers.Items.Clear();
+                UsersInCategory.Items.Clear();
+                AddNewCategoryPanel.Visible = false;
+                EditCategoryPanel.Visible = true;
+            }
+        }
+
+        protected void MoveLeft_Click(object sender, EventArgs e)
+        {
+            if (UsersInCategory.SelectedItem != null)
+            {
+                Cat = (Category)ViewState["Category"];
+                Cat.UnAssignUserFromCategory(UsersInCategory.SelectedValue.ToString());
+                UsersInCategory.Items.Remove(UsersInCategory.SelectedItem);
+            }
+        }
+
+        protected void MoveRight_Click(object sender, EventArgs e)
+        {
+            if (AllUsers.SelectedItem != null &&
+                !UsersInCategory.Items.Contains(AllUsers.SelectedItem))
+            {
+                Cat = (Category)ViewState["Category"];
+                Cat.AssignUserToCategory(AllUsers.SelectedValue.ToString());
+                UsersInCategory.Items.Add(AllUsers.SelectedValue.ToString());
+            }
+        }
+
+        
         protected void EditCategoryCancel_Click(object sender, EventArgs e)
         {
             ListBoxPanel.Visible = true;
             TaskPanel.Visible = false;
             EditCategoryPanel.Visible = false;
+            ManageMainStepPanel.Visible = false;
             catList.SelectedIndex = -1;
             taskList.SelectedIndex = -1;
             mainStep.SelectedIndex = -1;
@@ -216,6 +316,8 @@ namespace SE
             CategoryList.DataBind();
             Methods.AddBlankToDropDownList(CategoryList);
         }
+       
+        /* Listbox Events */
         private void GenerateList()
         {
             CategoriesTable.Columns.Add("Name", Type.GetType("System.String"));
@@ -239,6 +341,7 @@ namespace SE
             catIDX = catList.SelectedIndex;
             AddNewCategoryPanel.Visible = true;
             TaskManagmentPanel.Visible = false;
+            MainStepManagement.Visible = false;
             taskList.Attributes.Remove("disabled");
             mainStep.Attributes.Remove("disabled");
             detailedStep.Attributes.Remove("disabled");
@@ -277,6 +380,7 @@ namespace SE
             catList.SelectedIndex = -1;
             AddNewCategoryPanel.Visible = false;
             TaskManagmentPanel.Visible = true;
+            MainStepManagement.Visible = false;
             if (taskList.SelectedValue != "No Tasks")
             {
                 mainStep.Attributes.Remove("disabled");
@@ -314,6 +418,8 @@ namespace SE
             mainIDX = mainStep.SelectedIndex;
             taskList.SelectedIndex = -1;
             AddNewCategoryPanel.Visible = false;
+            TaskManagmentPanel.Visible = false;
+            MainStepManagement.Visible = true;
             detailedStep.Attributes.Remove("disabled");
             string queryString = "SELECT MainStepID FROM MainSteps WHERE MainStepName ='" + mainStep.SelectedItem.Text + "'";
             using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
@@ -385,54 +491,182 @@ namespace SE
                 }
             }
         }
-        /*Task Function*/
-        protected void EditTaskButton_Click(object sender, EventArgs e)
+        
+        /*Main Step Function*/
+        private void BindMainSteps()
         {
-            if (EditTaskButton.Text == "Add New Task")
+            MainStepList.DataSource = MainStepListSource;
+            MainStepList.DataBind();
+        }
+        protected void MainStepMoveDown_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "" && MainStepList.SelectedIndex != MainStepList.Items.Count - 1)
             {
-                Cat.CategoryName = catList.Items[catIDX].Text;
-                if (EditTaskName.Text != String.Empty)
-                {
-                    ITask.TaskName = EditTaskName.Text;
-                    ITask.CategoryID = Category.getCategoryID(Cat.CategoryName);
-                    ITask.CreateTask();
+                IMainStep = (MainStep)ViewState["MainStep"];
 
-                    SuccessMessage.Text = "New task successfully added.";
+                string queryString =
+                    "SELECT ListOrder " +
+                    "FROM MainSteps " +
+                    "WHERE MainStepID=@mainstepid";
 
-                    EditTaskName.Text = String.Empty;
-                    AddNewCategoryPanel.Visible = false;
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                    TaskPanel.Visible = false;
-                    refreshTasks();
-                }
-                else
-                {
-                    ErrorMessage.Text = "Error creating new task";
-                }
-            }
-            else if (EditTaskButton.Text == "Update Task")
-            {
-                if (EditCategoryName.Text != String.Empty)
-                {
-                    ITask.TaskName = EditTaskName.Text;
-                    ITask.UpdateTask();
+                string queryString2 =
+                    "SELECT MIN(ListOrder) " +
+                    "FROM MainSteps " +
+                    "WHERE ListOrder > @listorder " +
+                    "AND TaskID=@taskid";
 
-                    SuccessMessage.Text = "Task successfully updated.";
+                string queryString3 =
+                    "SELECT MainStepID " +
+                    "FROM MainSteps " +
+                    "WHERE ListOrder = ( " +
+                        "SELECT MIN(ListOrder) " +
+                        "FROM MainSteps " +
+                        "WHERE ListOrder > @listorder " +
+                        "AND TaskID=@taskid " +
+                    ") " +
+                    "AND TaskID=@taskid";
 
-                    EditTaskName.Text = String.Empty;
-                    AddNewCategoryPanel.Visible = false;
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                    TaskPanel.Visible = false;
-                    refreshTasks();
-                }
-                else
+                string queryString4 =
+                    "UPDATE MainSteps " +
+                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                    "WHERE MainStepID IN (@mainstepid1, @mainstepid2)";
+
+                using (SqlConnection con = new SqlConnection(
+                    Methods.GetConnectionString()))
                 {
-                    ErrorMessage.Text = "Error Updating Task";
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+
+                    // Get First Value
+                    cmd.Parameters.AddWithValue("@mainstepid", Convert.ToInt32(MainStepList.SelectedValue));
+
+                    con.Open();
+
+                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Get Second Value
+                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd2.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+
+                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd3.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+
+                    con.Open();
+
+                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Swap Values
+                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@mainstepid1", Convert.ToInt32(MainStepList.SelectedValue));
+                    cmd4.Parameters.AddWithValue("@mainstepid2", ThirdValue);
+
+                    con.Open();
+
+                    cmd4.ExecuteNonQuery();
+
+                    con.Close();
                 }
+
+                BindMainSteps();
             }
         }
-        
+        protected void MainStepMoveUp_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "" && MainStepList.SelectedIndex != 0)
+            {
+                IMainStep = (MainStep)ViewState["MainStep"];
+
+                string queryString =
+                    "SELECT ListOrder " +
+                    "FROM MainSteps " +
+                    "WHERE MainStepID=@mainstepid";
+
+                string queryString2 =
+                    "SELECT MAX(ListOrder) " +
+                    "FROM MainSteps " +
+                    "WHERE ListOrder < @listorder " +
+                    "AND TaskID=@taskid";
+
+                string queryString3 =
+                    "SELECT MainStepID " +
+                    "FROM MainSteps " +
+                    "WHERE ListOrder = ( " +
+                        "SELECT MAX(ListOrder) " +
+                        "FROM MainSteps " +
+                        "WHERE ListOrder < @listorder " +
+                        "AND TaskID=@taskid " +
+                    ") " +
+                    "AND TaskID=@taskid";
+
+                string queryString4 =
+                    "UPDATE MainSteps " +
+                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                    "WHERE MainStepID IN (@mainstepid1, @mainstepid2)";
+
+                using (SqlConnection con = new SqlConnection(
+                    Methods.GetConnectionString()))
+                {
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+
+                    // Get First Value
+                    cmd.Parameters.AddWithValue("@mainstepid", Convert.ToInt32(MainStepList.SelectedValue));
+
+                    con.Open();
+
+                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Get Second Value
+                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd2.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+
+                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
+                    cmd3.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+
+                    con.Open();
+
+                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+
+                    con.Close();
+
+                    // Swap Values
+                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@mainstepid1", Convert.ToInt32(MainStepList.SelectedValue));
+                    cmd4.Parameters.AddWithValue("@mainstepid2", ThirdValue);
+
+                    con.Open();
+
+                    cmd4.ExecuteNonQuery();
+
+                    con.Close();
+                }
+
+                BindMainSteps();
+            }
+        }
+        protected void MainStepDelete_Click(object sender, EventArgs e)
+        {
+            if (MainStepList.SelectedValue != "")
+            {
+                IMainStep.MainStepID = Convert.ToInt32(MainStepList.SelectedValue);
+                IMainStep.DeleteMainStep();
+
+                BindMainSteps();
+            }
+        }
     }
 }

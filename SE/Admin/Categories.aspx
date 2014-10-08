@@ -47,7 +47,7 @@
                     <div class="form-inline">
                         <asp:Button ID="Button2" runat="server"
                             CssClass="btn btn-success" Text="Add New Main Step"
-                            OnClick="AddNewTask_Click" />
+                            OnClick="AddNewMainStep_Click" />
                         <asp:Button ID="Button3" runat="server"
                             CssClass="btn btn-primary" Text="Update Main Step"
                             OnClick="UpdateTask_Click" />
@@ -106,9 +106,9 @@
                             </div>
                             <div class="error-messages form-group">
                                 <asp:Label ID="EditErrorMessage" runat="server"></asp:Label>
-                                <asp:ValidationSummary ID="CreateMainStepValidationSummary" 
+                                <asp:ValidationSummary ID="CreateMainStepValidationSummary"
                                     ValidationGroup="CreateMainStep" runat="server" />
-                                <asp:ValidationSummary ID="CreateDetailedStepValidationSummary" 
+                                <asp:ValidationSummary ID="CreateDetailedStepValidationSummary"
                                     ValidationGroup="CreateDetailedStep" runat="server" />
                             </div>
                             <asp:Panel ID="EditTaskPanel" CssClass="form-group" runat="server">
@@ -118,7 +118,7 @@
                                     <asp:TextBox ID="EditTaskName" runat="server" CssClass="form-control"></asp:TextBox>
                                 </div>
                                 <div class="form-group">
-                                    <asp:Label ID="EditAssignTaskToCategoryLabel" runat="server" 
+                                    <asp:Label ID="EditAssignTaskToCategoryLabel" runat="server"
                                         Text="Assign Task to Category"></asp:Label>
                                     <asp:DropDownList ID="EditAssignTaskToCategory" runat="server" CssClass="form-control"
                                         DataValueField="CategoryID" DataTextField="CategoryName" AutoPostBack="false">
@@ -128,13 +128,55 @@
                                     <asp:Label ID="EditAssignUserToTaskLabel" runat="server" Text="Assign User to Task"></asp:Label>
                                     <asp:DropDownList ID="EditAssignUserToTask" runat="server" CssClass="form-control"></asp:DropDownList>
                                 </div>
-                                <asp:Button ID="EditTaskButton" runat="server" CssClass="btn btn-default right" 
-                                    Text="Submit" onclick="EditTaskButton_Click" />
+                                <asp:Button ID="EditTaskButton" runat="server" CssClass="btn btn-default right"
+                                    Text="Submit" OnClick="EditTaskButton_Click" />
                                 <asp:Button ID="Button1" CssClass="btn btn-default"
-                            runat="server" Text="Cancel" OnClick="EditCategoryCancel_Click" />
+                                    runat="server" Text="Cancel" OnClick="EditCategoryCancel_Click" />
                             </asp:Panel>
                         </div>
-                    </div>    
+                    </div>
+                </asp:Panel>
+                <asp:Panel ID="ManageMainStepPanel" runat="server" Visible="false">
+                    <div class="form-group">
+                        <asp:Label ID="MainStepNameLabel" runat="server"
+                            Text="Main Step Name"></asp:Label>
+                        <asp:RequiredFieldValidator ID="MainStepNameRequired" runat="server" ControlToValidate="MainStepName"
+                            ValidationGroup="CreateMainStep" ErrorMessage="Main Step Name is required.">*</asp:RequiredFieldValidator>
+                        <asp:TextBox ID="MainStepName" runat="server" CssClass="form-control"></asp:TextBox>
+                        <asp:Button ID="MainStepButton" runat="server" CausesValidation="true" ValidationGroup="CreateMainStep"
+                                CssClass="btn btn-success" Text="Submit" OnClick="EditMainStepButton_Click" />
+                    </div>
+                    <div class="form-group">
+                        <asp:Label ID="MainStepTextLabel" runat="server" Text="Main Step Text"></asp:Label>
+                        <asp:TextBox ID="MainStepText" TextMode="multiline" Rows="5" runat="server" CssClass="form-control"></asp:TextBox>        
+                    </div>
+                    <div class="form-group">
+                        <asp:Label ID="MainStepAudioLabel" runat="server" Text="Audio File"></asp:Label>
+                        <asp:FileUpload ID="MainStepAudio" runat="server" />
+                    </div>
+                    <div class="form-group">
+                        <asp:Label ID="MainStepVideoLabel" runat="server" Text="Video File"></asp:Label>
+                        <asp:FileUpload ID="MainStepVideo" runat="server" />
+                    </div>
+                    <div class="form-group">
+                        <asp:Label ID="MainStepListLabel" runat="server" Text="Reorder Steps"></asp:Label>
+                        <asp:ListBox ID="MainStepList" runat="server" CssClass="form-control"
+                            DataValueField="MainStepID" DataTextField="MainStepName"></asp:ListBox>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-xs-12 center">
+                            <asp:Button ID="MainStepMoveDown" CssClass="btn btn-default" runat="server" Text="down"
+                                OnClick="MainStepMoveDown_Click" />
+                            <asp:Button ID="MainStepMoveUp" CssClass="btn btn-default" runat="server" Text="up"
+                                OnClick="MainStepMoveUp_Click" />
+                            <asp:Button ID="MainStepDelete" CssClass="btn btn-danger" runat="server" Text="X"
+                                OnClick="MainStepDelete_Click" />
+                        </div>
+                        <div class="right form-group">
+                            <asp:Button ID="MainStepCancel" runat="server" Text="Cancel"
+                                CssClass="btn btn-default" OnClick="EditCategoryCancel_Click" />
+                        </div>
+                    </div>
                 </asp:Panel>
                 <asp:Panel ID="ListBoxPanel" runat="server">
                     <div class="col-lg-12">
@@ -167,6 +209,15 @@
         ProviderName="System.Data.SqlClient">
         <SelectParameters>
             <asp:SessionParameter Name="CreatedBy" SessionField="UserName" Type="String" />
+        </SelectParameters>
+    </asp:SqlDataSource>
+    <asp:SqlDataSource ID="MainStepListSource" runat="server"
+        ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
+        SelectCommand="SELECT * FROM [MainSteps] WHERE ([TaskID] = @TaskID) ORDER BY ListOrder"
+        ProviderName="System.Data.SqlClient">
+        <SelectParameters>
+            <asp:QueryStringParameter Name="TaskID" QueryStringField="taskid"
+                Type="Int32" />
         </SelectParameters>
     </asp:SqlDataSource>
 </asp:Content>
