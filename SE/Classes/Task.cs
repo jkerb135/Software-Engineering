@@ -226,5 +226,25 @@ namespace SE.Classes
 
             return TasksInCategoryAssignedToUser;
         }
+        public void DeleteTask(string TaskName)
+        {
+            string queryString =
+                "DELETE FROM Tasks " +
+                "WHERE TaskName=@taskName";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@taskName", TaskName);
+
+                con.Open();
+
+                cmd.ExecuteNonQuery();
+
+                con.Close();
+            }
+        }
     }
 }

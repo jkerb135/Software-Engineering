@@ -15,6 +15,12 @@ namespace SE
     {
         Category Cat = new Category();
         DataTable CategoriesTable = new DataTable();
+        string UserName = System.Web.HttpContext.Current.User.Identity.Name;
+        Task ITask = new Task();
+        MainStep IMainStep = new MainStep();
+        DetailedStep IDetailedStep = new DetailedStep();
+        int catIDX, taskIDX, mainIDX, detIDX = 0;
+
         protected void Page_Init(object sender, EventArgs e)
         {
             ViewState.Add("Category", Cat);
@@ -27,6 +33,8 @@ namespace SE
                 BindCategories();
                 GenerateList();
                 AddNewCategoryPanel.Visible = false;
+                EditCategoryPanel.Visible = false;
+                TaskManagmentPanel.Visible = false;
             }
             else
             {
@@ -39,8 +47,6 @@ namespace SE
         {
             if (CategoryList.SelectedValue == "")
             {
-                AddNewCategoryPanel.Visible = false;
-                EditCategoryPanel.Visible = false;
             }
             else
             {
@@ -62,26 +68,57 @@ namespace SE
                 ViewState.Add("Category", Cat);
             }
         }
-
         protected void AddNewCategory_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(AddNewCategoryName.Text))
-            {
-                Cat.CategoryName = AddNewCategoryName.Text;
-
-                Cat.CreateCategory();
-                BindCategories();
-
-                SuccessMessage.Text = "New category successfully added.";
-
-                AddNewCategoryName.Text = String.Empty;
-            }
-            else
-            {
-                ErrorMessage.Text = "Please enter a category name.";
-            }
+            EditCategoryName.Text = String.Empty;
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            TaskManagmentPanel.Visible = false;
+            EditCategoryPanel.Visible = true;
+            EditCategoryButton.Text = "Add New Category";
         }
-
+        protected void AddNewTask_Click(object sender, EventArgs e)
+        {
+            EditTaskName.Text = String.Empty;
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            EditCategoryPanel.Visible = false;
+            TaskManagmentPanel.Visible = false;
+            TaskPanel.Visible = true;
+            EditTaskButton.Text = "Add New Task";
+        }
+        protected void UpdateCategory_Click(object sender, EventArgs e)
+        {
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            EditCategoryPanel.Visible = true;
+            TaskPanel.Visible = false;
+            EditCategoryName.Text = catList.SelectedValue;
+            EditCategoryButton.Text = "Update Category";
+        }
+        protected void UpdateTask_Click(object sender, EventArgs e)
+        {
+            AddNewCategoryPanel.Visible = false;
+            ListBoxPanel.Visible = false;
+            EditCategoryPanel.Visible = false;
+            TaskManagmentPanel.Visible = false;
+            TaskPanel.Visible = true;
+            EditTaskName.Text = taskList.SelectedValue;
+            EditTaskButton.Text = "Update Task";
+        }
+        protected void DeleteCategoryButton_Click(object sender, EventArgs e)
+        {
+            Cat.DeleteCategory(catList.SelectedValue);
+            BindCategories();
+            SuccessMessage.Text = "Category successfully deleted.";
+            GenerateList();
+        }
+        protected void DeleteTaskButton_Click(object sender, EventArgs e)
+        {
+            ITask.DeleteTask(taskList.SelectedValue);
+            SuccessMessage.Text = "Task successfully deleted.";
+            refreshTasks();
+        }
         protected void CategoryList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CategoryList.SelectedValue != "")
@@ -105,7 +142,7 @@ namespace SE
 
         protected void MoveRight_Click(object sender, EventArgs e)
         {
-            if (AllUsers.SelectedItem != null && 
+            if (AllUsers.SelectedItem != null &&
                 !UsersInCategory.Items.Contains(AllUsers.SelectedItem))
             {
                 Cat = (Category)ViewState["Category"];
@@ -116,39 +153,63 @@ namespace SE
 
         protected void EditCategoryButton_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(EditCategoryName.Text))
+            if (EditCategoryButton.Text == "Add New Category")
             {
-                Cat = (Category)ViewState["Category"];
+                if (EditCategoryName.Text != String.Empty)
+                {
+                    Cat.CategoryName = EditCategoryName.Text;
 
-                Cat.CategoryName = EditCategoryName.Text;
+                    Cat.CreateCategory();
+                    BindCategories();
 
-                Cat.UpdateCategory();
-                BindCategories();
+                    SuccessMessage.Text = "New category successfully added.";
 
-                SuccessMessage.Text = "Category successfully updated.";
-
-                EditCategoryName.Text = String.Empty;
+                    EditCategoryName.Text = String.Empty;
+                    AddNewCategoryPanel.Visible = false;
+                    ListBoxPanel.Visible = true;
+                    EditCategoryPanel.Visible = false;
+                    GenerateList();
+                }
+                else
+                {
+                    ErrorMessage.Text = "Error creating new category";
+                }
             }
-            else
+            else if (EditCategoryButton.Text == "Update Category")
             {
-                ErrorMessage.Text = "Please enter a category name.";
+                if (EditCategoryName.Text != String.Empty)
+                {
+                    Cat.CategoryName = EditCategoryName.Text;
+
+                    Cat.UpdateCategory();
+                    BindCategories();
+
+                    SuccessMessage.Text = "Category successfully updated.";
+
+                    EditCategoryName.Text = String.Empty;
+                    AddNewCategoryPanel.Visible = false;
+                    ListBoxPanel.Visible = true;
+                    EditCategoryPanel.Visible = false;
+                    GenerateList();
+                }
+                else
+                {
+                    ErrorMessage.Text = "Error Updating Category";
+                }
             }
         }
 
         protected void EditCategoryCancel_Click(object sender, EventArgs e)
         {
-            BindCategories();
+            ListBoxPanel.Visible = true;
+            TaskPanel.Visible = false;
+            EditCategoryPanel.Visible = false;
+            catList.SelectedIndex = -1;
+            taskList.SelectedIndex = -1;
+            mainStep.SelectedIndex = -1;
+            detailedStep.SelectedIndex = -1;
+
         }
-
-        protected void DeleteCategoryButton_Click(object sender, EventArgs e)
-        {
-            Cat = (Category)ViewState["Category"];
-
-            Cat.DeleteCategory();
-            BindCategories();
-            SuccessMessage.Text = "Category successfully deleted.";
-        }
-
         private void BindCategories()
         {
             CategoryList.DataSource = CategoryListSource;
@@ -171,17 +232,13 @@ namespace SE
             if (catList.Items.Count == 0)
             {
                 catList.Items.Add("No Categories");
-                catList.Attributes.Add("disabled", "true");
-                taskList.Attributes.Add("disabled", "true");
-                mainStep.Attributes.Add("disabled", "true");
-                detailedStep.Attributes.Add("disabled", "true");
             }
-            Button1.Text = "Create Category";
         }
-
         protected void QueryTasks(object sender, EventArgs e)
         {
-            Button1.Text = "Create Task";
+            catIDX = catList.SelectedIndex;
+            AddNewCategoryPanel.Visible = true;
+            TaskManagmentPanel.Visible = false;
             taskList.Attributes.Remove("disabled");
             mainStep.Attributes.Remove("disabled");
             detailedStep.Attributes.Remove("disabled");
@@ -209,7 +266,6 @@ namespace SE
                 if (taskList.Items.Count == 0)
                 {
                     taskList.Items.Add("No Tasks");
-                    taskList.Attributes.Add("disabled", "true");
                     mainStep.Attributes.Add("disabled", "true");
                     detailedStep.Attributes.Add("disabled", "true");
                 }
@@ -217,9 +273,15 @@ namespace SE
         }
         protected void QueryMainStep(object sender, EventArgs e)
         {
-            Button1.Text = "Create Main Step";
-            mainStep.Attributes.Remove("disabled");
-            detailedStep.Attributes.Remove("disabled");
+            taskIDX = taskList.SelectedIndex;
+            catList.SelectedIndex = -1;
+            AddNewCategoryPanel.Visible = false;
+            TaskManagmentPanel.Visible = true;
+            if (taskList.SelectedValue != "No Tasks")
+            {
+                mainStep.Attributes.Remove("disabled");
+                detailedStep.Attributes.Remove("disabled");
+            }
             string queryString = "SELECT TaskID FROM Tasks WHERE TaskName ='" + taskList.SelectedItem.Text + "'";
             using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
             {
@@ -240,17 +302,18 @@ namespace SE
                 {
                     mainStep.Items.Add(Convert.ToString(dr["MainStepName"]));
                 }
-                if (mainStep.Items.Count == 0)
+                if (mainStep.Items.Count == 0 && taskList.SelectedValue != "No Tasks")
                 {
                     mainStep.Items.Add("No Main Steps");
-                    mainStep.Attributes.Add("disabled", "true");
                     detailedStep.Attributes.Add("disabled", "true");
                 }
             }
         }
         protected void QueryDetailedStep(object sender, EventArgs e)
         {
-            Button1.Text = "Create Detailed Step";
+            mainIDX = mainStep.SelectedIndex;
+            taskList.SelectedIndex = -1;
+            AddNewCategoryPanel.Visible = false;
             detailedStep.Attributes.Remove("disabled");
             string queryString = "SELECT MainStepID FROM MainSteps WHERE MainStepName ='" + mainStep.SelectedItem.Text + "'";
             using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
@@ -278,10 +341,11 @@ namespace SE
                 }
             }
         }
-        protected void Button1_Click(object sender, EventArgs e)
+        protected void detailButtons(object sender, EventArgs e)
         {
-            Button1.Text = "Clicked";
-            ListBoxPanel.Visible = true;
+            detIDX = detailedStep.SelectedIndex;
+            mainStep.SelectedIndex = -1;
+            AddNewCategoryPanel.Visible = false;
         }
         protected void catFilter_TextChanged(object sender, EventArgs e)
         {
@@ -290,5 +354,85 @@ namespace SE
             catList.DataSource = Dv;
             catList.DataBind();
         }
+        protected void refreshTasks()
+        {
+            string queryString = "SELECT CategoryID FROM Categories WHERE CategoryName ='" + catList.Items[catIDX].Text + "'";
+            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    queryString = "SELECT TaskName FROM Tasks WHERE CategoryID ='" + Convert.ToString(dr["CategoryID"]) + "'";
+                }
+                con.Close();
+                cmd = new SqlCommand(queryString, con);
+                con.Open();
+                dr = cmd.ExecuteReader();
+                taskList.Items.Clear();
+                mainStep.Items.Clear();
+                detailedStep.Items.Clear();
+                while (dr.Read())
+                {
+                    taskList.Items.Add(Convert.ToString(dr["TaskName"]));
+                }
+                if (taskList.Items.Count == 0)
+                {
+                    taskList.Items.Add("No Tasks");
+                    mainStep.Attributes.Add("disabled", "true");
+                    detailedStep.Attributes.Add("disabled", "true");
+                }
+            }
+        }
+        /*Task Function*/
+        protected void EditTaskButton_Click(object sender, EventArgs e)
+        {
+            if (EditTaskButton.Text == "Add New Task")
+            {
+                Cat.CategoryName = catList.Items[catIDX].Text;
+                if (EditTaskName.Text != String.Empty)
+                {
+                    ITask.TaskName = EditTaskName.Text;
+                    ITask.CategoryID = Category.getCategoryID(Cat.CategoryName);
+                    ITask.CreateTask();
+
+                    SuccessMessage.Text = "New task successfully added.";
+
+                    EditTaskName.Text = String.Empty;
+                    AddNewCategoryPanel.Visible = false;
+                    ListBoxPanel.Visible = true;
+                    EditCategoryPanel.Visible = false;
+                    TaskPanel.Visible = false;
+                    refreshTasks();
+                }
+                else
+                {
+                    ErrorMessage.Text = "Error creating new task";
+                }
+            }
+            else if (EditTaskButton.Text == "Update Task")
+            {
+                if (EditCategoryName.Text != String.Empty)
+                {
+                    ITask.TaskName = EditTaskName.Text;
+                    ITask.UpdateTask();
+
+                    SuccessMessage.Text = "Task successfully updated.";
+
+                    EditTaskName.Text = String.Empty;
+                    AddNewCategoryPanel.Visible = false;
+                    ListBoxPanel.Visible = true;
+                    EditCategoryPanel.Visible = false;
+                    TaskPanel.Visible = false;
+                    refreshTasks();
+                }
+                else
+                {
+                    ErrorMessage.Text = "Error Updating Task";
+                }
+            }
+        }
+        
     }
 }

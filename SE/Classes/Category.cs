@@ -59,15 +59,13 @@ namespace SE.Classes
         {
             string queryString =
                 "UPDATE Categories " +
-                "SET CategoryName=@categoryname " +
-                "WHERE CategoryID=@categoryid";
+                "SET CategoryName=@categoryname ";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
                 cmd.Parameters.AddWithValue("@categoryname", CategoryName);
 
                 con.Open();
@@ -78,18 +76,18 @@ namespace SE.Classes
             }
         }
 
-        public void DeleteCategory()
+        public void DeleteCategory(string CategoryName)
         {
             string queryString =
                 "DELETE FROM Categories " +
-                "WHERE CategoryID=@categoryid";
+                "WHERE CategoryName=@categoryname";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd.Parameters.AddWithValue("@categoryname", CategoryName);
 
                 con.Open();
 
@@ -271,6 +269,35 @@ namespace SE.Classes
             }
 
             return AllCategories;
+        }
+        public static int getCategoryID(string CategoryName)
+        {
+            int id = -1;
+
+            string queryString =
+                "SELECT CategoryID " +
+                "FROM Categories " +
+                "WHERE CategoryName=@categoryName";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@categoryname", CategoryName);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    id = Convert.ToInt32(dr["CategoryID"]);
+                }
+
+                con.Close();
+            }
+            return id;
         }
     }
 }
