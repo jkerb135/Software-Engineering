@@ -14,7 +14,6 @@ namespace SE
     public partial class Categories : System.Web.UI.Page
     {
         Category Cat = new Category();
-        DataTable CategoriesTable = new DataTable();
         string UserName = System.Web.HttpContext.Current.User.Identity.Name;
         Task ITask = new Task();
         MainStep IMainStep = new MainStep();
@@ -24,13 +23,13 @@ namespace SE
         protected void Page_Init(object sender, EventArgs e)
         {
             ViewState.Add("Category", Cat);
+            ViewState.Add("CategoriesExist", false);
         }
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 BindCategories();
-                GenerateList();
                 AddNewCategoryPanel.Visible = false;
                 EditCategoryPanel.Visible = false;
                 TaskManagmentPanel.Visible = false;
@@ -43,40 +42,23 @@ namespace SE
         }
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            if (CategoryList.SelectedValue == "")
-            {
-            }
-            else
-            {
-                string UserName = System.Web.HttpContext.Current.User.Identity.Name;
 
-                List<string> UsersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(UserName, Convert.ToInt32(CategoryList.SelectedValue));
-
-                AllUsers.DataSource = Member.UsersAssignedToSupervisor(UserName);
-                AllUsers.DataBind();
-
-                if (UsersAssignedToSupervisorAssignedToCategory.Count > 0)
-                {
-                    UsersInCategory.DataSource = UsersAssignedToSupervisorAssignedToCategory;
-                    UsersInCategory.DataBind();
-                }
-
-                Cat = (Category)ViewState["Category"];
-                Cat.CategoryID = Convert.ToInt32(CategoryList.SelectedValue);
-                ViewState.Add("Category", Cat);
-            }
         }
         
         /* Management CRUD Functionality */
         protected void EditCategoryButton_Click(object sender, EventArgs e)
         {
+            Cat = (Category)ViewState["Category"];
+
             if (EditCategoryButton.Text == "Add New Category")
             {
                 if (EditCategoryName.Text != String.Empty)
                 {
                     Cat.CategoryName = EditCategoryName.Text;
+                    Cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
 
                     Cat.CreateCategory();
+                    Cat.AssignUserCategories();
                     BindCategories();
 
                     SuccessMessage.Text = "New category successfully added.";
@@ -85,7 +67,6 @@ namespace SE
                     AddNewCategoryPanel.Visible = false;
                     ListBoxPanel.Visible = true;
                     EditCategoryPanel.Visible = false;
-                    GenerateList();
                 }
                 else
                 {
@@ -97,8 +78,10 @@ namespace SE
                 if (EditCategoryName.Text != String.Empty)
                 {
                     Cat.CategoryName = EditCategoryName.Text;
+                    Cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
 
                     Cat.UpdateCategory();
+                    Cat.ReAssignUserCategories();
                     BindCategories();
 
                     SuccessMessage.Text = "Category successfully updated.";
@@ -107,7 +90,6 @@ namespace SE
                     AddNewCategoryPanel.Visible = false;
                     ListBoxPanel.Visible = true;
                     EditCategoryPanel.Visible = false;
-                    GenerateList();
                 }
                 else
                 {
@@ -203,12 +185,15 @@ namespace SE
         protected void AddNewCategory_Click(object sender, EventArgs e)
         {
             EditCategoryName.Text = String.Empty;
+            
             AddNewCategoryPanel.Visible = false;
             ListBoxPanel.Visible = false;
             TaskManagmentPanel.Visible = false;
             EditCategoryPanel.Visible = true;
             ManageMainStepPanel.Visible = false;
             EditCategoryButton.Text = "Add New Category";
+
+            GenerateUserLists();
         }
         protected void AddNewTask_Click(object sender, EventArgs e)
         {
@@ -233,12 +218,18 @@ namespace SE
         }
         protected void UpdateCategory_Click(object sender, EventArgs e)
         {
+            Cat = (Category)ViewState["Category"];
+            Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
+            ViewState.Add("Category", Cat);
+
             AddNewCategoryPanel.Visible = false;
             ListBoxPanel.Visible = false;
             EditCategoryPanel.Visible = true;
             TaskPanel.Visible = false;
-            EditCategoryName.Text = catList.SelectedValue;
+            EditCategoryName.Text = catList.SelectedItem.Text;
             EditCategoryButton.Text = "Update Category";
+
+            GenerateUserLists();
         }
         protected void UpdateTask_Click(object sender, EventArgs e)
         {
@@ -252,10 +243,10 @@ namespace SE
         }
         protected void DeleteCategoryButton_Click(object sender, EventArgs e)
         {
-            Cat.DeleteCategory(catList.SelectedValue);
+            Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
+            Cat.DeleteCategory();
             BindCategories();
             SuccessMessage.Text = "Category successfully deleted.";
-            GenerateList();
         }
         protected void DeleteTaskButton_Click(object sender, EventArgs e)
         {
@@ -280,8 +271,6 @@ namespace SE
         {
             if (UsersInCategory.SelectedItem != null)
             {
-                Cat = (Category)ViewState["Category"];
-                Cat.UnAssignUserFromCategory(UsersInCategory.SelectedValue.ToString());
                 UsersInCategory.Items.Remove(UsersInCategory.SelectedItem);
             }
         }
@@ -291,9 +280,7 @@ namespace SE
             if (AllUsers.SelectedItem != null &&
                 !UsersInCategory.Items.Contains(AllUsers.SelectedItem))
             {
-                Cat = (Category)ViewState["Category"];
-                Cat.AssignUserToCategory(AllUsers.SelectedValue.ToString());
-                UsersInCategory.Items.Add(AllUsers.SelectedValue.ToString());
+                UsersInCategory.Items.Add(AllUsers.SelectedItem);
             }
         }
 
@@ -312,28 +299,42 @@ namespace SE
         }
         private void BindCategories()
         {
-            CategoryList.DataSource = CategoryListSource;
-            CategoryList.DataBind();
-            Methods.AddBlankToDropDownList(CategoryList);
-        }
-       
-        /* Listbox Events */
-        private void GenerateList()
-        {
-            CategoriesTable.Columns.Add("Name", Type.GetType("System.String"));
-            foreach (Category cat in Category.GetSupervisorCategories(Membership.GetUser().UserName.ToLower()))
+            CategoryListSource.Select(DataSourceSelectArguments.Empty);
+            CategoryListSource.DataBind();
+
+            if((bool)ViewState["CategoriesExist"])
             {
-                DataRow row;
-                row = CategoriesTable.NewRow();
-                row["Name"] = cat.CategoryName;
-                CategoriesTable.Rows.Add(row);
+                catList.DataSource = CategoryListSource;
+                catList.DataBind();
             }
-            catList.DataTextField = "Name";
-            catList.DataSource = CategoriesTable;
-            catList.DataBind();
-            if (catList.Items.Count == 0)
+            else
             {
+                catList.Items.Clear();
                 catList.Items.Add("No Categories");
+            }
+        }
+        private void GenerateUserLists()
+        {
+            AllUsers.Items.Clear();
+            UsersInCategory.Items.Clear();
+
+            List<string> UsersAssignedToSupervisor = Member.UsersAssignedToSupervisor(UserName);
+
+            if (UsersAssignedToSupervisor.Count > 0)
+            {
+                AllUsers.DataSource = UsersAssignedToSupervisor;
+                AllUsers.DataBind();
+            }
+
+            if (EditCategoryButton.Text == "Update Category")
+            {
+                List<string> UsersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(UserName, Convert.ToInt32(catList.SelectedValue));
+
+                if(UsersAssignedToSupervisorAssignedToCategory.Count > 0)
+                {
+                    UsersInCategory.DataSource = UsersAssignedToSupervisorAssignedToCategory;
+                    UsersInCategory.DataBind();
+                }
             }
         }
         protected void QueryTasks(object sender, EventArgs e)
@@ -455,10 +456,7 @@ namespace SE
         }
         protected void catFilter_TextChanged(object sender, EventArgs e)
         {
-            DataView Dv = CategoriesTable.DefaultView;
-            Dv.RowFilter = "Name like '" + catFilter.Text + "%'";
-            catList.DataSource = Dv;
-            catList.DataBind();
+            BindCategories();
         }
         protected void refreshTasks()
         {
@@ -666,6 +664,18 @@ namespace SE
                 IMainStep.DeleteMainStep();
 
                 BindMainSteps();
+            }
+        }
+
+        protected void CategoryListSource_Selected(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.AffectedRows > 0)
+            {
+                ViewState["CategoriesExist"] = true;
+            }
+            else
+            {
+                ViewState["CategoriesExist"] = false;
             }
         }
     }

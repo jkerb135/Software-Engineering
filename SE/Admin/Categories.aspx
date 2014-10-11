@@ -183,7 +183,7 @@
                         <div class="row">
                             <div class="col-lg-3" style="padding: 0px">
                                 <asp:TextBox CssClass="form-control" ID="catFilter" runat="server" placeholder="Filter Categories" AutoPostBack="true" OnTextChanged="catFilter_TextChanged" ToolTip="Enter Category Search Here"></asp:TextBox>
-                                <asp:ListBox CssClass="form-control" ID="catList" runat="server" Height="500px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate"></asp:ListBox>
+                                <asp:ListBox CssClass="form-control" ID="catList" runat="server" Height="500px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate" DataTextField="CategoryName" DataValueField="CategoryID"></asp:ListBox>
                             </div>
                             <div class="col-lg-3" style="padding: 0px">
                                 <asp:TextBox CssClass="form-control" ID="taskFilter" runat="server" placeholder="Filter Tasks"></asp:TextBox>
@@ -205,8 +205,11 @@
     </div>
     <asp:SqlDataSource ID="CategoryListSource" runat="server"
         ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
-        SelectCommand="SELECT * FROM [Categories] WHERE ([CreatedBy] = @CreatedBy)"
-        ProviderName="System.Data.SqlClient">
+        SelectCommand="SELECT * FROM [Categories] WHERE ([CreatedBy] = @CreatedBy)" 
+        ProviderName="System.Data.SqlClient" OnSelected="CategoryListSource_Selected" FilterExpression="[CategoryName] LIKE '%{0}%'">
+        <FilterParameters>
+            <asp:ControlParameter Name="CategoryName" ControlID="catFilter" PropertyName="Text" />
+        </FilterParameters>
         <SelectParameters>
             <asp:SessionParameter Name="CreatedBy" SessionField="UserName" Type="String" />
         </SelectParameters>
