@@ -42,20 +42,20 @@ namespace SE.Classes
             string queryString =
                 "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
                 "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
-          
+
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
-                if (AssignedUser != null){cmd.Parameters.AddWithValue("@assigneduser", AssignedUser);}
-                else {cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);}
+                if (AssignedUser != null) { cmd.Parameters.AddWithValue("@assigneduser", AssignedUser); }
+                else { cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value); }
                 cmd.Parameters.AddWithValue("@taskname", TaskName);
                 cmd.Parameters.AddWithValue("@tasktime", TaskTime);
                 cmd.Parameters.AddWithValue("@isactive", IsActive);
                 cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
-                cmd.Parameters.AddWithValue("@createdby", 
+                cmd.Parameters.AddWithValue("@createdby",
                     System.Web.HttpContext.Current.User.Identity.Name);
 
                 con.Open();
@@ -72,7 +72,7 @@ namespace SE.Classes
                 "UPDATE Tasks " +
                 "SET CategoryID=@categoryid " +
                 "WHERE TaskID=@taskid";
-    
+
             string queryString2 =
                 "UPDATE Tasks " +
                 "SET AssignedUser=@assigneduser " +
@@ -173,7 +173,7 @@ namespace SE.Classes
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@createdby", 
+                cmd.Parameters.AddWithValue("@createdby",
                     System.Web.HttpContext.Current.User.Identity.Name);
 
                 con.Open();
@@ -225,6 +225,93 @@ namespace SE.Classes
             List<Task> TasksInCategoryAssignedToUser = new List<Task>();
 
             return TasksInCategoryAssignedToUser;
+        }
+        public void DeleteTask(string TaskName)
+        {
+            string queryString =
+                "DELETE FROM Tasks " +
+                "WHERE TaskName=@taskName";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@taskName", TaskName);
+
+                con.Open();
+
+                cmd.ExecuteNonQuery();
+
+                con.Close();
+            }
+        }
+        public static int getTaskID(string TaskName)
+        {
+            int id = -1;
+
+            string queryString =
+                "SELECT TaskID " +
+                "FROM Tasks " +
+                "WHERE TaskName=@taskName";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@taskName", TaskName);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    id = Convert.ToInt32(dr["TaskID"]);
+                }
+
+                con.Close();
+            }
+            return id;
+        }
+        public static DataSet GetSupervisorTasks(string Username)
+        {
+            DataSet SupervisorTasks = new DataSet();
+            DataTable taskTable = SupervisorTasks.Tables.Add("SupervisorTasks");
+            taskTable.Columns.Add("Task Name");
+
+            string queryString =
+                "SELECT TaskName FROM Tasks " +
+                "WHERE CreatedBy=@assignedSupervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    DataRow newRow = taskTable.NewRow();
+                    newRow["Task Name"] = dr["TaskName"].ToString();
+                    taskTable.Rows.Add(newRow);
+                }
+                if (taskTable.Rows.Count == 0)
+                {
+
+                    DataRow newRow = taskTable.NewRow();
+                    newRow["Task Name"] = Username + " has not created any tasks yet.";
+                    taskTable.Rows.Add(newRow);
+                }
+
+                con.Close();
+            }
+            return SupervisorTasks;
         }
     }
 }

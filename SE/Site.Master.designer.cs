@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SE {
-    
-    
-    public partial class Site {
-        
+namespace SE
+{
+
+
+    public partial class Site
+    {
+
         /// <summary>
         /// SiteHead control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder SiteHead;
-        
+
         /// <summary>
         /// masterForm control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm masterForm;
-        
+
         /// <summary>
         /// ScriptManage control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.ScriptManager ScriptManage;
-        
+
         /// <summary>
         /// username control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label username;
-        
+
         /// <summary>
         /// LogoutButton control.
         /// </summary>
@@ -56,7 +58,16 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton LogoutButton;
-        
+
+        /// <summary>
+        /// Li1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Li1;
+
         /// <summary>
         /// CreateUserMenu control.
         /// </summary>
@@ -65,16 +76,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl CreateUserMenu;
-        
-        /// <summary>
-        /// TaskManageMenu control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TaskManageMenu;
-        
+
         /// <summary>
         /// CategoriesMenu control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl CategoriesMenu;
-        
+
         /// <summary>
         /// ReportsMenu control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ReportsMenu;
-        
+
         /// <summary>
         /// SiteBody control.
         /// </summary>

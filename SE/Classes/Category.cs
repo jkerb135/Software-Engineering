@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace SE.Classes
 {
@@ -44,7 +45,7 @@ namespace SE.Classes
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@categoryname", CategoryName);
-                cmd.Parameters.AddWithValue("@createdby", 
+                cmd.Parameters.AddWithValue("@createdby",
                     System.Web.HttpContext.Current.User.Identity.Name);
 
                 con.Open();
@@ -59,15 +60,13 @@ namespace SE.Classes
         {
             string queryString =
                 "UPDATE Categories " +
-                "SET CategoryName=@categoryname " +
-                "WHERE CategoryID=@categoryid";
+                "SET CategoryName=@categoryname ";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
                 cmd.Parameters.AddWithValue("@categoryname", CategoryName);
 
                 con.Open();
@@ -78,18 +77,18 @@ namespace SE.Classes
             }
         }
 
-        public void DeleteCategory()
+        public void DeleteCategory(string CategoryName)
         {
             string queryString =
                 "DELETE FROM Categories " +
-                "WHERE CategoryID=@categoryid";
+                "WHERE CategoryName=@categoryname";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd.Parameters.AddWithValue("@categoryname", CategoryName);
 
                 con.Open();
 
@@ -148,7 +147,7 @@ namespace SE.Classes
         {
             List<Category> AssignedCategories = new List<Category>();
 
-            string queryString = 
+            string queryString =
                 "SELECT * FROM CategoryAssignments " +
                 "INNER JOIN Categories ON CategoryAssignments.CategoryID=Categories.CategoryID " +
                 "WHERE CategoryAssignments.AssignedUser=@assigneduser";
@@ -174,10 +173,10 @@ namespace SE.Classes
 
                 con.Close();
             }
-            
+
             return AssignedCategories;
         }
-        public static List<Category> GetSupervisorCategories(string Username)
+        public static List<Category> GetSupervisorCategoriesList(string Username)
         {
             List<Category> AssignedCategories = new List<Category>();
 
@@ -195,7 +194,6 @@ namespace SE.Classes
                 con.Open();
 
                 SqlDataReader dr = cmd.ExecuteReader();
-
                 while (dr.Read())
                 {
                     Category cat = new Category();
@@ -203,7 +201,37 @@ namespace SE.Classes
                     cat.CategoryName = dr["CategoryName"].ToString();
                     AssignedCategories.Add(cat);
                 }
+                con.Close();
+            }
 
+            return AssignedCategories;
+        }
+        public static DataSet GetSupervisorCategories(string Username)
+        {
+            DataSet AssignedCategories = new DataSet();
+            DataTable catTable = AssignedCategories.Tables.Add("SupervisorTasks");
+            catTable.Columns.Add("Category Name");
+
+            string queryString =
+                "SELECT * FROM Categories " +
+                "WHERE CreatedBy=@assignedSupervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    DataRow newRow = catTable.NewRow();
+                    newRow["Category Name"] = dr["CategoryName"].ToString();
+                    catTable.Rows.Add(newRow);
+                }
                 con.Close();
             }
 
@@ -271,6 +299,35 @@ namespace SE.Classes
             }
 
             return AllCategories;
+        }
+        public static int getCategoryID(string CategoryName)
+        {
+            int id = -1;
+
+            string queryString =
+                "SELECT CategoryID " +
+                "FROM Categories " +
+                "WHERE CategoryName=@categoryName";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@categoryname", CategoryName);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    id = Convert.ToInt32(dr["CategoryID"]);
+                }
+
+                con.Close();
+            }
+            return id;
         }
     }
 }

@@ -104,7 +104,35 @@ namespace SE.Classes
                 newRow["Username"] = "There are currently no users logged in";
                 userTable.Rows.Add(newRow);
             }
-                
+
+            return activeUsers;
+        }
+        public static DataSet CustomGetActiveSupervisor()
+        {
+            DataSet activeUsers = new DataSet();
+            DataTable userTable = new DataTable();
+            userTable = activeUsers.Tables.Add("Supervisor");
+            userTable.Columns.Add("Username", Type.GetType("System.String"));
+            MembershipUserCollection activeUserCollection;
+            activeUserCollection = Membership.GetAllUsers();
+            foreach (MembershipUser membership in activeUserCollection)
+            {
+                if (Roles.IsUserInRole(membership.UserName, "Supervisor") && (membership.UserName.ToUpper() != Membership.GetUser().UserName.ToUpper()))
+                {
+                    DataRow row;
+                    row = userTable.NewRow();
+                    row["Username"] = "<a href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    userTable.Rows.Add(row);
+                }
+            }
+            if (userTable.Rows.Count == 0)
+            {
+                DataRow newRow;
+                newRow = userTable.NewRow();
+                newRow["Username"] = "There are currently no supervisors logged in";
+                userTable.Rows.Add(newRow);
+            }
+
             return activeUsers;
         }
 
@@ -133,7 +161,7 @@ namespace SE.Classes
                 newRow["Username"] = "No new users assigned";
                 users.Rows.Add(newRow);
             }
-                
+
             return recentUsers;
         }
 
