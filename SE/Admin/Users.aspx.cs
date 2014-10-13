@@ -50,19 +50,6 @@ namespace SE
                 {
                     UsersMultiView.ActiveViewIndex = (int)UserPage.EditUser;
 
-                    MembershipUser User = Membership.GetUser(SelectedUserName);
-
-                    if(User.IsApproved)
-                    {
-                        EditActiveInactive.CssClass = "btn btn-danger clear block";
-                        EditActiveInactive.Text = "Deactivate";
-                    }
-                    else
-                    {
-                        EditActiveInactive.CssClass = "btn btn-success clear block";
-                        EditActiveInactive.Text = "Activate";
-                    }
-
                     // Populate list of supervisors if selected is a "user"
                     if (Roles.IsUserInRole(SelectedUserName, "User"))
                     {
@@ -208,23 +195,6 @@ namespace SE
             }
         }
 
-        protected void EditActiveInactive_Click(object sender, EventArgs e)
-        {
-            MembershipUser User = Membership.GetUser(SelectedUserName);
-
-            if (User.IsApproved)
-            {
-                User.IsApproved = false;
-            }
-            else
-            {
-                User.IsApproved = true;
-            }
-
-            Membership.UpdateUser(User);
-            Response.Redirect(Request.RawUrl);
-        }
-
         protected void UserList_Change(Object sender, DataGridPageChangedEventArgs e)
         {
             SuccessMessage.Text = "";
@@ -251,6 +221,7 @@ namespace SE
             UserList.DataSource = Member.CustomGetAllUsers();
             UserList.DataBind();
         }
+
     }
 }
 

@@ -14,68 +14,12 @@ namespace SE.Classes
     {
         #region Properties
 
-        private bool isActive = true;
-
         public int TaskID { get; set; }
         public int CategoryID { get; set; }
         public string AssignedUser { get; set; }
         public string TaskName { get; set; }
         public double TaskTime { get; set; }
-        public bool IsActive
-        {
-            get
-            {
-                if(TaskID > 0)
-                {
-                    string queryString =
-                        "SELECT IsActive FROM Tasks " +
-                        "WHERE TaskID=@taskid";
-
-                    using (SqlConnection con = new SqlConnection(
-                        Methods.GetConnectionString()))
-                    {
-                        SqlCommand cmd = new SqlCommand(queryString, con);
-
-                        cmd.Parameters.AddWithValue("@taskid", TaskID);
-
-                        con.Open();
-
-                        isActive = (bool)cmd.ExecuteScalar();
-
-                        con.Close();
-                    }
-                }
-
-                return isActive;
-            }
-            set
-            {
-                if (TaskID > 0)
-                {
-                    string queryString =
-                        "UPDATE Tasks " +
-                        "SET IsActive=@isactive " +
-                        "WHERE TaskID=@taskid";
-
-                    using (SqlConnection con = new SqlConnection(
-                        Methods.GetConnectionString()))
-                    {
-                        SqlCommand cmd = new SqlCommand(queryString, con);
-
-                        cmd.Parameters.AddWithValue("@taskid", TaskID);
-                        cmd.Parameters.AddWithValue("@isactive", value);
-
-                        con.Open();
-
-                        cmd.ExecuteScalar();
-
-                        con.Close();
-                    }
-                }
-
-                isActive = value;
-            }
-        }
+        public int IsActive { get; set; }
 
         #endregion
 
@@ -88,7 +32,7 @@ namespace SE.Classes
             this.AssignedUser = null;
             this.TaskName = String.Empty;
             this.TaskTime = 0;
-            this.IsActive = true;
+            this.IsActive = 1;
         }
 
         #endregion
@@ -98,14 +42,11 @@ namespace SE.Classes
             string queryString =
                 "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
                 "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
-
-            string queryString2 = "SELECT MAX(TaskID) FROM Tasks";
           
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
                 if (AssignedUser != null){cmd.Parameters.AddWithValue("@assigneduser", AssignedUser);}
@@ -120,7 +61,6 @@ namespace SE.Classes
                 con.Open();
 
                 cmd.ExecuteNonQuery();
-                TaskID = Convert.ToInt32(cmd2.ExecuteScalar());
 
                 con.Close();
             }
@@ -285,74 +225,6 @@ namespace SE.Classes
             List<Task> TasksInCategoryAssignedToUser = new List<Task>();
 
             return TasksInCategoryAssignedToUser;
-        }
-
-        public static int getTaskID(string TaskName)
-        {
-            int id = -1;
-
-            string queryString =
-                "SELECT TaskID " +
-                "FROM Tasks " +
-                "WHERE TaskName=@taskName";
-
-            using (SqlConnection con = new SqlConnection(
-                Methods.GetConnectionString()))
-            {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-
-                cmd.Parameters.AddWithValue("@taskName", TaskName);
-
-                con.Open();
-
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                while (dr.Read())
-                {
-                    id = Convert.ToInt32(dr["TaskID"]);
-                }
-
-                con.Close();
-            }
-            return id;
-        }
-        public static DataSet GetSupervisorTasks(string Username)
-        {
-            DataSet SupervisorTasks = new DataSet();
-            DataTable taskTable = SupervisorTasks.Tables.Add("SupervisorTasks");
-            taskTable.Columns.Add("Task Name");
-
-            string queryString =
-                "SELECT TaskName FROM Tasks " +
-                "WHERE CreatedBy=@assignedSupervisor";
-
-            using (SqlConnection con = new SqlConnection(
-                Methods.GetConnectionString()))
-            {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-
-                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
-
-                con.Open();
-
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    DataRow newRow = taskTable.NewRow();
-                    newRow["Task Name"] = dr["TaskName"].ToString();
-                    taskTable.Rows.Add(newRow);
-                }
-                if (taskTable.Rows.Count == 0)
-                {
-
-                    DataRow newRow = taskTable.NewRow();
-                    newRow["Task Name"] = Username + " has not created any tasks yet.";
-                    taskTable.Rows.Add(newRow);
-                }
-
-                con.Close();
-            }
-            return SupervisorTasks;
         }
     }
 }

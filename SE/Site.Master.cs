@@ -21,6 +21,7 @@ namespace SE
             }
             else
             {
+                TaskManageMenu.Visible = false;
                 CategoriesMenu.Visible = false;
             }
         }

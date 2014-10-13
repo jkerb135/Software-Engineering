@@ -24,7 +24,6 @@ namespace SE
                     DashboardView.ActiveViewIndex = (int)DashView.Supervisor;
                     getActiveUsers();
                     getRecentUsers();
-                    getActiveSupervisor();
                 }
                 else if (Roles.IsUserInRole(Membership.GetUser().UserName, "Manager"))
                 {
@@ -41,11 +40,6 @@ namespace SE
         {
             newMembers.DataSource = Member.CustomRecentlyAssigned();
             newMembers.DataBind();
-        }
-        protected void getActiveSupervisor()
-        {
-            signededIn.DataSource = Member.CustomGetActiveSupervisor();
-            signededIn.DataBind();
         }
     }
 }
