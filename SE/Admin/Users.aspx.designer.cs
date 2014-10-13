@@ -409,6 +409,15 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Button DeleteUserButton;
         
         /// <summary>
+        /// EditActiveInactive control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button EditActiveInactive;
+        
+        /// <summary>
         /// ManageUsers control.
         /// </summary>
         /// <remarks>

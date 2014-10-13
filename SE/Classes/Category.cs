@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
-using System.Data;
 
 namespace SE.Classes
 {
@@ -14,6 +13,7 @@ namespace SE.Classes
 
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
+        public List<string> CategoryAssignments { get; set; }
 
         #endregion
 
@@ -23,6 +23,7 @@ namespace SE.Classes
         {
             this.CategoryID = 0;
             this.CategoryName = String.Empty;
+            this.CategoryAssignments = null;
         }
 
         public Category(int CategoryID = 0, string CategoryName = "")
@@ -39,10 +40,13 @@ namespace SE.Classes
                 "INSERT INTO Categories (CategoryName, CreatedBy) " +
                 "VALUES (@categoryname, @createdby)";
 
+            string queryString2 = "SELECT MAX(CategoryID) FROM Categories";
+
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
+                SqlCommand cmd2 = new SqlCommand(queryString2, con);
 
                 cmd.Parameters.AddWithValue("@categoryname", CategoryName);
                 cmd.Parameters.AddWithValue("@createdby", 
@@ -51,6 +55,7 @@ namespace SE.Classes
                 con.Open();
 
                 cmd.ExecuteNonQuery();
+                CategoryID = Convert.ToInt32(cmd2.ExecuteScalar());
 
                 con.Close();
             }
@@ -60,13 +65,15 @@ namespace SE.Classes
         {
             string queryString =
                 "UPDATE Categories " +
-                "SET CategoryName=@categoryname ";
+                "SET CategoryName=@categoryname " +
+                "WHERE CategoryID=@categoryid";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
+                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
                 cmd.Parameters.AddWithValue("@categoryname", CategoryName);
 
                 con.Open();
@@ -77,18 +84,18 @@ namespace SE.Classes
             }
         }
 
-        public void DeleteCategory(string CategoryName)
+        public void DeleteCategory()
         {
             string queryString =
                 "DELETE FROM Categories " +
-                "WHERE CategoryName=@categoryname";
+                "WHERE CategoryID=@categoryid";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@categoryname", CategoryName);
+                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
 
                 con.Open();
 
@@ -98,7 +105,7 @@ namespace SE.Classes
             }
         }
 
-        public void AssignUserToCategory(string Username)
+        public void AssignUserCategories()
         {
             string queryString =
                 "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
@@ -109,35 +116,48 @@ namespace SE.Classes
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@assigneduser", Username);
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
 
                 con.Open();
 
+                foreach (string CatAssign in CategoryAssignments)
+                {
+                    cmd.Parameters.AddWithValue("@assigneduser", CatAssign);
                 cmd.ExecuteNonQuery();
+                }
 
                 con.Close();
             }
         }
 
-        public void UnAssignUserFromCategory(string Username)
+        public void ReAssignUserCategories()
         {
             string queryString =
                 "DELETE FROM CategoryAssignments " +
-                "WHERE AssignedUser=@assigneduser " +
-                "AND CategoryID=@categoryid";
+                "WHERE CategoryID=@categoryid ";
+
+            string queryString2 =
+                "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
+                "VALUES (@assigneduser,@categoryid)";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
+                SqlCommand cmd2 = new SqlCommand(queryString2, con);
 
-                cmd.Parameters.AddWithValue("@assigneduser", Username);
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd2.Parameters.AddWithValue("@categoryid", CategoryID);
 
                 con.Open();
 
                 cmd.ExecuteNonQuery();
+
+                foreach (string CatAssign in CategoryAssignments)
+                {
+                    cmd2.Parameters.AddWithValue("@assigneduser", CatAssign);
+                    cmd2.ExecuteNonQuery();
+                }
 
                 con.Close();
             }
