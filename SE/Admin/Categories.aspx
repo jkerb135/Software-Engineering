@@ -56,6 +56,19 @@
                             OnClick="DeleteCategoryButton_Click" OnClientClick="return confirm('Are you sure you want to delete this category?');" />
                     </div>
                 </asp:Panel>
+                <asp:Panel ID="DetailedStepManagement" CssClass="form-group" runat="server" Visible="false">
+                    <div class="form-inline">
+                        <asp:Button ID="Button5" runat="server"
+                            CssClass="btn btn-success" Text="Add New Detailed Step"
+                            OnClick="AddNewMainStep_Click" />
+                        <asp:Button ID="Button6" runat="server"
+                            CssClass="btn btn-primary" Text="Update Detailed Step"
+                            OnClick="UpdateTask_Click" />
+                        <asp:Button ID="Button7" runat="server"
+                            CssClass="btn btn-danger" Text="Delete Detailed Step"
+                            OnClick="DeleteCategoryButton_Click" OnClientClick="return confirm('Are you sure you want to delete this category?');" />
+                    </div>
+                </asp:Panel>
                 <div class="form-group">
                     <asp:DropDownList ID="CategoryList" runat="server" CssClass="form-control"
                         DataValueField="CategoryID" DataTextField="CategoryName" AutoPostBack="true"
@@ -195,7 +208,7 @@
                             </div>
                             <div class="col-lg-3" style="padding: 0px">
                                 <asp:TextBox CssClass="form-control" ID="detailFilter" runat="server" placeholder="Filter Detailed Steps"></asp:TextBox>
-                                <asp:ListBox CssClass="col-lg-12 form-control" ID="detailedStep" runat="server" Height="500px" OnSelectedIndexChanged="detailButtons"></asp:ListBox>
+                                <asp:ListBox CssClass="col-lg-12 form-control" ID="detailedStep" runat="server" Height="500px" AutoPostBack="True" OnSelectedIndexChanged="detailButtons"></asp:ListBox>
                             </div>
                         </div>
                     </div>

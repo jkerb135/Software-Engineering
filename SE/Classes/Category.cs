@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
+using System.Data;
 
 namespace SE.Classes
 {
@@ -175,7 +176,7 @@ namespace SE.Classes
             
             return AssignedCategories;
         }
-        public static List<Category> GetSupervisorCategories(string Username)
+        public static List<Category> GetSupervisorCategoriesList(string Username)
         {
             List<Category> AssignedCategories = new List<Category>();
 
@@ -193,7 +194,6 @@ namespace SE.Classes
                 con.Open();
 
                 SqlDataReader dr = cmd.ExecuteReader();
-
                 while (dr.Read())
                 {
                     Category cat = new Category();
@@ -201,7 +201,37 @@ namespace SE.Classes
                     cat.CategoryName = dr["CategoryName"].ToString();
                     AssignedCategories.Add(cat);
                 }
+                con.Close();
+            }
 
+            return AssignedCategories;
+        }
+        public static DataSet GetSupervisorCategories(string Username)
+        {
+            DataSet AssignedCategories = new DataSet();
+            DataTable catTable = AssignedCategories.Tables.Add("SupervisorTasks");
+            catTable.Columns.Add("Category Name");
+
+            string queryString =
+                "SELECT * FROM Categories " +
+                "WHERE CreatedBy=@assignedSupervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    DataRow newRow = catTable.NewRow();
+                    newRow["Category Name"] = dr["CategoryName"].ToString();
+                    catTable.Rows.Add(newRow);
+                }
                 con.Close();
             }
 

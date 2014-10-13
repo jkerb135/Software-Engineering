@@ -196,10 +196,27 @@ namespace SE.Classes
 
         }
 
-        public List<MainStep> GetMainSteps(int TaskID)
+        public static List<MainStep> GetMainSteps(int TaskID)
         {
             List<MainStep> MainSteps = new List<MainStep>();
+            string queryString = "Select MainStepName From MainSteps Where TaskID=@taskID ORDER BY ListOrder ASC";
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
 
+                cmd.Parameters.AddWithValue("@taskID", TaskID);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    MainStep step = new MainStep();
+                    step.MainStepName = dr["MainStepName"].ToString();
+                    MainSteps.Add(step);
+                }
+            }
             return MainSteps;
         }
 
@@ -214,5 +231,6 @@ namespace SE.Classes
 
             return NumberOfMainStepsComplete;
         }
+
     }
 }

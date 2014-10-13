@@ -58,6 +58,15 @@ namespace SE {
         protected global::System.Web.UI.WebControls.LinkButton LogoutButton;
         
         /// <summary>
+        /// Li1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Li1;
+        
+        /// <summary>
         /// CreateUserMenu control.
         /// </summary>
         /// <remarks>
@@ -65,15 +74,6 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl CreateUserMenu;
-        
-        /// <summary>
-        /// TaskManageMenu control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl TaskManageMenu;
         
         /// <summary>
         /// CategoriesMenu control.

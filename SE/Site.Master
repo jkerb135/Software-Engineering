@@ -257,7 +257,7 @@
                             <asp:Label ID="username" runat="server" Text=""></asp:Label><i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#"><i class="fa fa-user fa-fw"></i>User Profile</a>
+                            <li><a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>User Profile</a>
                             </li>
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
                             </li>
@@ -289,6 +289,9 @@
                             <li>
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                             </li>
+                            <li id="Li1" runat="server">
+                                <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>Profile</a>
+                            </li>
                             <li id="CreateUserMenu" runat="server">
                                 <a href="#"><i class="fa fa-wrench fa-fw"></i>Users<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
@@ -297,18 +300,6 @@
                                     </li>
                                     <li>
                                         <a href="<%=ResolveUrl("~/Admin/Users.aspx?userpage=createuser") %>">Create User</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
-                            <li id="TaskManageMenu" runat="server">
-                                <a href="#"><i class="fa fa-table fa-fw"></i>Tasks<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Tasks.aspx") %>">Manage Tasks</a>
-                                    </li>
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Tasks.aspx?taskpage=createtask") %>">Create Task</a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->

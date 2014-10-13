@@ -275,5 +275,43 @@ namespace SE.Classes
             }
             return id;
         }
+        public static DataSet GetSupervisorTasks(string Username)
+        {
+            DataSet SupervisorTasks = new DataSet();
+            DataTable taskTable = SupervisorTasks.Tables.Add("SupervisorTasks");
+            taskTable.Columns.Add("Task Name");
+
+            string queryString =
+                "SELECT TaskName FROM Tasks " +
+                "WHERE CreatedBy=@assignedSupervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+                    DataRow newRow = taskTable.NewRow();
+                    newRow["Task Name"] = dr["TaskName"].ToString();
+                    taskTable.Rows.Add(newRow);
+                }
+                if (taskTable.Rows.Count == 0)
+                {
+
+                    DataRow newRow = taskTable.NewRow();
+                    newRow["Task Name"] = Username + " has not created any tasks yet.";
+                    taskTable.Rows.Add(newRow);
+                }
+
+                con.Close();
+            }
+            return SupervisorTasks;
+        }
     }
 }
