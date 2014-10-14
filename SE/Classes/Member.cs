@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Web.Security;
 using System.Web.UI.WebControls;
-
+ 
 namespace SE.Classes
 {
     public static class Member
