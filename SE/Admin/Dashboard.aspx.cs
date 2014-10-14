@@ -32,7 +32,7 @@ namespace SE
                     DashboardView.ActiveViewIndex = (int)DashView.Manager;
                 }
             }
-        } 
+        }
         protected void getActiveUsers()
         {
             activeUserList.DataSource = Member.CustomGetActiveUsers();

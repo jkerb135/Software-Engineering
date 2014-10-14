@@ -121,8 +121,9 @@
                     </div>
                     <asp:Button ID="EditUserButton" CssClass="btn btn-default right" runat="server" 
                         ValidationGroup="EditUser" CausesValidation="true" Text="Submit" onclick="EditUserButton_Click" />                      
-                    <asp:Button ID="DeleteUserButton" CssClass="btn btn-danger btn-lg clear block" runat="server" Text="Delete User"
+                    <asp:Button ID="DeleteUserButton" CssClass="btn btn-danger btn-lg clear block" runat="server" Text="Delete User" Visible="false"
                         onclick="DeleteUserButton_Click" OnClientClick="return confirm('Are you sure you want to delete this user?');" />
+                    <asp:Button ID="EditActiveInactive" runat="server" OnClick="EditActiveInactive_Click" />
                 </div>
             </div>
         </asp:View>

@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Data;
 using System.Web.UI.WebControls;
- 
+
 namespace SE.Classes
 {
     [Serializable()]
@@ -14,12 +14,68 @@ namespace SE.Classes
     {
         #region Properties
 
+        private bool isActive = true;
+
         public int TaskID { get; set; }
         public int CategoryID { get; set; }
         public string AssignedUser { get; set; }
         public string TaskName { get; set; }
         public double TaskTime { get; set; }
-        public int IsActive { get; set; }
+        public bool IsActive
+        {
+            get
+            {
+                if(TaskID > 0)
+                {
+                    string queryString =
+                        "SELECT IsActive FROM Tasks " +
+                        "WHERE TaskID=@taskid";
+
+                    using (SqlConnection con = new SqlConnection(
+                        Methods.GetConnectionString()))
+                    {
+                        SqlCommand cmd = new SqlCommand(queryString, con);
+
+                        cmd.Parameters.AddWithValue("@taskid", TaskID);
+
+                        con.Open();
+
+                        isActive = (bool)cmd.ExecuteScalar();
+
+                        con.Close();
+                    }
+                }
+
+                return isActive;
+            }
+            set
+            {
+                if (TaskID > 0)
+                {
+                    string queryString =
+                        "UPDATE Tasks " +
+                        "SET IsActive=@isactive " +
+                        "WHERE TaskID=@taskid";
+
+                    using (SqlConnection con = new SqlConnection(
+                        Methods.GetConnectionString()))
+                    {
+                        SqlCommand cmd = new SqlCommand(queryString, con);
+
+                        cmd.Parameters.AddWithValue("@taskid", TaskID);
+                        cmd.Parameters.AddWithValue("@isactive", value);
+
+                        con.Open();
+
+                        cmd.ExecuteScalar();
+
+                        con.Close();
+                    }
+                }
+
+                isActive = value;
+            }
+        }
 
         #endregion
 
@@ -32,7 +88,7 @@ namespace SE.Classes
             this.AssignedUser = null;
             this.TaskName = String.Empty;
             this.TaskTime = 0;
-            this.IsActive = 1;
+            this.IsActive = true;
         }
 
         #endregion
@@ -43,24 +99,28 @@ namespace SE.Classes
                 "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
                 "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
 
+            string queryString2 = "SELECT MAX(TaskID) FROM Tasks";
+          
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
+                SqlCommand cmd2 = new SqlCommand(queryString2, con);
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
-                if (AssignedUser != null) { cmd.Parameters.AddWithValue("@assigneduser", AssignedUser); }
-                else { cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value); }
+                if (AssignedUser != null){cmd.Parameters.AddWithValue("@assigneduser", AssignedUser);}
+                else {cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);}
                 cmd.Parameters.AddWithValue("@taskname", TaskName);
                 cmd.Parameters.AddWithValue("@tasktime", TaskTime);
                 cmd.Parameters.AddWithValue("@isactive", IsActive);
                 cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
-                cmd.Parameters.AddWithValue("@createdby",
+                cmd.Parameters.AddWithValue("@createdby", 
                     System.Web.HttpContext.Current.User.Identity.Name);
 
                 con.Open();
 
                 cmd.ExecuteNonQuery();
+                TaskID = Convert.ToInt32(cmd2.ExecuteScalar());
 
                 con.Close();
             }
@@ -72,7 +132,7 @@ namespace SE.Classes
                 "UPDATE Tasks " +
                 "SET CategoryID=@categoryid " +
                 "WHERE TaskID=@taskid";
-
+    
             string queryString2 =
                 "UPDATE Tasks " +
                 "SET AssignedUser=@assigneduser " +
@@ -173,7 +233,7 @@ namespace SE.Classes
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@createdby",
+                cmd.Parameters.AddWithValue("@createdby", 
                     System.Web.HttpContext.Current.User.Identity.Name);
 
                 con.Open();
@@ -226,26 +286,7 @@ namespace SE.Classes
 
             return TasksInCategoryAssignedToUser;
         }
-        public void DeleteTask(string TaskName)
-        {
-            string queryString =
-                "DELETE FROM Tasks " +
-                "WHERE TaskName=@taskName";
 
-            using (SqlConnection con = new SqlConnection(
-                Methods.GetConnectionString()))
-            {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-
-                cmd.Parameters.AddWithValue("@taskName", TaskName);
-
-                con.Open();
-
-                cmd.ExecuteNonQuery();
-
-                con.Close();
-            }
-        }
         public static int getTaskID(string TaskName)
         {
             int id = -1;

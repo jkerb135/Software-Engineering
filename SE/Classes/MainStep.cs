@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
 using System.Diagnostics;
- 
+
 namespace SE.Classes
 {
     [Serializable()]
@@ -77,31 +77,31 @@ namespace SE.Classes
                 else
                     cmd2.Parameters.AddWithValue("@mainsteptext", DBNull.Value);
 
-                if (AudioPath != null)
-                {
-                    cmd2.Parameters.AddWithValue("@audiofilename", AudioFilename);
-                    cmd2.Parameters.AddWithValue("@audiopath", AudioPath);
+                if (AudioPath != null) 
+                { 
+                    cmd2.Parameters.AddWithValue("@audiofilename", AudioFilename); 
+                    cmd2.Parameters.AddWithValue("@audiopath", AudioPath); 
                 }
-                else
-                {
-                    cmd2.Parameters.AddWithValue("@audiofilename", DBNull.Value);
-                    cmd2.Parameters.AddWithValue("@audiopath", DBNull.Value);
+                else 
+                { 
+                    cmd2.Parameters.AddWithValue("@audiofilename", DBNull.Value); 
+                    cmd2.Parameters.AddWithValue("@audiopath", DBNull.Value); 
                 }
 
-                if (VideoPath != null)
-                {
-                    cmd2.Parameters.AddWithValue("@videofilename", VideoFilename);
-                    cmd2.Parameters.AddWithValue("@videopath", VideoPath);
+                if (VideoPath != null) 
+                { 
+                    cmd2.Parameters.AddWithValue("@videofilename", VideoFilename); 
+                    cmd2.Parameters.AddWithValue("@videopath", VideoPath); 
                 }
-                else
-                {
-                    cmd2.Parameters.AddWithValue("@videofilename", DBNull.Value);
+                else 
+                { 
+                    cmd2.Parameters.AddWithValue("@videofilename", DBNull.Value); 
                     cmd2.Parameters.AddWithValue("@videopath", DBNull.Value);
                 }
 
                 cmd2.Parameters.AddWithValue("@createdtime", DateTime.Now);
 
-                cmd2.Parameters.AddWithValue("@listorder", MaxNumber + 1);
+                cmd2.Parameters.AddWithValue("@listorder", MaxNumber+1);
 
                 con.Open();
 
@@ -196,27 +196,10 @@ namespace SE.Classes
 
         }
 
-        public static List<MainStep> GetMainSteps(int TaskID)
+        public List<MainStep> GetMainSteps(int TaskID)
         {
             List<MainStep> MainSteps = new List<MainStep>();
-            string queryString = "Select MainStepName From MainSteps Where TaskID=@taskID ORDER BY ListOrder ASC";
-            using (SqlConnection con = new SqlConnection(
-                Methods.GetConnectionString()))
-            {
-                SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@taskID", TaskID);
-
-                con.Open();
-
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    MainStep step = new MainStep();
-                    step.MainStepName = dr["MainStepName"].ToString();
-                    MainSteps.Add(step);
-                }
-            }
             return MainSteps;
         }
 
@@ -231,6 +214,5 @@ namespace SE.Classes
 
             return NumberOfMainStepsComplete;
         }
-
     }
 }

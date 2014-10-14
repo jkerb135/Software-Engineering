@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 
-namespace SE.Cla sses
+namespace SE.Classes
 {
     public static class Methods
     {

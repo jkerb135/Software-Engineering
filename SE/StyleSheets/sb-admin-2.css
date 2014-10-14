@@ -5,7 +5,6 @@
  */
 html,body{
     height:100%;
-    overflow:hidden;
 }
 body {
     background-color: #f8f8f8;
@@ -35,7 +34,7 @@ body {
     background-color: #ddd;
 }
 
-@media(min-width:700px) {
+@media(min-width:768px) {
     #page-wrapper {
         position: inherit;
         margin: 0 0 0 250px;
