@@ -390,7 +390,6 @@ namespace SE
         protected void QueryMainStep(object sender, EventArgs e)
         {
             taskIDX = taskList.SelectedIndex;
-            catList.SelectedIndex = -1;
             AddNewCategoryPanel.Visible = false;
             TaskManagmentPanel.Visible = true;
             MainStepManagement.Visible = false;
@@ -431,7 +430,6 @@ namespace SE
         protected void QueryDetailedStep(object sender, EventArgs e)
         {
             mainIDX = mainStep.SelectedIndex;
-            taskList.SelectedIndex = -1;
             AddNewCategoryPanel.Visible = false;
             TaskManagmentPanel.Visible = false;
             MainStepManagement.Visible = true;
@@ -468,7 +466,6 @@ namespace SE
         protected void detailButtons(object sender, EventArgs e)
         {
             detIDX = detailedStep.SelectedIndex;
-            mainStep.SelectedIndex = -1;
             AddNewCategoryPanel.Visible = false;
             TaskManagmentPanel.Visible = false;
             MainStepManagement.Visible = false;
