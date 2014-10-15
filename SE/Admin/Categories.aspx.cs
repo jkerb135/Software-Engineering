@@ -1036,10 +1036,5 @@ namespace SE
                 ViewState["CategoriesExist"] = false;
             }
         }
-
-        protected void TaskListSource_Selected(object sender, SqlDataSourceStatusEventArgs e)
-        {
-
-        }
     }
 }

@@ -236,7 +236,7 @@ namespace SE.Classes
             categories = assignedCategories.Tables.Add("Users");
             categories.Columns.Add("Category Name");
             categories.Columns.Add("Activity");
-            categories.Columns.Add("Created Date");
+            //categories.Columns.Add("Created Date");
             categories.Columns.Add("Users In Category");
 
             string queryString =
@@ -260,7 +260,7 @@ namespace SE.Classes
                     row = categories.NewRow();
                     row["Category Name"] = dr["CategoryName"].ToString();
                     //row["IsActive"] = dr["CategoryName"].ToString();
-                    row["Created Date"] = dr["CreatedTime"].ToString();
+                    //row["Created Date"] = dr["CreatedTime"].ToString();
                     foreach (string item in Member.UsersAssignedToSupervisorAssignedToCategory(Membership.GetUser().ToString(), Convert.ToInt32(dr["CategoryId"])))
                     {
                         row["Users In Category"] += item + ", ";
@@ -270,7 +270,6 @@ namespace SE.Classes
 
                 con.Close();
             }
-
             return assignedCategories;
         }
         public bool CategoryIsAssigned()

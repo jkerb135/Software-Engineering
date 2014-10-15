@@ -64,6 +64,11 @@ body {
 .navbar-top-links li {
     display: inline-block;
 }
+.login{
+    background: #282d2c;
+    background-image: url('../Images/ZenBG-1.png'),url('../Images/ZenBG-2.png');
+    background-repeat: repeat-x, repeat;
+}
 
 .navbar-top-links li:last-child {
     margin-right: 15px;

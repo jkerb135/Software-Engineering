@@ -27,7 +27,7 @@
                             <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:DataGrid ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true">
+                            <asp:DataGrid ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True">
                             </asp:DataGrid>
                         </div>
                     </div>

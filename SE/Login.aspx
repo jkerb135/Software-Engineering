@@ -34,7 +34,7 @@
     <![endif]-->
 
 </head>
-<body style="background-image: url('Images/ZenBG.png')">
+<body class="login">
     <form id="MainForm" runat="server">
         <div class="container">
             <div class="row">

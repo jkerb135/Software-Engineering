@@ -1,6 +1,7 @@
 ﻿using SE.Classes;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -33,6 +34,7 @@ namespace SE.Admin
         {
             categories.DataSource = Category.GetSupervisorCategories(username);
             categories.DataBind();
+            
         }
         private void QueryYourTasks(string username)
         {
