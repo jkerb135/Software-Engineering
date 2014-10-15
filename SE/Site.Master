@@ -348,6 +348,7 @@
 
         <!-- SE JavaScript -->
         <script src="<%=ResolveUrl("~/Scripts/scripts.js") %>"></script>
+        
     </form>
 </body>
 </html>

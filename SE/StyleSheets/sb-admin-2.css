@@ -20,12 +20,31 @@ body {
  
 ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color:pink;
+    background-color:#428bca;
     -webkit-box-shadow: inset 0 0 6px #222; 
 }
 #wrapper {
     width: 100%;
     background-color: #222;
+}
+.panel-login {
+  border-color: #222;
+  background-color: #f8f8f8;
+}
+.panel-login > .panel-heading {
+  color: #428bca;
+  background-color: #222;
+  border-color: #428bca;
+}
+.panel-login > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #428bca;
+}
+.panel-login > .panel-heading .badge {
+  color: #428bca;
+  background-color: #f8f8f8;
+}
+.panel-login > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #222;
 }
 
 #page-wrapper {
@@ -42,7 +61,6 @@ body {
         border-left: 1px solid #e7e7e7;
     }
 }
-
 .navbar-top-links li {
     display: inline-block;
 }
@@ -358,4 +376,18 @@ table.dataTable thead .sorting:after {
 
 .panel-yellow a:hover {
     color: #df8a13;
+}
+
+.profileNav{
+    text-align:center;
+    width:160px;
+    margin:0px;
+    float:left;
+}
+.profileNav input{
+    margin-bottom:2px;
+}
+.dataTables{
+    margin:0px auto;
+    margin-left: 200px;
 }

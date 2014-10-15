@@ -14,16 +14,19 @@ namespace SE.Admin
         string user = Membership.GetUser().UserName;
         protected void Page_Load(object sender, EventArgs e)
         {
-            Label1.Text = user  + " Categories";
-            Label2.Text = user + " Tasks";
+            Label1.Text = " Categories";
+            Label2.Text = " Tasks";
+            Label3.Text = " Users";
             QueryYourCategories(user);
             QueryYourTasks(user);
+            QueryYourUsers(user);
             if (Request.QueryString["userName"].ToUpper() != user.ToUpper() && Request.Path != "Profile.aspx") 
             {
                 Label1.Text = Request.QueryString["userName"] + " Categories";
                 Label2.Text = Request.QueryString["userName"] + " Tasks";
                 QueryYourCategories(Request.QueryString["userName"]);
                 QueryYourTasks(Request.QueryString["userName"]);
+                QueryYourUsers(Request.QueryString["userName"]);
             }
         }
         private void QueryYourCategories(string username)
@@ -35,6 +38,11 @@ namespace SE.Admin
         {
             tasks.DataSource = Task.GetSupervisorTasks(username);
             tasks.DataBind();
+        }
+        private void QueryYourUsers(string username)
+        {
+            users.DataSource = Member.CustomGetSupervisorsUsers(username);
+            users.DataBind();
         }
     }
 }

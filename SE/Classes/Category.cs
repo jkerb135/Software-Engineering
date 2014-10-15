@@ -4,6 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Data;
+using System.Web.Security;
+using System.Web.UI.WebControls;
 
 namespace SE.Classes
 {
@@ -14,6 +17,7 @@ namespace SE.Classes
 
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
+        public string CreatedTime { get; set; }
         public List<string> CategoryAssignments { get; set; }
 
         #endregion
@@ -38,8 +42,8 @@ namespace SE.Classes
         public void CreateCategory()
         {
             string queryString =
-                "INSERT INTO Categories (CategoryName, CreatedBy) " +
-                "VALUES (@categoryname, @createdby)";
+                "INSERT INTO Categories (CategoryName, CreatedBy, CreatedTime) " +
+                "VALUES (@categoryname, @createdby, @createdtime)";
 
             string queryString2 = "SELECT MAX(CategoryID) FROM Categories";
 
@@ -52,6 +56,7 @@ namespace SE.Classes
                 cmd.Parameters.AddWithValue("@categoryname", CategoryName);
                 cmd.Parameters.AddWithValue("@createdby", 
                     System.Web.HttpContext.Current.User.Identity.Name);
+                cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
 
                 con.Open();
 
@@ -197,9 +202,42 @@ namespace SE.Classes
             
             return AssignedCategories;
         }
-        public static List<Category> GetSupervisorCategories(string Username)
+        public static List<string> GetUsersCategories(string Username)
         {
-            List<Category> AssignedCategories = new List<Category>();
+            List<string> AssignedCategories = new List<string>();
+
+            string queryString = "SELECT * FROM CategoryAssignments INNER JOIN Categories ON CategoryAssignments.CategoryID = Categories.CategoryID Where AssignedUser = @user";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@user", Username);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    AssignedCategories.Add(Convert.ToString(dr["CategoryName"]));
+                }
+
+                con.Close();
+            }
+
+            return AssignedCategories;
+        }
+        public static DataSet GetSupervisorCategories(string Username)
+        {
+            DataSet assignedCategories = new DataSet();
+            DataTable categories = new DataTable();
+            categories = assignedCategories.Tables.Add("Users");
+            categories.Columns.Add("Category Name");
+            categories.Columns.Add("Activity");
+            categories.Columns.Add("Created Date");
+            categories.Columns.Add("Users In Category");
 
             string queryString =
                 "SELECT * FROM Categories " +
@@ -218,18 +256,23 @@ namespace SE.Classes
 
                 while (dr.Read())
                 {
-                    Category cat = new Category();
-                    cat.CategoryID = Convert.ToInt32(dr["CategoryID"]);
-                    cat.CategoryName = dr["CategoryName"].ToString();
-                    AssignedCategories.Add(cat);
+                    DataRow row;
+                    row = categories.NewRow();
+                    row["Category Name"] = dr["CategoryName"].ToString();
+                    //row["IsActive"] = dr["CategoryName"].ToString();
+                    row["Created Date"] = dr["CreatedTime"].ToString();
+                    foreach (string item in Member.UsersAssignedToSupervisorAssignedToCategory(Membership.GetUser().ToString(), Convert.ToInt32(dr["CategoryId"])))
+                    {
+                        row["Users In Category"] += item + ", ";
+                    }
+                    categories.Rows.Add(row);
                 }
 
                 con.Close();
             }
 
-            return AssignedCategories;
+            return assignedCategories;
         }
-
         public bool CategoryIsAssigned()
         {
             bool CategoryIsAssigned = false;
@@ -284,6 +327,7 @@ namespace SE.Classes
                     Category cat = new Category();
                     cat.CategoryID = Convert.ToInt32(dr["CategoryID"]);
                     cat.CategoryName = dr["CategoryName"].ToString();
+                    cat.CreatedTime = Convert.ToString(dr["CreatedTime"]);
                     AllCategories.Add(cat);
                 }
 

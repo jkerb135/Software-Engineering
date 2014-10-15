@@ -321,9 +321,12 @@ namespace SE.Classes
             DataSet SupervisorTasks = new DataSet();
             DataTable taskTable = SupervisorTasks.Tables.Add("SupervisorTasks");
             taskTable.Columns.Add("Task Name");
+            taskTable.Columns.Add("Activity");
+            taskTable.Columns.Add("Created");
+            taskTable.Columns.Add("Users In Task");
 
             string queryString =
-                "SELECT TaskName FROM Tasks " +
+                "SELECT * FROM Tasks " +
                 "WHERE CreatedBy=@assignedSupervisor";
 
             using (SqlConnection con = new SqlConnection(
@@ -340,6 +343,17 @@ namespace SE.Classes
                 {
                     DataRow newRow = taskTable.NewRow();
                     newRow["Task Name"] = dr["TaskName"].ToString();
+                    if (Convert.ToBoolean(dr["IsActive"]))
+                    {
+                        newRow["Activity"] = "Active";
+                    }
+                    else
+                    {
+                        newRow["Activity"] = "Inactive";
+                    }
+                    DateTime created = Convert.ToDateTime(Convert.ToString(dr["CreatedTime"]));
+                    newRow["Created"] = created.ToShortDateString();
+                    newRow["Users In Task"] = Convert.ToString(dr["AssignedUser"]);
                     taskTable.Rows.Add(newRow);
                 }
                 if (taskTable.Rows.Count == 0)

@@ -104,7 +104,7 @@ namespace SE.Classes
                 newRow["Username"] = "There are currently no users logged in";
                 userTable.Rows.Add(newRow);
             }
-                
+
             return activeUsers;
         }
 
@@ -133,7 +133,7 @@ namespace SE.Classes
                 newRow["Username"] = "No new users assigned";
                 users.Rows.Add(newRow);
             }
-                
+
             return recentUsers;
         }
 
@@ -442,5 +442,60 @@ namespace SE.Classes
 
             return activeUsers;
         }
+        public static DataSet CustomGetSupervisorsUsers(string Username)
+        {
+            DataSet supervisorUsers = new DataSet();
+            DataTable users = new DataTable();
+            users = supervisorUsers.Tables.Add("Users");
+            users.Columns.Add("Users", Type.GetType("System.String"));
+            users.Columns.Add("Activity");
+            users.Columns.Add("Assigned Categories");
+            MembershipUserCollection activeUserCollection;
+            activeUserCollection = Membership.GetAllUsers();
+
+            string queryString =
+                "SELECT AssignedUser FROM MemberAssignments " +
+                "WHERE AssignedSupervisor=@assignedSupervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    DataRow row;
+                    row = users.NewRow();
+                    row["Users"] = dr["AssignedUser"].ToString();
+                    MembershipUser user = Membership.GetUser(dr["AssignedUser"].ToString());
+                    if (user.IsApproved)
+                    {
+                        row["Activity"] = "Active";
+                    }
+                    else
+                    {
+                        row["Activity"] = "Inactive";
+                    }
+                    List<string> userCategories = Category.GetUsersCategories(Convert.ToString(dr["AssignedUser"]));
+                    foreach (string item in userCategories)
+                    {
+                        row["Assigned Categories"] += item + ",";
+                    }
+                    users.Rows.Add(row);
+                }
+
+                con.Close();
+            }
+
+
+            return supervisorUsers;
+        }
+
     }
 }

@@ -31,7 +31,7 @@ namespace SE
         {
             if (!IsPostBack)
             {
-                catList.Items.Add("Add Categories");
+                catList.Items.Add("--Add Categories--");
                 BindCategories(catList);
                 AddNewCategoryPanel.Visible = false;
                 EditCategoryPanel.Visible = false;
@@ -309,7 +309,7 @@ namespace SE
         }
         protected void UpdateCategory_Click(object sender, EventArgs e)
         {
-            if (catList.SelectedItem.Text != "Add Categories")
+            if (catList.SelectedItem.Text != "--Add Categories--")
             {
                 Cat = (Category)ViewState["Category"];
                 Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
@@ -373,7 +373,7 @@ namespace SE
             BindCategories(catList);
             SuccessMessage.Text = "Category successfully deleted.";
 
-            if (catList.Items.Contains(new ListItem("Add Categories")))
+            if (catList.Items.Contains(new ListItem("--Add Categories--")))
             {
                 taskList.Items.Clear();
                 taskList.Attributes.Add("disabled", "true");
@@ -467,13 +467,15 @@ namespace SE
 
             if((bool)ViewState["CategoriesExist"])
             {
+                list.Items.Clear();
                 list.DataSource = CategoryListSource;
                 list.DataBind();
+                list.Items.Add("--Add Categories--");
             }
             else
             {
                 list.Items.Clear();
-                list.Items.Add("Add Categories");
+                list.Items.Add("--Add Categories--");
             }
         }
         private void GenerateUserLists()
@@ -505,7 +507,7 @@ namespace SE
             AddNewCategoryPanel.Visible = true;
             TaskManagmentPanel.Visible = MainStepManagement.Visible = DetailedStepManagement.Visible = false;
 
-            if (catList.SelectedItem.Text != "Add Categories")
+            if (catList.SelectedItem.Text != "--Add Categories--")
             {
                 ITask = (Task)ViewState["Task"];
                 ITask.CategoryID = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
@@ -514,18 +516,18 @@ namespace SE
                 taskList.Items.Clear();
                 mainStep.Items.Clear();
                 detailedStep.Items.Clear();
-                taskList.Items.Add("Add Tasks");
+                taskList.Items.Add("--Add Tasks--");
                 RefreshTasks();
 
                 if (taskList.Items.Count == 0)
                 {
-                    taskList.Items.Add("Add Tasks");
+                    taskList.Items.Add("--Add Tasks--");
                 }
 
                 Update.Visible = Delete.Visible = true;
                 taskList.Attributes.Remove("disabled");
             }
-            else if (catList.SelectedValue == "Add Categories")
+            else if (catList.SelectedValue == "--Add Categories--")
             {
                 taskList.Items.Clear();
                 mainStep.Items.Clear();
@@ -541,7 +543,7 @@ namespace SE
             TaskManagmentPanel.Visible = true;
             AddNewCategoryPanel.Visible = MainStepManagement.Visible = DetailedStepManagement.Visible = false;
 
-            if (taskList.SelectedValue != "Add Tasks")
+            if (taskList.SelectedValue != "--Add Tasks--")
             {
                 ITask = (Task)ViewState["Task"];
                 ITask.TaskID = Convert.ToInt32(Convert.ToInt32(taskList.SelectedValue));
@@ -553,12 +555,12 @@ namespace SE
 
                 mainStep.Items.Clear();
                 detailedStep.Items.Clear();
-                mainStep.Items.Add("Add Main Steps");
+                mainStep.Items.Add("--Add Main Steps--");
                 RefreshMainSteps();
                 
                 if (mainStep.Items.Count == 0)
                 {
-                    mainStep.Items.Add("Add Main Steps");
+                    mainStep.Items.Add("--Add Main Steps--");
                 }
 
                 if (ITask.IsActive)
@@ -575,7 +577,7 @@ namespace SE
                 UpdateTask.Visible = IsActiveTask.Visible = true;
                 mainStep.Attributes.Remove("disabled");
             }
-            else if (taskList.SelectedValue == "Add Tasks")
+            else if (taskList.SelectedValue == "--Add Tasks--")
             {
                 mainStep.Items.Clear();
                 detailedStep.Items.Clear();
@@ -590,7 +592,7 @@ namespace SE
             MainStepManagement.Visible = true;
             TaskManagmentPanel.Visible = AddNewCategoryPanel.Visible = DetailedStepManagement.Visible = false;
 
-            if (mainStep.SelectedItem.Text != "Add Main Steps")
+            if (mainStep.SelectedItem.Text != "--Add Main Steps--")
             {
                 IMainStep = (MainStep)ViewState["MainStep"];
                 IMainStep.MainStepID = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
@@ -601,25 +603,25 @@ namespace SE
                 ViewState.Add("DetailedStep", IDetailedStep);
 
                 detailedStep.Items.Clear();
-                detailedStep.Items.Add("Add Detailed Steps");
+                detailedStep.Items.Add("--Add Detailed Steps--");
                 RefreshDetailedSteps();
                 
                 if (detailedStep.Items.Count == 0)
                 {
-                    detailedStep.Items.Add("Add Detailed Steps");
+                    detailedStep.Items.Add("--Add Detailed Steps--");
                 }
 
                 UpdateMainStep.Visible = DeleteMainStep.Visible = true;
                 detailedStep.Attributes.Remove("disabled");
             }
-            else if (mainStep.SelectedValue == "Add Main Steps")
+            else if (mainStep.SelectedValue == "--Add Main Steps--")
             {
                 detailedStep.Items.Clear();
                 detailedStep.Attributes.Add("disabled", "true");
                 UpdateMainStep.Visible = DeleteMainStep.Visible = MainStepMoveUp.Visible = MainStepMoveDown.Visible = false;
             }
 
-            if(mainStep.Items.Count > 1 && mainStep.SelectedValue != "Add Main Steps")
+            if(mainStep.Items.Count > 1 && mainStep.SelectedValue != "--Add Main Steps--")
             {
                 MainStepMoveUp.Visible = MainStepMoveDown.Visible = true;
             }
@@ -633,7 +635,7 @@ namespace SE
             DetailedStepManagement.Visible = true;
             MainStepManagement.Visible = TaskManagmentPanel.Visible = AddNewCategoryPanel.Visible = false;
 
-            if(detailedStep.SelectedItem.Text != "Add Detailed Steps")
+            if(detailedStep.SelectedItem.Text != "--Add Detailed Steps--")
             {
                 IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
                 IDetailedStep.DetailedStepID = Convert.ToInt32(Convert.ToInt32(detailedStep.SelectedValue));
@@ -666,8 +668,10 @@ namespace SE
             ITask = (Task)ViewState["Task"];
             TaskListSource.SelectCommand = "SELECT * FROM [Tasks] WHERE ([CategoryID] = @CategoryID)";
             TaskListSource.SelectParameters["CategoryID"].DefaultValue = ITask.CategoryID.ToString();
+            taskList.Items.Clear();
             taskList.DataSource = TaskListSource;
             taskList.DataBind();
+            taskList.Items.Add("--Add Tasks--");
         }
 
         private void RefreshMainSteps()
@@ -675,8 +679,10 @@ namespace SE
             IMainStep = (MainStep)ViewState["MainStep"];
             MainStepListSource.SelectCommand = "SELECT * FROM [MainSteps] WHERE ([TaskID] = @TaskID) ORDER BY ListOrder";
             MainStepListSource.SelectParameters["TaskID"].DefaultValue = IMainStep.TaskID.ToString();
+            mainStep.Items.Clear();
             mainStep.DataSource = MainStepListSource;
             mainStep.DataBind();
+            mainStep.Items.Add("--Add Main Steps--");
         }
 
         private void RefreshDetailedSteps()
@@ -684,8 +690,10 @@ namespace SE
             IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
             DetailedStepListSource.SelectCommand = "SELECT * FROM [DetailedSteps] WHERE ([MainStepID] = @MainStepID) ORDER BY ListOrder";
             DetailedStepListSource.SelectParameters["MainStepID"].DefaultValue = IDetailedStep.MainStepID.ToString();
+            detailedStep.Items.Clear();
             detailedStep.DataSource = DetailedStepListSource;
             detailedStep.DataBind();
+            detailedStep.Items.Add("--Add Detailed Steps--");
         }
 
 

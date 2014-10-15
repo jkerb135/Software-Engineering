@@ -34,14 +34,14 @@
     <![endif]-->
 
 </head>
-<body>
+<body style="background-image: url('Images/ZenBG.png')">
     <form id="MainForm" runat="server">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <asp:Login ID="MainLogin" OnLoggedIn="MainLogin_LoggedIn" runat="server">
                         <LayoutTemplate>
-                            <div class="login-panel panel panel-default">
+                            <div class="login-panel panel panel-login">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Please Sign In</h3>
                                 </div>
@@ -62,7 +62,7 @@
                                                     Remember Me
                                                 </label>
                                             </div>
-                                            <asp:Button ID="Login" CommandName="Login" CssClass="btn btn-lg btn-success btn-block" Text="Submit" runat="server"  />
+                                            <asp:Button ID="Login" CommandName="Login" CssClass="btn btn-lg btn-primary btn-block" Text="Submit" runat="server"  />
                                         </fieldset>
                                     </div>
                                 </div>   
