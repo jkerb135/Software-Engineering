@@ -33,6 +33,8 @@ namespace SE
             {
                 catDateSort.Text = "Date \u25B2";
                 taskDateSort.Text = "Date \u25B2";
+                mainStepSort.Text = "Date \u25B2";
+                detailedSort.Text = "Date \u25B2";
                 taskDateSort.Attributes.Add("disabled", "true");
                 catList.Items.Add("--Add Categories--");
                 BindCategories(catList);
@@ -555,6 +557,7 @@ namespace SE
         }
         protected void QueryMainStep(object sender, EventArgs e)
         {
+            mainStepSort.Text = "Date \u25B2";
             TaskManagmentPanel.Visible = true;
             AddNewCategoryPanel.Visible = MainStepManagement.Visible = DetailedStepManagement.Visible = false;
 
@@ -1049,6 +1052,7 @@ namespace SE
 
         protected void catDateSort_Click(object sender, EventArgs e)
         {
+            string preValue = catList.SelectedValue;
             string queryString = "";
             switch (catDateSort.Text)
             {
@@ -1085,10 +1089,12 @@ namespace SE
             catList.DataSource = sort;
             catList.DataBind();
             catList.Items.Add("--Add Categories--");
+            catList.SelectedValue = preValue;
         }
 
         protected void taskDateSort_Click(object sender, EventArgs e)
         {
+            string preValue = taskList.SelectedValue;
             string queryString = "";
             switch (taskDateSort.Text)
             {
@@ -1105,8 +1111,7 @@ namespace SE
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
-                string id = Convert.ToString(Category.getCategoryID(catList.SelectedItem.Text));
-                cmd.Parameters.AddWithValue("@catID", id);
+                cmd.Parameters.AddWithValue("@catID", catList.SelectedValue);
                 con.Open();
 
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -1125,6 +1130,94 @@ namespace SE
             taskList.DataSource = sort;
             taskList.DataBind();
             taskList.Items.Add("--Add Tasks--");
+            taskList.SelectedValue = preValue;
+        }
+        protected void mainStep_Sort(object sender, EventArgs e)
+        {
+            string preValue = mainStep.SelectedValue;
+            string queryString = "";
+            switch (mainStepSort.Text)
+            {
+                case "Date \u25BC": mainStepSort.Text = "Date \u25B2"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": mainStepSort.Text = "Date \u25BC"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime DESC"; break;
+                default: break;
+            }
+            mainStep.DataSource = null;
+            mainStep.Items.Clear();
+            List<MainStep> sort = new List<MainStep>();
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
+                cmd.Parameters.AddWithValue("@id", taskList.SelectedValue);
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    MainStep step = new MainStep();
+                    step.MainStepName = Convert.ToString(dr["MainStepName"]);
+                    step.MainStepID = Convert.ToInt32(dr["MainStepID"]);
+                    step.CreatedTime = Convert.ToString(dr["CreatedTime"]);
+                    sort.Add(step);
+                }
+
+                con.Close();
+            }
+            mainStep.DataSource = sort;
+            mainStep.DataBind();
+            mainStep.Items.Add("--Add Main Steps--");
+            mainStep.SelectedValue = preValue;
+        }
+        protected void detailedDateSort_Click(object sender, EventArgs e)
+        {
+            string preValue = detailedStep.SelectedValue;
+            string queryString = "";
+            switch (detailedSort.Text)
+            {
+                case "Date \u25BC": detailedSort.Text = "Date \u25B2"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": detailedSort.Text = "Date \u25BC"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime DESC"; break;
+                default: break;
+            }
+            detailedStep.DataSource = null;
+            detailedStep.Items.Clear();
+            List<DetailedStep> sort = new List<DetailedStep>();
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
+                cmd.Parameters.AddWithValue("@id", mainStep.SelectedValue);
+                
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    DetailedStep step = new DetailedStep();
+                    step.DetailedStepName = Convert.ToString(dr["DetailedStepName"]);
+                    step.DetailedStepID = Convert.ToInt32(dr["DetailedStepID"]);
+                    step.CreatedTime = Convert.ToString(dr["CreatedTime"]);
+                    sort.Add(step);
+                }
+
+                con.Close();
+            }
+            detailedStep.DataSource = sort;
+            detailedStep.DataBind();
+            detailedStep.Items.Add("--Add Deatiled Steps--");
+            detailedStep.SelectedValue = preValue;
+        }
+
+        protected void catFilter_TextChanged(object sender, EventArgs e)
+        {
+            BindCategories(catList);
         }
     }
 }

@@ -215,36 +215,50 @@
                             <div class="row center">
                                 <div class="col-lg-3" style="padding: 0px">
                                     <div class="row" style="padding-left: 15px">
-                                        <div class="col-lg-8 reset">
-                                            <asp:TextBox CssClass="form-control" ID="catFilter" runat="server" placeholder="Filter Categories" AutoPostBack="true" ToolTip="Enter Category Search Here"></asp:TextBox>
+                                        <div class="col-lg-7 reset">
+                                            <asp:TextBox CssClass="form-control" ID="catFilter" runat="server" placeholder="Filter Categories" AutoPostBack="true" ToolTip="Enter Category Search Here" OnTextChanged="catFilter_TextChanged"></asp:TextBox>
                                         </div>
-                                        <div class="col-lg-3 reset">
+                                        <div class="col-lg-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="catDateSort" runat="server" Text="" OnClick="catDateSort_Click" />
                                         </div>
 
                                     </div>
 
-                                    <asp:ListBox CssClass="form-control" ID="catList" runat="server" Height="500px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate" AppendDataBoundItems="true" DataTextField="CategoryName" DataValueField="CategoryID"></asp:ListBox>
+                                    <asp:ListBox CssClass="form-control" ID="catList" runat="server" Height="350px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate" AppendDataBoundItems="true" DataTextField="CategoryName" DataValueField="CategoryID"></asp:ListBox>
                                 </div>
                                 <div class="col-lg-3" style="padding: 0px">
                                     <div class="row" style="padding-left: 15px">
-                                        <div class="col-lg-8 reset">
+                                        <div class="col-lg-7 reset">
                                             <asp:TextBox CssClass="form-control" ID="taskFilter" runat="server" placeholder="Filter Tasks"></asp:TextBox>
                                         </div>
-                                        <div class="col-lg-3 reset">
+                                        <div class="col-lg-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="taskDateSort" runat="server" Text="" OnClick="taskDateSort_Click" />
                                         </div>
 
                                     </div>
-                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="taskList" runat="server" Height="500px" OnSelectedIndexChanged="QueryMainStep" AutoPostBack="True" DataTextField="TaskName" DataValueField="TaskID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="taskList" runat="server" Height="350px" OnSelectedIndexChanged="QueryMainStep" AutoPostBack="True" DataTextField="TaskName" DataValueField="TaskID" AppendDataBoundItems="true"></asp:ListBox>
                                 </div>
                                 <div class="col-lg-3" style="padding: 0px">
-                                    <asp:TextBox CssClass="form-control" ID="mainFilter" runat="server" placeholder="Filter Main Steps"></asp:TextBox>
-                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="mainStep" runat="server" Height="500px" AutoPostBack="True" OnSelectedIndexChanged="QueryDetailedStep" DataTextField="MainStepName" DataValueField="MainStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <div class="row" style="padding-left: 15px">
+                                        <div class="col-lg-7 reset">
+                                            <asp:TextBox CssClass="form-control" ID="mainFilter" runat="server" placeholder="Filter Main Steps"></asp:TextBox>
+                                        </div>
+                                        <div class="col-lg-4 reset">
+                                            <asp:Button CssClass="form-control btn btn-primary" ID="mainStepSort" runat="server" Text="" OnClick="mainStep_Sort" />
+                                        </div>
+                                    </div>
+                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="mainStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="QueryDetailedStep" DataTextField="MainStepName" DataValueField="MainStepID" AppendDataBoundItems="true"></asp:ListBox>
                                 </div>
                                 <div class="col-lg-3" style="padding: 0px">
-                                    <asp:TextBox CssClass="form-control" ID="detailFilter" runat="server" placeholder="Filter Detailed Steps"></asp:TextBox>
-                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="detailedStep" runat="server" Height="500px" AutoPostBack="True" OnSelectedIndexChanged="detailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <div class="row" style="padding-left: 15px">
+                                        <div class="col-lg-7 reset">
+                                            <asp:TextBox CssClass="form-control" ID="detailFilter" runat="server" placeholder="Filter Detailed Steps"></asp:TextBox>
+                                        </div>
+                                        <div class="col-lg-4 reset">
+                                            <asp:Button CssClass="form-control btn btn-primary" ID="detailedSort" runat="server" Text="" OnClick="detailedDateSort_Click" />
+                                        </div>
+                                    </div>
+                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="detailedStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="detailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
                                 </div>
                             </div>
                         </div>

@@ -21,7 +21,7 @@ namespace SE.Classes
         public string AudioPath { get; set; }
         public string VideoFilename { get; set; }
         public string VideoPath { get; set; }
-
+        public string CreatedTime { get; set; }
         #endregion
 
         #region Constructors

@@ -715,6 +715,15 @@ namespace SE {
         protected global::System.Web.UI.WebControls.TextBox mainFilter;
         
         /// <summary>
+        /// mainStepSort control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button mainStepSort;
+        
+        /// <summary>
         /// mainStep control.
         /// </summary>
         /// <remarks>
@@ -731,6 +740,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox detailFilter;
+        
+        /// <summary>
+        /// detailedSort control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button detailedSort;
         
         /// <summary>
         /// detailedStep control.

@@ -305,7 +305,7 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li id="CategoriesMenu" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Categories</a>
+                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Management Panel</a>
                             </li>
                             <li id="ReportsMenu" runat="server">
                                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>

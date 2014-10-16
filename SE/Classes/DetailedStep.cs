@@ -17,7 +17,7 @@ namespace SE.Classes
         public string DetailedStepText { get; set; }
         public string ImageFilename { get; set; }
         public string ImagePath { get; set; }
-
+        public string CreatedTime { get; set; }
         #endregion
 
         #region Constructors
