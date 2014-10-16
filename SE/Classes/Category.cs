@@ -123,12 +123,13 @@ namespace SE.Classes
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);
 
                 con.Open();
 
                 foreach (string CatAssign in CategoryAssignments)
                 {
-                    cmd.Parameters.AddWithValue("@assigneduser", CatAssign);
+                    cmd.Parameters["@assigneduser"].Value = CatAssign;
                     cmd.ExecuteNonQuery();
                 }
 
@@ -154,6 +155,7 @@ namespace SE.Classes
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
                 cmd2.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd2.Parameters.AddWithValue("@assigneduser", DBNull.Value);
 
                 con.Open();
 
@@ -161,7 +163,7 @@ namespace SE.Classes
 
                 foreach (string CatAssign in CategoryAssignments)
                 {
-                    cmd2.Parameters.AddWithValue("@assigneduser", CatAssign);
+                    cmd2.Parameters["@assigneduser"].Value = CatAssign;
                     cmd2.ExecuteNonQuery();
                 }
 

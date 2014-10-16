@@ -433,7 +433,7 @@ namespace SE
         {
             if (UsersInCategory.SelectedItem != null)
             {
-                UsersInCategory.Items.Remove(UsersInCategory.SelectedItem);
+                UsersInCategory.Items.Remove(UsersInCategory.SelectedItem.Value);
             }
         }
 
@@ -442,7 +442,7 @@ namespace SE
             if (AllUsers.SelectedItem != null &&
                 !UsersInCategory.Items.Contains(AllUsers.SelectedItem))
             {
-                UsersInCategory.Items.Add(AllUsers.SelectedItem);
+                UsersInCategory.Items.Add(AllUsers.SelectedItem.Value);
             }
         }
 
