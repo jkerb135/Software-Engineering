@@ -155,6 +155,7 @@ namespace SE.Classes
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
                 cmd2.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd2.Parameters.AddWithValue("@assigneduser", DBNull.Value);
 
                 con.Open();
 
