@@ -238,6 +238,7 @@ namespace SE.Classes
             categories.Columns.Add("Activity");
             //categories.Columns.Add("Created Date");
             categories.Columns.Add("Users In Category");
+            categories.Columns.Add("Assign Users");
 
             string queryString =
                 "SELECT * FROM Categories " +

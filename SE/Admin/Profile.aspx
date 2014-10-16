@@ -27,8 +27,8 @@
                             <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:DataGrid ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True">
-                            </asp:DataGrid>
+                            <asp:GridView ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True" AllowSorting="true" OnSorting="categories_Sort">
+                            </asp:GridView>
                         </div>
                     </div>
                 </div>
@@ -41,8 +41,8 @@
                             <asp:Label ID="Label2" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:DataGrid ID="tasks" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true">
-                            </asp:DataGrid>
+                            <asp:GridView ID="tasks" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" AllowSorting="true">
+                            </asp:GridView>
                         </div>
                     </div>
                 </div>
@@ -55,8 +55,8 @@
                             <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:DataGrid ID="users" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true">
-                            </asp:DataGrid>
+                            <asp:GridView ID="users" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" AllowSorting="true">
+                            </asp:GridView>
                         </div>
                     </div>
                 </div>

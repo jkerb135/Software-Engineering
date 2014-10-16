@@ -21,6 +21,7 @@ namespace SE.Classes
         public string AssignedUser { get; set; }
         public string TaskName { get; set; }
         public double TaskTime { get; set; }
+        public string CreatedTime { get; set; }
         public bool IsActive
         {
             get

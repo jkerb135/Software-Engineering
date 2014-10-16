@@ -22,6 +22,15 @@ namespace SE {
         protected global::System.Web.UI.UpdatePanel CategoryContainer;
         
         /// <summary>
+        /// header control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label header;
+        
+        /// <summary>
         /// ErrorMessage control.
         /// </summary>
         /// <remarks>
@@ -652,6 +661,15 @@ namespace SE {
         protected global::System.Web.UI.WebControls.TextBox catFilter;
         
         /// <summary>
+        /// catDateSort control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button catDateSort;
+        
+        /// <summary>
         /// catList control.
         /// </summary>
         /// <remarks>
@@ -668,6 +686,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox taskFilter;
+        
+        /// <summary>
+        /// taskDateSort control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button taskDateSort;
         
         /// <summary>
         /// taskList control.

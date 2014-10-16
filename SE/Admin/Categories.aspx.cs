@@ -31,6 +31,9 @@ namespace SE
         {
             if (!IsPostBack)
             {
+                catDateSort.Text = "Date \u25B2";
+                taskDateSort.Text = "Date \u25B2";
+                taskDateSort.Attributes.Add("disabled", "true");
                 catList.Items.Add("--Add Categories--");
                 BindCategories(catList);
                 AddNewCategoryPanel.Visible = false;
@@ -52,7 +55,6 @@ namespace SE
         }
         protected void Page_PreRender(object sender, EventArgs e)
         {
-
         }
         
         /* Management CRUD Functionality */
@@ -82,6 +84,7 @@ namespace SE
                 {
                     ErrorMessage.Text = "Error creating new category";
                 }
+                header.Text = "Management Panel";
             }
             else if (EditCategoryButton.Text == "Update Category")
             {
@@ -105,6 +108,7 @@ namespace SE
                 {
                     ErrorMessage.Text = "Error Updating Category";
                 }
+                header.Text = "Management Panel";
             }
         }
         protected void EditTaskButton_Click(object sender, EventArgs e)
@@ -143,7 +147,7 @@ namespace SE
                 if (EditTaskName.Text != String.Empty)
                 {
                     ITask.TaskName = EditTaskName.Text;
-
+                    header.Text = "Edit Task: " + ITask.TaskName;
                     if (!String.IsNullOrEmpty(EditAssignUserToTask.SelectedItem.Text))
                         ITask.AssignedUser = EditAssignUserToTask.SelectedItem.Text;
                     else
@@ -165,6 +169,7 @@ namespace SE
                     ErrorMessage.Text = "Error Updating Task";
                 }
             }
+            header.Text = "Management Panel";
         }
         protected void EditMainStepButton_Click(object sender, EventArgs e)
         {
@@ -172,6 +177,7 @@ namespace SE
 
             if (MainStepName.Text != String.Empty)
             {
+                
                 IMainStep.MainStepName = MainStepName.Text;
                 IMainStep.MainStepText =
                     !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
@@ -214,6 +220,7 @@ namespace SE
 
                 RefreshMainSteps();
             }
+            header.Text = "Management Panel";
         }
         protected void EditDetailedStepButton_Click(object sender, EventArgs e)
         {
@@ -255,6 +262,7 @@ namespace SE
 
                 RefreshDetailedSteps();
             }
+            header.Text = "Management Panel";
         }
         protected void AddNewCategory_Click(object sender, EventArgs e)
         {
@@ -266,7 +274,7 @@ namespace SE
             EditCategoryPanel.Visible = true;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = false;
-            EditCategoryButton.Text = "Add New Category";
+            header.Text = EditCategoryButton.Text = "Add New Category";
 
             GenerateUserLists();
         }
@@ -281,7 +289,7 @@ namespace SE
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = false;
             TaskPanel.Visible = true;
-            EditTaskButton.Text = "Add New Task";
+            header.Text = EditTaskButton.Text = "Add New Task";
         }
         protected void AddNewMainStep_Click(object sender, EventArgs e)
         {
@@ -293,7 +301,7 @@ namespace SE
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = true;
             ManageDetailedStepPanel.Visible = false;
-            MainStepButton.Text = "Add New Main Step";
+            header.Text = MainStepButton.Text = "Add New Main Step";
         }
         protected void AddNewDetailedStep_Click(object sender, EventArgs e)
         {
@@ -305,7 +313,7 @@ namespace SE
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = true;
-            EditDetailedStepButton.Text = "Add New Detailed Step";
+            header.Text = EditDetailedStepButton.Text = "Add New Detailed Step";
         }
         protected void UpdateCategory_Click(object sender, EventArgs e)
         {
@@ -321,7 +329,7 @@ namespace SE
                 TaskPanel.Visible = false;
                 EditCategoryName.Text = catList.SelectedItem.Text;
                 EditCategoryButton.Text = "Update Category";
-
+                header.Text = "Update Category: " + catList.SelectedItem.Text; 
                 GenerateUserLists();
             }
             else
@@ -339,6 +347,7 @@ namespace SE
             TaskPanel.Visible = true;
             EditTaskName.Text = taskList.SelectedItem.Text;
             EditTaskButton.Text = "Update Task";
+            header.Text = "Update Task: " + taskList.SelectedItem.Text; 
         }
         protected void UpdateMainStep_Click(object sender, EventArgs e)
         {
@@ -352,6 +361,7 @@ namespace SE
             ManageDetailedStepPanel.Visible = false;
             MainStepName.Text = mainStep.SelectedItem.Text;
             MainStepButton.Text = "Update Main Step";
+            header.Text = "Update Main Step: " + mainStep.SelectedItem.Text; 
         }
         protected void UpdateDetailedStep_Click(object sender, EventArgs e)
         {
@@ -365,6 +375,7 @@ namespace SE
             ManageDetailedStepPanel.Visible = true;
             DetailedStepName.Text = detailedStep.SelectedItem.Text;
             EditDetailedStepButton.Text = "Update Detailed Step";
+            header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text; 
         }
         protected void DeleteCategoryButton_Click(object sender, EventArgs e)
         {
@@ -458,6 +469,7 @@ namespace SE
             taskList.SelectedIndex = -1;
             mainStep.SelectedIndex = -1;
             detailedStep.SelectedIndex = -1;
+            header.Text = "Management Panel";
 
         }
         private void BindCategories(ListControl list)
@@ -504,11 +516,13 @@ namespace SE
         }
         protected void QueryTasks(object sender, EventArgs e)
         {
+            taskDateSort.Text = "Date \u25B2";
             AddNewCategoryPanel.Visible = true;
             TaskManagmentPanel.Visible = MainStepManagement.Visible = DetailedStepManagement.Visible = false;
 
             if (catList.SelectedItem.Text != "--Add Categories--")
             {
+                taskDateSort.Attributes.Remove("disabled");
                 ITask = (Task)ViewState["Task"];
                 ITask.CategoryID = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
                 ViewState.Add("Task", ITask);
@@ -529,6 +543,7 @@ namespace SE
             }
             else if (catList.SelectedValue == "--Add Categories--")
             {
+                taskDateSort.Attributes.Add("disabled","true");
                 taskList.Items.Clear();
                 mainStep.Items.Clear();
                 detailedStep.Items.Clear();
@@ -657,11 +672,6 @@ namespace SE
                 DetailedStepMoveUp.Visible = DetailedStepMoveDown.Visible = false;
             }
         }
-        protected void catFilter_TextChanged(object sender, EventArgs e)
-        {
-            BindCategories(catList);
-        }
-        
         /*Main Step Function*/
         private void RefreshTasks()
         {
@@ -1035,6 +1045,86 @@ namespace SE
             {
                 ViewState["CategoriesExist"] = false;
             }
+        }
+
+        protected void catDateSort_Click(object sender, EventArgs e)
+        {
+            string queryString = "";
+            switch (catDateSort.Text)
+            {
+                case "Date \u25BC": catDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": catDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime DESC"; break;
+                default: break;
+            }
+            catList.DataSource = null;
+            catList.Items.Clear();
+            List<Category> sort = new List<Category>();
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
+                
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Category cat = new Category();
+                    cat.CategoryName = Convert.ToString(dr["CategoryName"]);
+                    cat.CategoryID = Convert.ToInt32(dr["CategoryId"]);
+                    cat.CreatedTime = Convert.ToString(dr["CreatedTime"]);
+                    sort.Add(cat);
+                }
+
+                con.Close();
+            }
+            catList.DataSource = sort;
+            catList.DataBind();
+            catList.Items.Add("--Add Categories--");
+        }
+
+        protected void taskDateSort_Click(object sender, EventArgs e)
+        {
+            string queryString = "";
+            switch (taskDateSort.Text)
+            {
+                case "Date \u25BC": taskDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": taskDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime DESC"; break;
+                default: break;
+            }
+            taskList.DataSource = null;
+            taskList.Items.Clear();
+            List<Task> sort = new List<Task>();
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
+                string id = Convert.ToString(Category.getCategoryID(catList.SelectedItem.Text));
+                cmd.Parameters.AddWithValue("@catID", id);
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Task task = new Task();
+                    task.TaskName = Convert.ToString(dr["TaskName"]);
+                    task.TaskID = Convert.ToInt32(dr["TaskID"]);
+                    task.CreatedTime = Convert.ToString(dr["CreatedTime"]);
+                    sort.Add(task);
+                }
+
+                con.Close();
+            }
+            taskList.DataSource = sort;
+            taskList.DataBind();
+            taskList.Items.Add("--Add Tasks--");
         }
     }
 }

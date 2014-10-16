@@ -46,5 +46,18 @@ namespace SE.Admin
             users.DataSource = Member.CustomGetSupervisorsUsers(username);
             users.DataBind();
         }
+
+        protected void categories_Sort(object sender, GridViewSortEventArgs e)
+        {
+            DataTable dt = categories.DataSource as DataTable;
+            if (dt != null)
+            {
+                DataView dv = new DataView(dt);
+                dv.Sort = e.SortExpression + "DESC";
+                categories.DataSource = dv;
+                categories.DataBind();
+
+            }
+        }
     }
 }

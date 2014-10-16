@@ -28,7 +28,7 @@ namespace SE.Admin {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid categories;
+        protected global::System.Web.UI.WebControls.GridView categories;
         
         /// <summary>
         /// Label2 control.
@@ -46,7 +46,7 @@ namespace SE.Admin {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid tasks;
+        protected global::System.Web.UI.WebControls.GridView tasks;
         
         /// <summary>
         /// Label3 control.
@@ -64,6 +64,6 @@ namespace SE.Admin {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid users;
+        protected global::System.Web.UI.WebControls.GridView users;
     }
 }
