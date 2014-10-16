@@ -275,7 +275,7 @@
                 <div class="navbar-default sidebar" role="navigation">
                     <div class="sidebar-nav navbar-collapse">
                         <ul class="nav" id="side-menu">
-                            <li class="sidebar-search">
+                            <li class="sidebar-search" style="display: none">
                                 <div class="input-group custom-search-form">
                                     <input type="text" class="form-control" placeholder="Search..." />
                                     <span class="input-group-btn">
@@ -286,10 +286,10 @@
                                 </div>
                                 <!-- /input-group -->
                             </li>
-                            <li>
+                            <li style="margin-top: 20px">
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                             </li>
-                            <li id="Li1" runat="server">
+                            <li id="Li1" style="display: none" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>Profile</a>
                             </li>
                             <li id="CreateUserMenu" runat="server">
