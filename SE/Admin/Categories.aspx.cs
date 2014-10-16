@@ -366,6 +366,8 @@ namespace SE
             IMainStep = MainStep.GetMainStep(Convert.ToInt32(mainStep.SelectedValue));
             MainStepName.Text = IMainStep.MainStepName;
             MainStepText.Text = IMainStep.MainStepText;
+            MainStepAudioCurrentLabel.Text = IMainStep.AudioFilename;
+            MainStepVideoCurrentLabel.Text = IMainStep.VideoFilename;
             MainStepButton.Text = "Update Main Step";
             header.Text = "Update Main Step: " + mainStep.SelectedItem.Text;
         }
@@ -382,6 +384,7 @@ namespace SE
             IDetailedStep = DetailedStep.GetDetailedStep(Convert.ToInt32(detailedStep.SelectedValue));
             DetailedStepName.Text = IDetailedStep.DetailedStepName;
             DetailedStepText.Text = IDetailedStep.DetailedStepText;
+            DetailedStepImageCurrentLabel.Text = IDetailedStep.ImageFilename;
             EditDetailedStepButton.Text = "Update Detailed Step";
             header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text;
         }
@@ -481,8 +484,11 @@ namespace SE
             EditTaskName.Text = String.Empty;
             MainStepName.Text = String.Empty;
             MainStepText.Text = String.Empty;
+            MainStepAudioCurrentLabel.Text = String.Empty;
+            MainStepVideoCurrentLabel.Text = String.Empty;
             DetailedStepName.Text = String.Empty;
             DetailedStepText.Text = String.Empty;
+            DetailedStepImageCurrentLabel.Text = String.Empty;
             header.Text = "Management Panel";
 
         }

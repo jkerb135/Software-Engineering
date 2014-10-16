@@ -508,6 +508,15 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Label MainStepAudioLabel;
         
         /// <summary>
+        /// MainStepAudioCurrentLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MainStepAudioCurrentLabel;
+        
+        /// <summary>
         /// MainStepAudio control.
         /// </summary>
         /// <remarks>
@@ -524,6 +533,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MainStepVideoLabel;
+        
+        /// <summary>
+        /// MainStepVideoCurrentLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label MainStepVideoCurrentLabel;
         
         /// <summary>
         /// MainStepVideo control.
@@ -614,6 +632,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label DetailedStepImageLabel;
+        
+        /// <summary>
+        /// DetailedStepImageCurrentLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label DetailedStepImageCurrentLabel;
         
         /// <summary>
         /// DetailedStepImage control.

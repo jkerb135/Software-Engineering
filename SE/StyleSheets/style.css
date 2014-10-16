@@ -10,6 +10,8 @@
 
 .create-user-wizard tbody, .create-user-wizard tr, .create-user-wizard td {width: 100%; display: block}
 
+.uploaded-file {color: green; display: block}
+
 .error-messages {color: #ff0000}
 .success-messages {color: #006400}
 

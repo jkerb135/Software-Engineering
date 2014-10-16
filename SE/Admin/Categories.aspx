@@ -173,10 +173,12 @@
                         </div>
                         <div class="form-group">
                             <asp:Label ID="MainStepAudioLabel" runat="server" Text="Audio File"></asp:Label>
+                            <asp:Label ID="MainStepAudioCurrentLabel" CssClass="uploaded-file" runat="server"></asp:Label>
                             <asp:FileUpload ID="MainStepAudio" runat="server" />
                         </div>
                         <div class="form-group">
                             <asp:Label ID="MainStepVideoLabel" runat="server" Text="Video File"></asp:Label>
+                            <asp:Label ID="MainStepVideoCurrentLabel" CssClass="uploaded-file" runat="server"></asp:Label>
                             <asp:FileUpload ID="MainStepVideo" runat="server" />
                         </div>
                         <div class="row form-group">
@@ -201,6 +203,7 @@
                         </div>
                         <div class="form-group">
                             <asp:Label ID="DetailedStepImageLabel" runat="server" Text="Image File"></asp:Label>
+                            <asp:Label ID="DetailedStepImageCurrentLabel" CssClass="uploaded-file" runat="server"></asp:Label>
                             <asp:FileUpload ID="DetailedStepImage" runat="server" />
                         </div>
                         <div class="right form-group">

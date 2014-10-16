@@ -28,7 +28,7 @@ namespace SE.Classes
             String path = System.Web.HttpContext.Current.Server.MapPath("~/Uploads/");
             string Message = "";
 
-            try
+            /*try
             {
                 File.PostedFile.SaveAs(path
                     + File.FileName);
@@ -36,7 +36,7 @@ namespace SE.Classes
             catch (Exception ex)
             {
                 Message = ex.Message;
-            }
+            }*/
 
             return Message;
         }
