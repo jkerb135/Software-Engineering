@@ -174,5 +174,38 @@ namespace SE.Classes
 
             return NumberOfDetailedStepsUsed;
         }
+
+        public static DetailedStep GetDetailedStep(int DetailedStepID)
+        {
+            DetailedStep DetailedStep = new DetailedStep();
+
+            string queryString =
+                "SELECT * " +
+                "FROM DetailedSteps " +
+                "WHERE DetailedStepID=@DetailedStepID";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@DetailedStepID", DetailedStepID);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    DetailedStep.DetailedStepName = dr["DetailedStepName"].ToString();
+                    DetailedStep.DetailedStepText = dr["DetailedStepText"].ToString();
+                    DetailedStep.ImageFilename = dr["ImageFilename"].ToString();
+                }
+
+                con.Close();
+            }
+
+            return DetailedStep;
+        }
     }
 }

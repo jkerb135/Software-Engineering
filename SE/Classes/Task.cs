@@ -369,5 +369,37 @@ namespace SE.Classes
             }
             return SupervisorTasks;
         }
+
+        public static Task GetTask(int TaskID)
+        {
+            Task Task = new Task();
+
+            string queryString =
+                "SELECT * " +
+                "FROM Tasks " +
+                "WHERE TaskID=@TaskID";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@taskid", TaskID);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Task.TaskName = dr["TaskName"].ToString();
+                    Task.AssignedUser = dr["AssignedUser"].ToString();
+                }
+
+                con.Close();
+            }
+
+            return Task;
+        }
     }
 }

@@ -347,7 +347,9 @@ namespace SE
             EditCategoryPanel.Visible = false;
             TaskManagmentPanel.Visible = false;
             TaskPanel.Visible = true;
-            EditTaskName.Text = taskList.SelectedItem.Text;
+            ITask = Task.GetTask(Convert.ToInt32(taskList.SelectedValue));
+            EditTaskName.Text = ITask.TaskName;
+            EditAssignUserToTask.Text = ITask.AssignedUser;
             EditTaskButton.Text = "Update Task";
             header.Text = "Update Task: " + taskList.SelectedItem.Text; 
         }
@@ -361,7 +363,9 @@ namespace SE
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = true;
             ManageDetailedStepPanel.Visible = false;
-            MainStepName.Text = mainStep.SelectedItem.Text;
+            IMainStep = MainStep.GetMainStep(Convert.ToInt32(mainStep.SelectedValue));
+            MainStepName.Text = IMainStep.MainStepName;
+            MainStepText.Text = IMainStep.MainStepText;
             MainStepButton.Text = "Update Main Step";
             header.Text = "Update Main Step: " + mainStep.SelectedItem.Text; 
         }
@@ -375,7 +379,9 @@ namespace SE
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = true;
-            DetailedStepName.Text = detailedStep.SelectedItem.Text;
+            IDetailedStep = DetailedStep.GetDetailedStep(Convert.ToInt32(detailedStep.SelectedValue));
+            DetailedStepName.Text = IDetailedStep.DetailedStepName;
+            DetailedStepText.Text = IDetailedStep.DetailedStepText;
             EditDetailedStepButton.Text = "Update Detailed Step";
             header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text; 
         }
@@ -471,6 +477,12 @@ namespace SE
             taskList.SelectedIndex = -1;
             mainStep.SelectedIndex = -1;
             detailedStep.SelectedIndex = -1;
+            EditCategoryName.Text = String.Empty;
+            EditTaskName.Text = String.Empty;
+            MainStepName.Text = String.Empty;
+            MainStepText.Text = String.Empty;
+            DetailedStepName.Text = String.Empty;
+            DetailedStepText.Text = String.Empty;
             header.Text = "Management Panel";
 
         }

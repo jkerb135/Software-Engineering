@@ -214,5 +214,39 @@ namespace SE.Classes
 
             return NumberOfMainStepsComplete;
         }
+
+        public static MainStep GetMainStep(int MainStepID)
+        {
+            MainStep MainStep = new MainStep();
+
+            string queryString =
+                "SELECT * " +
+                "FROM MainSteps " +
+                "WHERE MainStepID=@MainStepID";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@MainStepID", MainStepID);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    MainStep.MainStepName = dr["MainStepName"].ToString();
+                    MainStep.MainStepText = dr["MainStepText"].ToString();
+                    MainStep.AudioFilename = dr["AudioFilename"].ToString();
+                    MainStep.VideoFilename = dr["VideoFilename"].ToString();
+                }
+
+                con.Close();
+            }
+
+            return MainStep;
+        }
     }
 }
