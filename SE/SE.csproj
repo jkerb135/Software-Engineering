@@ -272,8 +272,10 @@
     <Compile Include="Controllers\CompletedTaskController.cs" />
     <Compile Include="Controllers\DetailedStepController.cs" />
     <Compile Include="Controllers\MainStepController.cs" />
+    <Compile Include="Controllers\MainStepDetailsController.cs" />
     <Compile Include="Controllers\MemberAssignmentController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\TasksMainStepController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
