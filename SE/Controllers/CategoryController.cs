@@ -35,7 +35,7 @@ namespace SE.Controllers
         {
            return  from assignment in db.CategoryAssignments
                         join cat in db.Categories on assignment.CategoryID equals cat.CategoryID
-                       where assignment.AssignedUser == id
+                   where assignment.AssignedUser == id
                         select new UserCategories
                         {
                             categoryID = cat.CategoryID,

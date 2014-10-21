@@ -2643,6 +2643,21 @@
             <summary>Remove Supervisor
             </summary> 
         </member>
+        <member name="M:SE.Controllers.TaskController.GetAllTasks">
+            <summary>
+            Gets all Tasks in the database.
+            </summary>
+        </member>
+        <member name="M:SE.Controllers.TaskController.GetTaskByCategoryID(System.Int32)">
+            <summary>
+            Gets all tasks from the database pertaining to a category id.
+            </summary>
+        </member>
+        <member name="M:SE.Controllers.TaskController.GetTaskByIDAndUser(System.Int32,System.String)">
+            <summary>
+            Gets all detailed steps from the database pertaining to a category id and username.
+            </summary>
+        </member>
         <member name="M:SE.Controllers.CategoryController.GetAllCategories">
             <summary>
             Gets all categories from the database.
@@ -2655,6 +2670,26 @@
             </summary>
             <param name="id">The string value of the username</param>
             <returns>All Categories assigned to the passed user</returns>
+        </member>
+        <member name="M:SE.Controllers.DetailedStepController.GetAllDetailedSteps">
+            <summary>
+            Gets all detailed steps from the database.
+            </summary>
+        </member>
+        <member name="M:SE.Controllers.DetailedStepController.GetDetailedStepById(System.Int32)">
+            <summary>
+            Gets all detailed steps from the database pertaining to a main step id.
+            </summary>
+        </member>
+        <member name="M:SE.Controllers.MainStepController.GetAllMainSteps">
+            <summary>
+            Gets all main steps from the database.
+            </summary>
+        </member>
+        <member name="M:SE.Controllers.MainStepController.GetMainStepByTaskID(System.Int32)">
+            <summary>
+            Gets all main steps from the database pertaining to a task id.
+            </summary>
         </member>
         <member name="F:SE.Default1.MainForm">
             <summary>
