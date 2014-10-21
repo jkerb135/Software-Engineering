@@ -20,6 +20,10 @@ namespace SE
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+            config.Routes.MapHttpRoute(
+                name: "GetCategoryTasks",
+                routeTemplate: "api/{controller}/{id}/{user}"
+            );
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
             json.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;

@@ -17,14 +17,13 @@ namespace SE.Controllers
         public string stepText { get; set; }
         public string imagePath { get; set; }
     }
-    public class MainStepDetailsController : ApiController
+    public class GetDetailedStepsController : ApiController
     {
-        dpt_seContext db = new dpt_seContext();
+        WebApiEntites db = new WebApiEntites();
 
-        public IEnumerable<DetailedStep> GetDetailedSteps()
+        public IEnumerable<OnlyDetailedSteps> GetAllDetailedSteps()
         {
-            var detailedsteps = db.DetailedSteps.Include(d => d.MainStep);
-            return detailedsteps.AsEnumerable();
+            return db.DetailedSteps.Select(tl => new OnlyDetailedSteps { stepName = tl.DetailedStepName, stepText = tl.DetailedStepText, imagePath = tl.ImagePath }).AsEnumerable<OnlyDetailedSteps>();;
         }
 
         // GET api/MainStep/5
