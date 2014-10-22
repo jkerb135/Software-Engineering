@@ -347,6 +347,7 @@
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DetailedStepController.cs" />
     <Compile Include="Controllers\MainStepController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -2691,6 +2691,12 @@
             Gets all main steps from the database pertaining to a task id.
             </summary>
         </member>
+        <member name="M:SE.Controllers.UserController.GetAllUsers">
+            <summary>
+            Gets all users in the database
+            </summary>
+            <returns></returns>
+        </member>
         <member name="F:SE.Default1.MainForm">
             <summary>
             MainForm control.
