@@ -219,7 +219,8 @@ namespace SE
             }
 
             Membership.UpdateUser(User);
-            Response.Redirect(Request.RawUrl);
+            ShowManageUserPage();
+            SuccessMessage.Text = User.IsApproved ? "User Activated" : "User Deactivated";
         }
 
         protected void UserList_Change(Object sender, DataGridPageChangedEventArgs e)

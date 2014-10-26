@@ -53,6 +53,7 @@ namespace SE.Classes
             dt.Columns.Add("Email", Type.GetType("System.String"));
             dt.Columns.Add("User Role", Type.GetType("System.String"));
             dt.Columns.Add("Assigned To", Type.GetType("System.String"));
+            dt.Columns.Add("Status", Type.GetType("System.String"));
 
             /* Here is the list of columns returned of the Membership.GetAllUsers() method
              * UserName, Email, PasswordQuestion, Comment, IsApproved
@@ -72,6 +73,7 @@ namespace SE.Classes
                     dr["Email"] = mu.Email;
                     dr["User Role"] = UserIsSupervisor ? "Supervisor" : "User";
                     dr["Assigned To"] = !UserIsSupervisor ? UserAssignedTo(mu.UserName) : "";
+                    dr["Status"] = mu.IsApproved ? "Active" : "Inactive";
 
                     dt.Rows.Add(dr);
                 }
