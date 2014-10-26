@@ -78,8 +78,7 @@ namespace SE.Classes
                     Message = "Extension " + System.IO.Path.GetExtension(File.FileName) + " is invalid. Valid image extensions: " + String.Join(", ", ImageExt);
             }
 
-
-            /*try
+            try
             {
                 File.PostedFile.SaveAs(path
                     + File.FileName);
@@ -87,7 +86,7 @@ namespace SE.Classes
             catch (Exception ex)
             {
                 Message = ex.Message;
-            }*/
+            }
 
             return Message;
         }

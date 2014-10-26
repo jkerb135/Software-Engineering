@@ -200,6 +200,7 @@ namespace SE.Classes
                     DetailedStep.DetailedStepName = dr["DetailedStepName"].ToString();
                     DetailedStep.DetailedStepText = dr["DetailedStepText"].ToString();
                     DetailedStep.ImageFilename = dr["ImageFilename"].ToString();
+                    DetailedStep.ImagePath = dr["ImagePath"].ToString();
                 }
 
                 con.Close();

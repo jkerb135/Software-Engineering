@@ -419,8 +419,8 @@ namespace SE
             IMainStep = MainStep.GetMainStep(Convert.ToInt32(mainStep.SelectedValue));
             MainStepName.Text = IMainStep.MainStepName;
             MainStepText.Text = IMainStep.MainStepText;
-            MainStepAudioCurrentLabel.Text = IMainStep.AudioFilename;
-            MainStepVideoCurrentLabel.Text = IMainStep.VideoFilename;
+            MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(IMainStep.AudioPath) + "'></audio>";
+            MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(IMainStep.VideoPath) + "'></video>"; ;
             MainStepButton.Text = "Update Main Step";
             header.Text = "Update Main Step: " + mainStep.SelectedItem.Text;
         }
@@ -437,7 +437,7 @@ namespace SE
             IDetailedStep = DetailedStep.GetDetailedStep(Convert.ToInt32(detailedStep.SelectedValue));
             DetailedStepName.Text = IDetailedStep.DetailedStepName;
             DetailedStepText.Text = IDetailedStep.DetailedStepText;
-            DetailedStepImageCurrentLabel.Text = IDetailedStep.ImageFilename;
+            DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" + ResolveUrl(IDetailedStep.ImagePath) + "'>";
             EditDetailedStepButton.Text = "Update Detailed Step";
             header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text;
         }

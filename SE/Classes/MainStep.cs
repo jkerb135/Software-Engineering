@@ -240,7 +240,9 @@ namespace SE.Classes
                     MainStep.MainStepName = dr["MainStepName"].ToString();
                     MainStep.MainStepText = dr["MainStepText"].ToString();
                     MainStep.AudioFilename = dr["AudioFilename"].ToString();
+                    MainStep.AudioPath = dr["AudioPath"].ToString();
                     MainStep.VideoFilename = dr["VideoFilename"].ToString();
+                    MainStep.VideoPath = dr["VideoPath"].ToString();
                 }
 
                 con.Close();

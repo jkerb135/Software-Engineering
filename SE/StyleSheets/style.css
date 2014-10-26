@@ -18,6 +18,8 @@
 .error-messages ul, .success-messages ul {padding-left: 0}
 .error-messages li, .success-messages li {list-style: none}
 
+.image-preview {max-width: 300px; width: 100%}
+
 /* the good stuff: */
 ul.ripple{
   float:left;
