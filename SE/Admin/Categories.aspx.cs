@@ -1303,5 +1303,20 @@ namespace SE
         {
             BindCategories(catList);
         }
+
+        protected void taskFilter_TextChanged(object sender, EventArgs e)
+        {
+            RefreshTasks();
+        }
+
+        protected void mainFilter_TextChanged(object sender, EventArgs e)
+        {
+            RefreshMainSteps();
+        }
+
+        protected void detailFilter_TextChanged(object sender, EventArgs e)
+        {
+            RefreshDetailedSteps();
+        }
     }
 }

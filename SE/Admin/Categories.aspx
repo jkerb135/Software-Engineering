@@ -232,7 +232,7 @@
                                 <div class="col-lg-3" style="padding: 0px">
                                     <div class="row" style="padding-left: 15px">
                                         <div class="col-lg-7 reset">
-                                            <asp:TextBox CssClass="form-control" ID="taskFilter" runat="server" placeholder="Filter Tasks"></asp:TextBox>
+                                            <asp:TextBox CssClass="form-control" ID="taskFilter" runat="server" placeholder="Filter Tasks" AutoPostBack="true" OnTextChanged="taskFilter_TextChanged"></asp:TextBox>
                                         </div>
                                         <div class="col-lg-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="taskDateSort" runat="server" Text="" OnClick="taskDateSort_Click" />
@@ -244,7 +244,7 @@
                                 <div class="col-lg-3" style="padding: 0px">
                                     <div class="row" style="padding-left: 15px">
                                         <div class="col-lg-7 reset">
-                                            <asp:TextBox CssClass="form-control" ID="mainFilter" runat="server" placeholder="Filter Main Steps"></asp:TextBox>
+                                            <asp:TextBox CssClass="form-control" ID="mainFilter" runat="server" placeholder="Filter Main Steps" AutoPostBack="true" OnTextChanged="mainFilter_TextChanged"></asp:TextBox>
                                         </div>
                                         <div class="col-lg-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="mainStepSort" runat="server" Text="" OnClick="mainStep_Sort" />
@@ -255,7 +255,7 @@
                                 <div class="col-lg-3" style="padding: 0px">
                                     <div class="row" style="padding-left: 15px">
                                         <div class="col-lg-7 reset">
-                                            <asp:TextBox CssClass="form-control" ID="detailFilter" runat="server" placeholder="Filter Detailed Steps"></asp:TextBox>
+                                            <asp:TextBox CssClass="form-control" ID="detailFilter" runat="server" placeholder="Filter Detailed Steps" AutoPostBack="true" OnTextChanged="detailFilter_TextChanged"></asp:TextBox>
                                         </div>
                                         <div class="col-lg-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="detailedSort" runat="server" Text="" OnClick="detailedDateSort_Click" />
@@ -284,21 +284,30 @@
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="TaskListSource" runat="server"
         ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
-        ProviderName="System.Data.SqlClient">
+        ProviderName="System.Data.SqlClient" FilterExpression="[TaskName] LIKE '%{0}%'">
+        <FilterParameters>
+            <asp:ControlParameter Name="TaskName" ControlID="taskFilter" PropertyName="Text" />
+        </FilterParameters>
         <SelectParameters>
             <asp:Parameter Name="CategoryID" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="MainStepListSource" runat="server"
         ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
-        ProviderName="System.Data.SqlClient">
+        ProviderName="System.Data.SqlClient" FilterExpression="[MainStepName] LIKE '%{0}%'">
+        <FilterParameters>
+            <asp:ControlParameter Name="MainStepName" ControlID="mainFilter" PropertyName="Text" />
+        </FilterParameters>
         <SelectParameters>
             <asp:Parameter Name="TaskID" DefaultValue="0" />
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="DetailedStepListSource" runat="server"
         ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"
-        ProviderName="System.Data.SqlClient">
+        ProviderName="System.Data.SqlClient" FilterExpression="[DetailedStepName] LIKE '%{0}%'">
+        <FilterParameters>
+            <asp:ControlParameter Name="DetailedStepName" ControlID="detailFilter" PropertyName="Text" />
+        </FilterParameters>
         <SelectParameters>
             <asp:Parameter Name="MainStepID" DefaultValue="0" />
         </SelectParameters>
