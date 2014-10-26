@@ -1795,15 +1795,6 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Users.AssignedToRequired">
-            <summary>
-            AssignedToRequired control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
         <member name="F:SE.Users.AssignedTo">
             <summary>
             AssignedTo control.
@@ -2691,10 +2682,17 @@
             Gets all main steps from the database pertaining to a task id.
             </summary>
         </member>
-        <member name="M:SE.Controllers.UserController.GetAllUsers">
+        <member name="F:SE.Controllers.UserController.db">
             <summary>
             Gets all users in the database
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SE.Controllers.UserController.GetUserById(System.Guid)">
+            <summary>
+            Gets user by user id
+            </summary>
+            <param name="id">System.Guid User ID</param>
             <returns></returns>
         </member>
         <member name="F:SE.Default1.MainForm">

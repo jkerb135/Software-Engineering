@@ -151,7 +151,11 @@ namespace SE.Classes
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@user", User);
-                cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+
+                if (!String.IsNullOrEmpty(Supervisor))
+                    cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+                else
+                    cmd.Parameters.AddWithValue("@supervisor", DBNull.Value);
 
                 con.Open();
 
@@ -176,7 +180,11 @@ namespace SE.Classes
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@user", User);
-                cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+                
+                if(!String.IsNullOrEmpty(Supervisor))
+                    cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+                else
+                    cmd.Parameters.AddWithValue("@supervisor", DBNull.Value);
 
                 con.Open();
 

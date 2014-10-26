@@ -52,6 +52,8 @@ namespace SE
 
                     MembershipUser User = Membership.GetUser(SelectedUserName);
 
+                    EditEmail.Text = User.Email;
+
                     if(User.IsApproved)
                     {
                         EditActiveInactive.CssClass = "btn btn-danger clear block";
@@ -67,6 +69,7 @@ namespace SE
                     if (Roles.IsUserInRole(SelectedUserName, "User"))
                     {
                         BindSupervisors(EditAssignedTo);
+                        EditAssignedTo.SelectedValue = Member.UserAssignedTo(User.UserName);
                     }
                     else
                     {
@@ -129,53 +132,47 @@ namespace SE
         protected void EditUserButton_Click(object sender, EventArgs e)
         {
             var User = Membership.GetUser(SelectedUserName);
-            string ErrorMessage = "";
-            string SuccessMessage = "";
+            string Error = "";
+            string Success = "";
 
             EditErrorMessage.Text = String.Empty;
             EditSuccessMessage.Text = String.Empty;
 
             // Assigned to
-            if (!String.IsNullOrEmpty(EditAssignedTo.SelectedValue))
+            if (!String.Equals(Member.UserAssignedTo(User.UserName).Trim(),
+                EditAssignedTo.SelectedValue.Trim()))
             {
-                if (!String.Equals(Member.UserAssignedTo(User.UserName).Trim(),
-                    EditAssignedTo.SelectedValue.Trim()))
-                {
-                    Member.EditAssignToUser(User.UserName, EditAssignedTo.SelectedValue);
-                    SuccessMessage += "User successfully reassigned.<br/>";
-                }
-                else
-                {
-                    ErrorMessage += "User is already assigned to this supervisor.<br/>";
-                }
+                Member.EditAssignToUser(User.UserName, EditAssignedTo.SelectedValue);
+                Success += "User successfully reassigned.<br/>";
             }
 
             // User password
             if (!String.IsNullOrEmpty(EditPassword.Text) &&
-                Member.ValidatePassword(EditPassword.Text, ref ErrorMessage))
+                Member.ValidatePassword(EditPassword.Text, ref Error))
             {
                 User.ChangePassword(User.ResetPassword(), EditPassword.Text);
-                SuccessMessage += "Password successfully updated.<br/>";
+                Success += "Password successfully updated.<br/>";
             }
 
             // User email
-            if (!String.IsNullOrEmpty(EditEmail.Text))
+            if (!String.IsNullOrEmpty(EditEmail.Text) &&
+                EditEmail.Text != User.Email)
             {
                 User.Email = EditEmail.Text;
                 Membership.UpdateUser(User);
-                SuccessMessage += "Email successfully updated.<br/>";
+                Success += "Email successfully updated.<br/>";
             }
 
-            // Display messages
-            EditErrorMessage.Text = ErrorMessage;
-            EditSuccessMessage.Text = SuccessMessage;
-
-            // Clear fields and focus email field
-            EditEmail.Text = String.Empty;
-            EditPassword.Text = String.Empty;
-            EditConfirmPassword.Text = String.Empty;
-            EditAssignedTo.ClearSelection();
-            EditEmail.Focus();
+            if (Error == "")
+            {
+                if (Success != "")
+                {
+                    ShowManageUserPage();
+                    SuccessMessage.Text = Success;
+                }
+            }
+            else
+                EditErrorMessage.Text = Error;
         }
 
         protected void DeleteUserButton_Click(object sender, EventArgs e)

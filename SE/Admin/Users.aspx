@@ -36,8 +36,6 @@
                             </div>
                             <asp:Panel ID="AssignedToContainer" CssClass="form-group" runat="server">
                                 <asp:Label ID="AssignedToLabel" runat="server" Text="Assigned To"></asp:Label>
-                                <asp:RequiredFieldValidator ID="AssignedToRequired" runat="server" ControlToValidate="AssignedTo"
-                                    ErrorMessage="Assigned To is required" ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
                                 <asp:DropDownList ID="AssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
                             </asp:Panel>
                         </ContentTemplate>
