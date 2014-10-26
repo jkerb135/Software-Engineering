@@ -218,7 +218,8 @@ namespace SE.Classes
                 "WHERE AssignedUser=@user";
 
             string queryString5 =
-                "DELETE FROM MemberAssignments " +
+                "UPDATE MemberAssignments " +
+                "SET AssignedSupervisor=NULL " +
                 "WHERE AssignedUser=@user";
 
             using (SqlConnection con = new SqlConnection(

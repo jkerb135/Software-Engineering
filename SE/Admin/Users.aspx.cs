@@ -139,11 +139,14 @@ namespace SE
             EditSuccessMessage.Text = String.Empty;
 
             // Assigned to
-            if (!String.Equals(Member.UserAssignedTo(User.UserName).Trim(),
-                EditAssignedTo.SelectedValue.Trim()))
+            if (Roles.IsUserInRole(SelectedUserName, "User"))
             {
-                Member.EditAssignToUser(User.UserName, EditAssignedTo.SelectedValue);
-                Success += "User successfully reassigned.<br/>";
+                if (!String.Equals(Member.UserAssignedTo(User.UserName).Trim(),
+                    EditAssignedTo.SelectedValue.Trim()))
+                {
+                    Member.EditAssignToUser(User.UserName, EditAssignedTo.SelectedValue);
+                    Success += "User successfully reassigned.<br/>";
+                }
             }
 
             // User password
@@ -212,6 +215,14 @@ namespace SE
             if (User.IsApproved)
             {
                 User.IsApproved = false;
+
+                if (Roles.IsUserInRole(SelectedUserName, "Supervisor"))
+                {
+                    foreach (string user in Member.UsersAssignedToSupervisor(SelectedUserName))
+                    {
+                        Member.RemoveAssignedUser(user);
+                    }
+                }
             }
             else
             {
