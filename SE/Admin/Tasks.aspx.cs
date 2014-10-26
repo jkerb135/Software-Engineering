@@ -195,7 +195,7 @@ namespace SE
 
             if (MainStepAudio.HasFile)
             {
-                Methods.UploadFile(MainStepAudio);
+                Methods.UploadFile(MainStepAudio, "Audio");
 
                 IMainStep.AudioFilename = MainStepAudio.FileName;
                 IMainStep.AudioPath = "~/Uploads/" + MainStepAudio.FileName;
@@ -203,7 +203,7 @@ namespace SE
 
             if (MainStepVideo.HasFile)
             {
-                Methods.UploadFile(MainStepVideo);
+                Methods.UploadFile(MainStepVideo, "Video");
 
                 IMainStep.VideoFilename = MainStepVideo.FileName;
                 IMainStep.VideoPath = "~/Uploads/" + MainStepVideo.FileName;
@@ -406,7 +406,7 @@ namespace SE
 
                 if (EditMainStepAudio.HasFile)
                 {
-                    Methods.UploadFile(EditMainStepAudio);
+                    Methods.UploadFile(EditMainStepAudio, "Audio");
 
                     IMainStep.AudioFilename = EditMainStepAudio.FileName;
                     IMainStep.AudioPath = "~/Uploads/" + EditMainStepAudio.FileName;
@@ -414,7 +414,7 @@ namespace SE
 
                 if (EditMainStepVideo.HasFile)
                 {
-                    Methods.UploadFile(EditMainStepVideo);
+                    Methods.UploadFile(EditMainStepVideo, "Video");
 
                     IMainStep.VideoFilename = EditMainStepVideo.FileName;
                     IMainStep.VideoPath = "~/Uploads/" + EditMainStepVideo.FileName;
@@ -491,7 +491,7 @@ namespace SE
 
             if (DetailedStepImage.HasFile)
             {
-                Methods.UploadFile(DetailedStepImage);
+                Methods.UploadFile(DetailedStepImage, "Image");
 
                 IDetailedStep.ImageFilename = DetailedStepImage.FileName;
                 IDetailedStep.ImagePath = "~/Uploads/" + DetailedStepImage.FileName;
@@ -694,7 +694,7 @@ namespace SE
 
                 if (EditDetailedStepImage.HasFile)
                 {
-                    Methods.UploadFile(EditDetailedStepImage);
+                    Methods.UploadFile(EditDetailedStepImage, "Image");
 
                     IDetailedStep.ImageFilename = EditDetailedStepImage.FileName;
                     IDetailedStep.ImagePath = "~/Uploads/" + EditDetailedStepImage.FileName;

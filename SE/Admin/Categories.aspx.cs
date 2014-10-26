@@ -176,6 +176,9 @@ namespace SE
         protected void EditMainStepButton_Click(object sender, EventArgs e)
         {
             IMainStep = (MainStep)ViewState["MainStep"];
+            string Message = "";
+
+            ErrorMessage.Text = String.Empty;
 
             if (MainStepName.Text != String.Empty)
             {
@@ -186,47 +189,77 @@ namespace SE
 
                 if (MainStepAudio.HasFile)
                 {
-                    Methods.UploadFile(MainStepAudio);
+                    Message = Methods.UploadFile(MainStepAudio, "Audio");
 
-                    IMainStep.AudioFilename = MainStepAudio.FileName;
-                    IMainStep.AudioPath = "~/Uploads/" + MainStepAudio.FileName;
+                    if (Message == "")
+                    {
+                        IMainStep.AudioFilename = MainStepAudio.FileName;
+                        IMainStep.AudioPath = "~/Uploads/" + MainStepAudio.FileName;
+                    }
+                    else
+                    {
+                        Message += "<br/>";
+                    }
                 }
 
                 if (MainStepVideo.HasFile)
                 {
-                    Methods.UploadFile(MainStepVideo);
+                    Message += Methods.UploadFile(MainStepVideo, "Video");
 
-                    IMainStep.VideoFilename = MainStepVideo.FileName;
-                    IMainStep.VideoPath = "~/Uploads/" + MainStepVideo.FileName;
+                    if (Message == "")
+                    {
+                        IMainStep.VideoFilename = MainStepVideo.FileName;
+                        IMainStep.VideoPath = "~/Uploads/" + MainStepVideo.FileName;
+                    }
                 }
 
                 if (MainStepButton.Text == "Add New Main Step")
                 {
-                    IMainStep.CreateMainStep();
-                    SuccessMessage.Text = "New main step successfully added.";
+                    if (Message == "")
+                    {
+                        IMainStep.CreateMainStep();
+                        SuccessMessage.Text = "New main step successfully added.";
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = Message;
+                    }
                 }
                 if (MainStepButton.Text == "Update Main Step")
                 {
-                    IMainStep.UpdateMainStep();
-                    SuccessMessage.Text = "Main step successfully updated.";
+                    if (Message == "")
+                    {
+                        IMainStep.UpdateMainStep();
+                        SuccessMessage.Text = "Main step successfully updated.";
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = Message;
+                    }
                 }
 
-                MainStepName.Text = String.Empty;
-                MainStepText.Text = String.Empty;
-                AddNewCategoryPanel.Visible = false;
-                ListBoxPanel.Visible = true;
-                EditCategoryPanel.Visible = false;
-                TaskPanel.Visible = false;
-                ManageMainStepPanel.Visible = false;
-                ManageDetailedStepPanel.Visible = false;
+                if (Message == "")
+                {
+                    MainStepName.Text = String.Empty;
+                    MainStepText.Text = String.Empty;
+                    AddNewCategoryPanel.Visible = false;
+                    ListBoxPanel.Visible = true;
+                    EditCategoryPanel.Visible = false;
+                    TaskPanel.Visible = false;
+                    ManageMainStepPanel.Visible = false;
+                    ManageDetailedStepPanel.Visible = false;
 
-                RefreshMainSteps();
+                    RefreshMainSteps();
+                }
             }
             header.Text = "Management Panel";
         }
         protected void EditDetailedStepButton_Click(object sender, EventArgs e)
         {
             IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
+            string Message = "";
+
+            ErrorMessage.Text = String.Empty;
 
             if (DetailedStepName.Text != String.Empty)
             {
@@ -236,33 +269,53 @@ namespace SE
 
                 if (DetailedStepImage.HasFile)
                 {
-                    Methods.UploadFile(DetailedStepImage);
+                    Message = Methods.UploadFile(DetailedStepImage, "Image");
 
-                    IDetailedStep.ImageFilename = DetailedStepImage.FileName;
-                    IDetailedStep.ImagePath = "~/Uploads/" + DetailedStepImage.FileName;
+                    if (Message == "")
+                    {
+                        IDetailedStep.ImageFilename = DetailedStepImage.FileName;
+                        IDetailedStep.ImagePath = "~/Uploads/" + DetailedStepImage.FileName;
+                    }
                 }
 
                 if (EditDetailedStepButton.Text == "Add New Detailed Step")
                 {
-                    IDetailedStep.CreateDetailedStep();
-                    SuccessMessage.Text = "New detailed step successfully added.";
+                    if (Message == "")
+                    {
+                        IDetailedStep.CreateDetailedStep();
+                        SuccessMessage.Text = "New detailed step successfully added.";
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = Message;
+                    }
                 }
                 if (EditDetailedStepButton.Text == "Update Detailed Step")
                 {
-                    IDetailedStep.UpdateDetailedStep();
-                    SuccessMessage.Text = "detailed step successfully updated.";
+                    if (Message == "")
+                    {
+                        IDetailedStep.UpdateDetailedStep();
+                        SuccessMessage.Text = "detailed step successfully updated.";
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = Message;
+                    }
                 }
 
-                DetailedStepName.Text = String.Empty;
-                DetailedStepText.Text = String.Empty;
-                AddNewCategoryPanel.Visible = false;
-                ListBoxPanel.Visible = true;
-                EditCategoryPanel.Visible = false;
-                TaskPanel.Visible = false;
-                ManageMainStepPanel.Visible = false;
-                ManageDetailedStepPanel.Visible = false;
+                if (Message == "")
+                {
+                    DetailedStepName.Text = String.Empty;
+                    DetailedStepText.Text = String.Empty;
+                    AddNewCategoryPanel.Visible = false;
+                    ListBoxPanel.Visible = true;
+                    EditCategoryPanel.Visible = false;
+                    TaskPanel.Visible = false;
+                    ManageMainStepPanel.Visible = false;
+                    ManageDetailedStepPanel.Visible = false;
 
-                RefreshDetailedSteps();
+                    RefreshDetailedSteps();
+                }
             }
             header.Text = "Management Panel";
         }
