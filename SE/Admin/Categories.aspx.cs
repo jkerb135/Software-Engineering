@@ -419,8 +419,17 @@ namespace SE
             IMainStep = MainStep.GetMainStep(Convert.ToInt32(mainStep.SelectedValue));
             MainStepName.Text = IMainStep.MainStepName;
             MainStepText.Text = IMainStep.MainStepText;
-            MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(IMainStep.AudioPath) + "'></audio>";
-            MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(IMainStep.VideoPath) + "'></video>"; ;
+
+            if (IMainStep.AudioPath.Length > 0)
+                MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(IMainStep.AudioPath) + "'></audio>";
+            else
+                MainStepAudioCurrentLabel.Text = "";
+
+            if(IMainStep.VideoPath.Length > 0)
+                MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(IMainStep.VideoPath) + "'></video>";
+            else
+                MainStepVideoCurrentLabel.Text = "";
+
             MainStepButton.Text = "Update Main Step";
             header.Text = "Update Main Step: " + mainStep.SelectedItem.Text;
         }
@@ -437,7 +446,12 @@ namespace SE
             IDetailedStep = DetailedStep.GetDetailedStep(Convert.ToInt32(detailedStep.SelectedValue));
             DetailedStepName.Text = IDetailedStep.DetailedStepName;
             DetailedStepText.Text = IDetailedStep.DetailedStepText;
-            DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" + ResolveUrl(IDetailedStep.ImagePath) + "'>";
+
+            if (IDetailedStep.ImagePath.Length > 0)
+                DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" + ResolveUrl(IDetailedStep.ImagePath) + "'>";
+            else
+                DetailedStepImageCurrentLabel.Text = "";
+
             EditDetailedStepButton.Text = "Update Detailed Step";
             header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text;
         }
