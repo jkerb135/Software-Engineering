@@ -61,7 +61,7 @@ body {
     background-color: #ddd;
 }
 
-@media(min-width:768px) {
+@media(min-width:1px) {
     #page-wrapper {
         position: inherit;
         margin: 0 0 0 250px;
@@ -172,7 +172,7 @@ body {
         padding-left: 52px;
     }
 
-@media(min-width:768px) {
+@media(min-width:1px) {
     .sidebar {
         z-index: 1;
         position: absolute;
@@ -413,5 +413,9 @@ table.dataTable thead .sorting_desc_disabled {
     position: relative;
     min-height: 1px;
     margin: 0px;
-    padding: 1px;
+    padding: 0px;
+}
+.btnreset {
+    position: relative;
+    margin: 0px;
 }

@@ -1,10 +1,14 @@
 ﻿using SE.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web.Http;
+using System.Web.Security;
 
 namespace SE.Controllers
 {
@@ -26,7 +30,7 @@ namespace SE.Controllers
         WebApiEntites db = new WebApiEntites();
         public IEnumerable<User> GetAllUsers()
         {
-            return db.aspnet_Users.Where(x => x.aspnet_Roles.Any(tl => tl.RoleName == "User")).Select(tl => new User { ApplicationId = tl.ApplicationId, UserId = tl.UserId, UserName = tl.UserName, IsAnonymous = tl.IsAnonymous, LastActivityDate = tl.LastActivityDate, Password = tl.aspnet_Membership.Password }).AsEnumerable<User>();
+            return db.aspnet_Users.ToList().Where(x => x.aspnet_Roles.Any(tl => tl.RoleName == "User")).Select(tl => new User { ApplicationId = tl.ApplicationId, UserId = tl.UserId, UserName = tl.UserName, IsAnonymous = tl.IsAnonymous, LastActivityDate = tl.LastActivityDate, Password = tl.aspnet_Membership.Password }).AsEnumerable<User>();
         }
         /// <summary>
         /// Gets user by user id

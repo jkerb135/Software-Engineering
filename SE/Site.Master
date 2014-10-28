@@ -6,7 +6,6 @@
 <head runat="server">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -289,7 +288,7 @@
                             <li style="margin-top: 20px">
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                             </li>
-                            <li id="Li1" style="display: none" runat="server">
+                            <li id="Li1" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>Profile</a>
                             </li>
                             <li id="CreateUserMenu" runat="server">

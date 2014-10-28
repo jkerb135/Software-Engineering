@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-xs-12">
             <h1 class="page-header">Users</h1>
         </div>
     </div>
@@ -11,7 +11,7 @@
                 
         <asp:View ID="CreateUser" runat="server">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12">
                     <h2>Create User</h2>
                 </div>
             </div>
@@ -80,7 +80,7 @@
 
         <asp:View ID="EditUser" runat="server">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12">
                     <h2>Edit User</h2>
                     <p>Note: all fields are optional</p>
                 </div>
@@ -128,7 +128,7 @@
 
         <asp:View ID="ManageUsers" runat="server">
             <div class="row">
-                <div class="col-lg-12">  
+                <div class="col-xs-12">  
                     <h2>Manage Users</h2>
                     <asp:UpdatePanel ID="ManageUserGrid" runat="server">
                         <ContentTemplate>

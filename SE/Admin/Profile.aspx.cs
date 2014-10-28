@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -18,21 +19,13 @@ namespace SE.Admin
             Label1.Text = " Categories";
             Label2.Text = " Tasks";
             Label3.Text = " Users";
-            QueryYourCategories(user);
-            QueryYourTasks(user);
-            QueryYourUsers(user);
-            if (Request.QueryString["userName"].ToUpper() != user.ToUpper() && Request.Path != "Profile.aspx") 
-            {
-                Label1.Text = Request.QueryString["userName"] + " Categories";
-                Label2.Text = Request.QueryString["userName"] + " Tasks";
-                QueryYourCategories(Request.QueryString["userName"]);
-                QueryYourTasks(Request.QueryString["userName"]);
-                QueryYourUsers(Request.QueryString["userName"]);
-            }
+            QueryYourCategories(Request.QueryString["userName"]);
+            QueryYourTasks(Request.QueryString["userName"]);
+            QueryYourUsers(Request.QueryString["userName"]);
         }
         private void QueryYourCategories(string username)
         {
-            categories.DataSource = Category.GetSupervisorCategories(username);
+            CategorySource.SelectCommand = "Select CategoryName, CreatedTime From Categories Where CreatedBy = '" + Request.QueryString["userName"] + "'";
             categories.DataBind();
             
         }

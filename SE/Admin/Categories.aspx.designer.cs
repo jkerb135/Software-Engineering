@@ -49,150 +49,6 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Label SuccessMessage;
         
         /// <summary>
-        /// AddNewCategoryPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel AddNewCategoryPanel;
-        
-        /// <summary>
-        /// Update control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Update;
-        
-        /// <summary>
-        /// Delete control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Delete;
-        
-        /// <summary>
-        /// TaskManagmentPanel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel TaskManagmentPanel;
-        
-        /// <summary>
-        /// UpdateTask control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button UpdateTask;
-        
-        /// <summary>
-        /// IsActiveTask control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button IsActiveTask;
-        
-        /// <summary>
-        /// MainStepManagement control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel MainStepManagement;
-        
-        /// <summary>
-        /// MainStepMoveDown control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button MainStepMoveDown;
-        
-        /// <summary>
-        /// MainStepMoveUp control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button MainStepMoveUp;
-        
-        /// <summary>
-        /// UpdateMainStep control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button UpdateMainStep;
-        
-        /// <summary>
-        /// DeleteMainStep control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button DeleteMainStep;
-        
-        /// <summary>
-        /// DetailedStepManagement control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel DetailedStepManagement;
-        
-        /// <summary>
-        /// DetailedStepMoveDown control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button DetailedStepMoveDown;
-        
-        /// <summary>
-        /// DetailedStepMoveUp control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button DetailedStepMoveUp;
-        
-        /// <summary>
-        /// UpdateDetailedStep control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button UpdateDetailedStep;
-        
-        /// <summary>
-        /// DeleteDetailedStep control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button DeleteDetailedStep;
-        
-        /// <summary>
         /// CategoryList control.
         /// </summary>
         /// <remarks>
@@ -670,6 +526,24 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Button AddNewCategoryButton;
         
         /// <summary>
+        /// UpdateCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UpdateCategory;
+        
+        /// <summary>
+        /// DeleteCategory control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeleteCategory;
+        
+        /// <summary>
         /// catList control.
         /// </summary>
         /// <remarks>
@@ -704,6 +578,24 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddNewTask;
+        
+        /// <summary>
+        /// UpdateTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UpdateTask;
+        
+        /// <summary>
+        /// IsActiveTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button IsActiveTask;
         
         /// <summary>
         /// taskList control.
@@ -742,6 +634,24 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Button AddNewMainStep;
         
         /// <summary>
+        /// UpdateMainStep control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UpdateMainStep;
+        
+        /// <summary>
+        /// DeleteMainStep control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeleteMainStep;
+        
+        /// <summary>
         /// mainStep control.
         /// </summary>
         /// <remarks>
@@ -749,6 +659,24 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox mainStep;
+        
+        /// <summary>
+        /// MainStepMoveDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button MainStepMoveDown;
+        
+        /// <summary>
+        /// MainStepMoveUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button MainStepMoveUp;
         
         /// <summary>
         /// detailFilter control.
@@ -778,6 +706,24 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Button AddNewDetailedStep;
         
         /// <summary>
+        /// UpdateDetailedStep control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UpdateDetailedStep;
+        
+        /// <summary>
+        /// DeleteDetailedStep control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeleteDetailedStep;
+        
+        /// <summary>
         /// detailedStep control.
         /// </summary>
         /// <remarks>
@@ -785,6 +731,24 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox detailedStep;
+        
+        /// <summary>
+        /// DetailedStepMoveDown control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DetailedStepMoveDown;
+        
+        /// <summary>
+        /// DetailedStepMoveUp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DetailedStepMoveUp;
         
         /// <summary>
         /// CategoryListSource control.

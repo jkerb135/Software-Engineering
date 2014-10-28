@@ -8,17 +8,18 @@ using SE.Classes;
 using System.Web.Security;
 using System.Data.SqlClient;
 using System.Data;
+using System.Web.Services;
 
 namespace SE
 {
     public partial class Categories : System.Web.UI.Page
     {
+        public int catIDX = 0, taskIDX = 0, mainIDX = 0, deatIDX = 0;
         Category Cat = new Category();
         string UserName = System.Web.HttpContext.Current.User.Identity.Name;
         Task ITask = new Task();
         MainStep IMainStep = new MainStep();
         DetailedStep IDetailedStep = new DetailedStep();
-
         protected void Page_Init(object sender, EventArgs e)
         {
             ViewState.Add("Category", Cat);
@@ -31,16 +32,34 @@ namespace SE
         {
             if (!IsPostBack)
             {
-                catDateSort.Text = "Date Asc";
-                taskDateSort.Text = "Date Asc";
-                mainStepSort.Text = "Date Asc";
-                detailedSort.Text = "Date Asc";
+                catDateSort.Text = "Date \u25B2";
+                taskDateSort.Text = "Date \u25B2";
+                mainStepSort.Text = "Date \u25B2";
+                detailedSort.Text = "Date \u25B2";
+                AddNewTask.Attributes.Add("disabled", "true");
+                AddNewMainStep.Attributes.Add("disabled", "true");
+                AddNewDetailedStep.Attributes.Add("disabled", "true");
                 taskDateSort.Attributes.Add("disabled", "true");
-                catList.Items.Add("--Add Categories--");
+                mainStepSort.Attributes.Add("disabled", "true");
+                detailedSort.Attributes.Add("disabled", "true");
+                UpdateCategory.Attributes.Add("disabled", "true");
+                DeleteCategory.Attributes.Add("disabled", "true");
+                UpdateTask.Attributes.Add("disabled", "true");
+                IsActiveTask.Attributes.Add("disabled", "true");
+                UpdateMainStep.Attributes.Add("disabled", "true");
+                DeleteMainStep.Attributes.Add("disabled", "true");
+                UpdateDetailedStep.Attributes.Add("disabled", "true");
+                DeleteDetailedStep.Attributes.Add("disabled", "true");
+
+
                 BindCategories(catList);
-                AddNewCategoryPanel.Visible = false;
+                
                 EditCategoryPanel.Visible = false;
-                TaskManagmentPanel.Visible = false;
+                
+                MainStepMoveUp.Attributes.Add("disabled", "true");
+                MainStepMoveDown.Attributes.Add("disabled", "true");
+                DetailedStepMoveUp.Attributes.Add("disabled", "true");
+                DetailedStepMoveDown.Attributes.Add("disabled", "true");
             }
             else
             {
@@ -57,8 +76,8 @@ namespace SE
         }
         protected void Page_PreRender(object sender, EventArgs e)
         {
+            
         }
-
         /* Management CRUD Functionality */
         protected void EditCategoryButton_Click(object sender, EventArgs e)
         {
@@ -78,7 +97,7 @@ namespace SE
                     SuccessMessage.Text = "New category successfully added.";
 
                     EditCategoryName.Text = String.Empty;
-                    AddNewCategoryPanel.Visible = false;
+                    
                     ListBoxPanel.Visible = true;
                     EditCategoryPanel.Visible = false;
                 }
@@ -102,7 +121,7 @@ namespace SE
                     SuccessMessage.Text = "Category successfully updated.";
 
                     EditCategoryName.Text = String.Empty;
-                    AddNewCategoryPanel.Visible = false;
+                    
                     ListBoxPanel.Visible = true;
                     EditCategoryPanel.Visible = false;
                 }
@@ -112,6 +131,7 @@ namespace SE
                 }
                 header.Text = "Management Panel";
             }
+            catList.SelectedIndex = catIDX;
         }
         protected void EditTaskButton_Click(object sender, EventArgs e)
         {
@@ -133,7 +153,7 @@ namespace SE
                     SuccessMessage.Text = "New task successfully added.";
 
                     EditTaskName.Text = String.Empty;
-                    AddNewCategoryPanel.Visible = false;
+                    
                     ListBoxPanel.Visible = true;
                     EditCategoryPanel.Visible = false;
                     TaskPanel.Visible = false;
@@ -160,7 +180,7 @@ namespace SE
                     SuccessMessage.Text = "Task successfully updated.";
 
                     EditTaskName.Text = String.Empty;
-                    AddNewCategoryPanel.Visible = false;
+                    
                     ListBoxPanel.Visible = true;
                     EditCategoryPanel.Visible = false;
                     TaskPanel.Visible = false;
@@ -172,6 +192,7 @@ namespace SE
                 }
             }
             header.Text = "Management Panel";
+            taskList.SelectedIndex = taskIDX;
         }
         protected void EditMainStepButton_Click(object sender, EventArgs e)
         {
@@ -242,7 +263,7 @@ namespace SE
                 {
                     MainStepName.Text = String.Empty;
                     MainStepText.Text = String.Empty;
-                    AddNewCategoryPanel.Visible = false;
+                    
                     ListBoxPanel.Visible = true;
                     EditCategoryPanel.Visible = false;
                     TaskPanel.Visible = false;
@@ -253,6 +274,7 @@ namespace SE
                 }
             }
             header.Text = "Management Panel";
+            mainStep.SelectedIndex = mainIDX;
         }
         protected void EditDetailedStepButton_Click(object sender, EventArgs e)
         {
@@ -307,7 +329,7 @@ namespace SE
                 {
                     DetailedStepName.Text = String.Empty;
                     DetailedStepText.Text = String.Empty;
-                    AddNewCategoryPanel.Visible = false;
+                    
                     ListBoxPanel.Visible = true;
                     EditCategoryPanel.Visible = false;
                     TaskPanel.Visible = false;
@@ -318,14 +340,14 @@ namespace SE
                 }
             }
             header.Text = "Management Panel";
+            detailedStep.SelectedIndex = deatIDX;
         }
         protected void AddNewCategory_Click(object sender, EventArgs e)
         {
             EditCategoryName.Text = String.Empty;
-
-            AddNewCategoryPanel.Visible = false;
+            
             ListBoxPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
+            
             EditCategoryPanel.Visible = true;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = false;
@@ -337,10 +359,10 @@ namespace SE
         {
             BindUsers(EditAssignUserToTask);
             EditTaskName.Text = String.Empty;
-            AddNewCategoryPanel.Visible = false;
+            
             ListBoxPanel.Visible = false;
             EditCategoryPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
+            
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = false;
             TaskPanel.Visible = true;
@@ -348,11 +370,9 @@ namespace SE
         }
         protected void AddNewMainStep_Click(object sender, EventArgs e)
         {
-            MainStepManagement.Visible = false;
-            DetailedStepManagement.Visible = false;
-            AddNewCategoryPanel.Visible = false;
+           
             ListBoxPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
+            
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = true;
             ManageDetailedStepPanel.Visible = false;
@@ -360,11 +380,11 @@ namespace SE
         }
         protected void AddNewDetailedStep_Click(object sender, EventArgs e)
         {
-            MainStepManagement.Visible = false;
-            DetailedStepManagement.Visible = true;
-            AddNewCategoryPanel.Visible = false;
+           
+            
+            
             ListBoxPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
+            
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = true;
@@ -372,13 +392,13 @@ namespace SE
         }
         protected void UpdateCategory_Click(object sender, EventArgs e)
         {
-            if (catList.SelectedItem.Text != "--Add Categories--")
+            if (catList.SelectedItem.Text != "No Categories")
             {
                 Cat = (Category)ViewState["Category"];
                 Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
                 ViewState.Add("Category", Cat);
 
-                AddNewCategoryPanel.Visible = false;
+                
                 ListBoxPanel.Visible = false;
                 EditCategoryPanel.Visible = true;
                 TaskPanel.Visible = false;
@@ -395,10 +415,10 @@ namespace SE
         protected void UpdateTask_Click(object sender, EventArgs e)
         {
             BindUsers(EditAssignUserToTask);
-            AddNewCategoryPanel.Visible = false;
+            
             ListBoxPanel.Visible = false;
             EditCategoryPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
+            
             TaskPanel.Visible = true;
             ITask = Task.GetTask(Convert.ToInt32(taskList.SelectedValue));
             EditTaskName.Text = ITask.TaskName;
@@ -408,11 +428,11 @@ namespace SE
         }
         protected void UpdateMainStep_Click(object sender, EventArgs e)
         {
-            MainStepManagement.Visible = false;
-            DetailedStepManagement.Visible = false;
-            AddNewCategoryPanel.Visible = false;
+           
+            
+            
             ListBoxPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
+            
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = true;
             ManageDetailedStepPanel.Visible = false;
@@ -435,11 +455,11 @@ namespace SE
         }
         protected void UpdateDetailedStep_Click(object sender, EventArgs e)
         {
-            MainStepManagement.Visible = false;
-            DetailedStepManagement.Visible = true;
-            AddNewCategoryPanel.Visible = false;
+           
+            
+            
             ListBoxPanel.Visible = false;
-            TaskManagmentPanel.Visible = false;
+            
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = true;
@@ -462,7 +482,7 @@ namespace SE
             BindCategories(catList);
             SuccessMessage.Text = "Category successfully deleted.";
 
-            if (catList.Items.Contains(new ListItem("--Add Categories--")))
+            if (catList.Items.Contains(new ListItem("No Categories")))
             {
                 taskList.Items.Clear();
                 taskList.Attributes.Add("disabled", "true");
@@ -475,13 +495,13 @@ namespace SE
             if (ITask.IsActive)
             {
                 ITask.IsActive = false;
-                IsActiveTask.Text = "Activate Task";
+                IsActiveTask.Text = "Activate";
                 IsActiveTask.CssClass = "btn btn-success";
             }
             else
             {
                 ITask.IsActive = true;
-                IsActiveTask.Text = "Deactivate Task";
+                IsActiveTask.Text = "Deactivate";
                 IsActiveTask.CssClass = "btn btn-danger";
             }
         }
@@ -513,8 +533,12 @@ namespace SE
             {
                 AllUsers.Items.Clear();
                 UsersInCategory.Items.Clear();
-                AddNewCategoryPanel.Visible = false;
+                
                 EditCategoryPanel.Visible = true;
+                MainStepMoveUp.Attributes.Add("disabled", "true");
+                MainStepMoveDown.Attributes.Add("disabled", "true");
+                DetailedStepMoveUp.Attributes.Add("disabled", "true");
+                DetailedStepMoveDown.Attributes.Add("disabled", "true");
             }
         }
 
@@ -543,10 +567,6 @@ namespace SE
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = false;
-            catList.SelectedIndex = -1;
-            taskList.SelectedIndex = -1;
-            mainStep.SelectedIndex = -1;
-            detailedStep.SelectedIndex = -1;
             EditCategoryName.Text = String.Empty;
             EditTaskName.Text = String.Empty;
             MainStepName.Text = String.Empty;
@@ -569,12 +589,11 @@ namespace SE
                 list.Items.Clear();
                 list.DataSource = CategoryListSource;
                 list.DataBind();
-                list.Items.Add("--Add Categories--");
             }
             else
             {
                 list.Items.Clear();
-                list.Items.Add("--Add Categories--");
+                list.Items.Add("No Categories");
             }
         }
         private void GenerateUserLists()
@@ -603,13 +622,31 @@ namespace SE
         }
         protected void QueryTasks(object sender, EventArgs e)
         {
-            taskDateSort.Text = "Date Asc";
-            AddNewCategoryPanel.Visible = true;
-            TaskManagmentPanel.Visible = MainStepManagement.Visible = DetailedStepManagement.Visible = false;
-
-            if (catList.SelectedItem.Text != "--Add Categories--")
+            catIDX = catList.SelectedIndex;
+            taskDateSort.Text = "Date \u25B2";
+            
+            mainStep.Attributes.Add("disabled", "true");
+            detailedStep.Attributes.Add("disabled", "true");
+            AddNewMainStep.Attributes.Add("disabled", "true");
+            AddNewDetailedStep.Attributes.Add("disabled", "true");
+            MainStepMoveUp.Attributes.Add("disabled", "true");
+            MainStepMoveDown.Attributes.Add("disabled", "true");
+            DetailedStepMoveUp.Attributes.Add("disabled", "true");
+            DetailedStepMoveDown.Attributes.Add("disabled", "true");
+            UpdateCategory.Attributes.Remove("disabled");
+            DeleteCategory.Attributes.Remove("disabled");
+            UpdateTask.Attributes.Add("disabled", "true");
+            IsActiveTask.Attributes.Add("disabled", "true");
+            UpdateMainStep.Attributes.Add("disabled", "true");
+            DeleteMainStep.Attributes.Add("disabled", "true");
+            UpdateDetailedStep.Attributes.Add("disabled", "true");
+            DeleteDetailedStep.Attributes.Add("disabled", "true");
+            if (catList.SelectedItem.Text != "No Categories")
             {
                 taskDateSort.Attributes.Remove("disabled");
+                mainStepSort.Attributes.Add("disabled","true");
+                detailedSort.Attributes.Add("disabled","true");
+
                 ITask = (Task)ViewState["Task"];
                 ITask.CategoryID = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
                 ViewState.Add("Task", ITask);
@@ -617,18 +654,20 @@ namespace SE
                 taskList.Items.Clear();
                 mainStep.Items.Clear();
                 detailedStep.Items.Clear();
-                taskList.Items.Add("--Add Tasks--");
                 RefreshTasks();
 
                 if (taskList.Items.Count == 0)
                 {
-                    taskList.Items.Add("--Add Tasks--");
+                    ListItem li = new ListItem();
+                    li.Text = "No Tasks in " + catList.SelectedItem.Text ;
+                    li.Attributes.Add("disabled", "disabled");
+                    taskList.Items.Add(li);
                 }
 
-                Update.Visible = Delete.Visible = true;
                 taskList.Attributes.Remove("disabled");
+                AddNewTask.Attributes.Remove("disabled");
             }
-            else if (catList.SelectedValue == "--Add Categories--")
+            else
             {
                 taskDateSort.Attributes.Add("disabled", "true");
                 taskList.Items.Clear();
@@ -637,17 +676,27 @@ namespace SE
                 taskList.Attributes.Add("disabled", "true");
                 mainStep.Attributes.Add("disabled", "true");
                 detailedStep.Attributes.Add("disabled", "true");
-                Update.Visible = Delete.Visible = false;
+
             }
         }
         protected void QueryMainStep(object sender, EventArgs e)
         {
-            mainStepSort.Text = "Date Asc";
-            TaskManagmentPanel.Visible = true;
-            AddNewCategoryPanel.Visible = MainStepManagement.Visible = DetailedStepManagement.Visible = false;
-
-            if (taskList.SelectedValue != "--Add Tasks--")
+            taskIDX = taskList.SelectedIndex;
+            mainStepSort.Text = "Date \u25B2";
+            detailedStep.Attributes.Add("disabled", "true");
+            AddNewDetailedStep.Attributes.Add("disabled", "true");
+            DetailedStepMoveUp.Attributes.Add("disabled", "true");
+            DetailedStepMoveDown.Attributes.Add("disabled", "true");
+            UpdateTask.Attributes.Remove("disabled");
+            IsActiveTask.Attributes.Remove("disabled");
+            UpdateMainStep.Attributes.Add("disabled", "true");
+            DeleteMainStep.Attributes.Add("disabled", "true");
+            UpdateDetailedStep.Attributes.Add("disabled", "true");
+            DeleteDetailedStep.Attributes.Add("disabled", "true");
+            if (taskList.SelectedValue != "No Tasks")
             {
+                mainStepSort.Attributes.Remove("disabled");
+                detailedSort.Attributes.Add("disabled","true");
                 ITask = (Task)ViewState["Task"];
                 ITask.TaskID = Convert.ToInt32(Convert.ToInt32(taskList.SelectedValue));
                 ViewState.Add("Task", ITask);
@@ -658,29 +707,32 @@ namespace SE
 
                 mainStep.Items.Clear();
                 detailedStep.Items.Clear();
-                mainStep.Items.Add("--Add Main Steps--");
                 RefreshMainSteps();
 
                 if (mainStep.Items.Count == 0)
                 {
-                    mainStep.Items.Add("--Add Main Steps--");
+                    ListItem li = new ListItem();
+                    li.Text = "No Main Steps in " + taskList.SelectedItem.Text;
+                    li.Attributes.Add("disabled", "disabled");
+                    mainStep.Items.Add(li);
                 }
 
                 if (ITask.IsActive)
                 {
-                    IsActiveTask.Text = "Deactivate Task";
+                    IsActiveTask.Text = "Deactivate";
                     IsActiveTask.CssClass = "btn btn-danger";
                 }
                 else
                 {
-                    IsActiveTask.Text = "Activate Task";
+                    IsActiveTask.Text = "Activate";
                     IsActiveTask.CssClass = "btn btn-success";
                 }
 
                 UpdateTask.Visible = IsActiveTask.Visible = true;
                 mainStep.Attributes.Remove("disabled");
+                AddNewMainStep.Attributes.Remove("disabled");
             }
-            else if (taskList.SelectedValue == "--Add Tasks--")
+            else
             {
                 mainStep.Items.Clear();
                 detailedStep.Items.Clear();
@@ -691,12 +743,16 @@ namespace SE
         }
         protected void QueryDetailedStep(object sender, EventArgs e)
         {
+            mainIDX = mainStep.SelectedIndex;
+            UpdateMainStep.Attributes.Remove("disabled");
+            DeleteMainStep.Attributes.Remove("disabled");
+            UpdateDetailedStep.Attributes.Add("disabled", "true");
+            DeleteDetailedStep.Attributes.Add("disabled", "true");
 
-            MainStepManagement.Visible = true;
-            TaskManagmentPanel.Visible = AddNewCategoryPanel.Visible = DetailedStepManagement.Visible = false;
-
-            if (mainStep.SelectedItem.Text != "--Add Main Steps--")
+            if (mainStep.SelectedItem.Text != "No Main Steps")
             {
+
+                detailedSort.Attributes.Remove("disabled");
                 IMainStep = (MainStep)ViewState["MainStep"];
                 IMainStep.MainStepID = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
                 ViewState.Add("MainStep", IMainStep);
@@ -706,39 +762,44 @@ namespace SE
                 ViewState.Add("DetailedStep", IDetailedStep);
 
                 detailedStep.Items.Clear();
-                detailedStep.Items.Add("--Add Detailed Steps--");
                 RefreshDetailedSteps();
 
                 if (detailedStep.Items.Count == 0)
                 {
-                    detailedStep.Items.Add("--Add Detailed Steps--");
+                    ListItem li = new ListItem();
+                    li.Text = "No Detailed Steps in " + mainStep.SelectedItem.Text;
+                    li.Attributes.Add("disabled", "disabled");
+                    detailedStep.Items.Add(li);
                 }
 
                 UpdateMainStep.Visible = DeleteMainStep.Visible = true;
                 detailedStep.Attributes.Remove("disabled");
-            }
-            else if (mainStep.SelectedValue == "--Add Main Steps--")
-            {
-                detailedStep.Items.Clear();
-                detailedStep.Attributes.Add("disabled", "true");
-                UpdateMainStep.Visible = DeleteMainStep.Visible = MainStepMoveUp.Visible = MainStepMoveDown.Visible = false;
-            }
-
-            if (mainStep.Items.Count > 2 && mainStep.SelectedValue != "--Add Main Steps--")
-            {
-                MainStepMoveUp.Visible = MainStepMoveDown.Visible = true;
+                AddNewDetailedStep.Attributes.Remove("disabled");
             }
             else
             {
-                MainStepMoveUp.Visible = MainStepMoveDown.Visible = false;
+                detailedStep.Items.Clear();
+                detailedStep.Attributes.Add("disabled", "true");
+                UpdateMainStep.Visible = DeleteMainStep.Visible = false;
+            }
+
+            if (mainStep.Items.Count > 1 && mainStep.SelectedValue != "No Main Steps")
+            {
+                MainStepMoveUp.Attributes.Remove("disabled");
+                MainStepMoveDown.Attributes.Remove("disabled");
+            }
+            else
+            {
+                MainStepMoveUp.Attributes.Add("disabled", "true");
+                MainStepMoveDown.Attributes.Add("disabled", "true");
             }
         }
         protected void detailButtons(object sender, EventArgs e)
         {
-            DetailedStepManagement.Visible = true;
-            MainStepManagement.Visible = TaskManagmentPanel.Visible = AddNewCategoryPanel.Visible = false;
-
-            if (detailedStep.SelectedItem.Text != "--Add Detailed Steps--")
+            deatIDX = detailedStep.SelectedIndex;
+            UpdateDetailedStep.Attributes.Remove("disabled");
+            DeleteDetailedStep.Attributes.Remove("disabled");
+            if (detailedStep.SelectedItem.Text != "No Detailed Steps")
             {
                 IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
                 IDetailedStep.DetailedStepID = Convert.ToInt32(Convert.ToInt32(detailedStep.SelectedValue));
@@ -751,13 +812,15 @@ namespace SE
                 UpdateDetailedStep.Visible = DeleteDetailedStep.Visible = false;
             }
 
-            if (detailedStep.Items.Count > 2)
+            if (detailedStep.Items.Count > 1)
             {
-                DetailedStepMoveUp.Visible = DetailedStepMoveDown.Visible = true;
+                DetailedStepMoveUp.Attributes.Remove("disabled");
+                DetailedStepMoveDown.Attributes.Remove("disabled");
             }
             else
             {
-                DetailedStepMoveUp.Visible = DetailedStepMoveDown.Visible = false;
+                DetailedStepMoveUp.Attributes.Add("disabled", "true");
+                DetailedStepMoveDown.Attributes.Add("disabled", "true");
             }
         }
         /*Main Step Function*/
@@ -769,7 +832,6 @@ namespace SE
             taskList.Items.Clear();
             taskList.DataSource = TaskListSource;
             taskList.DataBind();
-            taskList.Items.Add("--Add Tasks--");
         }
 
         private void RefreshMainSteps()
@@ -780,7 +842,6 @@ namespace SE
             mainStep.Items.Clear();
             mainStep.DataSource = MainStepListSource;
             mainStep.DataBind();
-            mainStep.Items.Add("--Add Main Steps--");
         }
 
         private void RefreshDetailedSteps()
@@ -791,7 +852,6 @@ namespace SE
             detailedStep.Items.Clear();
             detailedStep.DataSource = DetailedStepListSource;
             detailedStep.DataBind();
-            detailedStep.Items.Add("--Add Detailed Steps--");
         }
 
 
@@ -804,6 +864,7 @@ namespace SE
         }
         protected void MainStepMoveDown_Click(object sender, EventArgs e)
         {
+            string value = mainStep.SelectedValue;
             if (mainStep.SelectedValue != "" && mainStep.SelectedIndex != mainStep.Items.Count - 1)
             {
                 IMainStep = (MainStep)ViewState["MainStep"];
@@ -881,9 +942,11 @@ namespace SE
 
                 RefreshMainSteps();
             }
+            mainStep.SelectedValue = value;
         }
         protected void MainStepMoveUp_Click(object sender, EventArgs e)
         {
+            string value = mainStep.SelectedValue;
             if (mainStep.SelectedValue != "" && mainStep.SelectedIndex != 0)
             {
                 IMainStep = (MainStep)ViewState["MainStep"];
@@ -958,12 +1021,14 @@ namespace SE
 
                     con.Close();
                 }
-
+                
                 RefreshMainSteps();
             }
+            mainStep.SelectedValue = value;
         }
         protected void DetailedStepMoveDown_Click(object sender, EventArgs e)
         {
+            string value = detailedStep.SelectedValue;
             if (detailedStep.SelectedValue != "" && detailedStep.SelectedIndex != detailedStep.Items.Count - 1)
             {
                 IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
@@ -1041,9 +1106,11 @@ namespace SE
 
                 RefreshDetailedSteps();
             }
+            detailedStep.SelectedValue = value;
         }
         protected void DetailedStepMoveUp_Click(object sender, EventArgs e)
         {
+            string value = detailedStep.SelectedValue;
             if (detailedStep.SelectedValue != "" && detailedStep.SelectedIndex != 0)
             {
                 IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
@@ -1121,6 +1188,7 @@ namespace SE
 
                 RefreshDetailedSteps();
             }
+            detailedStep.SelectedValue = value;
         }
 
         protected void CategoryListSource_Selected(object sender, SqlDataSourceStatusEventArgs e)
@@ -1140,8 +1208,8 @@ namespace SE
                 string queryString = "";
                 switch (catDateSort.Text)
                 {
-                    case "Date Desc": catDateSort.Text = "Date Asc"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime ASC"; break;
-                    case "Date Asc": catDateSort.Text = "Date Desc"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime DESC"; break;
+                    case "Date \u25BC": catDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime ASC"; break;
+                    case "Date \u25B2": catDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime DESC"; break;
                     default: break;
                 }
                 catList.DataSource = null;
@@ -1178,7 +1246,6 @@ namespace SE
                 }
                 catList.DataSource = sort;
                 catList.DataBind();
-                catList.Items.Add("--Add Categories--");
         }
 
         protected void taskDateSort_Click(object sender, EventArgs e)
@@ -1188,8 +1255,8 @@ namespace SE
                 string queryString = "";
                 switch (taskDateSort.Text)
                 {
-                    case "Date Desc": taskDateSort.Text = "Date Asc"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime ASC"; break;
-                    case "Date Asc": taskDateSort.Text = "Date Desc"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime DESC"; break;
+                    case "Date \u25BC": taskDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime ASC"; break;
+                    case "Date \u25B2": taskDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime DESC"; break;
                     default: break;
                 }
                 taskList.DataSource = null;
@@ -1223,7 +1290,6 @@ namespace SE
                 }
                 taskList.DataSource = sort;
                 taskList.DataBind();
-                taskList.Items.Add("--Add Tasks--");
             }
         }
         protected void mainStep_Sort(object sender, EventArgs e)
@@ -1233,8 +1299,8 @@ namespace SE
                 string queryString = "";
                 switch (mainStepSort.Text)
                 {
-                    case "Date Desc": mainStepSort.Text = "Date Asc"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime ASC"; break;
-                    case "Date Asc": mainStepSort.Text = "Date Desc"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime DESC"; break;
+                    case "Date \u25BC": mainStepSort.Text = "Date \u25B2"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime ASC"; break;
+                    case "Date \u25B2": mainStepSort.Text = "Date \u25BC"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime DESC"; break;
                     default: break;
                 }
                 mainStep.DataSource = null;
@@ -1266,7 +1332,6 @@ namespace SE
                 }
                 mainStep.DataSource = sort;
                 mainStep.DataBind();
-                mainStep.Items.Add("--Add Main Steps--");
             }
         }
         protected void detailedDateSort_Click(object sender, EventArgs e)
@@ -1276,8 +1341,8 @@ namespace SE
                 string queryString = "";
                 switch (detailedSort.Text)
                 {
-                    case "Date Desc": detailedSort.Text = "Date Asc"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime ASC"; break;
-                    case "Date Asc": detailedSort.Text = "Date Desc"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime DESC"; break;
+                    case "Date \u25BC": detailedSort.Text = "Date \u25B2"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime ASC"; break;
+                    case "Date \u25B2": detailedSort.Text = "Date \u25BC"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime DESC"; break;
                     default: break;
                 }
                 detailedStep.DataSource = null;
@@ -1309,7 +1374,6 @@ namespace SE
                 }
                 detailedStep.DataSource = sort;
                 detailedStep.DataBind();
-                detailedStep.Items.Add("--Add Detailed Steps--");
             }
         }
 
@@ -1331,6 +1395,6 @@ namespace SE
         protected void detailFilter_TextChanged(object sender, EventArgs e)
         {
             RefreshDetailedSteps();
-        }
+       } 
     }
 }

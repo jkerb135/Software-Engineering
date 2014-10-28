@@ -2,7 +2,6 @@
 
 <asp:Content ID="PageHead" ContentPlaceHolderID="SiteHead" runat="server">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
 </asp:Content>
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">
     <asp:UpdatePanel ID="CategoryContainer" runat="server">
@@ -12,12 +11,12 @@
         </Triggers>
         <ContentTemplate>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12">
                     <h1 class="page-header">
                         <asp:Label ID="header" runat="server" Text="Management Panel"></asp:Label></h1>
                 </div>
             </div>
-            <div class="col-lg-12">
+            <div class="col-xs-12">
                 <div class="row">
 
                     <div class="error-messages form-group">
@@ -25,56 +24,6 @@
                     </div>
                     <div class="success-messages form-group">
                         <asp:Label ID="SuccessMessage" runat="server"></asp:Label>
-                    </div>
-                    <div style="height: 30px;">
-                        <asp:Panel ID="AddNewCategoryPanel" CssClass="form-group" runat="server" Visible="false">
-                            <div class="form-inline">
-
-                                <asp:Button ID="Update" runat="server" Visible="false"
-                                    CssClass="btn btn-primary" Text="Update Category"
-                                    OnClick="UpdateCategory_Click" />
-                                <asp:Button ID="Delete" runat="server" Visible="false"
-                                    CssClass="btn btn-danger" Text="Delete Category"
-                                    OnClick="DeleteCategoryButton_Click" OnClientClick="return confirm('Are you sure you want to delete this category?');" />
-                            </div>
-                        </asp:Panel>
-                        <asp:Panel ID="TaskManagmentPanel" CssClass="form-group" runat="server" Visible="false">
-                            <div class="form-inline">
-                                
-                                <asp:Button ID="UpdateTask" runat="server"
-                                    CssClass="btn btn-primary" Text="Update Task"
-                                    OnClick="UpdateTask_Click" />
-                                <asp:Button ID="IsActiveTask" runat="server" OnClick="IsActiveTaskButton_Click" />
-                            </div>
-                        </asp:Panel>
-                        <asp:Panel ID="MainStepManagement" CssClass="form-group" runat="server" Visible="false">
-                            <div class="form-inline">
-                                <asp:Button ID="MainStepMoveDown" CssClass="btn btn-default" runat="server" Text="down"
-                                    OnClick="MainStepMoveDown_Click" Visible="false" />
-                                <asp:Button ID="MainStepMoveUp" CssClass="btn btn-default" runat="server" Text="up"
-                                    OnClick="MainStepMoveUp_Click" Visible="false" />
-                                <asp:Button ID="UpdateMainStep" runat="server"
-                                    CssClass="btn btn-primary" Text="Update Main Step"
-                                    OnClick="UpdateMainStep_Click" />
-                                <asp:Button ID="DeleteMainStep" runat="server"
-                                    CssClass="btn btn-danger" Text="Delete Main Step"
-                                    OnClick="DeleteMainStep_Click" OnClientClick="return confirm('Are you sure you want to delete this main step?');" />
-                            </div>
-                        </asp:Panel>
-                        <asp:Panel ID="DetailedStepManagement" CssClass="form-group" runat="server" Visible="false">
-                            <div class="form-inline">
-                                <asp:Button ID="DetailedStepMoveDown" CssClass="btn btn-default" runat="server" Text="down"
-                                    OnClick="DetailedStepMoveDown_Click" />
-                                <asp:Button ID="DetailedStepMoveUp" CssClass="btn btn-default" runat="server" Text="up"
-                                    OnClick="DetailedStepMoveUp_Click" />
-                                <asp:Button ID="UpdateDetailedStep" runat="server"
-                                    CssClass="btn btn-primary" Text="Update Detailed Step"
-                                    OnClick="UpdateDetailedStep_Click" />
-                                <asp:Button ID="DeleteDetailedStep" runat="server"
-                                    CssClass="btn btn-danger" Text="Delete Detailed Step"
-                                    OnClick="DeleteDetailedStep_Click" OnClientClick="return confirm('Are you sure you want to delete this detailed step?');" />
-                            </div>
-                        </asp:Panel>
                     </div>
                     <div class="form-group">
                         <asp:DropDownList ID="CategoryList" runat="server" CssClass="form-control"
@@ -84,7 +33,7 @@
                     </div>
                     <asp:Panel ID="EditCategoryPanel" runat="server">
                         <div class="row form-group">
-                            <div class="form-group col-lg-10">
+                            <div class="form-group col-xs-10">
                                 <asp:Label ID="EditCategoryNameLabel" runat="server"
                                     Text="Category Name"></asp:Label>
                                 <asp:TextBox ID="EditCategoryName" CssClass="form-control"
@@ -204,56 +153,108 @@
                         </div>
                     </asp:Panel>
                     <asp:Panel ID="ListBoxPanel" runat="server">
-                        <div class="col-lg-10">
+                        <div class="col-xs-12">
                             <div class="row center">
-                                <div class="col-lg-3" style="padding: 5px">
-                                    <div class="row" style="padding-left: 15px">
-                                        <div class="col-lg-7 reset">
+                                <div class="col-xs-3" style="padding: 5px">
+                                    <div class="row" style="padding: 0px 0px 10px 15px">
+                                        <div class="col-xs-7 reset">
                                             <asp:TextBox CssClass="form-control" ID="catFilter" runat="server" placeholder="Filter Categories" AutoPostBack="true" ToolTip="Enter Category Search Here" OnTextChanged="catFilter_TextChanged"></asp:TextBox>
                                         </div>
-                                        <div class="col-lg-4 reset">
+                                        <div class="col-xs-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="catDateSort" runat="server" Text="" OnClick="catDateSort_Click" />
                                         </div>
                                     </div>
-                                    <asp:Button ID="AddNewCategoryButton" runat="server" CssClass="btn btn-success col-lg-12" Text="Add New Category" OnClick="AddNewCategory_Click" />
+                                    <div class="row" style="padding: 0px 0px 0px 15px;">
+                                        <div class="col-xs-3 reset">
+                                            <asp:Button ID="AddNewCategoryButton" runat="server" CssClass="btn-sm btn-success form-control" Text="Add" OnClick="AddNewCategory_Click" /></div>
+                                        <div class="col-xs-4 reset">
+                                            <asp:Button ID="UpdateCategory" runat="server" CssClass="btn btn-primary form-control" Text="Update" OnClick="UpdateCategory_Click " /></div>
+                                        <div class="col-xs-4 reset">
+                                            <asp:Button ID="DeleteCategory" runat="server" CssClass="btn btn-danger form-control" Text="Deactivate" OnClick="DeleteCategoryButton_Click" OnClientClick="return confirm('Are you sure you want to delete this category?');" /></div>
+                                    </div>
                                     <asp:ListBox CssClass="form-control" ID="catList" runat="server" Height="350px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate" AppendDataBoundItems="true" DataTextField="CategoryName" DataValueField="CategoryID"></asp:ListBox>
                                 </div>
-                                <div class="col-lg-3" style="padding: 5px">
-                                    <div class="row" style="padding-left: 15px">
-                                        <div class="col-lg-7 reset">
+                                <div class="col-xs-3" style="padding: 5px">
+                                    <div class="row" style="padding: 0px 0px 10px 15px">
+                                        <div class="col-xs-12 reset">
+                                        </div>
+                                        <div class="col-xs-7 reset">
                                             <asp:TextBox CssClass="form-control" ID="taskFilter" runat="server" placeholder="Filter Tasks" AutoPostBack="true" OnTextChanged="taskFilter_TextChanged"></asp:TextBox>
                                         </div>
-                                        <div class="col-lg-4 reset">
+                                        <div class="col-xs-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="taskDateSort" runat="server" Text="" OnClick="taskDateSort_Click" />
                                         </div>
 
                                     </div>
-                                    <asp:Button ID="AddNewTask" runat="server" CssClass="btn btn-success form-control" Text="Add New Task" OnClick="AddNewTask_Click" />
-                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="taskList" runat="server" Height="350px" OnSelectedIndexChanged="QueryMainStep" AutoPostBack="True" DataTextField="TaskName" DataValueField="TaskID" AppendDataBoundItems="true"></asp:ListBox>
+                                    
+                                    <div class="row" style="padding: 0px 0px 0px 15px;">
+                                        <div class="col-xs-3 reset">
+                                            <asp:Button ID="AddNewTask" runat="server" CssClass="btn btn-success form-control" Text="Add " OnClick="AddNewTask_Click" />
+                                        </div>
+                                        <div class="col-xs-4 reset">
+                                            <asp:Button ID="UpdateTask" runat="server" CssClass="btn btn-primary form-control" Text="Update" OnClick="UpdateTask_Click" />
+                                            </div>
+                                        <div class="col-xs-4 reset">
+                                            <asp:Button ID="IsActiveTask" runat="server" CssClass="btn btn-danger form-control" OnClick="IsActiveTaskButton_Click" Text="Deactivate"/>
+                                        </div>
+                                    </div>
+                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="taskList" runat="server" Height="350px" OnSelectedIndexChanged="QueryMainStep" AutoPostBack="True" DataTextField="TaskName" DataValueField="TaskID" AppendDataBoundItems="true"></asp:ListBox>
                                 </div>
-                                <div class="col-lg-3" style="padding: 5px">
-                                    <div class="row" style="padding-left: 15px">
-                                        <div class="col-lg-7 reset">
+                                <div class="col-xs-3" style="padding: 5px">
+                                    <div class="row" style="padding: 0px 0px 10px 15px;">
+                                        <div class="col-xs-7 reset">
                                             <asp:TextBox CssClass="form-control" ID="mainFilter" runat="server" placeholder="Filter Main Steps" AutoPostBack="true" OnTextChanged="mainFilter_TextChanged"></asp:TextBox>
                                         </div>
-                                        <div class="col-lg-4 reset">
+                                        <div class="col-xs-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="mainStepSort" runat="server" Text="" OnClick="mainStep_Sort" />
                                         </div>
                                     </div>
-                                    <asp:Button ID="AddNewMainStep" runat="server" CssClass="btn btn-success form-control" Text="Add New Main Step" OnClick="AddNewMainStep_Click" />
-                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="mainStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="QueryDetailedStep" DataTextField="MainStepName" DataValueField="MainStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <div class="row" style="padding: 0px 0px 0px 15px;">
+                                        <div class="col-xs-3 reset">
+                                            <asp:Button ID="AddNewMainStep" runat="server" CssClass="btn btn-success form-control" Text="Add" OnClick="AddNewMainStep_Click" />
+                                        </div>
+                                        <div class="col-xs-4 reset">
+                                            <asp:Button ID="UpdateMainStep" runat="server" CssClass="btn btn-primary form-control" Text="Update" OnClick="UpdateMainStep_Click" />
+                                        </div>
+                                        <div class="col-xs-4 reset">
+                                             <asp:Button ID="DeleteMainStep" runat="server" CssClass="btn btn-danger form-control" Text="Delete" OnClick="DeleteMainStep_Click" OnClientClick="return confirm('Are you sure you want to delete this main step?');" />
+                                     </div>
+                                        </div>
+                                    
+                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="mainStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="QueryDetailedStep" DataTextField="MainStepName" DataValueField="MainStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <div class="form-inline">
+                                        <asp:Button ID="MainStepMoveDown" CssClass="btn btn-default form-control" runat="server" Text="down" OnClick="MainStepMoveDown_Click" Visible="True" />
+                                        <asp:Button ID="MainStepMoveUp" CssClass="btn btn-default form-control" runat="server" Text="up" OnClick="MainStepMoveUp_Click" Visible="True" />
+                                    </div>
                                 </div>
-                                <div class="col-lg-3" style="padding: 5px">
-                                    <div class="row" style="padding-left: 15px">
-                                        <div class="col-lg-7 reset">
+                                <div class="col-xs-3" style="padding: 5px">
+                                    <div class="row" style="padding: 0px 0px 10px 15px;">
+                                        <div class="col-xs-7 reset">
                                             <asp:TextBox CssClass="form-control" ID="detailFilter" runat="server" placeholder="Filter Detailed Steps" AutoPostBack="true" OnTextChanged="detailFilter_TextChanged"></asp:TextBox>
                                         </div>
-                                        <div class="col-lg-4 reset">
+                                        <div class="col-xs-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="detailedSort" runat="server" Text="" OnClick="detailedDateSort_Click" />
                                         </div>
                                     </div>
-                                    <asp:Button ID="AddNewDetailedStep" runat="server" CssClass="btn btn-success form-control" Text="Add New Detailed Step" OnClick="AddNewDetailedStep_Click" />
-                                    <asp:ListBox CssClass="col-lg-12 form-control" ID="detailedStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="detailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                     <div class="row" style="padding: 0px 0px 0px 15px;">
+                                        <div class="col-xs-3 reset">
+                                            <asp:Button ID="AddNewDetailedStep" runat="server" CssClass="btn btn-success form-control" Text="Add" OnClick="AddNewDetailedStep_Click" />
+                                        </div>
+                                        <div class="col-xs-4 reset">
+                                            <asp:Button ID="UpdateDetailedStep" runat="server" CssClass="btn btn-primary form-control" Text="Update" OnClick="UpdateDetailedStep_Click" />
+                                        </div>
+                                        <div class="col-xs-4 reset">
+                                             <asp:Button ID="DeleteDetailedStep" runat="server" CssClass="btn btn-danger form-control" Text="Delete" OnClick="DeleteDetailedStep_Click" OnClientClick="return confirm('Are you sure you want to delete this detailed step?');" />
+                                     </div>
+                                        </div>
+                                    
+                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="detailedStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="detailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <div class="form-inline">
+                                        <asp:Button ID="DetailedStepMoveDown" CssClass="btn btn-default" runat="server" Text="down"
+                                            OnClick="DetailedStepMoveDown_Click" />
+                                        <asp:Button ID="DetailedStepMoveUp" CssClass="btn btn-default" runat="server" Text="up"
+                                            OnClick="DetailedStepMoveUp_Click" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

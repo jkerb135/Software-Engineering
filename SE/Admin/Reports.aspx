@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-xs-12">
             <h1 class="page-header">Reports</h1>
         </div>
     </div>

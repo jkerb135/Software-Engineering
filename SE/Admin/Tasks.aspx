@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-xs-12">
             <h1 class="page-header">Tasks</h1>
         </div>
     </div>
@@ -11,7 +11,7 @@
 
         <asp:View ID="CreateTask" runat="server">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12">
                     <h2>Create Task</h2>
                 </div>
             </div>
@@ -57,7 +57,7 @@
 
         <asp:View ID="EditTask" runat="server">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12">
                     <h2>Edit Task</h2>
                 </div>
             </div>
@@ -278,12 +278,12 @@
 
         <asp:View ID="ManageTasks" runat="server">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12">
                     <h2>Manage Tasks</h2>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-xs-12">
                     <asp:UpdatePanel ID="ManageTaskGrid" runat="server">
                         <ContentTemplate>
                             <div class="success-messages form-group">

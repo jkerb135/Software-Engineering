@@ -6,7 +6,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-xs-12">
             <h2>Profile</h2>
         </div>
     </div>
@@ -19,7 +19,7 @@
         </div>
         <div class="dataTables">
             <div id="catData" style="display: none">
-                <div class="col-lg-10">
+                <div class="col-xs-10">
 
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -27,14 +27,22 @@
                             <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:GridView ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True" AllowSorting="true" OnSorting="categories_Sort">
+                            <asp:GridView EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True">
+                                <Columns>
+                                    <asp:TemplateField>
+                                        <ItemTemplate><asp:Button ID="AddUserToCat" runat="server" Text="Update Users" CssClass="btn btn-primary" /></ItemTemplate>
+                                    </asp:TemplateField>
+                                </Columns>
                             </asp:GridView>
+                            <asp:SqlDataSource ID="CategorySource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>">
+
+                            </asp:SqlDataSource>
                         </div>
                     </div>
                 </div>
             </div>
             <div id="taskData" style="display: none;">
-                <div class="col-lg-10">
+                <div class="col-xs-10">
                     <div class="panel panel-primary ">
                         <div class="panel-heading">
                             <i class="fa fa-users fa-fw"></i>
@@ -48,7 +56,7 @@
                 </div>
             </div>
             <div id="userData" style="display: none;">
-                <div class="col-lg-10">
+                <div class="col-xs-10">
                     <div class="panel panel-primary ">
                         <div class="panel-heading">
                             <i class="fa fa-users fa-fw"></i>
