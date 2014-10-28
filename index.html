@@ -222,7 +222,7 @@
 			var dates = new Array();
 			var assignments  = new Array();
 			var workers = new Array();
-		$.getJSON('https://docs.google.com/spreadsheets/d/16v4GxRLez18i47P-5s_vARBVwQ4hnXKdyNjqfzK9ks8/pubhtml?gid=0&single=true', function(data) {
+		$.getJSON('https://spreadsheets.google.com/feeds/list/16v4GxRLez18i47P-5s_vARBVwQ4hnXKdyNjqfzK9ks8/od6/public/values?alt=jsone', function(data) {
 			var projects = data.feed.entry;
 			console.log(projects);
 			for (var i = 0; i < projects.length; i++){
