@@ -49,15 +49,6 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Categories.AddNewCategoryButton">
-            <summary>
-            AddNewCategoryButton control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
         <member name="F:SE.Categories.Update">
             <summary>
             Update control.
@@ -85,15 +76,6 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Categories.AddNewTask">
-            <summary>
-            AddNewTask control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
         <member name="F:SE.Categories.UpdateTask">
             <summary>
             UpdateTask control.
@@ -115,15 +97,6 @@
         <member name="F:SE.Categories.MainStepManagement">
             <summary>
             MainStepManagement control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.Categories.AddNewMainStep">
-            <summary>
-            AddNewMainStep control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -169,15 +142,6 @@
         <member name="F:SE.Categories.DetailedStepManagement">
             <summary>
             DetailedStepManagement control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.Categories.AddNewDetailedStep">
-            <summary>
-            AddNewDetailedStep control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -688,6 +652,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Categories.AddNewCategoryButton">
+            <summary>
+            AddNewCategoryButton control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Categories.catList">
             <summary>
             catList control.
@@ -709,6 +682,15 @@
         <member name="F:SE.Categories.taskDateSort">
             <summary>
             taskDateSort control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Categories.AddNewTask">
+            <summary>
+            AddNewTask control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -742,6 +724,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Categories.AddNewMainStep">
+            <summary>
+            AddNewMainStep control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Categories.mainStep">
             <summary>
             mainStep control.
@@ -763,6 +754,15 @@
         <member name="F:SE.Categories.detailedSort">
             <summary>
             detailedSort control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Categories.AddNewDetailedStep">
+            <summary>
+            AddNewDetailedStep control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -826,6 +826,15 @@
         <member name="F:SE.Admin.Profile.categories">
             <summary>
             categories control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Profile.CategorySource">
+            <summary>
+            CategorySource control.
             </summary>
             <remarks>
             Auto-generated field.
