@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-xs-12">
             <h2>Profile</h2>
-                                <asp:Label ID="Label5" runat="server" Text="Label" Visible="false"></asp:Label>
+                                <asp:Label ID="Label5" runat="server" Text="Label" Visible="true"></asp:Label>
         </div>
     </div>
     <hr />
@@ -32,10 +32,12 @@
                             <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:GridView EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand">
+                            <asp:GridView EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
                                 <Columns>
-                                    <asp:TemplateField ItemStyle-Width="5%">
-                                        <ItemTemplate><asp:Button ID="AddUsers" CssClass="btn btn-primary" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add Users" CommandArgument='<%# Eval("CategoryName") %>' /></ItemTemplate>
+                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="10%"/>
+                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="5%"/>
+                                    <asp:TemplateField ItemStyle-Width="3%">
+                                        <ItemTemplate><asp:Button ID="AddUsers" CssClass="btn btn-primary" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add Users" CommandArgument='<%# Eval("CategoryID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
@@ -78,10 +80,12 @@
                             <asp:Label ID="Label2" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:GridView EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" OnRowCommand="TaskGrid_RowCommand">
+                            <asp:GridView EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" OnRowCommand="TaskGrid_RowCommand"  AutoGenerateColumns="false">
                                 <Columns>
+                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="10%"/>
+                                    <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="5%"/>
                                     <asp:TemplateField ItemStyle-Width="5%">
-                                        <ItemTemplate><asp:Button ID="AddUsersToTask" CssClass="btn btn-primary" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add Users" CommandArgument='<%# Eval("TaskName") %>' /></ItemTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUsersToTask" CssClass="btn btn-primary" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add Users" CommandArgument='<%# Eval("TaskID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
