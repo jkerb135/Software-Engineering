@@ -35,7 +35,7 @@
                             <asp:GridView EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
                                 <Columns>
                                     <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="10%"/>
-                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="5%"/>
+                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="5%" DataFormatString=" {0:d} " HtmlEncode="false"/>
                                     <asp:TemplateField ItemStyle-Width="3%">
                                         <ItemTemplate><asp:Button ID="AddUsers" CssClass="btn btn-primary" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add Users" CommandArgument='<%# Eval("CategoryID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
