@@ -496,13 +496,13 @@ namespace SE
             {
                 ITask.IsActive = false;
                 IsActiveTask.Text = "Activate";
-                IsActiveTask.CssClass = "btn btn-success";
+                IsActiveTask.CssClass = "btn btn-success form-control";
             }
             else
             {
                 ITask.IsActive = true;
                 IsActiveTask.Text = "Deactivate";
-                IsActiveTask.CssClass = "btn btn-danger";
+                IsActiveTask.CssClass = "btn btn-danger form-control";
             }
         }
         protected void DeleteMainStep_Click(object sender, EventArgs e)

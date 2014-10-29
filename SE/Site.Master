@@ -256,7 +256,7 @@
                             <asp:Label ID="username" runat="server" Text=""></asp:Label><i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
-                            <li><a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>User Profile</a>
+                            <li><a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>Your Information</a>
                             </li>
                             <li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
                             </li>
@@ -285,11 +285,14 @@
                                 </div>
                                 <!-- /input-group -->
                             </li>
+                            <li style="margin: 20px 0px 0px 10px">
+                                <asp:ImageButton ID="ProfilePicture" runat="server"  ImageUrl="~/Images/default.png" Height="200px" Width="225px" OnClientClick="selectFile();"/>
+                            </li>
                             <li style="margin-top: 20px">
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                             </li>
                             <li id="Li1" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>Profile</a>
+                                <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>Your Information</a>
                             </li>
                             <li id="CreateUserMenu" runat="server">
                                 <a href="#"><i class="fa fa-wrench fa-fw"></i>Users<span class="fa arrow"></span></a>

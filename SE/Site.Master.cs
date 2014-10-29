@@ -30,5 +30,6 @@ namespace SE
             FormsAuthentication.SignOut();
             FormsAuthentication.RedirectToLoginPage();
         }
+
     }
 }

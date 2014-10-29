@@ -223,8 +223,8 @@
                                     
                                     <asp:ListBox CssClass="col-xs-12 form-control" ID="mainStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="QueryDetailedStep" DataTextField="MainStepName" DataValueField="MainStepID" AppendDataBoundItems="true"></asp:ListBox>
                                     <div class="form-inline">
-                                        <asp:Button ID="MainStepMoveDown" CssClass="btn btn-default form-control" runat="server" Text="down" OnClick="MainStepMoveDown_Click" Visible="True" />
-                                        <asp:Button ID="MainStepMoveUp" CssClass="btn btn-default form-control" runat="server" Text="up" OnClick="MainStepMoveUp_Click" Visible="True" />
+                                        <asp:Button ID="MainStepMoveDown" CssClass="btn btn-default form-control" runat="server" Text="Move Step Down" OnClick="MainStepMoveDown_Click" Visible="True" />
+                                        <asp:Button ID="MainStepMoveUp" CssClass="btn btn-default form-control" runat="server" Text="Move Step Up" OnClick="MainStepMoveUp_Click" Visible="True" />
                                     </div>
                                 </div>
                                 <div class="col-xs-3" style="padding: 5px">
@@ -250,9 +250,9 @@
                                     
                                     <asp:ListBox CssClass="col-xs-12 form-control" ID="detailedStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="detailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
                                     <div class="form-inline">
-                                        <asp:Button ID="DetailedStepMoveDown" CssClass="btn btn-default" runat="server" Text="down"
+                                        <asp:Button ID="DetailedStepMoveDown" CssClass="btn btn-default" runat="server" Text="Move Step Down"
                                             OnClick="DetailedStepMoveDown_Click" />
-                                        <asp:Button ID="DetailedStepMoveUp" CssClass="btn btn-default" runat="server" Text="up"
+                                        <asp:Button ID="DetailedStepMoveUp" CssClass="btn btn-default" runat="server" Text="Move Step Up"
                                             OnClick="DetailedStepMoveUp_Click" />
                                     </div>
                                 </div>
