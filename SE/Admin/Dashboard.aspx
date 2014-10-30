@@ -52,7 +52,11 @@
                             <i class="fa fa-users fa-fw"></i>Active Supervisors
                         </div>
                         <div class="panel-body">
-                            <asp:DataGrid ID="signededIn" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False">
+                            <asp:DataGrid ID="signededIn" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False" AutoGenerateColumns="false" ShowHeader="false" GridLines="None">
+                                <Columns>
+                                   <asp:BoundColumn DataField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundColumn>
+                                   <asp:BoundColumn DataField="Online" HeaderText="Online" ItemStyle-Width="3%" ItemStyle-CssClass="center"></asp:BoundColumn>
+                                </Columns>
                             </asp:DataGrid>
                         </div>
                     </div>

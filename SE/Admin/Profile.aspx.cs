@@ -14,6 +14,7 @@ namespace SE.Admin
     public partial class Profile : System.Web.UI.Page
     {
         public static int categoryID, taskID;
+        public static string assignedUsername;
         string user = Membership.GetUser().UserName;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -43,34 +44,29 @@ namespace SE.Admin
         {
             CategorySource.SelectCommand = "Select * From Categories Where CreatedBy = '" + Request.QueryString["userName"] + "'";
             categories.DataBind();
+            categories.UseAccessibleHeader = true;
+            categories.HeaderRow.TableSection = TableRowSection.TableHeader;
 
         }
         private void QueryYourTasks()
         {
             TaskSource.SelectCommand = "Select * From Tasks Inner Join Categories on Tasks.CategoryID = Categories.CategoryID Where Tasks.CreatedBy = '" + Request.QueryString["userName"] + "'";
             tasks.DataBind();
+            tasks.UseAccessibleHeader = true;
+            tasks.HeaderRow.TableSection = TableRowSection.TableHeader;
         }
         private void QueryYourUsers()
         {
-            //users.DataSource = Member.CustomGetSupervisorsUsers(username);
+            assignedUsersSource.SelectCommand = "Select AssignedUser From MemberAssignments Where AssignedSupervisor = '" + Request.QueryString["userName"] + "'";
             users.DataBind();
-        }
-
-        protected void categories_Sort(object sender, GridViewSortEventArgs e)
-        {
-            DataTable dt = categories.DataSource as DataTable;
-            if (dt != null)
-            {
-                DataView dv = new DataView(dt);
-                dv.Sort = e.SortExpression + "DESC";
-                categories.DataSource = dv;
-                categories.DataBind();
-
-            }
+            users.UseAccessibleHeader = true;
+            users.HeaderRow.TableSection = TableRowSection.TableHeader;
         }
 
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            AddUserGrid.UseAccessibleHeader = true;
+            AddUserGrid.HeaderRow.TableSection = TableRowSection.TableHeader;
             categoryID = Convert.ToInt32(e.CommandArgument);
             foreach (GridViewRow row in AddUserGrid.Rows)
             {
@@ -79,7 +75,6 @@ namespace SE.Admin
             }
             string queryString = "SELECT AssignedUser FROM CategoryAssignments WHERE CategoryID=@id";
             catUserLabel.Text = "Manage Users";
-            Label5.Text = categoryID.ToString();
 
             using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
             {
@@ -167,6 +162,8 @@ namespace SE.Admin
 
         protected void TaskGrid_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            UsersInTask.UseAccessibleHeader = true;
+            UsersInTask.HeaderRow.TableSection = TableRowSection.TableHeader;
             taskID = Convert.ToInt32(e.CommandArgument);
             foreach (GridViewRow row in UsersInTask.Rows)
             {
@@ -175,7 +172,6 @@ namespace SE.Admin
             }
             string queryString = "SELECT AssignedUser FROM TaskAssignments WHERE TaskID=@id";
             Label4.Text = "Manage Users in Task";
-            Label5.Text = taskID.ToString();
 
             using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
             {
@@ -245,6 +241,175 @@ namespace SE.Admin
             }
             ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "showTasks();", true);
         }
+
+        protected void users_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            assignedUsername = Convert.ToString(e.CommandArgument);
+            if (e.CommandName == "AddCategories")
+            {
+                categoryData.Visible = true;
+                userTasks.Visible = false;
+                AllCategoriesSource.SelectCommand = "SELECT CategoryName FROM Categories WHERE CreatedBy= '" + user + "'";
+                AllCategoriesGridView.DataBind();
+                AllCategoriesGridView.UseAccessibleHeader = true;
+                AllCategoriesGridView.HeaderRow.TableSection = TableRowSection.TableHeader;
+                foreach (GridViewRow row in UsersInTask.Rows)
+                {
+                    CheckBox box = row.Cells[0].Controls[0] as CheckBox;
+                    box.Checked = false;
+                }
+                string queryString = "Select AssignedUser,CategoryName from CategoryAssignments inner join Categories on Categories.CategoryID = CategoryAssignments.CategoryID";
+                using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+                {
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        foreach (GridViewRow row in AllCategoriesGridView.Rows)
+                        {
+                            CheckBox box = row.Cells[0].Controls[0] as CheckBox;
+                            if (row.Cells[1].Text == dr["CategoryName"].ToString() && dr["AssignedUser"].ToString() == assignedUsername)
+                            {
+                                box.Checked = true;
+                            }
+                        }
+                    }
+
+                    con.Close();
+                }
+
+            }
+            else
+            {
+                categoryData.Visible = false;
+                userTasks.Visible = true;
+                AllTasksDataSource.SelectCommand = "Select * From Tasks Inner Join Categories on Tasks.CategoryID = Categories.CategoryID Where Tasks.CreatedBy = '" + user + "'";
+                AddTasksGridView.DataBind();
+                AddTasksGridView.UseAccessibleHeader = true;
+                AddTasksGridView.HeaderRow.TableSection = TableRowSection.TableHeader;
+                foreach (GridViewRow row in AddTasksGridView.Rows)
+                {
+                    CheckBox box = row.Cells[0].Controls[0] as CheckBox;
+                    box.Checked = false;
+                }
+                string queryString = "Select TaskAssignments.AssignedUser,TaskName from TaskAssignments inner join Tasks on Tasks.TaskID = TaskAssignments.TaskID";
+                using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+                {
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    con.Open();
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    while (dr.Read())
+                    {
+                        foreach (GridViewRow row in AddTasksGridView.Rows)
+                        {
+                            CheckBox box = row.Cells[0].Controls[0] as CheckBox;
+                            if (row.Cells[2].Text == dr["TaskName"].ToString() && dr["AssignedUser"].ToString() == assignedUsername)
+                            {
+                                box.Checked = true;
+                            }
+                        }
+                    }
+
+                    con.Close();
+                }
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "hideUsers();", true);
+        }
+
+        protected void AddCategoriesToUserBtn_Click(object sender, EventArgs e)
+        {
+            string queryString = "Insert Into CategoryAssignments (AssignedUser, CategoryID) Values (@user, @id)";
+            string queryString2 = "DELETE FROM CategoryAssignments WHERE CategoryID=@id AND AssignedUser=@user";
+            string queryString3 = "Insert into TaskAssignments (TaskID,AssignedUser,CategoryID) Select TaskID, c.AssignedUser, c.CategoryID From Tasks t inner join CategoryAssignments c on c.CategoryID = t.CategoryID where c.AssignedUser = @user And c.CategoryID = @id";
+            string queryString4 = "Delete FROM TaskAssignments WHERE CategoryID=@id AND AssignedUser=@user";
+            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+                cmd.Parameters.AddWithValue("@user", assignedUsername);
+                cmd.Parameters.AddWithValue("@id", DBNull.Value);
+
+                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                cmd2.Parameters.AddWithValue("@user", assignedUsername);
+                cmd2.Parameters.AddWithValue("@id", DBNull.Value);
+
+                SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                cmd3.Parameters.AddWithValue("@user", assignedUsername);
+                cmd3.Parameters.AddWithValue("@id", DBNull.Value);
+
+                SqlCommand cmd4 = new SqlCommand(queryString4, con);
+                cmd4.Parameters.AddWithValue("@user", assignedUsername);
+                cmd4.Parameters.AddWithValue("@id", DBNull.Value);
+
+                con.Open();
+                foreach (GridViewRow row in AllCategoriesGridView.Rows)
+                {
+                    CheckBox box = row.Cells[0].Controls[0] as CheckBox;
+                    cmd.Parameters["@id"].Value = Category.getCategoryID(row.Cells[1].Text);
+                    cmd2.Parameters["@id"].Value = Category.getCategoryID(row.Cells[1].Text);
+                    cmd3.Parameters["@id"].Value = Category.getCategoryID(row.Cells[1].Text);
+                    cmd4.Parameters["@id"].Value = Category.getCategoryID(row.Cells[1].Text);
+                    cmd4.ExecuteNonQuery();
+                    if (box != null && box.Checked)
+                    {
+                        cmd2.ExecuteNonQuery();
+
+                        cmd.ExecuteNonQuery();
+                        cmd3.ExecuteNonQuery();
+                    }
+                    else if (!box.Checked)
+                    {
+                        cmd2.ExecuteNonQuery();
+                        cmd4.ExecuteNonQuery();
+                    }
+                }
+                con.Close();
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "showUsers();", true);
+        }
+
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            string queryString4 = "Delete FROM TaskAssignments WHERE TaskID=@id";
+            string queryString5 = "Insert Into TaskAssignments (AssignedUser, TaskID,CategoryID) Values (@user, @id, @catID)";
+            string queryString6 = "Delete FROM TaskAssignments WHERE TaskID=@id AND AssignedUser=@user";
+            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString4, con);
+                cmd.Parameters.AddWithValue("@id", DBNull.Value);
+
+                SqlCommand cmd2 = new SqlCommand(queryString5, con);
+                cmd2.Parameters.AddWithValue("@id", DBNull.Value);
+                cmd2.Parameters.AddWithValue("@user", assignedUsername);
+                cmd2.Parameters.AddWithValue("@catID", DBNull.Value);
+
+                SqlCommand cmd3 = new SqlCommand(queryString6, con);
+                cmd3.Parameters.AddWithValue("@id", DBNull.Value);
+                cmd3.Parameters.AddWithValue("@user", assignedUsername);
+
+                con.Open();
+                foreach (GridViewRow row in AddTasksGridView.Rows)
+                {
+                    cmd.Parameters["@id"].Value = Task.getTaskID(row.Cells[2].Text);
+                    cmd2.Parameters["@id"].Value = Task.getTaskID(row.Cells[2].Text);
+                    cmd2.Parameters["@catID"].Value = Category.getCategoryID(row.Cells[1].Text);
+                    cmd3.Parameters["@id"].Value = Task.getTaskID(row.Cells[2].Text);
+                    CheckBox box = row.Cells[0].Controls[0] as CheckBox;
+                    if (box != null && box.Checked)
+                    {
+                        cmd3.ExecuteNonQuery();
+                        cmd2.ExecuteNonQuery();
+                    }
+                    else if (!box.Checked)
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                con.Close();
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "showUsers();", true);
+        }
+
 
     }
 }

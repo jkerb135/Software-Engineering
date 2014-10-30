@@ -76,7 +76,6 @@ namespace SE
         }
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            
         }
         /* Management CRUD Functionality */
         protected void EditCategoryButton_Click(object sender, EventArgs e)
@@ -131,7 +130,7 @@ namespace SE
                 }
                 header.Text = "Management Panel";
             }
-            catList.SelectedIndex = catIDX;
+            if (catList.Items.Count > 1) { catList.SelectedIndex = catIDX; };
         }
         protected void EditTaskButton_Click(object sender, EventArgs e)
         {
@@ -147,7 +146,6 @@ namespace SE
                         ITask.AssignedUser = EditAssignUserToTask.SelectedItem.Text;
                     else
                         ITask.AssignedUser = null;
-
                     ITask.CreateTask();
 
                     SuccessMessage.Text = "New task successfully added.";
@@ -192,7 +190,7 @@ namespace SE
                 }
             }
             header.Text = "Management Panel";
-            taskList.SelectedIndex = taskIDX;
+            if (taskList.Items.Count > 1) { taskList.SelectedIndex = taskIDX; };
         }
         protected void EditMainStepButton_Click(object sender, EventArgs e)
         {
@@ -274,7 +272,7 @@ namespace SE
                 }
             }
             header.Text = "Management Panel";
-            mainStep.SelectedIndex = mainIDX;
+            if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = mainIDX; };
         }
         protected void EditDetailedStepButton_Click(object sender, EventArgs e)
         {
@@ -340,7 +338,7 @@ namespace SE
                 }
             }
             header.Text = "Management Panel";
-            detailedStep.SelectedIndex = deatIDX;
+            if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = deatIDX; };
         }
         protected void AddNewCategory_Click(object sender, EventArgs e)
         {
@@ -512,11 +510,16 @@ namespace SE
             RefreshMainSteps();
             SuccessMessage.Text = "main step successfully deleted.";
 
-            if (mainStep.Items.Contains(new ListItem("No Main Steps")))
+            if (mainStep.Items.Contains(new ListItem("No Main Steps in " + taskList.SelectedItem.Text)))
             {
                 detailedStep.Items.Clear();
                 detailedStep.Attributes.Add("disabled", "true");
             }
+            if (mainStep.Items[0].Text == "No Main Steps in " + taskList.SelectedItem.Text)
+            {
+                mainStep.Items[0].Attributes.Add("disabled", "disabled");
+            }
+
         }
         protected void DeleteDetailedStep_Click(object sender, EventArgs e)
         {
@@ -524,6 +527,10 @@ namespace SE
             IDetailedStep.DeleteDetailedStep();
             RefreshDetailedSteps();
             SuccessMessage.Text = "detailed step successfully deleted.";
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
+            {
+                detailedStep.Items[0].Attributes.Add("disabled", "disabled");
+            }
         }
 
         /*Button Binding Events*/
@@ -576,6 +583,10 @@ namespace SE
             DetailedStepName.Text = String.Empty;
             DetailedStepText.Text = String.Empty;
             DetailedStepImageCurrentLabel.Text = String.Empty;
+            if (catList.Items.Count == 1 && catList.Items[0].Text == "No Categories") { catList.Items[0].Attributes.Add("disabled", "disabled"); }
+            if (taskList.Items.Count == 1 && taskList.Items[0].Text == "No Main Steps in " + catList.SelectedItem.Text) { taskList.Items[0].Attributes.Add("disabled", "disabled"); }
+            if (mainStep.Items.Count == 1 && mainStep.Items[0].Text == "No Main Steps in " + taskList.SelectedItem.Text) { mainStep.Items[0].Attributes.Add("disabled", "disabled"); }
+            if (detailedStep.Items.Count == 1 && detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text) { detailedStep.Items[0].Attributes.Add("disabled", "disabled"); }
             header.Text = "Management Panel";
 
         }
@@ -594,6 +605,9 @@ namespace SE
             {
                 list.Items.Clear();
                 list.Items.Add("No Categories");
+                UpdateCategory.Attributes.Add("disabled", "disabled");
+                DeleteCategory.Attributes.Add("disabled", "disabled");
+                list.Items[0].Attributes.Add("disabled", "disabled");
             }
         }
         private void GenerateUserLists()
@@ -624,7 +638,8 @@ namespace SE
         {
             catIDX = catList.SelectedIndex;
             taskDateSort.Text = "Date \u25B2";
-            
+            UpdateCategory.Attributes.Remove("disabled");
+            DeleteCategory.Attributes.Remove("disabled");
             mainStep.Attributes.Add("disabled", "true");
             detailedStep.Attributes.Add("disabled", "true");
             AddNewMainStep.Attributes.Add("disabled", "true");
@@ -709,23 +724,20 @@ namespace SE
                 detailedStep.Items.Clear();
                 RefreshMainSteps();
 
-                if (mainStep.Items.Count == 0)
+                if (mainStep.Items[0].Text == "No Main Steps in " + taskList.SelectedItem.Text)
                 {
-                    ListItem li = new ListItem();
-                    li.Text = "No Main Steps in " + taskList.SelectedItem.Text;
-                    li.Attributes.Add("disabled", "disabled");
-                    mainStep.Items.Add(li);
+                    mainStep.Items[0].Attributes.Add("disabled", "disabled");
                 }
 
                 if (ITask.IsActive)
                 {
                     IsActiveTask.Text = "Deactivate";
-                    IsActiveTask.CssClass = "btn btn-danger";
+                    IsActiveTask.CssClass = "btn btn-danger form-control";
                 }
                 else
                 {
                     IsActiveTask.Text = "Activate";
-                    IsActiveTask.CssClass = "btn btn-success";
+                    IsActiveTask.CssClass = "btn btn-success form-control";
                 }
 
                 UpdateTask.Visible = IsActiveTask.Visible = true;
@@ -749,7 +761,7 @@ namespace SE
             UpdateDetailedStep.Attributes.Add("disabled", "true");
             DeleteDetailedStep.Attributes.Add("disabled", "true");
 
-            if (mainStep.SelectedItem.Text != "No Main Steps")
+            if (mainStep.SelectedItem.Text != "No Main Steps in" + taskList.SelectedItem.Value)
             {
 
                 detailedSort.Attributes.Remove("disabled");
@@ -764,12 +776,9 @@ namespace SE
                 detailedStep.Items.Clear();
                 RefreshDetailedSteps();
 
-                if (detailedStep.Items.Count == 0)
+                if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
                 {
-                    ListItem li = new ListItem();
-                    li.Text = "No Detailed Steps in " + mainStep.SelectedItem.Text;
-                    li.Attributes.Add("disabled", "disabled");
-                    detailedStep.Items.Add(li);
+                    detailedStep.Items[0].Attributes.Add("disabled", "disabled");
                 }
 
                 UpdateMainStep.Visible = DeleteMainStep.Visible = true;
@@ -842,6 +851,12 @@ namespace SE
             mainStep.Items.Clear();
             mainStep.DataSource = MainStepListSource;
             mainStep.DataBind();
+            if (mainStep.Items.Count == 0)
+            {
+                ListItem li = new ListItem();
+                li.Text = "No Main Steps in " + taskList.SelectedItem.Text;
+                mainStep.Items.Add(li);
+            }
         }
 
         private void RefreshDetailedSteps()
@@ -852,6 +867,13 @@ namespace SE
             detailedStep.Items.Clear();
             detailedStep.DataSource = DetailedStepListSource;
             detailedStep.DataBind();
+            if (detailedStep.Items.Count == 0)
+            {
+                ListItem li = new ListItem();
+                li.Text = "No Detailed Steps in " + mainStep.SelectedItem.Text;
+                detailedStep.Items.Add(li);
+
+            }
         }
 
 

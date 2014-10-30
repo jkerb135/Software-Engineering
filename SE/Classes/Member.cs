@@ -99,14 +99,11 @@ namespace SE.Classes
                     userTable.Rows.Add(row);
                 }
             }
-            if (userTable.Rows.Count == 0)
-            {
-                DataRow newRow;
-                newRow = userTable.NewRow();
-                newRow["Username"] = "There are currently no users logged in";
-                userTable.Rows.Add(newRow);
+            if (userTable.Rows.Count == 0){
+                DataRow row = userTable.NewRow();
+                row["Username"] = "No Users Online";
+                userTable.Rows.Add(row);
             }
-
             return activeUsers;
         }
 
@@ -431,6 +428,7 @@ namespace SE.Classes
             DataTable userTable = new DataTable();
             userTable = activeUsers.Tables.Add("Supervisor");
             userTable.Columns.Add("Username", Type.GetType("System.String"));
+            userTable.Columns.Add("Online");
             MembershipUserCollection activeUserCollection;
             activeUserCollection = Membership.GetAllUsers();
             foreach (MembershipUser membership in activeUserCollection)
@@ -440,6 +438,14 @@ namespace SE.Classes
                     DataRow row;
                     row = userTable.NewRow();
                     row["Username"] = "<a href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    if (membership.IsOnline)
+                    {
+                        row["Online"] = "<img src='../Images/active.gif' style=width:15px; height:15px;'/>";
+                    }
+                    else if(!membership.IsOnline)
+                    {
+                        row["Online"] = "<img src='../Images/inactive.gif' style=width:15px; height:15px;'/>";
+                    }
                     userTable.Rows.Add(row);
                 }
             }
@@ -485,14 +491,7 @@ namespace SE.Classes
                     row = users.NewRow();
                     row["Users"] = dr["AssignedUser"].ToString();
                     MembershipUser user = Membership.GetUser(dr["AssignedUser"].ToString());
-                    if (user.IsApproved)
-                    {
-                        row["Activity"] = "Active";
-                    }
-                    else
-                    {
-                        row["Activity"] = "Inactive";
-                    }
+
                     List<string> userCategories = Category.GetUsersCategories(Convert.ToString(dr["AssignedUser"]));
                     foreach (string item in userCategories)
                     {

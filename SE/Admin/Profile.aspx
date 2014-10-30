@@ -10,7 +10,6 @@
     <div class="row">
         <div class="col-xs-12">
             <h2>Profile</h2>
-                                <asp:Label ID="Label5" runat="server" Text="Label" Visible="true"></asp:Label>
         </div>
     </div>
     <hr />
@@ -32,18 +31,21 @@
                             <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:GridView EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
+                            <div style=" overflow:auto; max-height:250px;">
+                            <asp:GridView EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
                                 <Columns>
                                     <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="10%"/>
-                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="5%" DataFormatString=" {0:d} " HtmlEncode="false"/>
-                                    <asp:TemplateField ItemStyle-Width="3%">
-                                        <ItemTemplate><asp:Button ID="AddUsers" CssClass="btn btn-primary" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add Users" CommandArgument='<%# Eval("CategoryID") %>' /></ItemTemplate>
+                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="5%" DataFormatString=" {0:d} " HtmlEncode="false" />
+                                    <asp:TemplateField ItemStyle-Width="5%" ItemStyle-CssClass="center">
+                                        <HeaderTemplate>Add Users To Category</HeaderTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUsers" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add" CommandArgument='<%# Eval("CategoryID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
                             <asp:SqlDataSource ID="CategorySource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>">
 
                             </asp:SqlDataSource>
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -57,7 +59,8 @@
                             <asp:Label ID="catUserLabel" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:GridView DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True">
+                            <div style=" overflow:auto; max-height:250px;">
+                            <asp:GridView DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True">
                                 <Columns>
                                     <asp:TemplateField ItemStyle-Width="5%">
                                         <ItemTemplate><asp:CheckBox ID="CheckBox1" runat="server" /></ItemTemplate>
@@ -67,6 +70,7 @@
                             <asp:SqlDataSource ID="UsersInCategory" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>">
 
                             </asp:SqlDataSource>
+                                </div>
                         </div>
                     </div>
                     <asp:Button ID="AddUsersToCat" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddUsersToCat_Click"/>
@@ -80,18 +84,21 @@
                             <asp:Label ID="Label2" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:GridView EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" OnRowCommand="TaskGrid_RowCommand"  AutoGenerateColumns="false">
+                            <div style=" overflow:auto; max-height:250px;">
+                            <asp:GridView EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="true" OnRowCommand="TaskGrid_RowCommand"  AutoGenerateColumns="false">
                                 <Columns>
                                     <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="10%"/>
                                     <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="5%"/>
                                     <asp:TemplateField ItemStyle-Width="5%">
-                                        <ItemTemplate><asp:Button ID="AddUsersToTask" CssClass="btn btn-primary" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add Users" CommandArgument='<%# Eval("TaskID") %>' /></ItemTemplate>
+                                        <HeaderTemplate>Add Users To Tasks</HeaderTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUsersToTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add" CommandArgument='<%# Eval("TaskID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
                             <asp:SqlDataSource ID="TaskSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>">
 
                             </asp:SqlDataSource>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,7 +112,8 @@
                             <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:GridView DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-bordered table-striped" runat="server" AllowPaging="True">
+                            <div style=" overflow:auto; max-height:250px;">
+                            <asp:GridView DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True">
                                 <Columns>
                                     <asp:TemplateField ItemStyle-Width="5%">
                                         <ItemTemplate><asp:CheckBox ID="usersTaskChk" runat="server" /></ItemTemplate>
@@ -115,6 +123,7 @@
                             <asp:SqlDataSource ID="addUserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>">
 
                             </asp:SqlDataSource>
+                                </div>
                         </div>
                     </div>
                     <asp:Button ID="AssignToTask" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AssUsersToTask_Click"/>
@@ -128,13 +137,87 @@
                             <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
                         </div>
                         <div class="panel-body">
-                            <asp:GridView ID="users" CssClass="table table-bordered table-striped" runat="server" AllowPaging="true" AllowSorting="true">
+                            <div style=" overflow:auto; max-height:250px;">
+                            <asp:GridView ID="users" DataSourceID="assignedUsersSource" CssClass="table table-hover table-striped" GridLines="None"  runat="server" AllowPaging="true" AllowSorting="true" AutoGenerateColumns="false" OnRowCommand="users_RowCommand">
+                            <Columns>
+                                <asp:BoundField DataField="AssignedUser" HeaderText="User"/>
+                                <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">
+                                    <HeaderTemplate>Categories</HeaderTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUserToCategories" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddCategories" Text="Add" CommandArgument='<%# Eval("AssignedUser") %>' /></ItemTemplate>
+                                    </asp:TemplateField>
+                                <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">
+                                    <HeaderTemplate>Tasks</HeaderTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUsersToTasks" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddTasks" Text="Add" CommandArgument='<%# Eval("AssignedUser") %>' /></ItemTemplate>
+                                    </asp:TemplateField>
+                            </Columns>
                             </asp:GridView>
+                            <asp:SqlDataSource ID="assignedUsersSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>">
+
+                            </asp:SqlDataSource>
+                                </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div id="panel" style="display: none;" >
+            <asp:Panel runat="server" ID="categoryData" Visible="false">
+                <div class="col-xs-10">
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <i class="fa fa-users fa-fw"></i>
+                            <asp:Label ID="Label6" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div class="panel-body">
+                            <div style=" overflow:auto; max-height:250px;">
+                            <asp:GridView DataSourceID="AllCategoriesSource" ID="AllCategoriesGridView" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false" >
+                                <Columns>
+                                    <asp:TemplateField ItemStyle-Width="5%">
+                                        <ItemTemplate><asp:CheckBox ID="usersTaskChk" runat="server" /></ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name"/>
+                                </Columns>
+                            </asp:GridView>
+                            <asp:SqlDataSource ID="AllCategoriesSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>">
+
+                            </asp:SqlDataSource>
+                                </div>
+                        </div>
+                    </div>
+                    <asp:Button ID="AddUserToCategoriesBtn" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddCategoriesToUserBtn_Click"/>
+                </div>
+                </asp:Panel>
+
+            <asp:Panel runat="server" ID="userTasks" Visible="false">
+                <div class="col-xs-10">
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <i class="fa fa-users fa-fw"></i>
+                            <asp:Label ID="Label5" runat="server" Text=""></asp:Label>
+                        </div>
+                        <div class="panel-body">
+                            <div style=" overflow:auto; height:250px;">
+                            <asp:GridView DataSourceID="AllTasksDataSource" ID="AddTasksGridView" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
+                                <Columns>
+                                    <asp:TemplateField ItemStyle-Width="2%">
+                                        <ItemTemplate><asp:CheckBox ID="usersTaskChk" runat="server" /></ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="42%"/>
+                                    <asp:BoundField DataField="TaskName" HeaderText="Task Name"  ItemStyle-Width="42%"/>
+                                </Columns>
+                            </asp:GridView>
+                            <asp:SqlDataSource ID="AllTasksDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>">
+
+                            </asp:SqlDataSource>
+                                </div>
+                        </div>
+                    </div>
+                    <asp:Button ID="Button1" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="Button1_Click"/>
+                </div>
+            </asp:Panel>
+                    </div>
+            </div>
     </asp:Panel>
     </div>
 
@@ -144,6 +227,7 @@
     <script type="text/javascript">
         $(function () {
             $(document).on("click", "#catButton", function () {
+                $("#panel").hide('slow');
                 $("#catUsers").hide("slow");
                 $("#catData").show("slow");
                 $("#userData").hide("slow");
@@ -152,6 +236,7 @@
                 
             });
             $(document).on("click", "#taskButton", function () {
+                $("#panel").hide('slow');
                 $("#taskUsers").hide('slow');
                 $("#catUsers").hide("slow");
                 $("#catData").hide("slow");
@@ -159,6 +244,7 @@
                 $("#taskData").show("slow");
             });
             $(document).on("click", "#assignedUsers", function () {
+                $("#panel").hide('slow');
                 $("#taskUsers").hide('slow');
                 $("#catUsers").hide("slow");
                 $("#catData").hide("slow");
@@ -184,6 +270,15 @@
         function showTasks() {
             $("#taskData").show("slow");
             $("#taskUsers").hide('slow');
+
+        };
+        function hideUsers() {
+            $("#panel").show("slow");
+            $("#userData").hide('slow');
+        };
+        function showUsers() {
+            $("#userData").show("slow");
+            $("#panel").hide('slow');
 
         };
     </script>

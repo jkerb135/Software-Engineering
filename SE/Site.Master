@@ -286,7 +286,7 @@
                                 <!-- /input-group -->
                             </li>
                             <li style="margin: 20px 0px 0px 10px">
-                                <asp:ImageButton ID="ProfilePicture" runat="server"  ImageUrl="~/Images/default.png" Height="200px" Width="225px" OnClientClick="selectFile();"/>
+                                <img src="<%=ResolveUrl("~/Images/Default.png") %>" style="height:200px; Width:225px"/>
                             </li>
                             <li style="margin-top: 20px">
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>

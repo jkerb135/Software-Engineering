@@ -113,7 +113,7 @@ namespace SE.Classes
                 else {cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);}
                 cmd.Parameters.AddWithValue("@taskname", TaskName);
                 cmd.Parameters.AddWithValue("@tasktime", TaskTime);
-                cmd.Parameters.AddWithValue("@isactive", IsActive);
+                cmd.Parameters.AddWithValue("@isactive", true);
                 cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
                 cmd.Parameters.AddWithValue("@createdby", 
                     System.Web.HttpContext.Current.User.Identity.Name);

@@ -151,3 +151,6 @@ ul.ripple:hover li{
     white-space: pre-wrap; /* CSS3 */
     word-wrap: break-word; /* IE 5.5+ */
 }
+.centered{
+    margin: 0px auto;
+}
