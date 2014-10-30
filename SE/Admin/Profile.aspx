@@ -34,11 +34,11 @@
                             <div style=" overflow:auto; max-height:250px;">
                             <asp:GridView EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
                                 <Columns>
-                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="10%"/>
-                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="5%" DataFormatString=" {0:d} " HtmlEncode="false" />
-                                    <asp:TemplateField ItemStyle-Width="5%" ItemStyle-CssClass="center">
-                                        <HeaderTemplate>Add Users To Category</HeaderTemplate>
-                                        <ItemTemplate><asp:Button ID="AddUsers" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add" CommandArgument='<%# Eval("CategoryID") %>' /></ItemTemplate>
+                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="43%"/>
+                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="43%" DataFormatString=" {0:d} " HtmlEncode="false" />
+                                    <asp:TemplateField ItemStyle-Width="4%" ItemStyle-CssClass="center">
+                                        <HeaderTemplate>Update Users In Category</HeaderTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUsers" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Update" CommandArgument='<%# Eval("CategoryID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
@@ -87,11 +87,11 @@
                             <div style=" overflow:auto; max-height:250px;">
                             <asp:GridView EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="true" OnRowCommand="TaskGrid_RowCommand"  AutoGenerateColumns="false">
                                 <Columns>
-                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="10%"/>
-                                    <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="5%"/>
-                                    <asp:TemplateField ItemStyle-Width="5%">
-                                        <HeaderTemplate>Add Users To Tasks</HeaderTemplate>
-                                        <ItemTemplate><asp:Button ID="AddUsersToTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Add" CommandArgument='<%# Eval("TaskID") %>' /></ItemTemplate>
+                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="43%"/>
+                                    <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="43%"/>
+                                    <asp:TemplateField ItemStyle-Width="4%">
+                                        <HeaderTemplate>Update Users In Tasks</HeaderTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUsersToTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Update" CommandArgument='<%# Eval("TaskID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
@@ -143,11 +143,11 @@
                                 <asp:BoundField DataField="AssignedUser" HeaderText="User"/>
                                 <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">
                                     <HeaderTemplate>Categories</HeaderTemplate>
-                                        <ItemTemplate><asp:Button ID="AddUserToCategories" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddCategories" Text="Add" CommandArgument='<%# Eval("AssignedUser") %>' /></ItemTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUserToCategories" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddCategories" Text="Update" CommandArgument='<%# Eval("AssignedUser") %>' /></ItemTemplate>
                                     </asp:TemplateField>
                                 <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">
                                     <HeaderTemplate>Tasks</HeaderTemplate>
-                                        <ItemTemplate><asp:Button ID="AddUsersToTasks" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddTasks" Text="Add" CommandArgument='<%# Eval("AssignedUser") %>' /></ItemTemplate>
+                                        <ItemTemplate><asp:Button ID="AddUsersToTasks" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddTasks" Text="Update" CommandArgument='<%# Eval("AssignedUser") %>' /></ItemTemplate>
                                     </asp:TemplateField>
                             </Columns>
                             </asp:GridView>
