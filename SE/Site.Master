@@ -285,14 +285,14 @@
                                 </div>
                                 <!-- /input-group -->
                             </li>
-                            <li style="margin: 20px 0px 0px 10px">
+                            <li style="margin: 20px 0px 0px 10px" id="ProfilePic" runat="server">
                                 <img src="<%=ResolveUrl("~/Images/Default.png") %>" style="height:200px; Width:225px"/>
                             </li>
-                            <li style="margin-top: 20px">
+                            <li style="margin-top: 20px" >
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                             </li>
                             <li id="Li1" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>Your Information</a>
+                                <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>User Assignment</a>
                             </li>
                             <li id="CreateUserMenu" runat="server">
                                 <a href="#"><i class="fa fa-wrench fa-fw"></i>Users<span class="fa arrow"></span></a>
@@ -307,7 +307,7 @@
                                 <!-- /.nav-second-level -->
                             </li>
                             <li id="CategoriesMenu" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Management Panel</a>
+                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Task Manager</a>
                             </li>
                             <li id="ReportsMenu" runat="server">
                                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>

@@ -18,15 +18,15 @@ namespace SE.Admin
         string user = Membership.GetUser().UserName;
         protected void Page_Load(object sender, EventArgs e)
         {
-            string host = Request.Url.Host;
-            if (Request.Url.AbsoluteUri == host + "/Admin/Profile.aspx")
-            {
-                Response.Redirect("~/Admin/Profile.aspx?userName="+ user);
-            }
             if (Request.QueryString["userName"].ToUpper() != user.ToUpper())
             {
                 YourInfo.Visible = false;
-                //OtherInfo.Visible = true;
+                OtherInfo.Visible = true;
+            }
+            else
+            {
+                YourInfo.Visible = true;
+                OtherInfo.Visible = false;
             }
             if (!IsPostBack)
             {
@@ -52,8 +52,8 @@ namespace SE.Admin
         {
             TaskSource.SelectCommand = "Select * From Tasks Inner Join Categories on Tasks.CategoryID = Categories.CategoryID Where Tasks.CreatedBy = '" + Request.QueryString["userName"] + "'";
             tasks.DataBind();
-            tasks.UseAccessibleHeader = true;
             tasks.HeaderRow.TableSection = TableRowSection.TableHeader;
+            tasks.UseAccessibleHeader = true;
         }
         private void QueryYourUsers()
         {
@@ -410,6 +410,46 @@ namespace SE.Admin
             ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "showUsers();", true);
         }
 
+        protected void RequestCatGrid_RowCommand1(object sender, GridViewCommandEventArgs e)
+        {
+            string queryString = "Insert Into RequestedCategories (CategoryID, IsApproved, RequestingUser) Values (@id, @bool, @user)";
+            string queryString2 = "Select count(*) from RequestedCategories Where CategoryID = @id and RequestingUser=@user";
+            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+                cmd.Parameters.AddWithValue("@id", Convert.ToInt32(e.CommandArgument));
+                cmd.Parameters.AddWithValue("@user", Request.QueryString["userName"].ToString());
+                cmd.Parameters.AddWithValue("@bool", false);
+                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                cmd2.Parameters.AddWithValue("@id", Convert.ToInt32(e.CommandArgument));
+                cmd2.Parameters.AddWithValue("@user", Request.QueryString["userName"].ToString());
+
+                
+                con.Open();
+                Int32 count = (Int32)cmd2.ExecuteScalar();
+                try
+                {
+                    if (count == 0) { 
+                    cmd.ExecuteNonQuery();
+                    error.CssClass = "text-success";
+                    error.Text = "Request Processed";
+                    }
+                    else
+                    {
+                        error.CssClass = "text-danger";
+                        error.Text = "Request Exists";
+                    }
+                }
+                catch (Exception e1)
+                {
+                    error.CssClass = "text-danger";
+                    error.Text = "Request Not Processed";
+                }
+                con.Close();
+            }
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "showCats();", true);
+        }
+      
 
     }
 }

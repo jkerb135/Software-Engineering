@@ -30,8 +30,11 @@
                             <i class="fa fa-users fa-fw"></i>Active User List
                         </div>
                         <div class="panel-body">
-                            <asp:DataGrid ID="activeUserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False">
-                            </asp:DataGrid>
+                            <asp:GridView ID="activeUserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False" AutoGenerateColumns="false" ShowHeader="false" GridLines="None">
+                            <Columns>
+                                   <asp:BoundField DataField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundField>
+                                </Columns>
+                            </asp:GridView>
                         </div>
                     </div>
                 </div>
@@ -41,8 +44,11 @@
                             <i class="fa fa-users fa-fw"></i>Recently Assigned Users
                         </div>
                         <div class="panel-body">
-                            <asp:DataGrid ID="newMembers" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False">
-                            </asp:DataGrid>
+                            <asp:GridView ID="newMembers" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False" AutoGenerateColumns="false" ShowHeader="false" GridLines="None">
+                            <Columns>
+                                   <asp:BoundField DataField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundField>
+                                </Columns>
+                            </asp:GridView>
                         </div>
                     </div>
                 </div>
@@ -52,12 +58,15 @@
                             <i class="fa fa-users fa-fw"></i>Active Supervisors
                         </div>
                         <div class="panel-body">
-                            <asp:DataGrid ID="signededIn" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False" AutoGenerateColumns="false" ShowHeader="false" GridLines="None">
+                            <asp:GridView ID="signededIn" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False" AutoGenerateColumns="false" ShowHeader="false" GridLines="None">
                                 <Columns>
-                                   <asp:BoundColumn DataField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundColumn>
-                                   <asp:BoundColumn DataField="Online" HeaderText="Online" ItemStyle-Width="3%" ItemStyle-CssClass="center"></asp:BoundColumn>
+                                   <asp:HyperLinkField DataTextField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:HyperLinkField>
+                                   <asp:ImageField DataImageUrlField="Online" HeaderText="Online" ItemStyle-Width="3%" ItemStyle-CssClass="center" ControlStyle-Width="15px" ControlStyle-Height="15px"></asp:ImageField>
                                 </Columns>
-                            </asp:DataGrid>
+                            </asp:GridView>
+                        </div>
+                        <div class="panel-footer">
+                            <p class="text-warning">NOTE: Click on name to request categorys/tasks</p>
                         </div>
                     </div>
                 </div>

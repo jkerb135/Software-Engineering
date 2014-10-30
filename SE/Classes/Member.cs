@@ -440,11 +440,11 @@ namespace SE.Classes
                     row["Username"] = "<a href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
                     if (membership.IsOnline)
                     {
-                        row["Online"] = "<img src='../Images/active.gif' style=width:15px; height:15px;'/>";
+                        row["Online"] = "~/Images/active.gif";
                     }
                     else if(!membership.IsOnline)
                     {
-                        row["Online"] = "<img src='../Images/inactive.gif' style=width:15px; height:15px;'/>";
+                        row["Online"] = "~/Images/inactive.gif";
                     }
                     userTable.Rows.Add(row);
                 }

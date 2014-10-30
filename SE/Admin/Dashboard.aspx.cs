@@ -37,16 +37,25 @@ namespace SE
         {
             activeUserList.DataSource = Member.CustomGetActiveUsers();
             activeUserList.DataBind();
+            activeUserList.UseAccessibleHeader = true;
+            activeUserList.HeaderRow.TableSection = TableRowSection.TableHeader;
+
         }
         protected void getRecentUsers()
         {
             newMembers.DataSource = Member.CustomRecentlyAssigned();
             newMembers.DataBind();
+            newMembers.UseAccessibleHeader = true;
+            newMembers.HeaderRow.TableSection = TableRowSection.TableHeader;
+
         }
         protected void getActiveSupervisor()
         {
             signededIn.DataSource = Member.CustomGetActiveSupervisor();
             signededIn.DataBind();
+            signededIn.UseAccessibleHeader = true;
+            signededIn.HeaderRow.TableSection = TableRowSection.TableHeader;
+
         }
     }
 }

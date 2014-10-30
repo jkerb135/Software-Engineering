@@ -22,6 +22,8 @@ namespace SE
             else
             {
                 CategoriesMenu.Visible = false;
+                Li1.Visible = false;
+                ProfilePic.Visible = false;
             }
         }
 

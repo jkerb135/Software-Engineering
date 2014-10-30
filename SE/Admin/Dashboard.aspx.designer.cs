@@ -7,13 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SE
-{
-
-
-    public partial class Dashboard
-    {
-
+namespace SE {
+    
+    
+    public partial class Dashboard {
+        
         /// <summary>
         /// label control.
         /// </summary>
@@ -22,7 +20,7 @@ namespace SE
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label label;
-
+        
         /// <summary>
         /// label2 control.
         /// </summary>
@@ -31,7 +29,7 @@ namespace SE
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label label2;
-
+        
         /// <summary>
         /// DashboardView control.
         /// </summary>
@@ -40,7 +38,7 @@ namespace SE
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.MultiView DashboardView;
-
+        
         /// <summary>
         /// Manager control.
         /// </summary>
@@ -49,7 +47,7 @@ namespace SE
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View Manager;
-
+        
         /// <summary>
         /// Supervisor control.
         /// </summary>
@@ -58,7 +56,7 @@ namespace SE
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View Supervisor;
-
+        
         /// <summary>
         /// activeUserList control.
         /// </summary>
@@ -66,8 +64,8 @@ namespace SE
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid activeUserList;
-
+        protected global::System.Web.UI.WebControls.GridView activeUserList;
+        
         /// <summary>
         /// newMembers control.
         /// </summary>
@@ -75,8 +73,8 @@ namespace SE
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid newMembers;
-
+        protected global::System.Web.UI.WebControls.GridView newMembers;
+        
         /// <summary>
         /// signededIn control.
         /// </summary>
@@ -84,6 +82,6 @@ namespace SE
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DataGrid signededIn;
+        protected global::System.Web.UI.WebControls.GridView signededIn;
     }
 }

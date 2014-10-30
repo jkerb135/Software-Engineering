@@ -584,7 +584,7 @@ namespace SE
             DetailedStepText.Text = String.Empty;
             DetailedStepImageCurrentLabel.Text = String.Empty;
             if (catList.Items.Count == 1 && catList.Items[0].Text == "No Categories") { catList.Items[0].Attributes.Add("disabled", "disabled"); }
-            if (taskList.Items.Count == 1 && taskList.Items[0].Text == "No Main Steps in " + catList.SelectedItem.Text) { taskList.Items[0].Attributes.Add("disabled", "disabled"); }
+            if (taskList.Items.Count == 1 && taskList.Items[0].Text == "No Tasks in " + catList.SelectedItem.Text) { taskList.Items[0].Attributes.Add("disabled", "disabled"); }
             if (mainStep.Items.Count == 1 && mainStep.Items[0].Text == "No Main Steps in " + taskList.SelectedItem.Text) { mainStep.Items[0].Attributes.Add("disabled", "disabled"); }
             if (detailedStep.Items.Count == 1 && detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text) { detailedStep.Items[0].Attributes.Add("disabled", "disabled"); }
             header.Text = "Management Panel";

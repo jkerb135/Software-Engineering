@@ -58,6 +58,15 @@ namespace SE {
         protected global::System.Web.UI.WebControls.LinkButton LogoutButton;
         
         /// <summary>
+        /// ProfilePic control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ProfilePic;
+        
+        /// <summary>
         /// Li1 control.
         /// </summary>
         /// <remarks>
