@@ -9,7 +9,7 @@
         <ContentTemplate>
             <div class="row">
                 <div class="col-xs-12">
-                    <h2>Profile</h2>
+                    <h1 class="page-header">User Assignment</h1>
                 </div>
             </div>
             <hr />

@@ -250,22 +250,12 @@
                         <!-- /.dropdown-alerts -->
                     </li>
                     <!-- /.dropdown -->
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-fw"></i>
-                            <asp:Label ID="username" runat="server" Text=""></asp:Label><i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>Your Information</a>
-                            </li>
-                            <li><a href="#"><i class="fa fa-gear fa-fw"></i>Settings</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw'></i> Logout</asp:LinkButton>
-                            </li>
-                        </ul>
-                        <!-- /.dropdown-user -->
+                    <li>
+                            <i class="fa fa-user fa-fw text-primary"></i>
+                            <asp:Label ID="username" runat="server" Text="" CssClass="text-primary"></asp:Label>
+                    </li>
+                    <li>
+                       <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'></i> Logout</asp:LinkButton>
                     </li>
                     <!-- /.dropdown -->
                 </ul>

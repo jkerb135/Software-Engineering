@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="page-header">
-                        <asp:Label ID="header" runat="server" Text="Management Panel"></asp:Label></h1>
+                        <asp:Label ID="header" runat="server" Text="Managerment Panel"></asp:Label></h1>
                 </div>
             </div>
             <div class="col-xs-12">
