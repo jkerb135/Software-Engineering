@@ -34,9 +34,9 @@
                             <div style=" overflow:auto; max-height:250px;">
                             <asp:GridView EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
                                 <Columns>
-                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="43%"/>
-                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="43%" DataFormatString=" {0:d} " HtmlEncode="false" />
-                                    <asp:TemplateField ItemStyle-Width="4%" ItemStyle-CssClass="center">
+                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%"/>
+                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="36%" DataFormatString=" {0:d} " HtmlEncode="false" />
+                                    <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
                                         <HeaderTemplate>Update Users In Category</HeaderTemplate>
                                         <ItemTemplate><asp:Button ID="AddUsers" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Update" CommandArgument='<%# Eval("CategoryID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
@@ -87,9 +87,9 @@
                             <div style=" overflow:auto; max-height:250px;">
                             <asp:GridView EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="true" OnRowCommand="TaskGrid_RowCommand"  AutoGenerateColumns="false">
                                 <Columns>
-                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="43%"/>
-                                    <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="43%"/>
-                                    <asp:TemplateField ItemStyle-Width="4%">
+                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%"/>
+                                    <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="36%"/>
+                                    <asp:TemplateField ItemStyle-Width="28%">
                                         <HeaderTemplate>Update Users In Tasks</HeaderTemplate>
                                         <ItemTemplate><asp:Button ID="AddUsersToTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Update" CommandArgument='<%# Eval("TaskID") %>' /></ItemTemplate>
                                     </asp:TemplateField>
