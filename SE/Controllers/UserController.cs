@@ -23,6 +23,20 @@ namespace SE.Controllers
             public DateTime LastActivityDate { get; set; }
             public string Password { get; set; }
         }
+        public class Category
+        {
+            public int CategoryID { get; set; }
+            public string CategoryName { get; set; }
+            public string AssignedUser { get; set; }
+
+        }
+        public class Task
+        {
+            public int TaskID { get; set; }
+            public string TaskName { get; set; }
+            public string AssignedUser { get; set; }
+
+        }
         /// <summary>
         /// Gets all users in the database
         /// </summary>
@@ -40,6 +54,40 @@ namespace SE.Controllers
         public IEnumerable<User> GetUserById(Guid id)
         {
             return db.aspnet_Users.Where(x => x.UserId == id).Select(tl => new User { ApplicationId = tl.ApplicationId, UserId = tl.UserId, UserName = tl.UserName, IsAnonymous = tl.IsAnonymous, LastActivityDate = tl.LastActivityDate, Password = tl.aspnet_Membership.Password }).AsEnumerable<User>();
+        }
+        /// <summary>
+        /// Gets categories assigned to user by username
+        /// </summary>
+        /// <param name="id">String Username</param>
+        /// <returns></returns>
+        public IEnumerable<Category> GetCategoriesByUser(string id)
+        {
+            return from assignment in db.CategoryAssignments
+                   join cat in db.Categories on assignment.CategoryID equals cat.CategoryID
+                   where assignment.AssignedUser == id
+                   select new Category
+                   {
+                       CategoryID = cat.CategoryID,
+                       CategoryName = cat.CategoryName,
+                       AssignedUser = assignment.AssignedUser
+                   };
+        }
+        /// <summary>
+        /// Gets tasks assigned to user by username
+        /// </summary>
+        /// <param name="id">String Username</param>
+        /// <returns></returns>
+        public IEnumerable<Task> GetTasksByUser(string id)
+        {
+            return from assignment in db.TaskAssignments
+                   join task in db.Tasks on assignment.TaskID equals task.TaskID
+                   where assignment.AssignedUser == id
+                   select new Task
+                   {
+                       TaskID = task.TaskID,
+                       TaskName = task.TaskName,
+                       AssignedUser = assignment.AssignedUser
+                   };
         }
 
     }

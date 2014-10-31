@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="WebApiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="WebApiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="aspnet_Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -214,6 +214,28 @@ warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a pri
           <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Picture" Type="varbinary(max)" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dpt_se.dbo.RequestedCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RequestedCategories">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="IsApproved" />
+            <PropertyRef Name="RequestingUser" />
+          </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="RequestingUser" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TaskAssignments">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="AssignedUser" Type="nvarchar" MaxLength="255" />
+          <Property Name="CategoryID" Type="int" />
         </EntityType>
         <EntityType Name="Tasks">
           <Key>
@@ -466,6 +488,18 @@ warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a pri
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_RequestedCategories_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="RequestedCategories" Type="Self.RequestedCategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="RequestedCategories">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -520,6 +554,20 @@ warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a pri
     [CompletedMainSteps].[DateTimeComplete] AS [DateTimeComplete], 
     [CompletedMainSteps].[TotalTime] AS [TotalTime]
     FROM [dbo].[CompletedMainSteps] AS [CompletedMainSteps]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RequestedCategories" EntityType="Self.RequestedCategories" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [RequestedCategories].[CategoryID] AS [CategoryID], 
+    [RequestedCategories].[IsApproved] AS [IsApproved], 
+    [RequestedCategories].[RequestingUser] AS [RequestingUser]
+    FROM [dbo].[RequestedCategories] AS [RequestedCategories]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TaskAssignments" EntityType="Self.TaskAssignments" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TaskAssignments].[TaskID] AS [TaskID], 
+    [TaskAssignments].[AssignedUser] AS [AssignedUser], 
+    [TaskAssignments].[CategoryID] AS [CategoryID]
+    FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__aspnet_Me__Appli__02084FDA" Association="Self.FK__aspnet_Me__Appli__02084FDA">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
@@ -597,6 +645,10 @@ warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a pri
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="MainSteps" EntitySet="MainSteps" />
           </AssociationSet>
+          <AssociationSet Name="FK_RequestedCategories_Categories" Association="Self.FK_RequestedCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="RequestedCategories" EntitySet="RequestedCategories" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tasks_Categories" Association="Self.FK_Tasks_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -606,8 +658,7 @@ warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a pri
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="WebApiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -752,6 +803,7 @@ warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a pri
           <Property Name="CreatedTime" Type="DateTime" Precision="0" />
           <NavigationProperty Name="CategoryAssignments" Relationship="Self.FK_CategoryAssignments_Categories" FromRole="Categories" ToRole="CategoryAssignments" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Categories" FromRole="Categories" ToRole="Tasks" />
+          <NavigationProperty Name="RequestedCategories" Relationship="WebApiModel.FK_RequestedCategories_Categories" FromRole="Category" ToRole="RequestedCategory" />
         </EntityType>
         <EntityType Name="CategoryAssignment">
           <Key>
@@ -1207,7 +1259,44 @@ warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a pri
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <EntitySet Name="RequestedCategories" EntityType="WebApiModel.RequestedCategory" />
+          <EntitySet Name="TaskAssignments" EntityType="WebApiModel.TaskAssignment" />
+          <AssociationSet Name="FK_RequestedCategories_Categories" Association="WebApiModel.FK_RequestedCategories_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="RequestedCategory" EntitySet="RequestedCategories" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="RequestedCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="IsApproved" />
+            <PropertyRef Name="RequestingUser" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="RequestingUser" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="WebApiModel.FK_RequestedCategories_Categories" FromRole="RequestedCategory" ToRole="Category" />
+        </EntityType>
+        <EntityType Name="TaskAssignment">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="AssignedUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CategoryID" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_RequestedCategories_Categories">
+          <End Type="WebApiModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="WebApiModel.RequestedCategory" Role="RequestedCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="RequestedCategory">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1447,6 +1536,24 @@ warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a pri
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="RequestedCategories">
+            <EntityTypeMapping TypeName="WebApiModel.RequestedCategory">
+              <MappingFragment StoreEntitySet="RequestedCategories">
+                <ScalarProperty Name="RequestingUser" ColumnName="RequestingUser" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskAssignments">
+            <EntityTypeMapping TypeName="WebApiModel.TaskAssignment">
+              <MappingFragment StoreEntitySet="TaskAssignments">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

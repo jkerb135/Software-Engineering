@@ -10,6 +10,25 @@
     <meta name="author" content="">
 
     <title>iPAWS Web App</title>
+    <script src="<%=ResolveUrl("//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js") %>"></script>
+    <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
+    <script src="<%=ResolveUrl("signalr/hubs") %>"></script>
+    <script>
+        var contact = $.connection.contactHub;
+        $(function () {
+            if (typeof (Storage) != "undefined") {
+                $(document).on('click', '.signalRUser', function (event) {
+                    localStorage.setItem("username", event.target.id);
+                });
+                
+                $.connection.hub.start().done(function () {
+
+                });
+                contact.client.notifyUsers = function (name) { toastr.info(name); };
+                // Callbacks to the client should be defined here.
+            }
+        });
+    </script>
 
     <!-- Bootstrap Core CSS -->
     <link href="<%=ResolveUrl("~/StyleSheets/bootstrap.css") %>" rel="stylesheet">
@@ -25,6 +44,7 @@
 
     <!-- SE CSS -->
     <link href="<%=ResolveUrl("~/StyleSheets/style.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%=ResolveUrl("~/Content/toastr.css") %>" rel="stylesheet" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,7 +52,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script src="<%=ResolveUrl("~/Scripts/toastr.js") %>"></script>
     <asp:ContentPlaceHolder ID="SiteHead" runat="server"></asp:ContentPlaceHolder>
 </head>
 <body>
@@ -251,11 +271,11 @@
                     </li>
                     <!-- /.dropdown -->
                     <li>
-                            <i class="fa fa-user fa-fw text-primary"></i>
-                            <asp:Label ID="username" runat="server" Text="" CssClass="text-primary"></asp:Label>
+                        <i class="fa fa-user fa-fw text-primary"></i>
+                        <asp:Label ID="username" runat="server" Text="" CssClass="text-primary"></asp:Label>
                     </li>
                     <li>
-                       <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'></i> Logout</asp:LinkButton>
+                        <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'></i> Logout</asp:LinkButton>
                     </li>
                     <!-- /.dropdown -->
                 </ul>
@@ -276,9 +296,9 @@
                                 <!-- /input-group -->
                             </li>
                             <li style="margin: 20px 0px 0px 10px" id="ProfilePic" runat="server">
-                                <img src="<%=ResolveUrl("~/Images/Default.png") %>" style="height:200px; Width:225px"/>
+                                <img src="<%=ResolveUrl("~/Images/Default.png") %>" style="height: 200px; width: 225px" />
                             </li>
-                            <li style="margin-top: 20px" >
+                            <li style="margin-top: 20px">
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
                             </li>
                             <li id="Li1" runat="server">
@@ -326,9 +346,6 @@
         </div>
         <!-- /#wrapper -->
 
-        <!-- jQuery Version 1.11.0 -->
-        <script src="<%=ResolveUrl("~/Scripts/jquery-1.11.0.js") %>"></script>
-
         <!-- Bootstrap Core JavaScript -->
         <script src="<%=ResolveUrl("~/Scripts/bootstrap.min.js") %>"></script>
 
@@ -340,7 +357,7 @@
 
         <!-- SE JavaScript -->
         <script src="<%=ResolveUrl("~/Scripts/scripts.js") %>"></script>
-        
+
     </form>
 </body>
 </html>

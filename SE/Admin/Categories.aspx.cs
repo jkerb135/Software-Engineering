@@ -32,6 +32,7 @@ namespace SE
         {
             if (!IsPostBack)
             {
+                catFilter.Enabled = taskFilter.Enabled = mainFilter.Enabled = detailFilter.Enabled = false;
                 catDateSort.Text = "Date \u25B2";
                 taskDateSort.Text = "Date \u25B2";
                 mainStepSort.Text = "Date \u25B2";
@@ -395,7 +396,7 @@ namespace SE
                 Cat = (Category)ViewState["Category"];
                 Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
                 ViewState.Add("Category", Cat);
-
+                catFilter.Enabled = true;
 
                 ListBoxPanel.Visible = false;
                 EditCategoryPanel.Visible = true;
@@ -484,6 +485,7 @@ namespace SE
             {
                 taskList.Items.Clear();
                 taskList.Attributes.Add("disabled", "true");
+                catFilter.Enabled = false;
             }
         }
         protected void IsActiveTaskButton_Click(object sender, EventArgs e)
@@ -600,6 +602,7 @@ namespace SE
                 list.Items.Clear();
                 list.DataSource = CategoryListSource;
                 list.DataBind();
+                catFilter.Enabled = true;
             }
             else
             {
@@ -658,6 +661,8 @@ namespace SE
             DeleteDetailedStep.Attributes.Add("disabled", "true");
             if (catList.SelectedItem.Text != "No Categories")
             {
+                taskFilter.Enabled = true;
+                mainFilter.Enabled = detailFilter.Enabled = false;
                 taskDateSort.Attributes.Remove("disabled");
                 mainStepSort.Attributes.Add("disabled", "true");
                 detailedSort.Attributes.Add("disabled", "true");
@@ -677,6 +682,7 @@ namespace SE
                     li.Text = "No Tasks in " + catList.SelectedItem.Text;
                     li.Attributes.Add("disabled", "disabled");
                     taskList.Items.Add(li);
+                    taskFilter.Enabled = false;
                 }
 
                 taskList.Attributes.Remove("disabled");
@@ -710,6 +716,8 @@ namespace SE
             DeleteDetailedStep.Attributes.Add("disabled", "true");
             if (taskList.SelectedValue != "No Tasks")
             {
+                mainFilter.Enabled = true;
+                detailFilter.Enabled = false;
                 mainStepSort.Attributes.Remove("disabled");
                 detailedSort.Attributes.Add("disabled", "true");
                 ITask = (Task)ViewState["Task"];
@@ -727,6 +735,7 @@ namespace SE
                 if (mainStep.Items[0].Text == "No Main Steps in " + taskList.SelectedItem.Text)
                 {
                     mainStep.Items[0].Attributes.Add("disabled", "disabled");
+                    mainFilter.Enabled = false;
                 }
 
                 if (ITask.IsActive)
@@ -763,7 +772,7 @@ namespace SE
 
             if (mainStep.SelectedItem.Text != "No Main Steps in" + taskList.SelectedItem.Value)
             {
-
+                detailFilter.Enabled = true;
                 detailedSort.Attributes.Remove("disabled");
                 IMainStep = (MainStep)ViewState["MainStep"];
                 IMainStep.MainStepID = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
@@ -779,6 +788,7 @@ namespace SE
                 if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
                 {
                     detailedStep.Items[0].Attributes.Add("disabled", "disabled");
+                    detailFilter.Enabled = false;
                 }
 
                 UpdateMainStep.Visible = DeleteMainStep.Visible = true;
@@ -856,6 +866,7 @@ namespace SE
                 ListItem li = new ListItem();
                 li.Text = "No Main Steps in " + taskList.SelectedItem.Text;
                 mainStep.Items.Add(li);
+                mainFilter.Enabled = false;
             }
         }
 
@@ -872,6 +883,7 @@ namespace SE
                 ListItem li = new ListItem();
                 li.Text = "No Detailed Steps in " + mainStep.SelectedItem.Text;
                 detailedStep.Items.Add(li);
+                detailFilter.Enabled = false;
 
             }
         }

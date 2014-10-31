@@ -437,7 +437,7 @@ namespace SE.Classes
                 {
                     DataRow row;
                     row = userTable.NewRow();
-                    row["Username"] = "<a href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                    row["Username"] = "<a class='signalRUser' id= " + membership.UserName + " href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
                     if (membership.IsOnline)
                     {
                         row["Online"] = "~/Images/active.gif";

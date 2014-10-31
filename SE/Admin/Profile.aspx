@@ -1,8 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="SE.Admin.Profile" EnableEventValidation="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="SiteHead" runat="server">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="../Scripts/Custom/profile.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
     <asp:UpdatePanel runat="server" ID="profile" UpdateMode="Conditional">
@@ -10,6 +8,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="page-header">User Assignment</h1>
+                    <input type="button" class="requestButton" value="Make Request"/>
                 </div>
             </div>
             <asp:Panel ID="YourInfo" runat="server">
@@ -253,7 +252,7 @@
                                                     <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
                                                         <HeaderTemplate>Request Category</HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <asp:Button ID="RequestCat" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="Request" Text="Request" CommandArgument='<%# Eval("CategoryID") %>' />
+                                                            <asp:Button ID="RequestCat" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="Request" Text="Request"  CommandArgument='<%# Eval("CategoryID") %>'/>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -326,6 +325,10 @@
 
     <script type="text/javascript">
         $(function () {
+            $(document).on("click", ".requestButton", function () {
+                console.log(localStorage.getItem("username").toString());
+                contact.server.contactFormSubmitted(localStorage.getItem("username").toString());
+            });
             $(document).on("click", ".catButton", function () {
                 $("#panel").hide('slow');
                 $("#catUsers").hide("slow");

@@ -511,34 +511,19 @@ namespace SE.Admin
 
 
                 con.Open();
-                lblModalTitle.Text = "Request Pending";
-                lblModalBody.Text = String.Empty;
                 pendingRequest = false;
                 Int32 count = (Int32)cmd2.ExecuteScalar();
-                try
-                {
                     if (count == 0)
                     {
                         cmd.ExecuteNonQuery();
-                        lblModalTitle.Text = "Request is Successful";
-                        lblModalBody.Text += "Your request has been submited. The supervisors whos category you have request will have to accept the request in order for you to be able to access it. A notification will be visible on the supervisors next login.";
                         pendingRequest = true;
                     }
                     else
                     {
                         error.CssClass = "text-danger";
                     }
-                }
-                catch (Exception e1)
-                {
-                    lblModalTitle.Text = "Request is Unsuccessful";
-                    lblModalBody.Text += "There was an error processing you category request please try again later";
-                    pendingRequest = false;
-                }
                 con.Close();
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                 queryCatRequestStatus();
-                upModal.Update();
             }
         }
 
@@ -578,6 +563,7 @@ namespace SE.Admin
         }
         protected void RequestCatGrid_RowDataBound(object sender, GridViewRowEventArgs e)
         {
+            //RequestCatGrid.DataBind();
             queryCatRequestStatus();
         }
 

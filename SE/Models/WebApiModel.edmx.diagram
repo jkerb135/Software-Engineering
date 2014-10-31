@@ -43,6 +43,9 @@
         <AssociationConnector Association="WebApiModel.FK_Tasks_MemberAssignments" ManuallyRouted="false" />
         <AssociationConnector Association="WebApiModel.FK_CompletedMainSteps_Tasks" ManuallyRouted="false" />
         <AssociationConnector Association="WebApiModel.aspnet_UsersInRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="WebApiModel.RequestedCategory" Width="1.5" PointX="6" PointY="11.125" />
+        <EntityTypeShape EntityType="WebApiModel.TaskAssignment" Width="1.5" PointX="8.375" PointY="0.75" />
+        <AssociationConnector Association="WebApiModel.FK_RequestedCategories_Categories" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

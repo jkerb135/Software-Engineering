@@ -43,5 +43,7 @@ namespace SE.Models
         public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<CompletedMainStep> CompletedMainSteps { get; set; }
+        public virtual DbSet<RequestedCategory> RequestedCategories { get; set; }
+        public virtual DbSet<TaskAssignment> TaskAssignments { get; set; }
     }
 }
