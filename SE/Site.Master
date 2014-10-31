@@ -13,21 +13,24 @@
     <script src="<%=ResolveUrl("//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js") %>"></script>
     <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
     <script src="<%=ResolveUrl("signalr/hubs") %>"></script>
-    <script>
-        var contact = $.connection.contactHub;
-        $(function () {
-            if (typeof (Storage) != "undefined") {
-                $(document).on('click', '.signalRUser', function (event) {
-                    localStorage.setItem("username", event.target.id);
-                });
-                
-                $.connection.hub.start().done(function () {
-
-                });
-                contact.client.notifyUsers = function (name) { toastr.info(name); };
+        <script type="text/javascript">
+            $(function() {
+                var contact = $.connection.contactHub;
+ 
                 // Callbacks to the client should be defined here.
-            }
-        });
+                contact.client.notifyUsers = function (message) {
+                    toastr.info(message);
+                };
+ 
+                $.connection.hub.start().done(function() {
+                    // Calls to server should be included within the hub.start() method.
+                    $('#btnSubmit').click(function() {
+                        // Call the ContactFormSubmitted method on the hub.
+                        contact.server.contactFormSubmitted($('#txtName').val(), $('#txtComments').val());
+                        return false;  // prevent 'form' from submitting.
+                    });
+                });
+            });
     </script>
 
     <!-- Bootstrap Core CSS -->

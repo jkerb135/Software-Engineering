@@ -15,14 +15,14 @@ namespace SE.Hubs
     public class ContactHub : Hub
     {
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
-
-        public void ContactFormSubmitted(string who)
+        DateTime now = new DateTime();
+        public void ContactFormSubmitted(string who,string message)
         {
             string name = Context.User.Identity.Name;
-
+            string connectionID = Context.ConnectionId;
             foreach (var connectionId in _connections.GetConnections(who))
             {
-                Clients.Client(connectionId).notifyUsers(name + " has requested to use a category");
+                Clients.Client(connectionId).notifyUsers(now.ToShortTimeString() + connectionID + " " + name + ": " + message);
             }
 
         }

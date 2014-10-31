@@ -200,6 +200,29 @@
     <Content Include="Scripts\jquery-1.11.0.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <EntityDeploy Include="Models\SignalR.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>SignalR.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\SignalR.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SignalR.edmx</DependentUpon>
+      <LastGenOutput>SignalR.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\SignalR.edmx.diagram">
+      <DependentUpon>SignalR.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\SignalR.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>SignalR.edmx</DependentUpon>
+      <LastGenOutput>SignalR.cs</LastGenOutput>
+    </Content>
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -286,18 +309,12 @@
       <LastGenOutput>WebApiModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\toastr.min.js.map" />
-    <None Include="Web.config">
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Admin\Dashboard.aspx" />
     <Content Include="Members\web.config" />
     <None Include="Properties\PublishProfiles\iPaws.pubxml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\Categories.aspx.cs">
@@ -452,6 +469,27 @@
     </Compile>
     <Compile Include="Models\RequestedCategory.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SignalR.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignalR.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SignalR.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignalR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SignalR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SignalR.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SignalRConnection.cs">
+      <DependentUpon>SignalR.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SignalRUser.cs">
+      <DependentUpon>SignalR.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Task.cs">
       <DependentUpon>WebApiModel.tt</DependentUpon>

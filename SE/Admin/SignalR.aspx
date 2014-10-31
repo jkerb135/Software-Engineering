@@ -5,28 +5,6 @@
     <script src="<%=ResolveUrl("~/Scripts/toastr.js") %>"></script>
     <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
     <script src="<%=ResolveUrl("~/signalr/hubs") %>"></script>
-        <script type="text/javascript">
-            $(function () {
-                var contact = $.connection.contactHub;
-
-                // Callbacks to the client should be defined here.
-                contact.client.notifyUsers = function (name,message) {
-                    toastr.info('New contact form submitted by ' + name + message);
-                };
-
-                $.connection.hub.start().done(function () {
-                    // Calls to server should be included within the hub.start() method.
-                    $('#btnSubmit').click(function () {
-                        // Call the ContactFormSubmitted method on the hub.
-                        contact.server.contactFormSubmitted($('#txtName').val(), $('#txtComments').val());
-                        // Clear text boxes and reset focus for next comment.
-                        $('#txtName').val('');
-                        $('#txtComments').val('');
-                        return false;  // prevent 'form' from submitting.
-                    });
-                });
-            });
-    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
         <fieldset>
