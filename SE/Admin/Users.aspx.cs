@@ -91,6 +91,10 @@ namespace SE
             {
                 AssignedToContainer.Visible = true;
             }
+            else
+            {
+                AssignedToContainer.Visible = false;
+            }
         }
 
         protected void CreateUserButton_Click(object sender, EventArgs e)
