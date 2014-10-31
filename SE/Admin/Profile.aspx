@@ -5,14 +5,13 @@
     <script src="../Scripts/Custom/profile.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
-    <asp:UpdatePanel runat="server">
+    <asp:UpdatePanel runat="server" ID="profile" UpdateMode="Conditional">
         <ContentTemplate>
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="page-header">User Assignment</h1>
                 </div>
             </div>
-            <hr />
             <asp:Panel ID="YourInfo" runat="server">
                 <div class="row">
                     <div class="profileNav">
@@ -48,14 +47,13 @@
                                         </div>
                                     </div>
                                     <div class="panel-footer">
-                                        <p class="text-warning">NOTE: Adding a User to a category assigns thems all tasks under that category.</p>
+                                        <p class="text-warning">NOTE: Adding a User to a category assigns them all tasks under that category.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div id="catUsers" style="display: none;">
                             <div class="col-xs-10">
-
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
                                         <i class="fa fa-users fa-fw"></i>
@@ -63,13 +61,16 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True">
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-Width="5%">
                                                         <ItemTemplate>
-                                                            <asp:CheckBox ID="CheckBox1" runat="server" />
+                                                            <asp:CheckBox ID="catUsersChk" runat="server" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
+                                                    <asp:BoundField DataField="UserName" HeaderText="Username" ItemStyle-Width="36%" />
+                                                    <asp:BoundField DataField="IsApproved" HeaderText="User Status" ItemStyle-Width="36%" />
+                                                    <asp:BoundField DataField="LastActivityDate" HeaderText="Latest Activity" ItemStyle-Width="36%" />
                                                 </Columns>
                                             </asp:GridView>
                                             <asp:SqlDataSource ID="UsersInCategory" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
@@ -116,13 +117,16 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True">
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-Width="5%">
                                                         <ItemTemplate>
-                                                            <asp:CheckBox ID="usersTaskChk" runat="server" />
+                                                            <asp:CheckBox ID="UsersInTaskChk" runat="server" />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
+                                                    <asp:BoundField DataField="UserName" HeaderText="Username" ItemStyle-Width="36%" />
+                                                    <asp:BoundField DataField="IsApproved" HeaderText="User Status" ItemStyle-Width="36%" />
+                                                    <asp:BoundField DataField="LastActivityDate" HeaderText="Latest Activity" ItemStyle-Width="36%" />
                                                 </Columns>
                                             </asp:GridView>
                                             <asp:SqlDataSource ID="addUserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
@@ -179,7 +183,7 @@
                                                     <Columns>
                                                         <asp:TemplateField ItemStyle-Width="5%">
                                                             <ItemTemplate>
-                                                                <asp:CheckBox ID="usersTaskChk" runat="server" />
+                                                                <asp:CheckBox ID="AllCategoriesChk" runat="server" />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:BoundField DataField="CategoryName" HeaderText="Category Name" />
@@ -207,7 +211,7 @@
                                                     <Columns>
                                                         <asp:TemplateField ItemStyle-Width="2%">
                                                             <ItemTemplate>
-                                                                <asp:CheckBox ID="usersTaskChk" runat="server" />
+                                                                <asp:CheckBox ID="AddTaskChk" runat="server" />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
                                                         <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="42%" />
@@ -227,12 +231,12 @@
             <asp:Panel ID="OtherInfo" runat="server">
                 <div class="row">
                     <div class="profileNav">
-                        <input type="button" class="catButton btn btn-primary" value="Request Assigned Categories" style="width: 225px;" />
-                        <input type="button" class="taskButton btn btn-primary" value="Request Assigned Tasks" style="width: 225px;" />
+                        <input type="button" class="requestCat btn btn-primary" value="Request Assigned Categories" style="width: 225px;"/>
+                        <input type="button" class="requestTask btn btn-primary" value="Request Assigned Tasks" style="width: 225px;"/>
                     </div>
 
-                    <div class="dataTables" style="padding-left:20px;">
-                        <div id="requestCat" style="display:none">
+                    <div class="dataTables" style="padding-left: 20px;">
+                        <div id="requestCat" style="display: none">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">
@@ -242,14 +246,14 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="RequestCatGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" OnRowCommand="RequestCatGrid_RowCommand1" AutoGenerateColumns="false" >
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="RequestCatGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" OnRowCommand="RequestCatGrid_RowCommand1" AutoGenerateColumns="false"  OnRowDataBound="RequestCatGrid_RowDataBound">
                                                 <Columns>
-                                                    <asp:BoundField  DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
+                                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
                                                     <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="36%" DataFormatString=" {0:d} " HtmlEncode="false" />
                                                     <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
                                                         <HeaderTemplate>Request Category</HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <asp:Button ID="RequestCat" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="Request" Text="Request" CommandArgument='<%# Eval("CategoryID") %>'/>
+                                                            <asp:Button ID="RequestCat" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="Request" Text="Request" CommandArgument='<%# Eval("CategoryID") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -262,7 +266,7 @@
                                         <p class="text-warning">NOTE: Requesting a Category transfers all the tasks that coorespond with the Category.</p>
                                     </div>
                                 </div>
-                                 
+
                             </div>
                         </div>
                         <div id="requestTask" style="display: none;">
@@ -281,7 +285,7 @@
                                                     <asp:TemplateField ItemStyle-Width="28%">
                                                         <HeaderTemplate>Request Tasks</HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <asp:Button ID="AddUsersToTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Request" CommandArgument='<%# Eval("TaskID") %>' />
+                                                            <asp:Button ID="RequestTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Request" CommandArgument='<%# Eval("TaskID") %>' />
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
@@ -297,32 +301,46 @@
                         </div>
             </asp:Panel>
             </div>
-
+            <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+            <ContentTemplate>
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" style="color:white;"><asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h4>
+                    </div>
+                    <div class="modal-body"style="overflow-y:scroll; max-height:350px">
+                        <asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</div>
         </ContentTemplate>
     </asp:UpdatePanel>
 
     <script type="text/javascript">
         $(function () {
             $(document).on("click", ".catButton", function () {
-                $("#requestTask").hide("slow");
                 $("#panel").hide('slow');
                 $("#catUsers").hide("slow");
-                $("#catData").show("slow");
-                $("#requestCat").show("slow");
                 $("#userData").hide("slow");
                 $("#taskData").hide("slow");
                 $("#taskUsers").hide('slow');
-
+                $("#catData").show("slow");
             });
             $(document).on("click", ".taskButton", function () {
-                $("#requestCat").hide('slow');
                 $("#panel").hide('slow');
                 $("#taskUsers").hide('slow');
                 $("#catUsers").hide("slow");
                 $("#catData").hide("slow");
                 $("#userData").hide("slow");
                 $("#taskData").show("slow");
-                $("#requestTask").show("slow");
             });
             $(document).on("click", ".assignedUsers", function () {
                 $("#panel").hide('slow');
@@ -332,35 +350,42 @@
                 $("#taskData").hide("slow");
                 $("#userData").show("slow");
             });
+            $(document).on("click", ".requestCat", function () {
+                $("#requestTask").hide('slow');
+                $("#requestCat").show('slow');
+            });
+            $(document).on("click", ".requestTask", function () {
+                $("#requestCat").hide('slow');
+                $("#requestTask").show('slow');
+            });
         });
         function hideCats() {
             $("#catData").hide("slow");
             $("#catUsers").show('slow');
-
         };
         function showCats() {
-            $("#catData").show("slow");
             $("#catUsers").hide('slow');
-
+            $("#catData").show("slow");
         };
         function hideTasks() {
             $("#taskData").hide("slow");
-            $("#taskUsers").show('slow');
-
+            $("#taskUsers").show("slow");
         };
         function showTasks() {
-            $("#taskData").show("slow");
             $("#taskUsers").hide('slow');
-
+            $("#taskData").show("slow");
         };
         function hideUsers() {
-            $("#panel").show("slow");
             $("#userData").hide('slow');
+            $("#panel").show("slow");
         };
-        function showUsers() {
-            $("#userData").show("slow");
-            $("#panel").hide('slow');
-
+        function requestCat() {
+            $("#requestCat").attr("style", "display:block");
+            $("#requestTask").attr("style", "display:none");
+        };
+        function requestTask() {
+            $("#requestTask").attr("style", "display:block");
+            $("#requestCat").attr("style", "display:none");
         };
     </script>
 </asp:Content>

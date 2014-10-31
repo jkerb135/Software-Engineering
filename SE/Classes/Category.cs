@@ -367,5 +367,33 @@ namespace SE.Classes
             }
             return id;
         }
+        public static string getCategoryName(int id)
+        {
+            string catName = "";
+            string queryString =
+                "SELECT CategoryName " +
+                "FROM Categories " +
+                "WHERE CategoryID=@categoryID";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@categoryID", id);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    catName = dr["CategoryName"].ToString();
+                }
+
+                con.Close();
+            }
+            return catName;
+        }
     }
 }

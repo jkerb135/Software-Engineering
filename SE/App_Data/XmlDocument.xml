@@ -778,6 +778,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Admin.Profile.profile">
+            <summary>
+            profile control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Admin.Profile.YourInfo">
             <summary>
             YourInfo control.
@@ -1096,6 +1105,33 @@
         <member name="F:SE.Admin.Profile.SqlDataSource3">
             <summary>
             SqlDataSource3 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Profile.upModal">
+            <summary>
+            upModal control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Profile.lblModalTitle">
+            <summary>
+            lblModalTitle control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Profile.lblModalBody">
+            <summary>
+            lblModalBody control.
             </summary>
             <remarks>
             Auto-generated field.

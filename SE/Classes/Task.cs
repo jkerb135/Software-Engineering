@@ -401,5 +401,35 @@ namespace SE.Classes
 
             return Task;
         }
+        public static string GetTaskName(int TaskID)
+        {
+            string taskName = "";
+
+            string queryString =
+                "SELECT TaskName " +
+                "FROM Tasks " +
+                "WHERE TaskID=@TaskID";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@taskid", TaskID);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    taskName = dr["TaskName"].ToString();
+                }
+
+                con.Close();
+            }
+
+            return taskName;
+        }
     }
 }
