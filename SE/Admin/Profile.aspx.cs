@@ -120,69 +120,71 @@ namespace SE.Admin
 
         protected void AddUsersToCat_Click(object sender, EventArgs e)
         {
-            try {
-            string queryString = "Insert Into CategoryAssignments (AssignedUser, CategoryID) Values (@user, @id)";
-            string queryString2 = "Select Count(*) FROM CategoryAssignments WHERE CategoryID=@id AND AssignedUser=@user";
-            string queryString3 = "Delete FROM CategoryAssignments WHERE CategoryID=@id AND AssignedUser=@user";
-            string queryString5 = "Insert into TaskAssignments (TaskID,AssignedUser,CategoryID) Select TaskID, c.AssignedUser, c.CategoryID From Tasks t inner join CategoryAssignments c on c.CategoryID = t.CategoryID where c.AssignedUser = @user And c.CategoryID = @id";
-            string queryString6 = "Delete FROM TaskAssignments WHERE CategoryID=@id";
-            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            try
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                cmd.Parameters.AddWithValue("@id",categoryID);
-                cmd.Parameters.AddWithValue("@user", DBNull.Value);
-
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                cmd2.Parameters.AddWithValue("@id", categoryID);
-                cmd2.Parameters.AddWithValue("@user", DBNull.Value);
-
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
-                cmd3.Parameters.AddWithValue("@id", categoryID);
-                cmd3.Parameters.AddWithValue("@user", DBNull.Value);
-
-                SqlCommand cmd5 = new SqlCommand(queryString5, con);
-                cmd5.Parameters.AddWithValue("@id", categoryID);
-                cmd5.Parameters.AddWithValue("@user", DBNull.Value);
-
-                SqlCommand cmd6 = new SqlCommand(queryString6, con);
-                cmd6.Parameters.AddWithValue("@id", categoryID);
-
-                con.Open();
-                lblModalTitle.Text = "Request is Successful";
-                lblModalBody.Text = String.Empty;
-                bool flag = false;
-                foreach (GridViewRow row in AddUserGrid.Rows)
+                string queryString = "Insert Into CategoryAssignments (AssignedUser, CategoryID) Values (@user, @id)";
+                string queryString2 = "Select Count(*) FROM CategoryAssignments WHERE CategoryID=@id AND AssignedUser=@user";
+                string queryString3 = "Delete FROM CategoryAssignments WHERE CategoryID=@id AND AssignedUser=@user";
+                string queryString5 = "Insert into TaskAssignments (TaskID,AssignedUser,CategoryID) Select TaskID, c.AssignedUser, c.CategoryID From Tasks t inner join CategoryAssignments c on c.CategoryID = t.CategoryID where c.AssignedUser = @user And c.CategoryID = @id";
+                string queryString6 = "Delete FROM TaskAssignments WHERE CategoryID=@id";
+                using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
                 {
-                    CheckBox box = (CheckBox)row.FindControl("catUsersChk");
-                    cmd2.Parameters["@user"].Value = row.Cells[1].Text;
-                    Int32 count = (Int32)cmd2.ExecuteScalar();
-                    if (box != null && box.Checked && count == 0)
+                    SqlCommand cmd = new SqlCommand(queryString, con);
+                    cmd.Parameters.AddWithValue("@id", categoryID);
+                    cmd.Parameters.AddWithValue("@user", DBNull.Value);
+
+                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                    cmd2.Parameters.AddWithValue("@id", categoryID);
+                    cmd2.Parameters.AddWithValue("@user", DBNull.Value);
+
+                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                    cmd3.Parameters.AddWithValue("@id", categoryID);
+                    cmd3.Parameters.AddWithValue("@user", DBNull.Value);
+
+                    SqlCommand cmd5 = new SqlCommand(queryString5, con);
+                    cmd5.Parameters.AddWithValue("@id", categoryID);
+                    cmd5.Parameters.AddWithValue("@user", DBNull.Value);
+
+                    SqlCommand cmd6 = new SqlCommand(queryString6, con);
+                    cmd6.Parameters.AddWithValue("@id", categoryID);
+
+                    con.Open();
+                    lblModalTitle.Text = "Request is Successful";
+                    lblModalBody.Text = String.Empty;
+                    bool flag = false;
+                    foreach (GridViewRow row in AddUserGrid.Rows)
                     {
-                        cmd.Parameters["@user"].Value = row.Cells[1].Text;
-                        cmd5.Parameters["@user"].Value = row.Cells[1].Text;
-                        cmd.ExecuteNonQuery();
-                        cmd5.ExecuteNonQuery();
-                        lblModalBody.Text += "Added: " + row.Cells[1].Text + " into " + Category.getCategoryName(categoryID) + "<br/>";
-                        flag = true;
+                        CheckBox box = (CheckBox)row.FindControl("catUsersChk");
+                        cmd2.Parameters["@user"].Value = row.Cells[1].Text;
+                        Int32 count = (Int32)cmd2.ExecuteScalar();
+                        if (box != null && box.Checked && count == 0)
+                        {
+                            cmd.Parameters["@user"].Value = row.Cells[1].Text;
+                            cmd5.Parameters["@user"].Value = row.Cells[1].Text;
+                            cmd.ExecuteNonQuery();
+                            cmd5.ExecuteNonQuery();
+                            lblModalBody.Text += "Added: " + row.Cells[1].Text + " into " + Category.getCategoryName(categoryID) + "<br/>";
+                            flag = true;
+                        }
+                        else if (!box.Checked && count == 1)
+                        {
+                            lblModalBody.Text += "Removed: " + row.Cells[1].Text + " from " + Category.getCategoryName(categoryID) + "<br/>";
+                            cmd3.Parameters["@user"].Value = row.Cells[1].Text;
+                            cmd3.ExecuteNonQuery();
+                            cmd6.ExecuteNonQuery();
+                            flag = true;
+                        }
                     }
-                    else if (!box.Checked && count == 1)
+                    con.Close();
+                    if (flag)
                     {
-                        lblModalBody.Text += "Removed: " + row.Cells[1].Text + " from " + Category.getCategoryName(categoryID) + "<br/>";
-                        cmd3.Parameters["@user"].Value = row.Cells[1].Text;
-                        cmd3.ExecuteNonQuery();
-                        cmd6.ExecuteNonQuery();
-                        flag = true;
+                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                        upModal.Update();
                     }
                 }
-                con.Close();
-                if (flag){
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                 }
-            }
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "showCats();", true);
-             }
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "showCats();", true);
+            }
             catch (Exception ex)
             {
                 lblModalTitle.Text = "Error Processing Request";
@@ -241,7 +243,7 @@ namespace SE.Admin
             string queryString5 = "Insert Into TaskAssignments (AssignedUser, TaskID,CategoryID) Values (@user, @id, @catID)";
             string queryString6 = "Select Count(*) FROM TaskAssignments WHERE TaskID=@id AND AssignedUser=@user";
             using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
-            {  
+            {
                 SqlCommand cmd4 = new SqlCommand(queryString4, con);
                 cmd4.Parameters.AddWithValue("@id", taskID);
                 cmd4.Parameters.AddWithValue("@user", DBNull.Value);
@@ -371,7 +373,7 @@ namespace SE.Admin
         {
             string queryString = "Insert Into CategoryAssignments (AssignedUser, CategoryID) Values (@user, @id)";
             string queryString2 = "Select Count(*) FROM CategoryAssignments WHERE CategoryID=@id AND AssignedUser=@user";
-            
+
             string queryString3 = "Insert into TaskAssignments (TaskID,AssignedUser,CategoryID) Select TaskID, c.AssignedUser, c.CategoryID From Tasks t inner join CategoryAssignments c on c.CategoryID = t.CategoryID where c.AssignedUser = @user And c.CategoryID = @id";
             string queryString4 = "Delete FROM TaskAssignments WHERE CategoryID=@id AND AssignedUser=@user";
             string queryString5 = "Delete FROM CategoryAssignments WHERE CategoryID=@id AND AssignedUser=@user";
@@ -398,7 +400,7 @@ namespace SE.Admin
                 cmd5.Parameters.AddWithValue("@user", assignedUsername);
                 cmd5.Parameters.AddWithValue("@id", DBNull.Value);
 
-                
+
                 con.Open();
                 lblModalTitle.Text = "Request is Successful";
                 lblModalBody.Text = String.Empty;
@@ -431,7 +433,7 @@ namespace SE.Admin
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
-                
+
                 con.Close();
             }
             ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "showUsers();", true);
@@ -507,7 +509,7 @@ namespace SE.Admin
                 cmd2.Parameters.AddWithValue("@id", Convert.ToInt32(e.CommandArgument));
                 cmd2.Parameters.AddWithValue("@user", user);
 
-                
+
                 con.Open();
                 lblModalTitle.Text = "Request Pending";
                 lblModalBody.Text = String.Empty;
@@ -515,11 +517,12 @@ namespace SE.Admin
                 Int32 count = (Int32)cmd2.ExecuteScalar();
                 try
                 {
-                    if (count == 0) { 
-                    cmd.ExecuteNonQuery();
-                    lblModalTitle.Text = "Request is Successful";
-                    lblModalBody.Text += "Your request has been submited. The supervisors whos category you have request will have to accept the request in order for you to be able to access it. A notification will be visible on the supervisors next login.";
-                    pendingRequest = true;
+                    if (count == 0)
+                    {
+                        cmd.ExecuteNonQuery();
+                        lblModalTitle.Text = "Request is Successful";
+                        lblModalBody.Text += "Your request has been submited. The supervisors whos category you have request will have to accept the request in order for you to be able to access it. A notification will be visible on the supervisors next login.";
+                        pendingRequest = true;
                     }
                     else
                     {

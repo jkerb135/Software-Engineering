@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SE {
-    
-    
-    public partial class Categories {
-        
+namespace SE
+{
+
+
+    public partial class Categories
+    {
+
         /// <summary>
         /// CategoryContainer control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel CategoryContainer;
-        
+
         /// <summary>
         /// header control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label header;
-        
+
         /// <summary>
         /// ErrorMessage control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label ErrorMessage;
-        
+
         /// <summary>
         /// SuccessMessage control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label SuccessMessage;
-        
+
         /// <summary>
         /// CategoryList control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList CategoryList;
-        
+
         /// <summary>
         /// EditCategoryPanel control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel EditCategoryPanel;
-        
+
         /// <summary>
         /// EditCategoryNameLabel control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label EditCategoryNameLabel;
-        
+
         /// <summary>
         /// EditCategoryName control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox EditCategoryName;
-        
+
         /// <summary>
         /// AllUsersLabel control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label AllUsersLabel;
-        
+
         /// <summary>
         /// AllUsers control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox AllUsers;
-        
+
         /// <summary>
         /// UsersInCategoryLabel control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label UsersInCategoryLabel;
-        
+
         /// <summary>
         /// UsersInCategory control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox UsersInCategory;
-        
+
         /// <summary>
         /// MoveLeft control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button MoveLeft;
-        
+
         /// <summary>
         /// MoveRight control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button MoveRight;
-        
+
         /// <summary>
         /// EditCategoryCancel control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button EditCategoryCancel;
-        
+
         /// <summary>
         /// EditCategoryButton control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button EditCategoryButton;
-        
+
         /// <summary>
         /// TaskPanel control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel TaskPanel;
-        
+
         /// <summary>
         /// EditSuccessMessage control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label EditSuccessMessage;
-        
+
         /// <summary>
         /// EditErrorMessage control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label EditErrorMessage;
-        
+
         /// <summary>
         /// CreateMainStepValidationSummary control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ValidationSummary CreateMainStepValidationSummary;
-        
+
         /// <summary>
         /// CreateDetailedStepValidationSummary control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ValidationSummary CreateDetailedStepValidationSummary;
-        
+
         /// <summary>
         /// EditTaskPanel control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel EditTaskPanel;
-        
+
         /// <summary>
         /// EditTaskNameLabel control.
         /// </summary>
@@ -218,7 +220,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label EditTaskNameLabel;
-        
+
         /// <summary>
         /// EditTaskName control.
         /// </summary>
@@ -227,7 +229,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox EditTaskName;
-        
+
         /// <summary>
         /// EditAssignUserToTaskLabel control.
         /// </summary>
@@ -236,7 +238,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label EditAssignUserToTaskLabel;
-        
+
         /// <summary>
         /// EditAssignUserToTask control.
         /// </summary>
@@ -245,7 +247,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList EditAssignUserToTask;
-        
+
         /// <summary>
         /// EditTaskButton control.
         /// </summary>
@@ -254,7 +256,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button EditTaskButton;
-        
+
         /// <summary>
         /// EditTaskCancel control.
         /// </summary>
@@ -263,7 +265,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button EditTaskCancel;
-        
+
         /// <summary>
         /// ManageMainStepPanel control.
         /// </summary>
@@ -272,7 +274,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel ManageMainStepPanel;
-        
+
         /// <summary>
         /// MainStepNameLabel control.
         /// </summary>
@@ -281,7 +283,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MainStepNameLabel;
-        
+
         /// <summary>
         /// MainStepNameRequired control.
         /// </summary>
@@ -290,7 +292,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator MainStepNameRequired;
-        
+
         /// <summary>
         /// MainStepName control.
         /// </summary>
@@ -299,7 +301,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox MainStepName;
-        
+
         /// <summary>
         /// MainStepTextLabel control.
         /// </summary>
@@ -308,7 +310,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MainStepTextLabel;
-        
+
         /// <summary>
         /// MainStepText control.
         /// </summary>
@@ -317,7 +319,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox MainStepText;
-        
+
         /// <summary>
         /// MainStepAudioLabel control.
         /// </summary>
@@ -326,7 +328,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MainStepAudioLabel;
-        
+
         /// <summary>
         /// MainStepAudioCurrentLabel control.
         /// </summary>
@@ -335,7 +337,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MainStepAudioCurrentLabel;
-        
+
         /// <summary>
         /// MainStepAudio control.
         /// </summary>
@@ -344,7 +346,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload MainStepAudio;
-        
+
         /// <summary>
         /// MainStepVideoLabel control.
         /// </summary>
@@ -353,7 +355,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MainStepVideoLabel;
-        
+
         /// <summary>
         /// MainStepVideoCurrentLabel control.
         /// </summary>
@@ -362,7 +364,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label MainStepVideoCurrentLabel;
-        
+
         /// <summary>
         /// MainStepVideo control.
         /// </summary>
@@ -371,7 +373,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload MainStepVideo;
-        
+
         /// <summary>
         /// MainStepCancel control.
         /// </summary>
@@ -380,7 +382,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button MainStepCancel;
-        
+
         /// <summary>
         /// MainStepButton control.
         /// </summary>
@@ -389,7 +391,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button MainStepButton;
-        
+
         /// <summary>
         /// ManageDetailedStepPanel control.
         /// </summary>
@@ -398,7 +400,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel ManageDetailedStepPanel;
-        
+
         /// <summary>
         /// DetailedStepNameLabel control.
         /// </summary>
@@ -407,7 +409,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label DetailedStepNameLabel;
-        
+
         /// <summary>
         /// DetailedStepNameRequired control.
         /// </summary>
@@ -416,7 +418,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RequiredFieldValidator DetailedStepNameRequired;
-        
+
         /// <summary>
         /// DetailedStepName control.
         /// </summary>
@@ -425,7 +427,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox DetailedStepName;
-        
+
         /// <summary>
         /// DetailedStepTextLabel control.
         /// </summary>
@@ -434,7 +436,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label DetailedStepTextLabel;
-        
+
         /// <summary>
         /// DetailedStepText control.
         /// </summary>
@@ -443,7 +445,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox DetailedStepText;
-        
+
         /// <summary>
         /// DetailedStepImageLabel control.
         /// </summary>
@@ -452,7 +454,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label DetailedStepImageLabel;
-        
+
         /// <summary>
         /// DetailedStepImageCurrentLabel control.
         /// </summary>
@@ -461,7 +463,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label DetailedStepImageCurrentLabel;
-        
+
         /// <summary>
         /// DetailedStepImage control.
         /// </summary>
@@ -470,7 +472,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload DetailedStepImage;
-        
+
         /// <summary>
         /// EditDetailedStepCancel control.
         /// </summary>
@@ -479,7 +481,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button EditDetailedStepCancel;
-        
+
         /// <summary>
         /// EditDetailedStepButton control.
         /// </summary>
@@ -488,7 +490,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button EditDetailedStepButton;
-        
+
         /// <summary>
         /// ListBoxPanel control.
         /// </summary>
@@ -497,7 +499,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel ListBoxPanel;
-        
+
         /// <summary>
         /// catFilter control.
         /// </summary>
@@ -506,7 +508,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox catFilter;
-        
+
         /// <summary>
         /// catDateSort control.
         /// </summary>
@@ -515,7 +517,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button catDateSort;
-        
+
         /// <summary>
         /// AddNewCategoryButton control.
         /// </summary>
@@ -524,7 +526,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddNewCategoryButton;
-        
+
         /// <summary>
         /// UpdateCategory control.
         /// </summary>
@@ -533,7 +535,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button UpdateCategory;
-        
+
         /// <summary>
         /// DeleteCategory control.
         /// </summary>
@@ -542,7 +544,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button DeleteCategory;
-        
+
         /// <summary>
         /// catList control.
         /// </summary>
@@ -551,7 +553,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox catList;
-        
+
         /// <summary>
         /// taskFilter control.
         /// </summary>
@@ -560,7 +562,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox taskFilter;
-        
+
         /// <summary>
         /// taskDateSort control.
         /// </summary>
@@ -569,7 +571,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button taskDateSort;
-        
+
         /// <summary>
         /// AddNewTask control.
         /// </summary>
@@ -578,7 +580,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddNewTask;
-        
+
         /// <summary>
         /// UpdateTask control.
         /// </summary>
@@ -587,7 +589,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button UpdateTask;
-        
+
         /// <summary>
         /// IsActiveTask control.
         /// </summary>
@@ -596,7 +598,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button IsActiveTask;
-        
+
         /// <summary>
         /// taskList control.
         /// </summary>
@@ -605,7 +607,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox taskList;
-        
+
         /// <summary>
         /// mainFilter control.
         /// </summary>
@@ -614,7 +616,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox mainFilter;
-        
+
         /// <summary>
         /// mainStepSort control.
         /// </summary>
@@ -623,7 +625,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button mainStepSort;
-        
+
         /// <summary>
         /// AddNewMainStep control.
         /// </summary>
@@ -632,7 +634,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddNewMainStep;
-        
+
         /// <summary>
         /// UpdateMainStep control.
         /// </summary>
@@ -641,7 +643,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button UpdateMainStep;
-        
+
         /// <summary>
         /// DeleteMainStep control.
         /// </summary>
@@ -650,7 +652,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button DeleteMainStep;
-        
+
         /// <summary>
         /// mainStep control.
         /// </summary>
@@ -659,7 +661,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox mainStep;
-        
+
         /// <summary>
         /// MainStepMoveDown control.
         /// </summary>
@@ -668,7 +670,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button MainStepMoveDown;
-        
+
         /// <summary>
         /// MainStepMoveUp control.
         /// </summary>
@@ -677,7 +679,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button MainStepMoveUp;
-        
+
         /// <summary>
         /// detailFilter control.
         /// </summary>
@@ -686,7 +688,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox detailFilter;
-        
+
         /// <summary>
         /// detailedSort control.
         /// </summary>
@@ -695,7 +697,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button detailedSort;
-        
+
         /// <summary>
         /// AddNewDetailedStep control.
         /// </summary>
@@ -704,7 +706,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddNewDetailedStep;
-        
+
         /// <summary>
         /// UpdateDetailedStep control.
         /// </summary>
@@ -713,7 +715,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button UpdateDetailedStep;
-        
+
         /// <summary>
         /// DeleteDetailedStep control.
         /// </summary>
@@ -722,7 +724,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button DeleteDetailedStep;
-        
+
         /// <summary>
         /// detailedStep control.
         /// </summary>
@@ -731,7 +733,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox detailedStep;
-        
+
         /// <summary>
         /// DetailedStepMoveDown control.
         /// </summary>
@@ -740,7 +742,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button DetailedStepMoveDown;
-        
+
         /// <summary>
         /// DetailedStepMoveUp control.
         /// </summary>
@@ -749,7 +751,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button DetailedStepMoveUp;
-        
+
         /// <summary>
         /// CategoryListSource control.
         /// </summary>
@@ -758,7 +760,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource CategoryListSource;
-        
+
         /// <summary>
         /// TaskListSource control.
         /// </summary>
@@ -767,7 +769,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource TaskListSource;
-        
+
         /// <summary>
         /// MainStepListSource control.
         /// </summary>
@@ -776,7 +778,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource MainStepListSource;
-        
+
         /// <summary>
         /// DetailedStepListSource control.
         /// </summary>

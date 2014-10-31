@@ -158,6 +158,7 @@
     <Content Include="Images\accent.png" />
     <Content Include="Images\active.gif" />
     <Content Include="Images\bullet.png" />
+    <Content Include="Images\default.png" />
     <Content Include="Images\heroAccent.png" />
     <Content Include="Images\inactive.gif" />
     <Content Include="Images\orderedList0.png" />
