@@ -143,11 +143,10 @@ namespace SE
                 {
                     ITask.TaskName = EditTaskName.Text;
 
-                    if (!String.IsNullOrEmpty(EditAssignUserToTask.SelectedItem.Text))
-                        ITask.AssignedUser = EditAssignUserToTask.SelectedItem.Text;
-                    else
-                        ITask.AssignedUser = null;
+                    ITask.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
+
                     ITask.CreateTask();
+                    ITask.AssignUserTasks();
 
                     SuccessMessage.Text = "New task successfully added.";
 
@@ -169,12 +168,11 @@ namespace SE
                 {
                     ITask.TaskName = EditTaskName.Text;
                     header.Text = "Edit Task: " + ITask.TaskName;
-                    if (!String.IsNullOrEmpty(EditAssignUserToTask.SelectedItem.Text))
-                        ITask.AssignedUser = EditAssignUserToTask.SelectedItem.Text;
-                    else
-                        ITask.AssignedUser = null;
+
+                    ITask.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
 
                     ITask.UpdateTask();
+                    ITask.ReAssignUserTasks();
 
                     SuccessMessage.Text = "Task successfully updated.";
 
@@ -356,7 +354,6 @@ namespace SE
         }
         protected void AddNewTask_Click(object sender, EventArgs e)
         {
-            BindUsers(EditAssignUserToTask);
             EditTaskName.Text = String.Empty;
 
             ListBoxPanel.Visible = false;
@@ -366,6 +363,8 @@ namespace SE
             ManageDetailedStepPanel.Visible = false;
             TaskPanel.Visible = true;
             header.Text = EditTaskButton.Text = "Add New Task";
+
+            GenerateUserLists();
         }
         protected void AddNewMainStep_Click(object sender, EventArgs e)
         {
@@ -413,23 +412,18 @@ namespace SE
         }
         protected void UpdateTask_Click(object sender, EventArgs e)
         {
-            BindUsers(EditAssignUserToTask);
-
             ListBoxPanel.Visible = false;
             EditCategoryPanel.Visible = false;
 
             TaskPanel.Visible = true;
             ITask = Task.GetTask(Convert.ToInt32(taskList.SelectedValue));
             EditTaskName.Text = ITask.TaskName;
-            EditAssignUserToTask.Text = ITask.AssignedUser;
             EditTaskButton.Text = "Update Task";
             header.Text = "Update Task: " + taskList.SelectedItem.Text;
+            GenerateUserLists();
         }
         protected void UpdateMainStep_Click(object sender, EventArgs e)
         {
-
-
-
             ListBoxPanel.Visible = false;
 
             EditCategoryPanel.Visible = false;
@@ -454,9 +448,6 @@ namespace SE
         }
         protected void UpdateDetailedStep_Click(object sender, EventArgs e)
         {
-
-
-
             ListBoxPanel.Visible = false;
 
             EditCategoryPanel.Visible = false;
@@ -553,18 +544,23 @@ namespace SE
 
         protected void MoveLeft_Click(object sender, EventArgs e)
         {
-            if (UsersInCategory.SelectedItem != null)
+            ListBox control = EditTaskPanel.Visible ? UsersAssignedToTask : UsersInCategory;
+
+            if (control.SelectedItem != null)
             {
-                UsersInCategory.Items.Remove(UsersInCategory.SelectedItem.Value);
+                control.Items.Remove(control.SelectedItem.Value);
             }
         }
 
         protected void MoveRight_Click(object sender, EventArgs e)
         {
-            if (AllUsers.SelectedItem != null &&
-                !UsersInCategory.Items.Contains(AllUsers.SelectedItem))
+            ListBox control = EditTaskPanel.Visible ? AllUsersTask : AllUsers;
+            ListBox control2 = EditTaskPanel.Visible ? UsersAssignedToTask : UsersInCategory;
+
+            if (control.SelectedItem != null &&
+                !control2.Items.Contains(control.SelectedItem))
             {
-                UsersInCategory.Items.Add(AllUsers.SelectedItem.Value);
+                control2.Items.Add(control.SelectedItem.Value);
             }
         }
 
@@ -615,18 +611,21 @@ namespace SE
         }
         private void GenerateUserLists()
         {
-            AllUsers.Items.Clear();
-            UsersInCategory.Items.Clear();
+            ListBox control = EditTaskPanel.Visible ? AllUsersTask : AllUsers;
+            ListBox control2 = EditTaskPanel.Visible ? UsersAssignedToTask : UsersInCategory;
+
+            control.Items.Clear();
+            control2.Items.Clear();
 
             List<string> UsersAssignedToSupervisor = Member.UsersAssignedToSupervisor(UserName);
 
             if (UsersAssignedToSupervisor.Count > 0)
             {
-                AllUsers.DataSource = UsersAssignedToSupervisor;
-                AllUsers.DataBind();
+                control.DataSource = UsersAssignedToSupervisor;
+                control.DataBind();
             }
 
-            if (EditCategoryButton.Text == "Update Category")
+            if (EditCategoryButton.Text == "Update Category" && EditCategoryPanel.Visible)
             {
                 List<string> UsersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(UserName, Convert.ToInt32(catList.SelectedValue));
 
@@ -634,6 +633,16 @@ namespace SE
                 {
                     UsersInCategory.DataSource = UsersAssignedToSupervisorAssignedToCategory;
                     UsersInCategory.DataBind();
+                }
+            }
+            else if (EditTaskButton.Text == "Update Task" && EditTaskPanel.Visible)
+            {
+                List<string> UsersAssignedToSupervisorAssignedToTask = Task.UsersAssignedToSupervisorAssignedToTask(UserName, Convert.ToInt32(taskList.SelectedValue));
+
+                if (UsersAssignedToSupervisorAssignedToTask.Count > 0)
+                {
+                    UsersAssignedToTask.DataSource = UsersAssignedToSupervisorAssignedToTask;
+                    UsersAssignedToTask.DataBind();
                 }
             }
         }

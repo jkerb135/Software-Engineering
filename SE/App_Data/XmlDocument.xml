@@ -220,27 +220,54 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Categories.EditAssignUserToTaskLabel">
+        <member name="F:SE.Categories.AllUsersTaskLabel">
             <summary>
-            EditAssignUserToTaskLabel control.
+            AllUsersTaskLabel control.
             </summary>
             <remarks>
             Auto-generated field.
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Categories.EditAssignUserToTask">
+        <member name="F:SE.Categories.AllUsersTask">
             <summary>
-            EditAssignUserToTask control.
+            AllUsersTask control.
             </summary>
             <remarks>
             Auto-generated field.
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Categories.EditTaskButton">
+        <member name="F:SE.Categories.UsersAssignedToTaskLabel">
             <summary>
-            EditTaskButton control.
+            UsersAssignedToTaskLabel control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Categories.UsersAssignedToTask">
+            <summary>
+            UsersAssignedToTask control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Categories.MoveLeftTaskAssignment">
+            <summary>
+            MoveLeftTaskAssignment control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Categories.MoveRightTaskAssignment">
+            <summary>
+            MoveRightTaskAssignment control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -250,6 +277,15 @@
         <member name="F:SE.Categories.EditTaskCancel">
             <summary>
             EditTaskCancel control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Categories.EditTaskButton">
+            <summary>
+            EditTaskButton control.
             </summary>
             <remarks>
             Auto-generated field.

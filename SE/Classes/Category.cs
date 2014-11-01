@@ -144,27 +144,49 @@ namespace SE.Classes
                 "WHERE CategoryID=@categoryid ";
 
             string queryString2 =
+                "DELETE FROM TaskAssignments " +
+                "WHERE CategoryID=@categoryid ";
+
+            string queryString3 =
                 "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
                 "VALUES (@assigneduser,@categoryid)";
+
+            string queryString4 =
+                "INSERT INTO TaskAssignments (CategoryID, TaskID, AssignedUser) " +
+                "SELECT @categoryid, Tasks.TaskID, @assigneduser " +
+                "FROM Tasks " +
+                "WHERE Tasks.CategoryID = @categoryid";
 
             using (SqlConnection con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
                 SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                SqlCommand cmd4 = new SqlCommand(queryString4, con);
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+
                 cmd2.Parameters.AddWithValue("@categoryid", CategoryID);
-                cmd2.Parameters.AddWithValue("@assigneduser", DBNull.Value);
+
+                cmd3.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd3.Parameters.AddWithValue("@assigneduser", DBNull.Value);
+
+                cmd4.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd4.Parameters.AddWithValue("@assigneduser", DBNull.Value);
 
                 con.Open();
 
                 cmd.ExecuteNonQuery();
+                cmd2.ExecuteNonQuery();
 
                 foreach (string CatAssign in CategoryAssignments)
                 {
-                    cmd2.Parameters["@assigneduser"].Value = CatAssign;
-                    cmd2.ExecuteNonQuery();
+                    cmd3.Parameters["@assigneduser"].Value = CatAssign;
+                    cmd3.ExecuteNonQuery();
+
+                    cmd4.Parameters["@assigneduser"].Value = CatAssign;
+                    cmd4.ExecuteNonQuery();
                 }
 
                 con.Close();
@@ -394,6 +416,34 @@ namespace SE.Classes
                 con.Close();
             }
             return catName;
+        }
+
+        public static bool UserInCategory(string User, int CategoryID)
+        {
+            bool UserInCategory = false;
+
+            string queryString =
+                "SELECT COUNT(*) " +
+                "FROM CategoryAssignments " +
+                "WHERE AssignedUser=@assigneduser " +
+                "AND CategoryID=@categoryid";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@assigneduser", User);
+                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+
+                con.Open();
+
+                UserInCategory = ((int)cmd.ExecuteScalar() > 0) ? true : false;
+
+                con.Close();
+            }
+
+            return UserInCategory; 
         }
     }
 }

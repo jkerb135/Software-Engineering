@@ -22,6 +22,7 @@ namespace SE.Classes
         public string TaskName { get; set; }
         public double TaskTime { get; set; }
         public string CreatedTime { get; set; }
+        public List<string> TaskAssignments { get; set; }
         public bool IsActive
         {
             get
@@ -90,6 +91,7 @@ namespace SE.Classes
             this.TaskName = String.Empty;
             this.TaskTime = 0;
             this.IsActive = true;
+            this.TaskAssignments = null;
         }
 
         #endregion
@@ -168,6 +170,97 @@ namespace SE.Classes
                     cmd2.ExecuteScalar();
                 if (!String.IsNullOrEmpty(TaskName))
                     cmd3.ExecuteScalar();
+
+                con.Close();
+            }
+        }
+
+        public void AssignUserTasks()
+        {
+            string queryString =
+                "INSERT INTO TaskAssignments (CategoryID, AssignedUser, TaskID) " +
+                "VALUES (@categoryid, @assigneduser,@taskid)";
+
+            string queryString2 =
+                "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
+                "VALUES (@assigneduser,@categoryid)";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+
+                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd.Parameters.AddWithValue("@taskid", TaskID);
+                cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);
+
+                cmd2.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd2.Parameters.AddWithValue("@assigneduser", DBNull.Value);
+
+                con.Open();
+
+                foreach (string TaskAssign in TaskAssignments)
+                {
+                    cmd.Parameters["@assigneduser"].Value = TaskAssign;
+                    cmd.ExecuteNonQuery();
+
+                    if (!Category.UserInCategory(TaskAssign, CategoryID))
+                    {
+                        cmd2.Parameters["@assigneduser"].Value = TaskAssign;
+                        cmd2.ExecuteNonQuery();
+                    }
+                }
+
+                con.Close();
+            }
+        }
+
+        public void ReAssignUserTasks()
+        {
+            string queryString =
+                "DELETE FROM TaskAssignments " +
+                "WHERE TaskID=@taskid ";
+
+            string queryString2 =
+                "INSERT INTO TaskAssignments (CategoryID, AssignedUser, TaskID) " +
+                "VALUES (@categoryid, @assigneduser,@taskid)";
+
+            string queryString3 =
+                "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
+                "VALUES (@assigneduser,@categoryid)";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                SqlCommand cmd3 = new SqlCommand(queryString3, con);
+
+                cmd.Parameters.AddWithValue("@taskid", TaskID);
+
+                cmd2.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd2.Parameters.AddWithValue("@taskid", TaskID);
+                cmd2.Parameters.AddWithValue("@assigneduser", DBNull.Value);
+
+                cmd3.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd3.Parameters.AddWithValue("@assigneduser", DBNull.Value);
+
+                con.Open();
+
+                cmd.ExecuteNonQuery();
+
+                foreach (string TaskAssign in TaskAssignments)
+                {
+                    cmd2.Parameters["@assigneduser"].Value = TaskAssign;
+                    cmd2.ExecuteNonQuery();
+
+                    if (!Category.UserInCategory(TaskAssign, CategoryID))
+                    {
+                        cmd3.Parameters["@assigneduser"].Value = TaskAssign;
+                        cmd3.ExecuteNonQuery();
+                    }
+                }
 
                 con.Close();
             }
@@ -430,6 +523,43 @@ namespace SE.Classes
             }
 
             return taskName;
+        }
+
+        public static List<string> UsersAssignedToSupervisorAssignedToTask(
+            string Supervisor, int TaskID)
+        {
+            List<string> UsersAssignedToSupervisorAssignedToTask = new List<string>();
+
+            string queryString =
+                "SELECT * FROM MemberAssignments " +
+                "INNER JOIN TaskAssignments ON MemberAssignments.AssignedUser=TaskAssignments.AssignedUser " +
+                "WHERE TaskAssignments.TaskID=@taskid " +
+                "AND MemberAssignments.AssignedSupervisor=@assignedsupervisor";
+
+            using (SqlConnection con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                SqlCommand cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@taskid", TaskID);
+                cmd.Parameters.AddWithValue("@assignedsupervisor", Supervisor);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    if (!UsersAssignedToSupervisorAssignedToTask.Contains(dr["AssignedUser"].ToString()))
+                    {
+                        UsersAssignedToSupervisorAssignedToTask.Add(dr["AssignedUser"].ToString());
+                    }
+                }
+
+                con.Close();
+            }
+
+            return UsersAssignedToSupervisorAssignedToTask;
         }
     }
 }

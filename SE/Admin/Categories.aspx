@@ -69,7 +69,7 @@
                     </asp:Panel>
                     <asp:Panel ID="TaskPanel" runat="server" Visible="False">
                         <div class="row">
-                            <div class="col-md-6 col-xs-12">
+                            <div class="col-xs-12">
                                 <div class="success-messages form-group">
                                     <asp:Label ID="EditSuccessMessage" runat="server"></asp:Label>
                                 </div>
@@ -81,19 +81,40 @@
                                         ValidationGroup="CreateDetailedStep" runat="server" />
                                 </div>
                                 <asp:Panel ID="EditTaskPanel" CssClass="form-group" runat="server">
-                                    <p class="form-group">Note: All fields are optional</p>
-                                    <div class="form-group">
-                                        <asp:Label ID="EditTaskNameLabel" runat="server" Text="Task Name"></asp:Label>
-                                        <asp:TextBox ID="EditTaskName" runat="server" CssClass="form-control"></asp:TextBox>
+                                    <div class="row">
+                                        <div class="form-group col-xs-12">
+                                            <asp:Label ID="EditTaskNameLabel" runat="server" Text="Task Name"></asp:Label>
+                                            <asp:TextBox ID="EditTaskName" runat="server" CssClass="form-control"></asp:TextBox>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <asp:Label ID="EditAssignUserToTaskLabel" runat="server" Text="Assign User to Task"></asp:Label>
-                                        <asp:DropDownList ID="EditAssignUserToTask" runat="server" CssClass="form-control"></asp:DropDownList>
+                                    <div class="row form-group">
+                                        <div class="col-xs-6">
+                                            <asp:Label ID="AllUsersTaskLabel" runat="server"
+                                                Text="All Users"></asp:Label>
+                                            <asp:ListBox ID="AllUsersTask" CssClass="form-control"
+                                                runat="server"></asp:ListBox>
+                                        </div>
+                                        <div class="col-xs-6">
+                                            <asp:Label ID="UsersAssignedToTaskLabel" runat="server"
+                                                Text="Users Assigned to Task"></asp:Label>
+                                            <asp:ListBox ID="UsersAssignedToTask" CssClass="form-control col-xs-6"
+                                                runat="server"></asp:ListBox>
+                                        </div>
                                     </div>
-                                    <asp:Button ID="EditTaskButton" runat="server" CssClass="btn btn-success right"
-                                        Text="Submit" OnClick="EditTaskButton_Click" />
-                                    <asp:Button ID="EditTaskCancel" CssClass="btn btn-danger"
-                                        runat="server" Text="Cancel" OnClick="ButtonCancel_Click" />
+                                    <div class="row">
+                                        <div class="col-xs-12 center">
+                                            <asp:Button ID="MoveLeftTaskAssignment" CssClass="btn btn-default" runat="server" Text="<"
+                                                OnClick="MoveLeft_Click" />
+                                            <asp:Button ID="MoveRightTaskAssignment" CssClass="btn btn-default" runat="server" Text=">"
+                                                OnClick="MoveRight_Click" />
+                                        </div>
+                                    </div>
+                                    <div class="right">
+                                        <asp:Button ID="EditTaskCancel" CssClass="btn btn-danger"
+                                            runat="server" Text="Cancel" OnClick="ButtonCancel_Click" />
+                                        <asp:Button ID="EditTaskButton" runat="server" CssClass="btn btn-success"
+                                            Text="Submit" OnClick="EditTaskButton_Click" />
+                                    </div>
                                 </asp:Panel>
                             </div>
                         </div>
