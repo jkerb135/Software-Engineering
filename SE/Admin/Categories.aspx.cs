@@ -9,7 +9,6 @@ using System.Web.Security;
 using System.Data.SqlClient;
 using System.Data;
 using System.Web.Services;
-
 namespace SE
 {
     public partial class Categories : System.Web.UI.Page
@@ -986,6 +985,11 @@ namespace SE
                 RefreshMainSteps();
             }
             mainStep.SelectedValue = value;
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
+            {
+                detailedStep.Items[0].Attributes.Add("disabled", "disabled");
+            }
+            
         }
         protected void MainStepMoveUp_Click(object sender, EventArgs e)
         {
@@ -1068,6 +1072,10 @@ namespace SE
                 RefreshMainSteps();
             }
             mainStep.SelectedValue = value;
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
+            {
+                detailedStep.Items[0].Attributes.Add("disabled", "disabled");
+            }
         }
         protected void DetailedStepMoveDown_Click(object sender, EventArgs e)
         {

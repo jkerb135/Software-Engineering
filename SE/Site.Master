@@ -18,15 +18,15 @@
                 var contact = $.connection.contactHub;
  
                 // Callbacks to the client should be defined here.
-                contact.client.notifyUsers = function (message) {
-                    toastr.info(message);
+                contact.client.addChatMessage = function (name, message) {
+                    toastr.info(name, ": ", message);
                 };
  
                 $.connection.hub.start().done(function() {
                     // Calls to server should be included within the hub.start() method.
                     $('#btnSubmit').click(function() {
                         // Call the ContactFormSubmitted method on the hub.
-                        contact.server.contactFormSubmitted($('#txtName').val(), $('#txtComments').val());
+                        contact.server.SendChatMessage($('#txtName').val(), $('#txtComments').val());
                         return false;  // prevent 'form' from submitting.
                     });
                 });

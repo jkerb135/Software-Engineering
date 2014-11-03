@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Categories.aspx.cs" Inherits="SE.Categories" %>
 
 <asp:Content ID="PageHead" ContentPlaceHolderID="SiteHead" runat="server">
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </asp:Content>
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">
     <asp:UpdatePanel ID="CategoryContainer" runat="server">
@@ -179,7 +178,7 @@
                                 <div class="col-xs-3" style="padding: 5px">
                                     <div class="row" style="padding: 0px 0px 10px 15px">
                                         <div class="col-xs-7 reset">
-                                            <asp:TextBox CssClass="form-control" ID="catFilter" runat="server" placeholder="Filter Categories" AutoPostBack="true" ToolTip="Enter Category Search Here" OnTextChanged="catFilter_TextChanged"></asp:TextBox>
+                                            <asp:TextBox CssClass="form-control" ID="catFilter" runat="server" placeholder="Filter Categories" AutoPostBack="true" ToolTip="Enter Category Search Here"></asp:TextBox>
                                         </div>
                                         <div class="col-xs-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="catDateSort" runat="server" Text="" OnClick="catDateSort_Click" />

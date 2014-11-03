@@ -37,4 +37,25 @@
             </div>
 
         </fieldset>
+
+    <asp:ScriptManager ID="ScriptManager1" runat="server" />
+        <div>
+            Click on the
+            ListBox and type the word to search<br />
+            <br />
+            <br />
+            <asp:ListBox ID="ListBox1" runat="server"></asp:ListBox>
+            <br />          
+            <cc1:ListSearchExtender ID="ListSearchExtender1" runat="server" TargetControlID="ListBox1"> 
+            <br />
+            &nbsp;<br />
+            Click on the
+            DropDownList and type the word to search<br />
+            <br />
+                <asp:ListSearchExtender ID="ListSearchExtender2" runat="server" TargetControlID="DropDownList1">
+            <br />
+            <asp:DropDownList ID="DropDownList1" runat="server">
+            </asp:DropDownList>           
+            <br />
+        </div>
 </asp:Content>
