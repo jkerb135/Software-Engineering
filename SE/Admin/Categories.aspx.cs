@@ -468,16 +468,21 @@ namespace SE
         protected void DeleteCategoryButton_Click(object sender, EventArgs e)
         {
             Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
-            Cat.DeleteCategory();
-            BindCategories(catList);
-            SuccessMessage.Text = "Category successfully deleted.";
 
-            if (catList.Items.Contains(new ListItem("No Categories")))
+            if (Cat.IsActive)
             {
-                taskList.Items.Clear();
-                taskList.Attributes.Add("disabled", "true");
-                catFilter.Enabled = false;
+                Cat.IsActive = false;
+                DeleteCategory.Text = "Activate";
+                DeleteCategory.CssClass = "btn btn-success form-control";
             }
+            else
+            {
+                Cat.IsActive = true;
+                DeleteCategory.Text = "Deactivate";
+                DeleteCategory.CssClass = "btn btn-danger form-control";
+            }
+
+            BindCategories(catList);
         }
         protected void IsActiveTaskButton_Click(object sender, EventArgs e)
         {
@@ -676,6 +681,10 @@ namespace SE
                 mainStepSort.Attributes.Add("disabled", "true");
                 detailedSort.Attributes.Add("disabled", "true");
 
+                Cat = (Category)ViewState["Category"];
+                Cat.CategoryID = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
+                ViewState.Add("Category", Cat);
+
                 ITask = (Task)ViewState["Task"];
                 ITask.CategoryID = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
                 ViewState.Add("Task", ITask);
@@ -694,8 +703,20 @@ namespace SE
                     taskFilter.Enabled = false;
                 }
 
+                if (Cat.IsActive)
+                {
+                    DeleteCategory.Text = "Deactivate";
+                    DeleteCategory.CssClass = "btn btn-danger form-control";
+                }
+                else
+                {
+                    DeleteCategory.Text = "Activate";
+                    DeleteCategory.CssClass = "btn btn-success form-control";
+                }
+
                 taskList.Attributes.Remove("disabled");
                 AddNewTask.Attributes.Remove("disabled");
+
             }
             else
             {

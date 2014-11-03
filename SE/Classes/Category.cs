@@ -15,10 +15,67 @@ namespace SE.Classes
     {
         #region Properties
 
+        private bool isActive = true;
+
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public string CreatedTime { get; set; }
         public List<string> CategoryAssignments { get; set; }
+        public bool IsActive
+        {
+            get
+            {
+                if (CategoryID > 0)
+                {
+                    string queryString =
+                        "SELECT IsActive FROM Categories " +
+                        "WHERE CategoryID=@categoryid";
+
+                    using (SqlConnection con = new SqlConnection(
+                        Methods.GetConnectionString()))
+                    {
+                        SqlCommand cmd = new SqlCommand(queryString, con);
+
+                        cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+
+                        con.Open();
+
+                        isActive = (bool)cmd.ExecuteScalar();
+
+                        con.Close();
+                    }
+                }
+
+                return isActive;
+            }
+            set
+            {
+                if (CategoryID > 0)
+                {
+                    string queryString =
+                        "UPDATE Categories " +
+                        "SET IsActive=@isactive " +
+                        "WHERE CategoryID=@categoryid";
+
+                    using (SqlConnection con = new SqlConnection(
+                        Methods.GetConnectionString()))
+                    {
+                        SqlCommand cmd = new SqlCommand(queryString, con);
+
+                        cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                        cmd.Parameters.AddWithValue("@isactive", value);
+
+                        con.Open();
+
+                        cmd.ExecuteScalar();
+
+                        con.Close();
+                    }
+                }
+
+                isActive = value;
+            }
+        }
 
         #endregion
 
@@ -29,6 +86,7 @@ namespace SE.Classes
             this.CategoryID = 0;
             this.CategoryName = String.Empty;
             this.CategoryAssignments = null;
+            this.IsActive = true;
         }
 
         public Category(int CategoryID = 0, string CategoryName = "")

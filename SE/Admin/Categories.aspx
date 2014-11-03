@@ -191,7 +191,7 @@
                                         <div class="col-xs-4 reset">
                                             <asp:Button ID="UpdateCategory" runat="server" CssClass="btn btn-primary form-control" Text="Update" OnClick="UpdateCategory_Click " /></div>
                                         <div class="col-xs-4 reset">
-                                            <asp:Button ID="DeleteCategory" runat="server" CssClass="btn btn-danger form-control" Text="Deactivate" OnClick="DeleteCategoryButton_Click" OnClientClick="return confirm('Are you sure you want to delete this category?');" /></div>
+                                            <asp:Button ID="DeleteCategory" runat="server" CssClass="btn btn-danger form-control" Text="Deactivate" OnClick="DeleteCategoryButton_Click" /></div>
                                     </div>
                                     <asp:ListBox CssClass="form-control" ID="catList" runat="server" Height="350px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate" AppendDataBoundItems="true" DataTextField="CategoryName" DataValueField="CategoryID"></asp:ListBox>
                                 </div>
