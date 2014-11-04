@@ -23,6 +23,7 @@
         <script type="text/javascript">
             var userActivity = $.connection.userActivityHub;
             $(function () {
+                $('#onlineUsers').css({ height: $(window).innerHeight() });
                 // Reference the auto-generated proxy for the hub.  
                 $(function () {
                     $.connection.hub.start().done(function () {
@@ -35,14 +36,15 @@
                             var userId = '<%=Membership.GetUser().ToString()%>';
                             var name = users[i].UserName;
                             var id = users[i].ConnectionID;
-                            console.log(id);
-                            console.log(users);
                             if (userId != name) {
+                                console.log("After else if" + name);
                                 code = $('<a id="' + id + '" class="user list-group-item" >' + name + '<a>');
+                                console.log("code name = " + name);
                                 $(code).click(function () {
-
+                                    console.log(code);
+                                    console.log("code click " + name);
                                     var id = $(this).attr('id');
-
+                                    console.log("Click Function" + id + "Name is " + name);
                                     if (userId != id)
                                         OpenPrivateChatWindow(userActivity, id, name);
 
@@ -54,7 +56,6 @@
                     userActivity.client.sendPrivateMessage = function (windowId, fromUserName, message) {
 
                         var ctrId = 'private_' + windowId;
-                        console.log(windowId);
 
                         if ($('#' + ctrId).length == 0) {
 
@@ -81,7 +82,7 @@
                     }
                     function createPrivateChatWindow(userActivity, userId, ctrId, userName) {
 
-                        var div = '<div id="' + ctrId + '" class="ui-widget-content draggable panel panel-primary" rel="0">' +
+                        var div = '<div id="' + ctrId + '" class="ui-widget-content draggable panel panel-primary right" rel="0">' +
                                    '<div class="panel-heading">' +
                                       '<div  style="float:right;">' +
                                           '<img id="imgDelete"  style="cursor:pointer;" src="/Images/delete.png"/>' +
@@ -144,14 +145,13 @@
 
                 // Create a function that the hub can call back to display messages.
                 userActivity.client.showUsersOnLine = function (data) {
-                    console.log('inside');
-                    console.log(data);
+                    
                 };
 
                 $.connection.hub.start();
             });
             $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {
-                console.log('disconnected');
+                
                 $.connection.hub.stop();
             });
     </script>
@@ -186,6 +186,7 @@
         <asp:ScriptManager ID="ScriptManage" runat="server">
         </asp:ScriptManager>
         <div id="wrapper">
+
             <!-- Navigation -->
             <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
                 <div class="navbar-header">
@@ -465,13 +466,14 @@
             </nav>
 
             <!-- Page Content -->
-            <div id="onlineUsers" class="list-group">
+            
+            
+            <div id="page-wrapper">
+                <div id="divContainer" class="myDiv">    </div>
+                        <div id="onlineUsers" class="list-group">
                 <div class="list-group-item active">Online Users</div>
                 <div id="users"></div>
             </div>
-            <div id="divContainer">    </div>
-            <div id="page-wrapper">
-                
                 <div class="content">
                     
                 <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder></div>

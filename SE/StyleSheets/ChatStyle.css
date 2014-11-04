@@ -191,11 +191,3 @@
            margin-left:4px;
             width: 55px;
         }
-
-        #divContainer{
-    position:absolute;
-   bottom:0;
-   width:100%;
-   background:#6cf;
-   z-index:999;
-}

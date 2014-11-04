@@ -13,7 +13,6 @@
                     <h1 class="page-header">Manager Dashboard</h1>
                 </div>
                 <!-- /.col-xs-12 -->
-            </div>
         </asp:View>
 
         <asp:View ID="Supervisor" runat="server">
