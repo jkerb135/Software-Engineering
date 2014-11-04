@@ -11,11 +11,7 @@ namespace SE.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            for (int i = 0; i < 100; i++)
-            {
-                ListBox1.Items.Add("Items " + i.ToString());
-                DropDownList1.Items.Add("Items " + i.ToString());
-            }
+           
         }
     }
 }

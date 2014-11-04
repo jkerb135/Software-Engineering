@@ -1,6 +1,20 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="SE.Admin.Profile" EnableEventValidation="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="SiteHead" runat="server">
+    <script>
+        $(function () {
+            userActivity.client.notifyUser = function (name) {
+                console.log(name);
+                toastr.info(name);
+            };
+            $(document).on('click', 'input[id*=RequestCat]', function () {
+                console.log('clicked');
+                 userActivity.server.notify('<%=Request.QueryString["userName"].ToString()%>');
+            });
+                
+
+            });
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
     <asp:UpdatePanel runat="server" ID="profile" UpdateMode="Conditional">
@@ -8,11 +22,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h1 class="page-header">User Assignment</h1>
-                    <input type="button" class="requestButton" value="Make Request"/>
                 </div>
-            </div>
             <asp:Panel ID="YourInfo" runat="server">
-                <div class="row">
                     <div class="profileNav">
                         <input type="button" class="catButton btn btn-primary" value="View Assigned Categories" style="width: 200px;" />
                         <input type="button" class="taskButton btn btn-primary" value="View Assigned Tasks" style="width: 200px;" />

@@ -165,3 +165,7 @@ ul.ripple:hover li{
      border-top-left-radius: 5px;
      border-top-right-radius: 5px;
  }
+.content{
+    margin-left: 20px;
+    width:80%;
+}

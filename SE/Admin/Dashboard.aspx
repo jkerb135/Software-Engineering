@@ -22,8 +22,6 @@
                     <h1 class="page-header">Supervisor Dashboard</h1>
                 </div>
                 <!-- /.col-xs-12 -->
-            </div>
-            <div class="row">
                 <div class="col-xs-4">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -55,13 +53,12 @@
                 <div class="col-xs-4">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
-                            <i class="fa fa-users fa-fw"></i>Active Supervisors
+                            <i class="fa fa-users fa-fw"></i>Supervisors
                         </div>
                         <div class="panel-body">
                             <asp:GridView ID="signededIn" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False" AutoGenerateColumns="false" ShowHeader="false" GridLines="None">
                                 <Columns>
                                    <asp:HyperLinkField DataTextField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:HyperLinkField>
-                                   <asp:ImageField DataImageUrlField="Online" HeaderText="Online" ItemStyle-Width="3%" ItemStyle-CssClass="center" ControlStyle-Width="15px" ControlStyle-Height="15px"></asp:ImageField>
                                 </Columns>
                             </asp:GridView>
                         </div>

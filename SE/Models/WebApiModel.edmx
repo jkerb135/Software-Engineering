@@ -250,6 +250,15 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="nvarchar" MaxLength="226" Nullable="false" />
+          <Property Name="ConnectionID" Type="nvarchar" MaxLength="226" Nullable="false" />
+          <Property Name="Connected" Type="bit" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <Association Name="FK__aspnet_Me__Appli__02084FDA">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="*" />
@@ -545,6 +554,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <EntitySet Name="MemberAssignments" EntityType="Self.MemberAssignments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompletedMainSteps" EntityType="Self.CompletedMainSteps" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [CompletedMainSteps].[MainStepID] AS [MainStepID], 
@@ -1265,6 +1275,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             <End Role="Category" EntitySet="Categories" />
             <End Role="RequestedCategory" EntitySet="RequestedCategories" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="WebApiModel.User" />
         </EntityContainer>
         <EntityType Name="RequestedCategory">
           <Key>
@@ -1297,6 +1308,15 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="226" FixedLength="false" Unicode="true" />
+          <Property Name="ConnectionID" Type="String" Nullable="false" MaxLength="226" FixedLength="false" Unicode="true" />
+          <Property Name="Connected" Type="Boolean" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1551,6 +1571,16 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="WebApiModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Connected" ColumnName="Connected" />
+                <ScalarProperty Name="ConnectionID" ColumnName="ConnectionID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

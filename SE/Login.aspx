@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>iPaws Login</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="<%=ResolveUrl("~/StyleSheets/bootstrap.min.css") %>" rel="stylesheet">

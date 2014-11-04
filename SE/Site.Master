@@ -13,23 +13,146 @@
     <script src="<%=ResolveUrl("//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js") %>"></script>
     <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
     <script src="<%=ResolveUrl("signalr/hubs") %>"></script>
+        <link type="text/css" rel="stylesheet" href="/StyleSheets/ChatStyle.css" />
+    <link rel="stylesheet" href="/StyleSheets/JQueryUI/themes/base/jquery.ui.all.css">
+    <script src="/Scripts/ui/jquery.ui.core.js"></script>
+    <script src="/Scripts/ui/jquery.ui.widget.js"></script>
+    <script src="/Scripts/ui/jquery.ui.mouse.js"></script>
+    <script src="/Scripts/ui/jquery.ui.draggable.js"></script>
+    <script src="/Scripts/ui/jquery.ui.resizable.js"></script>
         <script type="text/javascript">
-            $(function() {
-                var contact = $.connection.contactHub;
- 
-                // Callbacks to the client should be defined here.
-                contact.client.addChatMessage = function (name, message) {
-                    toastr.info(name, ": ", message);
-                };
- 
-                $.connection.hub.start().done(function() {
-                    // Calls to server should be included within the hub.start() method.
-                    $('#btnSubmit').click(function() {
-                        // Call the ContactFormSubmitted method on the hub.
-                        contact.server.SendChatMessage($('#txtName').val(), $('#txtComments').val());
-                        return false;  // prevent 'form' from submitting.
+            var userActivity = $.connection.userActivityHub;
+            $(function () {
+                // Reference the auto-generated proxy for the hub.  
+                $(function () {
+                    $.connection.hub.start().done(function () {
+                        userActivity.server.getOnlineUsers();
                     });
+                    userActivity.client.showUsersOnLine = function (users) {
+                        var code = "";
+                        $("#users").html(code);
+                        for (var i = 0; i < users.length; i++) {
+                            var userId = '<%=Membership.GetUser().ToString()%>';
+                            var name = users[i].UserName;
+                            var id = users[i].ConnectionID;
+                            console.log(id);
+                            console.log(users);
+                            if (userId != name) {
+                                code = $('<a id="' + id + '" class="user list-group-item" >' + name + '<a>');
+                                $(code).click(function () {
+
+                                    var id = $(this).attr('id');
+
+                                    if (userId != id)
+                                        OpenPrivateChatWindow(userActivity, id, name);
+
+                                });
+                            }
+                            $("#users").append(code);
+                        }
+                    };
+                    userActivity.client.sendPrivateMessage = function (windowId, fromUserName, message) {
+
+                        var ctrId = 'private_' + windowId;
+                        console.log(windowId);
+
+                        if ($('#' + ctrId).length == 0) {
+
+                            createPrivateChatWindow(userActivity, windowId, ctrId, fromUserName);
+
+                        }
+
+                        $('#' + ctrId).find('#divMessage').append('<div class="message"><span class="userName">' + fromUserName + '</span>: ' + message + '</div>');
+
+                        // set scrollbar
+                        var height = $('#' + ctrId).find('#divMessage')[0].scrollHeight;
+                        $('#' + ctrId).find('#divMessage').scrollTop(height);
+
+                    }
+
+                    function OpenPrivateChatWindow(userActivity, id, userName) {
+
+                        var ctrId = 'private_' + id;
+
+                        if ($('#' + ctrId).length > 0) return;
+
+                        createPrivateChatWindow(userActivity, id, ctrId, userName);
+
+                    }
+                    function createPrivateChatWindow(userActivity, userId, ctrId, userName) {
+
+                        var div = '<div id="' + ctrId + '" class="ui-widget-content draggable panel panel-primary" rel="0">' +
+                                   '<div class="panel-heading">' +
+                                      '<div  style="float:right;">' +
+                                          '<img id="imgDelete"  style="cursor:pointer;" src="/Images/delete.png"/>' +
+                                       '</div>' +
+
+                                       '<i class="fa fa-users fa-fw"></i><span class="selText panel-title" rel="0">' + userName + '</span>' +
+                                   '</div>' +
+                                   '<div id="divMessage" class=" messageArea panel-body">' +
+
+                                   '</div>' +
+                                   '<div class="panel-footer">' +
+                                      '<input id="txtPrivateMessage" class="msgText form-control" type="text"   />' +
+                                      '<input id="btnSendMessage" class="submitButton btn btn-success hidden" type="button" value="Send"/>' +
+                                   '</div>' +
+                                '</div>';
+
+                        var $div = $(div);
+
+                        // DELETE BUTTON IMAGE
+                        $div.find('#imgDelete').click(function () {
+                            $('#' + ctrId).remove();
+                        });
+
+                        // Send Button event
+                        $div.find("#btnSendMessage").click(function () {
+
+                            $textBox = $div.find("#txtPrivateMessage");
+                            var msg = $textBox.val();
+                            if (msg.length > 0) {
+
+                                userActivity.server.sendPrivateMessage(userId, msg);
+                                $textBox.val('');
+                            }
+                        });
+
+                        // Text Box event
+                        $div.find("#txtPrivateMessage").keypress(function (e) {
+                            if (e.which == 13) {
+                                $div.find("#btnSendMessage").click();
+                            }
+                        });
+
+                        AddDivToContainer($div);
+
+                    }
+                   
+                    function AddDivToContainer($div) {
+                        $('#divContainer').prepend($div);
+
+                        $div.draggable({
+
+                            handle: ".header",
+                            stop: function () {
+
+                            }
+                        });
+                    }
+
                 });
+
+                // Create a function that the hub can call back to display messages.
+                userActivity.client.showUsersOnLine = function (data) {
+                    console.log('inside');
+                    console.log(data);
+                };
+
+                $.connection.hub.start();
+            });
+            $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {
+                console.log('disconnected');
+                $.connection.hub.stop();
             });
     </script>
 
@@ -278,7 +401,7 @@
                         <asp:Label ID="username" runat="server" Text="" CssClass="text-primary"></asp:Label>
                     </li>
                     <li>
-                        <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'></i> Logout</asp:LinkButton>
+                        <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'"></i> Logout</asp:LinkButton>
                     </li>
                     <!-- /.dropdown -->
                 </ul>
@@ -342,9 +465,19 @@
             </nav>
 
             <!-- Page Content -->
-            <div id="page-wrapper">
-                <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder>
+            <div id="onlineUsers" class="list-group">
+                <div class="list-group-item active">Online Users</div>
+                <div id="users"></div>
             </div>
+            <div id="divContainer">    </div>
+            <div id="page-wrapper">
+                
+                <div class="content">
+                    
+                <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder></div>
+
+            </div>
+            
             <!-- /#page-wrapper -->
         </div>
         <!-- /#wrapper -->

@@ -438,25 +438,9 @@ namespace SE.Classes
                     DataRow row;
                     row = userTable.NewRow();
                     row["Username"] = "<a class='signalRUser' id= " + membership.UserName + " href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
-                    if (membership.IsOnline)
-                    {
-                        row["Online"] = "~/Images/active.gif";
-                    }
-                    else if(!membership.IsOnline)
-                    {
-                        row["Online"] = "~/Images/inactive.gif";
-                    }
                     userTable.Rows.Add(row);
                 }
             }
-            if (userTable.Rows.Count == 0)
-            {
-                DataRow newRow;
-                newRow = userTable.NewRow();
-                newRow["Username"] = "There are currently no supervisors logged in";
-                userTable.Rows.Add(newRow);
-            }
-
             return activeUsers;
         }
         public static DataSet CustomGetSupervisorsUsers(string Username)

@@ -4,7 +4,6 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 html, body {
-    height: 100%;
     -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
@@ -63,8 +62,6 @@ body {
     }
 
 #page-wrapper {
-    padding: 0 15px;
-    min-height: 568px;
     background-color: #ddd;
 }
 
@@ -72,11 +69,17 @@ body {
     #page-wrapper {
         position: inherit;
         margin: 0 0 0 250px;
-        padding: 0 30px;
         border-left: 1px solid #e7e7e7;
     }
 }
-
+    #onlineUsers{
+        width:175px;
+        float:right;
+        background:white;
+        border-left: 1px solid #e7e7e7;
+        height:100%;
+        border-radius:2px;
+    }
 .navbar-top-links li {
     display: inline-block;
 }

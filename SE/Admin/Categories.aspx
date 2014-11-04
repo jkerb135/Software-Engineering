@@ -14,9 +14,7 @@
                     <h1 class="page-header">
                         <asp:Label ID="header" runat="server" Text="Managerment Panel"></asp:Label></h1>
                 </div>
-            </div>
             <div class="col-xs-12">
-                <div class="row">
 
                     <div class="error-messages form-group">
                         <asp:Label ID="ErrorMessage" runat="server"></asp:Label>
