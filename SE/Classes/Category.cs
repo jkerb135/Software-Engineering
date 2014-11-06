@@ -40,7 +40,7 @@ namespace SE.Classes
 
                         con.Open();
 
-                        isActive = (bool)cmd.ExecuteScalar();
+                        isActive = Convert.ToBoolean(cmd.ExecuteScalar());
 
                         con.Close();
                     }

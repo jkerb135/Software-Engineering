@@ -18,6 +18,7 @@ namespace SE.Models
         {
             this.MainSteps = new HashSet<MainStep>();
             this.CompletedMainSteps = new HashSet<CompletedMainStep>();
+            this.CompletedTasks = new HashSet<CompletedTask>();
         }
     
         public int TaskID { get; set; }
@@ -30,9 +31,9 @@ namespace SE.Models
         public string CreatedBy { get; set; }
     
         public virtual Category Category { get; set; }
-        public virtual CompletedTask CompletedTask { get; set; }
         public virtual ICollection<MainStep> MainSteps { get; set; }
         public virtual MemberAssignment MemberAssignment { get; set; }
         public virtual ICollection<CompletedMainStep> CompletedMainSteps { get; set; }
+        public virtual ICollection<CompletedTask> CompletedTasks { get; set; }
     }
 }

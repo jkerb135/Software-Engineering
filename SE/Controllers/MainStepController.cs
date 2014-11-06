@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -29,14 +29,14 @@ namespace SE.Controllers
         /// </summary>
         public IEnumerable<OnlyMainSteps> GetAllMainSteps()
         {
-            return db.MainSteps.Select(tl => new OnlyMainSteps {taskId = tl.TaskID, mainStepId = tl.MainStepID, mainStepName = tl.MainStepName, audioPath = tl.AudioPath, videoPath = tl.VideoPath }).AsEnumerable<OnlyMainSteps>();
+            return db.MainSteps.Select(tl => new OnlyMainSteps { taskId = tl.TaskID, mainStepId = tl.MainStepID, mainStepName = tl.MainStepName, audioPath = tl.AudioPath, videoPath = tl.VideoPath }).AsEnumerable<OnlyMainSteps>();
         }
         /// <summary>
         /// Gets all main steps from the database pertaining to a task id.
         /// </summary>
         public IEnumerable<OnlyMainSteps> GetMainStepByTaskID(int id)
         {
-            return db.MainSteps.Where(tl => tl.TaskID == id).Select( tl => new OnlyMainSteps{ taskId = tl.TaskID, mainStepId = tl.MainStepID, mainStepName = tl.MainStepName, audioPath = tl.AudioPath, videoPath = tl.VideoPath }).AsEnumerable<OnlyMainSteps>();
+            return db.MainSteps.Where(tl => tl.TaskID == id).Select(tl => new OnlyMainSteps { taskId = tl.TaskID, mainStepId = tl.MainStepID, mainStepName = tl.MainStepName, audioPath = tl.AudioPath, videoPath = tl.VideoPath }).AsEnumerable<OnlyMainSteps>();
         }
     }
 }

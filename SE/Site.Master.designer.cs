@@ -67,6 +67,15 @@ namespace SE {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ProfilePic;
         
         /// <summary>
+        /// ProfilePicture control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ProfilePicture;
+        
+        /// <summary>
         /// Li1 control.
         /// </summary>
         /// <remarks>
@@ -110,5 +119,32 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ContentPlaceHolder SiteBody;
+        
+        /// <summary>
+        /// otheruser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden otheruser;
+        
+        /// <summary>
+        /// ProfileUpload control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload ProfileUpload;
+        
+        /// <summary>
+        /// UploadFile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UploadFile;
     }
 }

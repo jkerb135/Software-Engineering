@@ -48,15 +48,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AjaxControlToolkit">
-      <HintPath>..\packages\AjaxControlToolkit.7.1213\lib\45\AjaxControlToolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="AjaxMin">
-      <HintPath>..\packages\AjaxMin.4.97.4951.28483\lib\net40\AjaxMin.dll</HintPath>
-    </Reference>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -205,24 +196,7 @@
     <Content Include="Admin\SignalR.aspx" />
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
-    <Content Include="ChatJs\Images\chat-offline.png" />
-    <Content Include="ChatJs\Images\chat-online.png" />
-    <Content Include="ChatJs\Images\clear.png" />
-    <Content Include="ChatJs\Images\Emoticons\smile-1.png" />
-    <Content Include="ChatJs\Images\Emoticons\smile-2.png" />
-    <Content Include="ChatJs\Images\Emoticons\smile-3.png" />
-    <Content Include="ChatJs\Images\Emoticons\smile-4.png" />
-    <Content Include="ChatJs\Images\Emoticons\smile-5.png" />
-    <Content Include="ChatJs\Images\Emoticons\smile-6.png" />
-    <Content Include="ChatJs\license.txt" />
-    <Content Include="ChatJs\Scripts\jquery.activity-indicator-1.0.0.min.js" />
-    <Content Include="ChatJs\Scripts\jquery.autosize.min.js" />
-    <Content Include="ChatJs\Scripts\jquery.chatjs.js" />
-    <Content Include="ChatJs\Scripts\jquery.chatjs.signalradapter.js" />
-    <Content Include="ChatJs\Scripts\jquery.chatjs.xmppadapter.js" />
-    <Content Include="ChatJs\Sounds\chat.mp3" />
-    <Content Include="ChatJs\Sounds\chat.wav" />
-    <Content Include="ChatJs\Styles\jquery.chatjs.css" />
+    <Content Include="example.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -237,9 +211,20 @@
     <Content Include="Global.asax" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\active.gif" />
+    <Content Include="Images\add.png" />
+    <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\bullet.png" />
+    <Content Include="Images\chat-offline.png" />
+    <Content Include="Images\chat-online.png" />
+    <Content Include="Images\clear.png" />
     <Content Include="Images\default.png" />
     <Content Include="Images\delete.png" />
+    <Content Include="Images\Emoticons\smile-1.png" />
+    <Content Include="Images\Emoticons\smile-2.png" />
+    <Content Include="Images\Emoticons\smile-3.png" />
+    <Content Include="Images\Emoticons\smile-4.png" />
+    <Content Include="Images\Emoticons\smile-5.png" />
+    <Content Include="Images\Emoticons\smile-6.png" />
     <Content Include="Images\heroAccent.png" />
     <Content Include="Images\inactive.gif" />
     <Content Include="Images\orderedList0.png" />
@@ -252,6 +237,7 @@
     <Content Include="Images\orderedList7.png" />
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
+    <Content Include="Images\users.png" />
     <Content Include="Images\ZenBG-1.png" />
     <Content Include="Images\ZenBG-2.png" />
     <Content Include="Login.aspx" />
@@ -261,7 +247,6 @@
     <Content Include="Scripts\jquery-1.11.0.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
-    <Content Include="ChatJs\Sounds\chat.ogg" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -301,6 +286,7 @@
     <Content Include="StyleSheets\bootstrap.css" />
     <Content Include="StyleSheets\bootstrap.min.css" />
     <Content Include="StyleSheets\ChatStyle.css" />
+    <Content Include="StyleSheets\ChatWindow.css" />
     <Content Include="StyleSheets\JQueryUI\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="StyleSheets\JQueryUI\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="StyleSheets\JQueryUI\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -439,7 +425,9 @@
     <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Context.tt" />
     <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Entity.tt" />
     <Content Include="CodeTemplates\ReverseEngineerCodeFirst\Mapping.tt" />
-    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
@@ -566,17 +554,14 @@
     <Compile Include="Classes\Report.cs" />
     <Compile Include="Classes\Task.cs" />
     <Compile Include="Classes\Member.cs" />
+    <Compile Include="Controllers\MainStepController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\DetailedStepController.cs" />
-    <Compile Include="Controllers\MainStepController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -686,6 +671,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
+    <Folder Include="Scripts\js\" />
     <Folder Include="UserControls\" />
   </ItemGroup>
   <ItemGroup>

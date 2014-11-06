@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
+using System.Data.SqlClient;
+using SE.Classes;
 
 namespace SE
 {
@@ -17,5 +19,6 @@ namespace SE
                 Response.Redirect(FormsAuthentication.LoginUrl);
             }
         }
+
     }
 }

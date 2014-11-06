@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
 namespace SE.Controllers
 {
     public class TaskController : ApiController
@@ -14,6 +13,7 @@ namespace SE.Controllers
         public class CatTasks
         {
             public int CategoryID { get; set; }
+            public string CategoryName { get; set; }
             public int TaskID { get; set; }
             public string TaskName { get; set; }
             public string AssignedUser { get; set; }
@@ -23,21 +23,38 @@ namespace SE.Controllers
         /// </summary>
         public IEnumerable<CatTasks> GetAllTasks()
         {
-            return db.Tasks.Select(tl => new CatTasks { AssignedUser = tl.AssignedUser, CategoryID = tl.CategoryID, TaskName = tl.TaskName, TaskID = tl.TaskID }).AsEnumerable<CatTasks>();
+            return from task in db.Tasks
+                   join cat in db.Categories on task.CategoryID equals cat.CategoryID
+                   join assigned in db.TaskAssignments on task.TaskID equals assigned.TaskID
+                   select new CatTasks
+                   {
+                       CategoryID = cat.CategoryID,
+                       CategoryName = cat.CategoryName,
+                       TaskID = task.TaskID,
+                       TaskName = task.TaskName,
+                       AssignedUser = task.AssignedUser
+                   };
         }
         /// <summary>
         /// Gets all tasks from the database pertaining to a category id.
         /// </summary>
        public IEnumerable<CatTasks> GetTaskByCategoryID(int id)
         {
-            return db.Tasks.Where(tl => tl.CategoryID == id).Select(tl => new CatTasks { AssignedUser = tl.AssignedUser, CategoryID = tl.CategoryID, TaskID = tl.TaskID, TaskName = tl.TaskName }).AsEnumerable<CatTasks>();
+            return from task in db.Tasks
+                   join cat in db.Categories on task.CategoryID equals cat.CategoryID
+                   join assigned in db.TaskAssignments on task.TaskID equals assigned.TaskID
+                   where cat.CategoryID == id
+                   select new CatTasks
+                   {
+                       CategoryID = cat.CategoryID,
+                       CategoryName = cat.CategoryName,
+                       TaskID = task.TaskID,
+                       TaskName = task.TaskName,
+                       AssignedUser = task.AssignedUser
+                   };
         }
        /// <summary>
        /// Gets all detailed steps from the database pertaining to a category id and username.
        /// </summary>
-       public IEnumerable<CatTasks> GetTaskByIDAndUser(int id, string username)
-       {
-           return db.Tasks.Where(tl => tl.CategoryID == id && tl.AssignedUser == username).Select(tl => new CatTasks { AssignedUser = tl.AssignedUser, CategoryID = tl.CategoryID, TaskID = tl.TaskID, TaskName = tl.TaskName }).AsEnumerable<CatTasks>();
-       }
     }
 }

@@ -36,15 +36,15 @@ namespace SE.Models
         public virtual DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CategoryAssignment> CategoryAssignments { get; set; }
-        public virtual DbSet<CompletedTask> CompletedTasks { get; set; }
         public virtual DbSet<DetailedStep> DetailedSteps { get; set; }
         public virtual DbSet<MainStep> MainSteps { get; set; }
         public virtual DbSet<MemberAssignment> MemberAssignments { get; set; }
-        public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<CompletedMainStep> CompletedMainSteps { get; set; }
         public virtual DbSet<RequestedCategory> RequestedCategories { get; set; }
         public virtual DbSet<TaskAssignment> TaskAssignments { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<CompletedTask> CompletedTasks { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
     }
 }

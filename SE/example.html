@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+        <table>
+            <tr>
+                <td>
+                    <pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre>
+                </td>
+                <td>
+                    <pre style="margin: 0; line-height: 125%"><span style="color: #008800; font-weight: bold">var</span> now <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> <span style="color: #007020">Date</span>;
+                    <span style="color: #008800; font-weight: bold">var</span> CompletedMainStep <span style="color: #333333">=</span> {
+                    <span style="background-color: #fff0f0">&quot;MainStepID&quot;</span><span style="color: #333333">:</span> $(mainstepID),
+                    <span style="background-color: #fff0f0">&quot;TaskID&quot;</span><span style="color: #333333">:</span> $(TaskID),
+                    <span style="background-color: #fff0f0">&quot;TaskName&quot;</span><span style="color: #333333">:</span> $(taskName),
+                    <span style="background-color: #fff0f0">&quot;AssignedUser&quot;</span><span style="color: #333333">:</span> $(user),
+                    <span style="background-color: #fff0f0">&quot;TotalTime&quot;</span><span style="color: #333333">:</span> $(time),
+        };
+        $.ajax({
+            type<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&quot;POST&quot;</span>,
+            url<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;http://ipawsteamb.csweb.kutztown.edu/api/User/PostMainStepCompleted&#39;</span>,
+            data<span style="color: #333333">:</span> JSON.stringify(CompletedMainStep),
+            contentType<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&quot;application/json;charset=utf-8&quot;</span>,
+            processData<span style="color: #333333">:</span> <span style="color: #008800; font-weight: bold">true</span>,
+            success<span style="color: #333333">:</span> <span style="color: #008800; font-weight: bold">function</span> (data, status, xhr) {
+                console.log(status);
+            },
+            error<span style="color: #333333">:</span> <span style="color: #008800; font-weight: bold">function</span> (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+                    <span style="color: #008800; font-weight: bold">var</span> CompletedTask <span style="color: #333333">=</span> {
+                    <span style="background-color: #fff0f0">&quot;TaskID&quot;</span><span style="color: #333333">:</span> $(TaskID),
+                    <span style="background-color: #fff0f0">&quot;TaskName&quot;</span><span style="color: #333333">:</span> $(taskName),
+                    <span style="background-color: #fff0f0">&quot;AssignedUser&quot;</span><span style="color: #333333">:</span> $(user),
+                    <span style="background-color: #fff0f0">&quot;TotalTime&quot;</span><span style="color: #333333">:</span> $(time),
+        };
+        $.ajax({
+            type<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&quot;POST&quot;</span>,
+            url<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;http://ipawsteamb.csweb.kutztown.edu/api/User/PostTaskCompleted&#39;</span>,
+            data<span style="color: #333333">:</span> JSON.stringify(CompletedMainStep),
+            contentType<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&quot;application/json;charset=utf-8&quot;</span>,
+            processData<span style="color: #333333">:</span> <span style="color: #008800; font-weight: bold">true</span>,
+            success<span style="color: #333333">:</span> <span style="color: #008800; font-weight: bold">function</span> (data, status, xhr) {
+                console.log(status);
+            },
+            error<span style="color: #333333">:</span> <span style="color: #008800; font-weight: bold">function</span> (xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+</pre>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+</html>

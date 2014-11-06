@@ -1,4 +1,5 @@
-﻿using SE.Models;
+﻿using SE.Areas.HelpPage.ModelDescriptions;
+using SE.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,16 +33,27 @@ namespace SE.Controllers
         }
         public class Task
         {
+            public int CategoryID { get; set; }
+            public string CategoryName { get; set; }
             public int TaskID { get; set; }
             public string TaskName { get; set; }
             public string AssignedUser { get; set; }
 
         }
+        public class Completed
+        {
+            public int MainStepID { get; set; }
+            public int TaskID { get; set; }
+            public string MainStepName { get; set; }
+            public string AssignedUser { get; set; }
+            public DateTime DateTimeComplete { get; set; }
+            public float TotalTime { get; set; }
+        }
         /// <summary>
         /// Gets all users in the database
         /// </summary>
         /// <returns></returns>
-        WebApiEntites db = new WebApiEntites();
+       WebApiEntites db = new WebApiEntites();
         public IEnumerable<User> GetAllUsers()
         {
             return db.aspnet_Users.ToList().Where(x => x.aspnet_Roles.Any(tl => tl.RoleName == "User")).Select(tl => new User { ApplicationId = tl.ApplicationId, UserId = tl.UserId, UserName = tl.UserName, IsAnonymous = tl.IsAnonymous, LastActivityDate = tl.LastActivityDate, Password = tl.aspnet_Membership.Password }).AsEnumerable<User>();
@@ -79,15 +91,61 @@ namespace SE.Controllers
         /// <returns></returns>
         public IEnumerable<Task> GetTasksByUser(string id)
         {
-            return from assignment in db.TaskAssignments
-                   join task in db.Tasks on assignment.TaskID equals task.TaskID
-                   where assignment.AssignedUser == id
+            return from task in db.Tasks
+                   join cat in db.Categories on task.CategoryID equals cat.CategoryID
+                   join assigned in db.TaskAssignments on task.TaskID equals assigned.TaskID
+                   where assigned.AssignedUser == id
                    select new Task
                    {
+                       CategoryID = cat.CategoryID,
+                       CategoryName = cat.CategoryName,
                        TaskID = task.TaskID,
                        TaskName = task.TaskName,
-                       AssignedUser = assignment.AssignedUser
+                       AssignedUser = assigned.AssignedUser
                    };
+        }
+        [HttpPost]
+        public HttpResponseMessage PostMainStepCompleted([FromBody]CompletedMainStep mainstep)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
+               var complete = db.CompletedMainSteps.SingleOrDefault(u => u.AssignedUser == mainstep.AssignedUser && u.MainStepID == mainstep.MainStepID);
+               if (complete == null)
+               {
+                   mainstep.DateTimeComplete = DateTime.Now;
+                   db.CompletedMainSteps.Add(mainstep);
+                   db.SaveChanges();
+                   return Request.CreateResponse(HttpStatusCode.OK, "Completed Main Step added to database");
+               }
+               else
+               {
+                   return Request.CreateResponse(HttpStatusCode.Conflict, "Completed Main Step already exists in database");
+               }
+            
+        }
+        public HttpResponseMessage PostTaskCompleted([FromBody]CompletedTask task)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+
+            var complete = db.CompletedTasks.SingleOrDefault(u => u.AssignedUser == task.AssignedUser && u.TaskID == task.TaskID);
+            if (complete == null)
+            {
+                task.DateTimeCompleted = DateTime.Now;
+                db.CompletedTasks.Add(task);
+                db.SaveChanges();
+                return Request.CreateResponse(HttpStatusCode.OK, "Completed Task added to database");
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.Conflict, "Completed Task already exists in database");
+            }
+
         }
 
     }

@@ -467,7 +467,7 @@ namespace SE
         protected void DeleteCategoryButton_Click(object sender, EventArgs e)
         {
             Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
-
+            string value = catList.SelectedValue;
             if (Cat.IsActive)
             {
                 Cat.IsActive = false;
@@ -480,7 +480,7 @@ namespace SE
                 DeleteCategory.Text = "Deactivate";
                 DeleteCategory.CssClass = "btn btn-danger form-control";
             }
-
+            catList.SelectedValue = value;
             BindCategories(catList);
         }
         protected void IsActiveTaskButton_Click(object sender, EventArgs e)

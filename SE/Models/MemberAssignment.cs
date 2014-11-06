@@ -17,17 +17,17 @@ namespace SE.Models
         public MemberAssignment()
         {
             this.CategoryAssignments = new HashSet<CategoryAssignment>();
-            this.CompletedTasks = new HashSet<CompletedTask>();
             this.CompletedMainSteps = new HashSet<CompletedMainStep>();
             this.Tasks = new HashSet<Task>();
+            this.CompletedTasks = new HashSet<CompletedTask>();
         }
     
         public string AssignedUser { get; set; }
         public string AssignedSupervisor { get; set; }
     
         public virtual ICollection<CategoryAssignment> CategoryAssignments { get; set; }
-        public virtual ICollection<CompletedTask> CompletedTasks { get; set; }
         public virtual ICollection<CompletedMainStep> CompletedMainSteps { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+        public virtual ICollection<CompletedTask> CompletedTasks { get; set; }
     }
 }

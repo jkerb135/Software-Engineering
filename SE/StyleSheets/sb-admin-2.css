@@ -4,19 +4,17 @@
  * For details, see http://www.apache.org/licenses/LICENSE-2.0.
  */
 html, body {
-    -webkit-user-select: none;  /* Chrome all / Safari all */
-  -moz-user-select: none;     /* Firefox all */
-  -ms-user-select: none;      /* IE 10+ */
-
-  /* No support for these yet, use at own risk */
-  -o-user-select: none;
-  user-select: none;  
-        width:100%;
-      height:100%;
+    -webkit-user-select: none; /* Chrome all / Safari all */
+    -moz-user-select: none; /* Firefox all */
+    -ms-user-select: none; /* IE 10+ */
+    /* No support for these yet, use at own risk */
+    -o-user-select: none;
+    user-select: none;
+    width: 100%;
 }
 
 body {
-    background-color: #f8f8f8;
+    background-color: #222;
 }
 
 ::-webkit-scrollbar {
@@ -36,8 +34,8 @@ body {
 
 #wrapper {
     width: 100%;
-    height:100%;
     background-color: #222;
+    
 }
 
 .panel-login {
@@ -57,7 +55,7 @@ body {
 
         .panel-login > .panel-heading .badge {
             color: #428bca;
-            background-color: #f8f8f8;
+            background-color: #C0C0C0;
         }
 
     .panel-login > .panel-footer + .panel-collapse > .panel-body {
@@ -65,16 +63,17 @@ body {
     }
 
 #page-wrapper {
-    background-color: #ddd;
+    padding:25px;
 }
 
 @media(min-width:1px) {
     #page-wrapper {
-        position: inherit;
         margin: 0 0 0 250px;
-        border-left: 1px solid #e7e7e7;
+        border-left: 1px solid #222;
+        background-color: #fff;
     }
 }
+
 .navbar-top-links li {
     display: inline-block;
 }
@@ -149,7 +148,7 @@ body {
 }
 
     .sidebar ul li a.active {
-        background-color: #999;
+        background-color: #111;
     }
 
 .sidebar .arrow {
@@ -420,28 +419,14 @@ table.dataTable thead .sorting_desc_disabled {
     margin: 0px;
     padding: 0px;
 }
+
 .btnreset {
     position: relative;
     margin: 0px;
 }
-    #onlineUsers{
-        width:175px;
-        float:right;
-        background:white;
-        border-left: 1px solid #e7e7e7;
-        height:100%;
-        border-radius:2px;
-    }
-    .myDiv{
-        position:fixed;
-    top: 100%;
-    width:150em;
-    height:500px;
-    margin-top: -21em; /*set to a negative number 1/2 of your height*/
-    margin-right: -21em; /*set to a negative number 1/2 of your height*/
-    border: 1px solid #ccc;
-   z-index:999;
-    }
-    .left, .right{
-  float:right;
- }
+
+
+.left, .right {
+    float: right;
+}
+
