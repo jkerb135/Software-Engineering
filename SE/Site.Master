@@ -40,7 +40,7 @@
                             var id = users[i].ConnectionID;
 
                             if (userId.toUpperCase() != name.toUpperCase()) {
-                                code = $('<div id="' + id + '" class="user-list-item" style="padding:10px;"><img class="profile-picture" src="<%=ResolveUrl(this.getProfilePic)%>"><div class="profile-status online"></div><div class="content">' + name + '</div></div>');
+                                code = $('<div id="' + id + '" class="user-list-item" style="padding:10px;"><div class="profile-status online"></div><div class="content">' + name + '</div></div>');
                                 //code = $('<div id="' + id + '" class="user-list-item" >' + name + '<a>');
                                 $(code).click(function () {
                                     var id = $(this).attr('id');
@@ -60,7 +60,8 @@
                         }
                     };
                 }
-                userActivity.client.sendPrivateMessage = function (windowId, fromUserName, message, picture) {
+                userActivity.client.sendPrivateMessage = function (windowId, fromUserName, message) {
+                    console.log(windowId + " " + fromUserName + " " + message);
                     var ctrId = 'private_' + windowId;
 
                     if ($('#' + ctrId).length == 0) {
@@ -68,8 +69,7 @@
                         createPrivateChatWindow(userActivity, windowId, ctrId, fromUserName);
 
                     }
-                    var url = picture.replace('~/', '/');
-                    $('#' + ctrId).find('.message-' + ctrId).append('<div class="chat-message"><div class="chat-gravatar-wrapper"><img class="profile-picture" src="'+url+'"></div><div class="chat-text-wrapper"><p>' + message + '</p></div></div>');
+                    $('#' + ctrId).find('.message-' + ctrId).append('<div class="chat-message"><div class="chat-gravatar-wrapper"><div class="chat-text-wrapper"><p>' + message + '</p></div></div>');
 
                     // set scrollbar
                     var height = $('#' + ctrId).find('.message-' + ctrId)[0].scrollHeight;
@@ -86,22 +86,23 @@
                     createPrivateChatWindow(userActivity, id, ctrId, userName);
 
                 }
+
                 function createPrivateChatWindow(userActivity, userId, ctrId, userName) {
                     var nb = $('div.chat-window').length;
                     var left = nb * 242 + 10;
                     var div = '<div class="chat-window" id="' + ctrId + '" style="right: '+left+'px"><div class="chat-window-title"><div class="close"></div><div class="text">' + userName + '</div></div>';
-                    div += '<div class="chat-window-inner-content message-board pm-window" style="height: 235px;"><div class="messages-wrapper message-' + ctrId + '"  style="height:214px;"></div>';
-                    div += '<div class="chat-window-text-box-wrapper"><textarea rows="1" class="chat-window-text-box id'+userId+'" id="txtPrivateMessage" style="overflow: hidden; word-wrap: break-word; resize: none; height: 21px;"></textarea>';
-                    div += '<input type="button" class="chat-window-text-box" id="btnSendMessage"/>';
+                    div += '<div class="chat-window-inner-content message-board pm-window" style="height: 235px;"><div class="messages-wrapper message-' + ctrId + '"  style="height:214px; word-wrap: break-word""></div>';
+                    div += '<div class="chat-window-text-box-wrapper"><textarea rows="1" class="chat-window-text-box id' + userId + '" id="txtPrivateMessage" style="overflow: hidden; word-wrap: break-word; resize: none; height: 21px;"></textarea>';
+                    div += '<input type="button" class="chat-window-text-box" id="btnSendMessage' + ctrId + '"/>';
                     div += '</div></div></div></div>';
-                    
                     var $div = $(div);
+                    $('#txtPrivateMessage').focus();
                     // DELETE BUTTON IMAGE
                     $div.find('.close').click(function () {
                         $('#' + ctrId).remove();
                     });
 
-                    $div.find("#btnSendMessage").click(function () {
+                    $div.find("#btnSendMessage" + ctrId).click(function () {
 
                         $textBox = $div.find("#txtPrivateMessage");
                         var msg = $textBox.val();
@@ -114,7 +115,7 @@
                     // Text Box event
                     $div.find("textarea").keypress(function (e) {
                         if (e.which == 13) {
-                            $div.find("#btnSendMessage").click();
+                            $div.find("#btnSendMessage" + ctrId).click();
                         }
                     });
                     $div.on('click', '.chat-window-title', function () {
@@ -143,10 +144,11 @@
             };
 
             $.connection.hub.start();
-        });
-        $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {
 
+        });
+        $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {         
             $.connection.hub.stop();
+            $.connection.hub.getOnlineUsers();
         });
         $(document).on('click', '#ProfilePicture', function () {
             $("#ProfileUpload").click();
@@ -475,7 +477,7 @@
                     <div class="text">Online</div>
                 </div>
                 <div class="chat-window-content" style="height: 300px">
-                    <div class="chat-window-inner-content user-list" id="userNames" style="height: 100px;">
+                    <div class="chat-window-inner-content user-list" id="userNames">
                     </div>
                 </div>
             </div>
@@ -505,7 +507,7 @@
         <!-- SE JavaScript -->
         <script src="<%=ResolveUrl("~/Scripts/scripts.js") %>"></script>
         <input id="otheruser" type="hidden" runat="server" />
-                        <div style="height:20px; overflow: hidden">
+                        <div style="display:none; overflow: hidden">
                     <asp:FileUpload ID="ProfileUpload" runat="server" />
                     <asp:Button ID="UploadFile" runat="server" Text="Button" OnClick="UploadFile_Click"/>
                 </div>

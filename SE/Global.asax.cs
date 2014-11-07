@@ -7,6 +7,7 @@ using System.Web.Http;
 using System.Web.SessionState;
 using System.Web.Routing;
 using System.Web.Mvc;
+using Microsoft.AspNet.SignalR;
 
 namespace SE
 {
