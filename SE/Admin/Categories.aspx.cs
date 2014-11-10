@@ -206,29 +206,29 @@ namespace SE
                     !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
 
                 if (MainStepAudio.HasFile)
-                {
                     Message = Methods.UploadFile(MainStepAudio, "Audio");
 
-                    if (Message == "")
-                    {
-                        IMainStep.AudioFilename = MainStepAudio.FileName;
-                        IMainStep.AudioPath = "~/Uploads/" + MainStepAudio.FileName;
-                    }
-                    else
-                    {
-                        Message += "<br/>";
-                    }
+                if (Message == "")
+                {
+                    IMainStep.AudioFilename = 
+                        MainStepAudio != null ? MainStepAudio.FileName : null;
+                    IMainStep.AudioPath =
+                        MainStepAudio != null ? "~/Uploads/" + MainStepAudio.FileName : null;
+                }
+                else
+                {
+                    Message += "<br/>";
                 }
 
                 if (MainStepVideo.HasFile)
-                {
                     Message += Methods.UploadFile(MainStepVideo, "Video");
 
-                    if (Message == "")
-                    {
-                        IMainStep.VideoFilename = MainStepVideo.FileName;
-                        IMainStep.VideoPath = "~/Uploads/" + MainStepVideo.FileName;
-                    }
+                if (Message == "")
+                {
+                    IMainStep.VideoFilename =
+                        MainStepVideo != null ? MainStepVideo.FileName : null;
+                    IMainStep.VideoPath =
+                        MainStepVideo != null ? "~/Uploads/" + MainStepVideo.FileName : null;
                 }
 
                 if (MainStepButton.Text == "Add New Main Step")
@@ -260,6 +260,8 @@ namespace SE
                 {
                     MainStepName.Text = String.Empty;
                     MainStepText.Text = String.Empty;
+                    MainStepAudio = null;
+                    MainStepVideo = null;
                     RefreshMainSteps();
 
                     if (btn.Text != "+ Main Step")
@@ -290,14 +292,14 @@ namespace SE
                     !String.IsNullOrEmpty(DetailedStepText.Text) ? DetailedStepText.Text : null;
 
                 if (DetailedStepImage.HasFile)
-                {
                     Message = Methods.UploadFile(DetailedStepImage, "Image");
 
-                    if (Message == "")
-                    {
-                        IDetailedStep.ImageFilename = DetailedStepImage.FileName;
-                        IDetailedStep.ImagePath = "~/Uploads/" + DetailedStepImage.FileName;
-                    }
+                if (Message == "")
+                {
+                    IDetailedStep.ImageFilename =
+                        DetailedStepImage != null ? DetailedStepImage.FileName : null;
+                    IDetailedStep.ImagePath =
+                        DetailedStepImage != null ? "~/Uploads/" + DetailedStepImage.FileName : null;
                 }
 
                 if (EditDetailedStepButton.Text == "Add New Detailed Step")
@@ -329,6 +331,7 @@ namespace SE
                 {
                     DetailedStepName.Text = String.Empty;
                     DetailedStepText.Text = String.Empty;
+                    DetailedStepImage = null;
                     RefreshDetailedSteps();
 
                     if (btn.Text != "+ Detailed Step")
@@ -437,12 +440,12 @@ namespace SE
             MainStepName.Text = IMainStep.MainStepName;
             MainStepText.Text = IMainStep.MainStepText;
 
-            if (IMainStep.AudioPath.Length > 0)
+            if (!String.IsNullOrEmpty(IMainStep.AudioFilename))
                 MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(IMainStep.AudioPath) + "'></audio>";
             else
                 MainStepAudioCurrentLabel.Text = "";
 
-            if (IMainStep.VideoPath.Length > 0)
+            if (!String.IsNullOrEmpty(IMainStep.VideoFilename))
                 MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(IMainStep.VideoPath) + "'></video>";
             else
                 MainStepVideoCurrentLabel.Text = "";
@@ -462,7 +465,7 @@ namespace SE
             DetailedStepName.Text = IDetailedStep.DetailedStepName;
             DetailedStepText.Text = IDetailedStep.DetailedStepText;
 
-            if (IDetailedStep.ImagePath.Length > 0)
+            if (!String.IsNullOrEmpty(IDetailedStep.ImageFilename))
                 DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" + ResolveUrl(IDetailedStep.ImagePath) + "'>";
             else
                 DetailedStepImageCurrentLabel.Text = "";
