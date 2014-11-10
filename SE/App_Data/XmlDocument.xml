@@ -418,6 +418,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Categories.MainStepButtonNew">
+            <summary>
+            MainStepButtonNew control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Categories.ManageDetailedStepPanel">
             <summary>
             ManageDetailedStepPanel control.
@@ -511,6 +520,15 @@
         <member name="F:SE.Categories.EditDetailedStepButton">
             <summary>
             EditDetailedStepButton control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Categories.EditDetailedStepButtonNew">
+            <summary>
+            EditDetailedStepButtonNew control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -2427,33 +2445,6 @@
         <member name="F:SE.Dashboard.ValidationSummary">
             <summary>
             ValidationSummary control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.Dashboard.AssignedToContainer">
-            <summary>
-            AssignedToContainer control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.Dashboard.AssignedToLabel">
-            <summary>
-            AssignedToLabel control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.Dashboard.AssignedTo">
-            <summary>
-            AssignedTo control.
             </summary>
             <remarks>
             Auto-generated field.

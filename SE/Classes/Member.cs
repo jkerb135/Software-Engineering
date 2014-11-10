@@ -440,13 +440,13 @@ namespace SE.Classes
                     row["Username"] = "<a class='signalRUser' id= " + membership.UserName + " href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
                     userTable.Rows.Add(row);
                 }
-                if (userTable.Rows.Count == 0)
-                {
-                    DataRow row;
-                    row = userTable.NewRow();
-                    row["Username"] = "No other supervisors in the system";
-                    userTable.Rows.Add(row);
-                }
+            }
+            if (userTable.Rows.Count == 0)
+            {
+                DataRow row;
+                row = userTable.NewRow();
+                row["Username"] = "No other supervisors in the system";
+                userTable.Rows.Add(row);
             }
             return activeUsers;
         }
