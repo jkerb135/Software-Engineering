@@ -11,6 +11,8 @@
 
     <title>iPAWS Web App</title>
     <script src="<%=ResolveUrl("//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js") %>"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
     <script src="<%=ResolveUrl("signalr/hubs") %>"></script>
     <link rel="stylesheet" href="/StyleSheets/JQueryUI/themes/base/jquery.ui.all.css">
@@ -21,142 +23,7 @@
     <script src="/Scripts/ui/jquery.ui.resizable.js"></script>
     <link href="StyleSheets/ChatWindow.css" rel="stylesheet" />
     <script type="text/javascript">
-        var userActivity = $.connection.userActivityHub;
-        $(function () {
-            // Reference the auto-generated proxy for the hub.  
-            $(function () {
-                if (!sessionStorage.alreadyLoaded) {
-                    $.connection.hub.start().done(function () {
-                        userActivity.server.getOnlineUsers();
-                    });
-                    sessionStorage.alreadyLoaded == true;
-
-                    userActivity.client.showUsersOnLine = function (users) {
-                        var code = "";
-                        $("#userNames").html(code);
-                        for (var i = 0; i < users.length; i++) {
-                            var userId = '<%=Membership.GetUser().ToString()%>';
-                            var name = users[i].UserName;
-                            var id = users[i].ConnectionID;
-
-                            if (userId.toUpperCase() != name.toUpperCase()) {
-                                code = $('<div id="' + id + '" class="user-list-item" style="padding:10px;"><div class="profile-status online"></div><div class="content">' + name + '</div></div>');
-                                //code = $('<div id="' + id + '" class="user-list-item" >' + name + '<a>');
-                                $(code).click(function () {
-                                    var id = $(this).attr('id');
-                                    if (userId != id)
-                                        var idx = -1;
-                                    for (var i = 0; i < users.length; i++) {
-                                        if (users[i].ConnectionID == id) {
-                                            idx = i;
-                                        }
-                                    }
-                                    var sendTo = users[idx].UserName;
-                                    OpenPrivateChatWindow(userActivity, users[idx].ConnectionID, users[idx].UserName);
-
-                                });
-                            }
-                            $("#userNames").append(code);
-                        }
-                    };
-                }
-                userActivity.client.sendPrivateMessage = function (windowId, fromUserName, message) {
-                    console.log(windowId + " " + fromUserName + " " + message);
-                    var ctrId = 'private_' + windowId;
-
-                    if ($('#' + ctrId).length == 0) {
-
-                        createPrivateChatWindow(userActivity, windowId, ctrId, fromUserName);
-
-                    }
-                    $('#' + ctrId).find('.message-' + ctrId).append('<div class="chat-message"><div class="chat-gravatar-wrapper"><div class="chat-text-wrapper"><p>' + message + '</p></div></div>');
-
-                    // set scrollbar
-                    var height = $('#' + ctrId).find('.message-' + ctrId)[0].scrollHeight;
-                    $('#' + ctrId).find('.message-' + ctrId).scrollTop(height);
-
-                }
-
-                function OpenPrivateChatWindow(userActivity, id, userName) {
-
-                    var ctrId = 'private_' + id;
-
-                    if ($('#' + ctrId).length > 0) return;
-
-                    createPrivateChatWindow(userActivity, id, ctrId, userName);
-
-                }
-
-                function createPrivateChatWindow(userActivity, userId, ctrId, userName) {
-                    var nb = $('div.chat-window').length;
-                    var left = nb * 242 + 10;
-                    var div = '<div class="chat-window" id="' + ctrId + '" style="right: '+left+'px"><div class="chat-window-title"><div class="close"></div><div class="text">' + userName + '</div></div>';
-                    div += '<div class="chat-window-inner-content message-board pm-window" style="height: 235px;"><div class="messages-wrapper message-' + ctrId + '"  style="height:214px; word-wrap: break-word""></div>';
-                    div += '<div class="chat-window-text-box-wrapper"><textarea rows="1" class="chat-window-text-box id' + userId + '" id="txtPrivateMessage" style="overflow: hidden; word-wrap: break-word; resize: none; height: 21px;"></textarea>';
-                    div += '<input type="button" class="chat-window-text-box" id="btnSendMessage' + ctrId + '"/>';
-                    div += '</div></div></div></div>';
-                    var $div = $(div);
-                    $('#txtPrivateMessage').focus();
-                    // DELETE BUTTON IMAGE
-                    $div.find('.close').click(function () {
-                        $('#' + ctrId).remove();
-                    });
-
-                    $div.find("#btnSendMessage" + ctrId).click(function () {
-
-                        $textBox = $div.find("#txtPrivateMessage");
-                        var msg = $textBox.val();
-                        if (msg.length > 0) {
-
-                            userActivity.server.sendPrivateMessage(userId, msg);
-                            $textBox.val('');
-                        }
-                    });
-                    // Text Box event
-                    $div.find("textarea").keypress(function (e) {
-                        if (e.which == 13) {
-                            $div.find("#btnSendMessage" + ctrId).click();
-                        }
-                    });
-                    $div.on('click', '.chat-window-title', function () {
-                        $div.find('.chat-window-inner-content').slideToggle();
-                    });
-                    AddDivToContainer($div);
-
-                }
-                function AddDivToContainer($div) {
-                    $('#page-wrapper').prepend($div);
-
-                    /*$div.draggable({
-
-                        handle: ".header",
-                        stop: function () {
-
-                        }
-                    });*/
-                }
-
-            });
-
-            // Create a function that the hub can call back to display messages.
-            userActivity.client.showUsersOnLine = function (data) {
-
-            };
-
-            $.connection.hub.start();
-
-        });
-        $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {         
-            $.connection.hub.stop();
-            $.connection.hub.getOnlineUsers();
-        });
-        $(document).on('click', '#ProfilePicture', function () {
-            $("#ProfileUpload").click();
-            return false;
-        });
-        $(document).on('change', '#<%=ProfileUpload.ClientID%>', function () {
-            $(document).find('#<%=UploadFile.ClientID%>').click();
-        })
+        
     </script>
 
     <!-- Bootstrap Core CSS -->
@@ -472,7 +339,7 @@
 
 
             <div id="page-wrapper">
-            <div class="chat-window" style="right: 10px">
+            <!--<div class="chat-window" style="right: 10px">
                 <div class="chat-window-title userList">
                     <div class="text">Online</div>
                 </div>
@@ -480,7 +347,7 @@
                     <div class="chat-window-inner-content user-list" id="userNames">
                     </div>
                 </div>
-            </div>
+            </div>-->
                 
 
             <script>

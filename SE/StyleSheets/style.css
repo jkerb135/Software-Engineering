@@ -169,3 +169,9 @@ ul.ripple:hover li{
     margin-left: 20px;
     width:80%;
 }
+#contentWrapper{
+    margin:250px auto 0;
+}
+#addSupervisor{
+    display:none;
+}
