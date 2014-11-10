@@ -899,6 +899,16 @@ namespace SE
             mainStep.Items.Clear();
             mainStep.DataSource = MainStepListSource;
             mainStep.DataBind();
+
+            //Display the step number
+            int i = 1;
+
+            foreach (ListItem ms in mainStep.Items)
+            {
+                ms.Text = "Step " + i + ": " + ms.Text;
+                i++;
+            }
+
             if (mainStep.Items.Count == 0)
             {
                 ListItem li = new ListItem();
@@ -916,6 +926,16 @@ namespace SE
             detailedStep.Items.Clear();
             detailedStep.DataSource = DetailedStepListSource;
             detailedStep.DataBind();
+
+            //Display the step number
+            int i = 1;
+
+            foreach (ListItem ds in detailedStep.Items)
+            {
+                ds.Text = "Step " + i + ": " + ds.Text;
+                i++;
+            }
+
             if (detailedStep.Items.Count == 0)
             {
                 ListItem li = new ListItem();
