@@ -32,6 +32,7 @@ namespace SE
 
                     DashboardView.ActiveViewIndex = (int)DashView.Manager;
                     getAllUsers();
+                    BindSupervisors(AssignedTo);
                 }
             }
         }
@@ -67,6 +68,35 @@ namespace SE
 
         }
 
+        protected void CreateSuperVisorButton_Click(object sender, EventArgs e)
+        {
+            string ErrorMessage = "";
+
+            if (Member.ValidatePassword(Password.Text, ref ErrorMessage))
+            {
+                if (Membership.GetUser(UserName.Text) == null)
+                {
+                    // Add user to role
+
+                    // Assign the user to supervisor
+
+                    // Create User
+                    Membership.CreateUser(UserName.Text, Password.Text);
+                    MembershipUser NewMember = Membership.GetUser(UserName.Text);
+                    Roles.AddUserToRole(NewMember.UserName, "Supervisor");
+                    NewMember.Email = Email.Text;
+                    Membership.UpdateUser(NewMember);
+
+                }
+                else
+                {
+                    ErrorMessage = "Username already exists";
+                }
+            }
+
+            CreateUserErrorMessage.Text = ErrorMessage;
+        }
+
         protected void CreateUserButton_Click(object sender, EventArgs e)
         {
             string ErrorMessage = "";
@@ -82,6 +112,7 @@ namespace SE
                     // Create User
                     Membership.CreateUser(UserName.Text, Password.Text);
                     MembershipUser NewMember = Membership.GetUser(UserName.Text);
+                    Roles.AddUserToRole(NewMember.UserName, "User");
                     NewMember.Email = Email.Text;
                     Membership.UpdateUser(NewMember);
 
@@ -95,7 +126,6 @@ namespace SE
             CreateUserErrorMessage.Text = ErrorMessage;
         }
 
-        
 
         private void BindSupervisors(DropDownList drp)
         {
