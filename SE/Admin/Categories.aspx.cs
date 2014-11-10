@@ -194,6 +194,7 @@ namespace SE
         {
             IMainStep = (MainStep)ViewState["MainStep"];
             string Message = "";
+            Button btn = (Button)sender;
 
             ErrorMessage.Text = String.Empty;
 
@@ -259,23 +260,26 @@ namespace SE
                 {
                     MainStepName.Text = String.Empty;
                     MainStepText.Text = String.Empty;
-
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                    TaskPanel.Visible = false;
-                    ManageMainStepPanel.Visible = false;
-                    ManageDetailedStepPanel.Visible = false;
-
                     RefreshMainSteps();
+
+                    if (btn.Text != "+ Main Step")
+                    {
+                        ListBoxPanel.Visible = true;
+                        EditCategoryPanel.Visible = false;
+                        TaskPanel.Visible = false;
+                        ManageMainStepPanel.Visible = false;
+                        ManageDetailedStepPanel.Visible = false;
+                        header.Text = "Management Panel";
+                    }
                 }
             }
-            header.Text = "Management Panel";
             if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = mainIDX; };
         }
         protected void EditDetailedStepButton_Click(object sender, EventArgs e)
         {
             IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
             string Message = "";
+            Button btn = (Button)sender;
 
             ErrorMessage.Text = String.Empty;
 
@@ -325,17 +329,19 @@ namespace SE
                 {
                     DetailedStepName.Text = String.Empty;
                     DetailedStepText.Text = String.Empty;
-
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                    TaskPanel.Visible = false;
-                    ManageMainStepPanel.Visible = false;
-                    ManageDetailedStepPanel.Visible = false;
-
                     RefreshDetailedSteps();
+
+                    if (btn.Text != "+ Detailed Step")
+                    {  
+                        ListBoxPanel.Visible = true;
+                        EditCategoryPanel.Visible = false;
+                        TaskPanel.Visible = false;
+                        ManageMainStepPanel.Visible = false;
+                        ManageDetailedStepPanel.Visible = false;
+                        header.Text = "Management Panel";
+                    }
                 }
             }
-            header.Text = "Management Panel";
             if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = deatIDX; };
         }
         protected void AddNewCategory_Click(object sender, EventArgs e)
@@ -367,24 +373,23 @@ namespace SE
         }
         protected void AddNewMainStep_Click(object sender, EventArgs e)
         {
-
             ListBoxPanel.Visible = false;
 
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = true;
             ManageDetailedStepPanel.Visible = false;
+            MainStepButtonNew.Visible = true;
             header.Text = MainStepButton.Text = "Add New Main Step";
+            
         }
         protected void AddNewDetailedStep_Click(object sender, EventArgs e)
         {
-
-
-
             ListBoxPanel.Visible = false;
 
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = true;
+            EditDetailedStepButtonNew.Visible = true;
             header.Text = EditDetailedStepButton.Text = "Add New Detailed Step";
         }
         protected void UpdateCategory_Click(object sender, EventArgs e)
@@ -443,6 +448,7 @@ namespace SE
                 MainStepVideoCurrentLabel.Text = "";
 
             MainStepButton.Text = "Update Main Step";
+            MainStepButtonNew.Visible = false;
             header.Text = "Update Main Step: " + mainStep.SelectedItem.Text;
         }
         protected void UpdateDetailedStep_Click(object sender, EventArgs e)
@@ -462,6 +468,7 @@ namespace SE
                 DetailedStepImageCurrentLabel.Text = "";
 
             EditDetailedStepButton.Text = "Update Detailed Step";
+            EditDetailedStepButtonNew.Visible = false;
             header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text;
         }
         protected void DeleteCategoryButton_Click(object sender, EventArgs e)

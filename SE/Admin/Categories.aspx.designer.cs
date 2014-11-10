@@ -427,6 +427,15 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Button MainStepButton;
         
         /// <summary>
+        /// MainStepButtonNew control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button MainStepButtonNew;
+        
+        /// <summary>
         /// ManageDetailedStepPanel control.
         /// </summary>
         /// <remarks>
@@ -524,6 +533,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button EditDetailedStepButton;
+        
+        /// <summary>
+        /// EditDetailedStepButtonNew control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button EditDetailedStepButtonNew;
         
         /// <summary>
         /// ListBoxPanel control.
