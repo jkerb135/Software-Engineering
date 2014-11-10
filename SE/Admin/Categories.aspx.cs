@@ -200,7 +200,6 @@ namespace SE
 
             if (MainStepName.Text != String.Empty)
             {
-
                 IMainStep.MainStepName = MainStepName.Text;
                 IMainStep.MainStepText =
                     !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
@@ -210,10 +209,10 @@ namespace SE
 
                 if (Message == "")
                 {
-                    IMainStep.AudioFilename = 
-                        MainStepAudio != null ? MainStepAudio.FileName : null;
+                    IMainStep.AudioFilename =
+                        MainStepAudio.HasFile ? MainStepAudio.FileName : null;
                     IMainStep.AudioPath =
-                        MainStepAudio != null ? "~/Uploads/" + MainStepAudio.FileName : null;
+                        MainStepAudio.HasFile ? ("~/Uploads/" + MainStepAudio.FileName) : null;
                 }
                 else
                 {
@@ -226,9 +225,9 @@ namespace SE
                 if (Message == "")
                 {
                     IMainStep.VideoFilename =
-                        MainStepVideo != null ? MainStepVideo.FileName : null;
+                        MainStepVideo.HasFile ? MainStepVideo.FileName : null;
                     IMainStep.VideoPath =
-                        MainStepVideo != null ? "~/Uploads/" + MainStepVideo.FileName : null;
+                        MainStepVideo.HasFile ? ("~/Uploads/" + MainStepVideo.FileName) : null;
                 }
 
                 if (MainStepButton.Text == "Add New Main Step")
@@ -297,9 +296,9 @@ namespace SE
                 if (Message == "")
                 {
                     IDetailedStep.ImageFilename =
-                        DetailedStepImage != null ? DetailedStepImage.FileName : null;
+                        DetailedStepImage.HasFile ? DetailedStepImage.FileName : null;
                     IDetailedStep.ImagePath =
-                        DetailedStepImage != null ? "~/Uploads/" + DetailedStepImage.FileName : null;
+                        DetailedStepImage.HasFile ? ("~/Uploads/" + DetailedStepImage.FileName) : null;
                 }
 
                 if (EditDetailedStepButton.Text == "Add New Detailed Step")
