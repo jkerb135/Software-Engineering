@@ -170,8 +170,14 @@ ul.ripple:hover li{
     width:80%;
 }
 #contentWrapper{
-    margin:250px auto 0;
+    margin:230px auto 0;
+    z-index:1000;
+    
 }
 #addSupervisor{
     display:none;
+}
+.userManager {
+    z-index: 9999;
+
 }

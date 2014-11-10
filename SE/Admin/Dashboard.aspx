@@ -14,18 +14,19 @@
                     <div class="row">
                         <asp:UpdatePanel ID="ManageUserGrid" runat="server">
                             <ContentTemplate>
-                                <div class="col-xs-11" style="padding: 5px;">
-                                    <div class="panel panel-primary" style="position: fixed; top: 100px">
+                                <div class="col-xs-11 userManager" style="padding: 5px;">
+                                    <div class="panel panel-primary" style="position: fixed; top: 70px">
                                         <div class="panel-heading">
                                             <i class="fa fa-users fa-fw"></i>User Management
                                         </div>
                                         <div class="panel-body" style="height: 200px; overflow-y: scroll;">
-                                            <asp:GridView ID="allUsers" DataSourceID="allUsersSource" CssClass="table table-bordered table-striped" runat="server" AllowPaging="false" PageSize="3" AutoGenerateColumns="false" ShowHeader="true" GridLines="None">
+                                            <asp:GridView  ID="allUsers" DataSourceID="allUsersSource" CssClass="table table-bordered table-striped" runat="server" AllowPaging="false" AutoGenerateColumns="false" ShowHeader="true" GridLines="None">
                                                 <Columns>
-                                                    <asp:BoundField DataField="UserName" HeaderText="Users" ItemStyle-Width="10%"></asp:BoundField>
-                                                    <asp:BoundField DataField="AssignedSupervisor" HeaderText="Assigned Supervisor" ItemStyle-Width="10%"></asp:BoundField>
+                                                    <asp:BoundField DataField="UserName" HeaderText="Users" ItemStyle-Width="10%" ></asp:BoundField>
+                                                     <asp:BoundField DataField="RoleName" HeaderText="Role" ItemStyle-Width="10%"></asp:BoundField>
+                                                    <asp:BoundField DataField="AssignedSupervisor" HeaderText="Assigned Supervisor" ItemStyle-Width="10%" NullDisplayText="Not Assigned"></asp:BoundField>
                                                     <asp:BoundField DataField="Email" HeaderText="Email" ItemStyle-Width="10%"></asp:BoundField>
-                                                    <asp:BoundField DataField="LastActivityDate" HeaderText="Last Active Date" ItemStyle-Width="10%"></asp:BoundField>
+                                                    <asp:BoundField DataField="LastActivityDate" HeaderText="Last Active Date" ItemStyle-Width="10%" DataFormatString="{0:d}"></asp:BoundField>
                                                     <asp:BoundField DataField="IsApproved" HeaderText="Active" ItemStyle-Width="10%"></asp:BoundField>
                                                     <asp:BoundField DataField="IsLockedOut" HeaderText="Account Locked" ItemStyle-Width="10%"></asp:BoundField>
                                                 </Columns>
@@ -89,10 +90,6 @@
                                                         <asp:Literal ID="CreateUserErrorMessage" runat="server"></asp:Literal>
                                                         <asp:ValidationSummary ID="ValidationSummary" runat="server" ValidationGroup="CreateUserWizard" />
                                                     </div>
-                                                    <asp:Panel ID="AssignedToContainer" CssClass="form-group" runat="server">
-                                                        <asp:Label ID="AssignedToLabel" runat="server" Text="Assigned To"></asp:Label>
-                                                        <asp:DropDownList ID="AssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
-                                                    </asp:Panel>
                                                 </ContentTemplate>
                                             </asp:UpdatePanel>
                                             <div class="form-group">

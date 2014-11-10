@@ -23,7 +23,13 @@
     <script src="/Scripts/ui/jquery.ui.resizable.js"></script>
     <link href="StyleSheets/ChatWindow.css" rel="stylesheet" />
     <script type="text/javascript">
-        
+        $(document).on('click', '#ProfilePicture', function () {
+            $("#ProfileUpload").click();
+            return false;
+        });
+        $(document).on('change', '#<%=ProfileUpload.ClientID%>', function () {
+            $(document).find('#<%=UploadFile.ClientID%>').click();
+        })
     </script>
 
     <!-- Bootstrap Core CSS -->
