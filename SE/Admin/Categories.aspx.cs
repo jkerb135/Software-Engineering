@@ -482,12 +482,14 @@ namespace SE
                 Cat.IsActive = false;
                 DeleteCategory.Text = "Activate";
                 DeleteCategory.CssClass = "btn btn-success form-control";
+                SuccessMessage.Text = "Category has been deactivated";
             }
             else
             {
                 Cat.IsActive = true;
                 DeleteCategory.Text = "Deactivate";
                 DeleteCategory.CssClass = "btn btn-danger form-control";
+                SuccessMessage.Text = "Category has been activated";
             }
             catList.SelectedValue = value;
             BindCategories(catList);
@@ -501,12 +503,14 @@ namespace SE
                 ITask.IsActive = false;
                 IsActiveTask.Text = "Activate";
                 IsActiveTask.CssClass = "btn btn-success form-control";
+                SuccessMessage.Text = "Task has been deactivated";
             }
             else
             {
                 ITask.IsActive = true;
                 IsActiveTask.Text = "Deactivate";
                 IsActiveTask.CssClass = "btn btn-danger form-control";
+                SuccessMessage.Text = "Task has been activated";
             }
         }
         protected void DeleteMainStep_Click(object sender, EventArgs e)
