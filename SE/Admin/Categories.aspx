@@ -6,7 +6,9 @@
     <asp:UpdatePanel ID="CategoryContainer" runat="server">
         <Triggers>
             <asp:PostBackTrigger ControlID="MainStepButton" />
+            <asp:PostBackTrigger ControlID="MainStepButtonNew" />
             <asp:PostBackTrigger ControlID="EditDetailedStepButton" />
+            <asp:PostBackTrigger ControlID="EditDetailedStepButtonNew" />
         </Triggers>
         <ContentTemplate>
             <div class="row">
@@ -143,6 +145,8 @@
                                 <asp:Button ID="MainStepCancel" CssClass="btn btn-danger" runat="server" Text="Cancel" OnClick="ButtonCancel_Click" />
                                 <asp:Button ID="MainStepButton" runat="server" CausesValidation="true" ValidationGroup="CreateMainStep"
                                     CssClass="btn btn-success" Text="Submit" OnClick="EditMainStepButton_Click" />
+                                <asp:Button ID="MainStepButtonNew" runat="server" CausesValidation="true" ValidationGroup="CreateMainStep" 
+                                    CssClass="btn btn-primary" Text="+ Main Step" OnClick="EditMainStepButton_Click" />
                             </div>
                         </div>
                     </asp:Panel>
@@ -168,6 +172,8 @@
                                 CssClass="btn btn-danger" OnClick="ButtonCancel_Click" />
                             <asp:Button ID="EditDetailedStepButton" runat="server" CausesValidation="true" ValidationGroup="CreateDetailedStep"
                                 OnClick="EditDetailedStepButton_Click" CssClass="btn btn-success" Text="Submit" />
+                            <asp:Button ID="EditDetailedStepButtonNew" runat="server" CausesValidation="true" ValidationGroup="CreateDetailedStep" 
+                                CssClass="btn btn-primary" Text="+ Detailed Step" OnClick="EditDetailedStepButton_Click" />
                         </div>
                     </asp:Panel>
                     <asp:Panel ID="ListBoxPanel" runat="server">

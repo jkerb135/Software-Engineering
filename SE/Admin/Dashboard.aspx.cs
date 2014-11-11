@@ -32,6 +32,7 @@ namespace SE
 
                     DashboardView.ActiveViewIndex = (int)DashView.Manager;
                     getAllUsers();
+                    BindSupervisors(AssignedTo);
                 }
             }
         }
@@ -67,9 +68,13 @@ namespace SE
 
         }
 
+<<<<<<< HEAD
         protected void CreateSupervisorButton_Click(object sender, EventArgs e)
+=======
+        protected void CreateSuperVisorButton_Click(object sender, EventArgs e)
         {
             string ErrorMessage = "";
+
             if (Member.ValidatePassword(Password.Text, ref ErrorMessage))
             {
                 if (Membership.GetUser(UserName.Text) == null)
@@ -91,10 +96,42 @@ namespace SE
                     ErrorMessage = "Username already exists";
                 }
             }
+
             CreateUserErrorMessage.Text = ErrorMessage;
         }
 
-        
+        protected void CreateUserButton_Click(object sender, EventArgs e)
+>>>>>>> 87aeda0e422fc1d94415677ad98e28f3d1821f66
+        {
+            string ErrorMessage = "";
+            if (Member.ValidatePassword(Password.Text, ref ErrorMessage))
+            {
+                if (Membership.GetUser(UserName.Text) == null)
+                {
+                    // Add user to role
+
+                    // Assign the user to supervisor
+
+                    // Create User
+                    Membership.CreateUser(UserName.Text, Password.Text);
+                    MembershipUser NewMember = Membership.GetUser(UserName.Text);
+<<<<<<< HEAD
+                    Roles.AddUserToRole(NewMember.UserName, "Supervisor");
+=======
+                    Roles.AddUserToRole(NewMember.UserName, "User");
+>>>>>>> 87aeda0e422fc1d94415677ad98e28f3d1821f66
+                    NewMember.Email = Email.Text;
+                    Membership.UpdateUser(NewMember);
+
+                }
+                else
+                {
+                    ErrorMessage = "Username already exists";
+                }
+            }
+            CreateUserErrorMessage.Text = ErrorMessage;
+        }
+
 
         private void BindSupervisors(DropDownList drp)
         {

@@ -194,7 +194,6 @@
     <Content Include="Admin\Reports.aspx" />
     <Content Include="Admin\Users.aspx" />
     <Content Include="Admin\SignalR.aspx" />
-    <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="example.html" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -672,6 +671,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
+    <Folder Include="App_Data\" />
     <Folder Include="Scripts\js\" />
     <Folder Include="UserControls\" />
   </ItemGroup>

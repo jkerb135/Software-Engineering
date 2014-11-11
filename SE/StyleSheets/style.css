@@ -174,7 +174,7 @@ ul.ripple:hover li{
     z-index:1000;
     
 }
-#addSupervisor{
+#addSupervisor, #addUser{
     display:none;
 }
 .userManager {

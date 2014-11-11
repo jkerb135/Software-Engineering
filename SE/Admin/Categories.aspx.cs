@@ -194,40 +194,40 @@ namespace SE
         {
             IMainStep = (MainStep)ViewState["MainStep"];
             string Message = "";
+            Button btn = (Button)sender;
 
             ErrorMessage.Text = String.Empty;
 
             if (MainStepName.Text != String.Empty)
             {
-
                 IMainStep.MainStepName = MainStepName.Text;
                 IMainStep.MainStepText =
                     !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
 
                 if (MainStepAudio.HasFile)
-                {
                     Message = Methods.UploadFile(MainStepAudio, "Audio");
 
-                    if (Message == "")
-                    {
-                        IMainStep.AudioFilename = MainStepAudio.FileName;
-                        IMainStep.AudioPath = "~/Uploads/" + MainStepAudio.FileName;
-                    }
-                    else
-                    {
-                        Message += "<br/>";
-                    }
+                if (Message == "")
+                {
+                    IMainStep.AudioFilename =
+                        MainStepAudio.HasFile ? MainStepAudio.FileName : null;
+                    IMainStep.AudioPath =
+                        MainStepAudio.HasFile ? ("~/Uploads/" + MainStepAudio.FileName) : null;
+                }
+                else
+                {
+                    Message += "<br/>";
                 }
 
                 if (MainStepVideo.HasFile)
-                {
                     Message += Methods.UploadFile(MainStepVideo, "Video");
 
-                    if (Message == "")
-                    {
-                        IMainStep.VideoFilename = MainStepVideo.FileName;
-                        IMainStep.VideoPath = "~/Uploads/" + MainStepVideo.FileName;
-                    }
+                if (Message == "")
+                {
+                    IMainStep.VideoFilename =
+                        MainStepVideo.HasFile ? MainStepVideo.FileName : null;
+                    IMainStep.VideoPath =
+                        MainStepVideo.HasFile ? ("~/Uploads/" + MainStepVideo.FileName) : null;
                 }
 
                 if (MainStepButton.Text == "Add New Main Step")
@@ -259,23 +259,28 @@ namespace SE
                 {
                     MainStepName.Text = String.Empty;
                     MainStepText.Text = String.Empty;
-
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                    TaskPanel.Visible = false;
-                    ManageMainStepPanel.Visible = false;
-                    ManageDetailedStepPanel.Visible = false;
-
+                    MainStepAudio = null;
+                    MainStepVideo = null;
                     RefreshMainSteps();
+
+                    if (btn.Text != "+ Main Step")
+                    {
+                        ListBoxPanel.Visible = true;
+                        EditCategoryPanel.Visible = false;
+                        TaskPanel.Visible = false;
+                        ManageMainStepPanel.Visible = false;
+                        ManageDetailedStepPanel.Visible = false;
+                        header.Text = "Management Panel";
+                    }
                 }
             }
-            header.Text = "Management Panel";
             if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = mainIDX; };
         }
         protected void EditDetailedStepButton_Click(object sender, EventArgs e)
         {
             IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
             string Message = "";
+            Button btn = (Button)sender;
 
             ErrorMessage.Text = String.Empty;
 
@@ -286,14 +291,14 @@ namespace SE
                     !String.IsNullOrEmpty(DetailedStepText.Text) ? DetailedStepText.Text : null;
 
                 if (DetailedStepImage.HasFile)
-                {
                     Message = Methods.UploadFile(DetailedStepImage, "Image");
 
-                    if (Message == "")
-                    {
-                        IDetailedStep.ImageFilename = DetailedStepImage.FileName;
-                        IDetailedStep.ImagePath = "~/Uploads/" + DetailedStepImage.FileName;
-                    }
+                if (Message == "")
+                {
+                    IDetailedStep.ImageFilename =
+                        DetailedStepImage.HasFile ? DetailedStepImage.FileName : null;
+                    IDetailedStep.ImagePath =
+                        DetailedStepImage.HasFile ? ("~/Uploads/" + DetailedStepImage.FileName) : null;
                 }
 
                 if (EditDetailedStepButton.Text == "Add New Detailed Step")
@@ -325,17 +330,20 @@ namespace SE
                 {
                     DetailedStepName.Text = String.Empty;
                     DetailedStepText.Text = String.Empty;
-
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                    TaskPanel.Visible = false;
-                    ManageMainStepPanel.Visible = false;
-                    ManageDetailedStepPanel.Visible = false;
-
+                    DetailedStepImage = null;
                     RefreshDetailedSteps();
+
+                    if (btn.Text != "+ Detailed Step")
+                    {  
+                        ListBoxPanel.Visible = true;
+                        EditCategoryPanel.Visible = false;
+                        TaskPanel.Visible = false;
+                        ManageMainStepPanel.Visible = false;
+                        ManageDetailedStepPanel.Visible = false;
+                        header.Text = "Management Panel";
+                    }
                 }
             }
-            header.Text = "Management Panel";
             if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = deatIDX; };
         }
         protected void AddNewCategory_Click(object sender, EventArgs e)
@@ -367,24 +375,23 @@ namespace SE
         }
         protected void AddNewMainStep_Click(object sender, EventArgs e)
         {
-
             ListBoxPanel.Visible = false;
 
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = true;
             ManageDetailedStepPanel.Visible = false;
+            MainStepButtonNew.Visible = true;
             header.Text = MainStepButton.Text = "Add New Main Step";
+            
         }
         protected void AddNewDetailedStep_Click(object sender, EventArgs e)
         {
-
-
-
             ListBoxPanel.Visible = false;
 
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = true;
+            EditDetailedStepButtonNew.Visible = true;
             header.Text = EditDetailedStepButton.Text = "Add New Detailed Step";
         }
         protected void UpdateCategory_Click(object sender, EventArgs e)
@@ -432,17 +439,18 @@ namespace SE
             MainStepName.Text = IMainStep.MainStepName;
             MainStepText.Text = IMainStep.MainStepText;
 
-            if (IMainStep.AudioPath.Length > 0)
+            if (!String.IsNullOrEmpty(IMainStep.AudioFilename))
                 MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(IMainStep.AudioPath) + "'></audio>";
             else
                 MainStepAudioCurrentLabel.Text = "";
 
-            if (IMainStep.VideoPath.Length > 0)
+            if (!String.IsNullOrEmpty(IMainStep.VideoFilename))
                 MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(IMainStep.VideoPath) + "'></video>";
             else
                 MainStepVideoCurrentLabel.Text = "";
 
             MainStepButton.Text = "Update Main Step";
+            MainStepButtonNew.Visible = false;
             header.Text = "Update Main Step: " + mainStep.SelectedItem.Text;
         }
         protected void UpdateDetailedStep_Click(object sender, EventArgs e)
@@ -456,12 +464,13 @@ namespace SE
             DetailedStepName.Text = IDetailedStep.DetailedStepName;
             DetailedStepText.Text = IDetailedStep.DetailedStepText;
 
-            if (IDetailedStep.ImagePath.Length > 0)
+            if (!String.IsNullOrEmpty(IDetailedStep.ImageFilename))
                 DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" + ResolveUrl(IDetailedStep.ImagePath) + "'>";
             else
                 DetailedStepImageCurrentLabel.Text = "";
 
             EditDetailedStepButton.Text = "Update Detailed Step";
+            EditDetailedStepButtonNew.Visible = false;
             header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text;
         }
         protected void DeleteCategoryButton_Click(object sender, EventArgs e)
@@ -473,12 +482,14 @@ namespace SE
                 Cat.IsActive = false;
                 DeleteCategory.Text = "Activate";
                 DeleteCategory.CssClass = "btn btn-success form-control";
+                SuccessMessage.Text = "Category has been deactivated";
             }
             else
             {
                 Cat.IsActive = true;
                 DeleteCategory.Text = "Deactivate";
                 DeleteCategory.CssClass = "btn btn-danger form-control";
+                SuccessMessage.Text = "Category has been activated";
             }
             catList.SelectedValue = value;
             BindCategories(catList);
@@ -492,12 +503,14 @@ namespace SE
                 ITask.IsActive = false;
                 IsActiveTask.Text = "Activate";
                 IsActiveTask.CssClass = "btn btn-success form-control";
+                SuccessMessage.Text = "Task has been deactivated";
             }
             else
             {
                 ITask.IsActive = true;
                 IsActiveTask.Text = "Deactivate";
                 IsActiveTask.CssClass = "btn btn-danger form-control";
+                SuccessMessage.Text = "Task has been activated";
             }
         }
         protected void DeleteMainStep_Click(object sender, EventArgs e)
@@ -890,6 +903,16 @@ namespace SE
             mainStep.Items.Clear();
             mainStep.DataSource = MainStepListSource;
             mainStep.DataBind();
+
+            //Display the step number
+            int i = 1;
+
+            foreach (ListItem ms in mainStep.Items)
+            {
+                ms.Text = "Step " + i + ": " + ms.Text;
+                i++;
+            }
+
             if (mainStep.Items.Count == 0)
             {
                 ListItem li = new ListItem();
@@ -907,6 +930,16 @@ namespace SE
             detailedStep.Items.Clear();
             detailedStep.DataSource = DetailedStepListSource;
             detailedStep.DataBind();
+
+            //Display the step number
+            int i = 1;
+
+            foreach (ListItem ds in detailedStep.Items)
+            {
+                ds.Text = "Step " + i + ": " + ds.Text;
+                i++;
+            }
+
             if (detailedStep.Items.Count == 0)
             {
                 ListItem li = new ListItem();

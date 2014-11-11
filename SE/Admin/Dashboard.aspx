@@ -20,10 +20,10 @@
                                             <i class="fa fa-users fa-fw"></i>User Management
                                         </div>
                                         <div class="panel-body" style="height: 200px; overflow-y: scroll;">
-                                            <asp:GridView  ID="allUsers" DataSourceID="allUsersSource" CssClass="table table-bordered table-striped" runat="server" AllowPaging="false" AutoGenerateColumns="false" ShowHeader="true" GridLines="None">
+                                            <asp:GridView ID="allUsers" DataSourceID="allUsersSource" CssClass="table table-bordered table-striped" runat="server" AllowPaging="false" AutoGenerateColumns="false" ShowHeader="true" GridLines="None">
                                                 <Columns>
-                                                    <asp:BoundField DataField="UserName" HeaderText="Users" ItemStyle-Width="10%" ></asp:BoundField>
-                                                     <asp:BoundField DataField="RoleName" HeaderText="Role" ItemStyle-Width="10%"></asp:BoundField>
+                                                    <asp:BoundField DataField="UserName" HeaderText="Users" ItemStyle-Width="10%"></asp:BoundField>
+                                                    <asp:BoundField DataField="RoleName" HeaderText="Role" ItemStyle-Width="10%"></asp:BoundField>
                                                     <asp:BoundField DataField="AssignedSupervisor" HeaderText="Assigned Supervisor" ItemStyle-Width="10%" NullDisplayText="Not Assigned"></asp:BoundField>
                                                     <asp:BoundField DataField="Email" HeaderText="Email" ItemStyle-Width="10%"></asp:BoundField>
                                                     <asp:BoundField DataField="LastActivityDate" HeaderText="Last Active Date" ItemStyle-Width="10%" DataFormatString="{0:d}"></asp:BoundField>
@@ -81,6 +81,57 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div id="addUser">
+                                        <div class="col-md-6 col-xs-12">
+                                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                                <ContentTemplate>
+                                                    <div class="error-messages form-group">
+                                                        <asp:Literal ID="Literal1" runat="server"></asp:Literal>
+                                                        <asp:ValidationSummary ID="ValidationSummary1" runat="server" ValidationGroup="CreateUserWizard" />
+                                                    </div>
+                                                    <asp:Panel ID="AssignedToContainer" CssClass="form-group" runat="server">
+                                                        <asp:Label ID="AssignedToLabel" runat="server" Text="Assigned To"></asp:Label>
+                                                        <asp:DropDownList ID="AssignedTo" CssClass="form-control" runat="server"></asp:DropDownList>
+                                                    </asp:Panel>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
+                                            <div class="form-group">
+                                                <asp:Label ID="Label1" runat="server" Text="Username"></asp:Label>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="UserName"
+                                                    ErrorMessage="Username is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="TextBox1" CssClass="form-control" runat="server"></asp:TextBox>
+                                            </div>
+                                            <div class="form-group">
+                                                <asp:Label ID="Label3" runat="server" Text="Password"></asp:Label>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="Password"
+                                                    ErrorMessage="Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                                <asp:CompareValidator ID="CompareValidator1" ControlToValidate="Password" Display="None"
+                                                    ControlToCompare="ConfirmPassword" runat="server" ErrorMessage="Passwords must match."
+                                                    ValidationGroup="CreateUserWizard"></asp:CompareValidator>
+                                                <asp:TextBox ID="TextBox2" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
+                                            </div>
+                                            <div class="form-group">
+                                                <asp:Label ID="Label4" runat="server" Text="Confirm Password"></asp:Label>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="ConfirmPassword"
+                                                    ErrorMessage="Confirm Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                                <asp:TextBox ID="TextBox3" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
+                                            </div>
+                                            <div class="form-group">
+                                                <asp:Label ID="Label5" runat="server" Text="Email"></asp:Label>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ControlToValidate="Email"
+                                                    ErrorMessage="Email is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                                <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server"
+                                                    ControlToValidate="Email" ErrorMessage="E-mail address must be in a valid format" Display="None"
+                                                    ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="CreateUserWizard">
+                                                </asp:RegularExpressionValidator>
+                                                <asp:TextBox ID="TextBox4" CssClass="form-control" runat="server"></asp:TextBox>
+                                            </div>
+                                            <asp:Button ID="Button1" CssClass="btn btn-default right" runat="server"
+                                                ValidationGroup="CreateUserWizard" CausesValidation="true" Text="Submit"
+                                                OnClick="CreateUserButton_Click" />
+                                        </div>
+
                                     </div>
                                     <div id="addSupervisor">
                                         <div class="col-md-6 col-xs-12">

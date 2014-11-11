@@ -440,11 +440,19 @@ namespace SE.Classes
                     userTable.Rows.Add(row);
                 }
             }
+<<<<<<< HEAD
             if (userTable.Columns.Count == 1)
             {
                 DataRow row;
                 row = userTable.NewRow();
                 row["Username"] = "No other supervisors in the system.";
+=======
+            if (userTable.Rows.Count == 0)
+            {
+                DataRow row;
+                row = userTable.NewRow();
+                row["Username"] = "No other supervisors in the system";
+>>>>>>> 87aeda0e422fc1d94415677ad98e28f3d1821f66
                 userTable.Rows.Add(row);
             }
             return activeUsers;
