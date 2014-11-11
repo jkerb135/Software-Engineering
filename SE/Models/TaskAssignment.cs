@@ -14,8 +14,12 @@ namespace SE.Models
     
     public partial class TaskAssignment
     {
+        public int CategoryID { get; set; }
         public int TaskID { get; set; }
         public string AssignedUser { get; set; }
-        public Nullable<int> CategoryID { get; set; }
+    
+        public virtual Category Category { get; set; }
+        public virtual MemberAssignment MemberAssignment { get; set; }
+        public virtual Task Task { get; set; }
     }
 }

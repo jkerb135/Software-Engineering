@@ -99,7 +99,8 @@ namespace SE.Classes
                     userTable.Rows.Add(row);
                 }
             }
-            if (userTable.Rows.Count == 0){
+            if (userTable.Rows.Count == 0)
+            {
                 DataRow row = userTable.NewRow();
                 row["Username"] = "No Users Online";
                 userTable.Rows.Add(row);
@@ -179,8 +180,8 @@ namespace SE.Classes
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@user", User);
-                
-                if(!String.IsNullOrEmpty(Supervisor))
+
+                if (!String.IsNullOrEmpty(Supervisor))
                     cmd.Parameters.AddWithValue("@supervisor", Supervisor);
                 else
                     cmd.Parameters.AddWithValue("@supervisor", DBNull.Value);
@@ -440,20 +441,17 @@ namespace SE.Classes
                     userTable.Rows.Add(row);
                 }
             }
-<<<<<<< HEAD
             if (userTable.Columns.Count == 1)
             {
                 DataRow row;
                 row = userTable.NewRow();
                 row["Username"] = "No other supervisors in the system.";
-=======
-            if (userTable.Rows.Count == 0)
-            {
-                DataRow row;
-                row = userTable.NewRow();
-                row["Username"] = "No other supervisors in the system";
->>>>>>> 87aeda0e422fc1d94415677ad98e28f3d1821f66
-                userTable.Rows.Add(row);
+                if (userTable.Rows.Count == 0)
+                {
+                    row = userTable.NewRow();
+                    row["Username"] = "No other supervisors in the system";
+                    userTable.Rows.Add(row);
+                }
             }
             return activeUsers;
         }

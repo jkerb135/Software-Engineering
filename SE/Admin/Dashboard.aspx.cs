@@ -67,11 +67,7 @@ namespace SE
             signededIn.HeaderRow.TableSection = TableRowSection.TableHeader;
 
         }
-
-<<<<<<< HEAD
         protected void CreateSupervisorButton_Click(object sender, EventArgs e)
-=======
-        protected void CreateSuperVisorButton_Click(object sender, EventArgs e)
         {
             string ErrorMessage = "";
 
@@ -101,7 +97,6 @@ namespace SE
         }
 
         protected void CreateUserButton_Click(object sender, EventArgs e)
->>>>>>> 87aeda0e422fc1d94415677ad98e28f3d1821f66
         {
             string ErrorMessage = "";
             if (Member.ValidatePassword(Password.Text, ref ErrorMessage))
@@ -115,11 +110,8 @@ namespace SE
                     // Create User
                     Membership.CreateUser(UserName.Text, Password.Text);
                     MembershipUser NewMember = Membership.GetUser(UserName.Text);
-<<<<<<< HEAD
                     Roles.AddUserToRole(NewMember.UserName, "Supervisor");
-=======
                     Roles.AddUserToRole(NewMember.UserName, "User");
->>>>>>> 87aeda0e422fc1d94415677ad98e28f3d1821f66
                     NewMember.Email = Email.Text;
                     Membership.UpdateUser(NewMember);
 

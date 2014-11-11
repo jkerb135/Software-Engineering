@@ -25,7 +25,7 @@ namespace SE.Models
         public string LoweredPath { get; set; }
     
         public virtual aspnet_Applications aspnet_Applications { get; set; }
-        public virtual aspnet_PersonalizationAllUsers aspnet_PersonalizationAllUsers { get; set; }
         public virtual ICollection<aspnet_PersonalizationPerUser> aspnet_PersonalizationPerUser { get; set; }
+        public virtual aspnet_PersonalizationAllUsers aspnet_PersonalizationAllUsers { get; set; }
     }
 }

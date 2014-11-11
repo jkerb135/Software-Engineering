@@ -26,6 +26,7 @@ namespace SE.Admin
             {
                 YourInfo.Visible = false;
                 OtherInfo.Visible = true;
+                profileHeader.Text = "Request from " + Request.QueryString["userName"];
             }
             else
             {

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="WebApiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="iPawsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="aspnet_Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -65,6 +65,16 @@
           <Property Name="PathId" Type="uniqueidentifier" />
           <Property Name="UserId" Type="uniqueidentifier" />
           <Property Name="PageSettings" Type="image" Nullable="false" />
+          <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="aspnet_Profile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PropertyNames" Type="ntext" Nullable="false" />
+          <Property Name="PropertyValuesString" Type="ntext" Nullable="false" />
+          <Property Name="PropertyValuesBinary" Type="image" Nullable="false" />
           <Property Name="LastUpdatedDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="aspnet_Roles">
@@ -133,7 +143,8 @@
           <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CategoryName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="CreatedTime" Type="smalldatetime" />
+          <Property Name="CreatedTime" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CategoryAssignments">
           <Key>
@@ -143,9 +154,16 @@
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dpt_se.dbo.CompletedMainSteps' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CompletedMainSteps">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="MainStepID" />
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="MainStepName" />
+            <PropertyRef Name="AssignedUser" />
+            <PropertyRef Name="DateTimeComplete" />
+            <PropertyRef Name="TotalTime" />
           </Key>
           <Property Name="MainStepID" Type="int" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
@@ -153,18 +171,22 @@
           <Property Name="AssignedUser" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="DateTimeComplete" Type="datetime" Nullable="false" />
           <Property Name="TotalTime" Type="float" Nullable="false" />
-          <Property Name="id" Type="int" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'dpt_se.dbo.CompletedTasks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="CompletedTasks">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="TaskName" />
+            <PropertyRef Name="AssignedUser" />
+            <PropertyRef Name="DateTimeCompleted" />
+            <PropertyRef Name="TotalTime" />
           </Key>
           <Property Name="TaskID" Type="int" Nullable="false" />
           <Property Name="TaskName" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="AssignedUser" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="DateTimeCompleted" Type="datetime" Nullable="false" />
           <Property Name="TotalTime" Type="float" Nullable="false" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="DetailedSteps">
           <Key>
@@ -200,7 +222,7 @@
             <PropertyRef Name="AssignedUser" />
           </Key>
           <Property Name="AssignedUser" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="AssignedSupervisor" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="AssignedSupervisor" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Profiles">
           <Key>
@@ -221,16 +243,18 @@ warning 6002: The table/view 'dpt_se.dbo.RequestedCategories' does not have a pr
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="IsApproved" Type="bit" Nullable="false" />
           <Property Name="RequestingUser" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Owner" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="TaskAssignments">
           <Key>
+            <PropertyRef Name="CategoryID" />
             <PropertyRef Name="TaskID" />
           </Key>
+          <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
-          <Property Name="AssignedUser" Type="nvarchar" MaxLength="255" />
-          <Property Name="CategoryID" Type="int" />
+          <Property Name="AssignedUser" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Tasks">
           <Key>
@@ -245,16 +269,16 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="Users">
+        <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserName" />
           </Key>
-          <Property Name="UserName" Type="nvarchar" MaxLength="226" Nullable="false" />
-          <Property Name="ConnectionID" Type="nvarchar" MaxLength="226" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="ConnectionID" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="Connected" Type="bit" Nullable="false" />
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <Association Name="FK__aspnet_Me__Appli__02084FDA">
+        <Association Name="FK__aspnet_Me__Appli__075714DC">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="*" />
           <ReferentialConstraint>
@@ -266,7 +290,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Me__UserI__02FC7413">
+        <Association Name="FK__aspnet_Me__UserI__084B3915">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
           <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -278,7 +302,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pa__Appli__7D439ABD">
+        <Association Name="FK__aspnet_Pa__Appli__02925FBF">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="*" />
           <ReferentialConstraint>
@@ -290,19 +314,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pe__PathI__03F0984C">
-          <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="1" />
-          <End Role="aspnet_PersonalizationAllUsers" Type="Self.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Paths">
-              <PropertyRef Name="PathId" />
-            </Principal>
-            <Dependent Role="aspnet_PersonalizationAllUsers">
-              <PropertyRef Name="PathId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__aspnet_Pe__PathI__7F2BE32F">
+        <Association Name="FK__aspnet_Pe__PathI__047AA831">
           <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="0..1" />
           <End Role="aspnet_PersonalizationPerUser" Type="Self.aspnet_PersonalizationPerUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -314,7 +326,19 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pe__UserI__00200768">
+        <Association Name="FK__aspnet_Pe__PathI__093F5D4E">
+          <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="1" />
+          <End Role="aspnet_PersonalizationAllUsers" Type="Self.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Paths">
+              <PropertyRef Name="PathId" />
+            </Principal>
+            <Dependent Role="aspnet_PersonalizationAllUsers">
+              <PropertyRef Name="PathId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__aspnet_Pe__UserI__056ECC6A">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
           <End Role="aspnet_PersonalizationPerUser" Type="Self.aspnet_PersonalizationPerUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -326,7 +350,19 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Ro__Appli__7E37BEF6">
+        <Association Name="FK__aspnet_Pr__UserI__0662F0A3">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
+          <End Role="aspnet_Profile" Type="Self.aspnet_Profile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="aspnet_Profile">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__aspnet_Ro__Appli__038683F8">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Roles" Type="Self.aspnet_Roles" Multiplicity="*" />
           <ReferentialConstraint>
@@ -338,7 +374,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Us__Appli__7C4F7684">
+        <Association Name="FK__aspnet_Us__Appli__019E3B86">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="*" />
           <ReferentialConstraint>
@@ -350,7 +386,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Us__RoleI__04E4BC85">
+        <Association Name="FK__aspnet_Us__RoleI__0A338187">
           <End Role="aspnet_Roles" Type="Self.aspnet_Roles" Multiplicity="1" />
           <End Role="aspnet_UsersInRoles" Type="Self.aspnet_UsersInRoles" Multiplicity="*" />
           <ReferentialConstraint>
@@ -362,7 +398,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Us__UserI__05D8E0BE">
+        <Association Name="FK__aspnet_Us__UserI__0B27A5C0">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
           <End Role="aspnet_UsersInRoles" Type="Self.aspnet_UsersInRoles" Multiplicity="*" />
           <ReferentialConstraint>
@@ -504,6 +540,42 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_TaskAssignments_Categories">
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
+          <End Role="TaskAssignments" Type="Self.TaskAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="TaskAssignments">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskAssignments_MemberAssignments">
+          <End Role="MemberAssignments" Type="Self.MemberAssignments" Multiplicity="0..1" />
+          <End Role="TaskAssignments" Type="Self.TaskAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberAssignments">
+              <PropertyRef Name="AssignedUser" />
+            </Principal>
+            <Dependent Role="TaskAssignments">
+              <PropertyRef Name="AssignedUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskAssignments_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="TaskAssignments" Type="Self.TaskAssignments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="TaskAssignments">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_Categories">
           <End Role="Categories" Type="Self.Categories" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -530,12 +602,13 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="WebApiModelStoreContainer">
+        <EntityContainer Name="iPawsModelStoreContainer">
           <EntitySet Name="aspnet_Applications" EntityType="Self.aspnet_Applications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Membership" EntityType="Self.aspnet_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Paths" EntityType="Self.aspnet_Paths" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_PersonalizationAllUsers" EntityType="Self.aspnet_PersonalizationAllUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_PersonalizationPerUser" EntityType="Self.aspnet_PersonalizationPerUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="aspnet_Profile" EntityType="Self.aspnet_Profile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Roles" EntityType="Self.aspnet_Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
@@ -543,65 +616,87 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <EntitySet Name="aspnet_WebEvent_Events" EntityType="Self.aspnet_WebEvent_Events" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CategoryAssignments" EntityType="Self.CategoryAssignments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CompletedMainSteps" EntityType="Self.CompletedMainSteps" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CompletedTasks" EntityType="Self.CompletedTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailedSteps" EntityType="Self.DetailedSteps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MainSteps" EntityType="Self.MainSteps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberAssignments" EntityType="Self.MemberAssignments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profiles" EntityType="Self.Profiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CompletedMainSteps" EntityType="Self.CompletedMainSteps" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CompletedMainSteps].[MainStepID] AS [MainStepID], 
+    [CompletedMainSteps].[TaskID] AS [TaskID], 
+    [CompletedMainSteps].[MainStepName] AS [MainStepName], 
+    [CompletedMainSteps].[AssignedUser] AS [AssignedUser], 
+    [CompletedMainSteps].[DateTimeComplete] AS [DateTimeComplete], 
+    [CompletedMainSteps].[TotalTime] AS [TotalTime]
+    FROM [dbo].[CompletedMainSteps] AS [CompletedMainSteps]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CompletedTasks" EntityType="Self.CompletedTasks" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [CompletedTasks].[TaskID] AS [TaskID], 
+    [CompletedTasks].[TaskName] AS [TaskName], 
+    [CompletedTasks].[AssignedUser] AS [AssignedUser], 
+    [CompletedTasks].[DateTimeCompleted] AS [DateTimeCompleted], 
+    [CompletedTasks].[TotalTime] AS [TotalTime]
+    FROM [dbo].[CompletedTasks] AS [CompletedTasks]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="RequestedCategories" EntityType="Self.RequestedCategories" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [RequestedCategories].[CategoryID] AS [CategoryID], 
     [RequestedCategories].[IsApproved] AS [IsApproved], 
-    [RequestedCategories].[RequestingUser] AS [RequestingUser]
+    [RequestedCategories].[RequestingUser] AS [RequestingUser], 
+    [RequestedCategories].[Owner] AS [Owner]
     FROM [dbo].[RequestedCategories] AS [RequestedCategories]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="TaskAssignments" EntityType="Self.TaskAssignments" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [TaskAssignments].[CategoryID] AS [CategoryID], 
     [TaskAssignments].[TaskID] AS [TaskID], 
-    [TaskAssignments].[AssignedUser] AS [AssignedUser], 
-    [TaskAssignments].[CategoryID] AS [CategoryID]
+    [TaskAssignments].[AssignedUser] AS [AssignedUser]
     FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           </EntitySet>
-          <AssociationSet Name="FK__aspnet_Me__Appli__02084FDA" Association="Self.FK__aspnet_Me__Appli__02084FDA">
+          <AssociationSet Name="FK__aspnet_Me__Appli__075714DC" Association="Self.FK__aspnet_Me__Appli__075714DC">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Me__UserI__02FC7413" Association="Self.FK__aspnet_Me__UserI__02FC7413">
+          <AssociationSet Name="FK__aspnet_Me__UserI__084B3915" Association="Self.FK__aspnet_Me__UserI__084B3915">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pa__Appli__7D439ABD" Association="Self.FK__aspnet_Pa__Appli__7D439ABD">
+          <AssociationSet Name="FK__aspnet_Pa__Appli__02925FBF" Association="Self.FK__aspnet_Pa__Appli__02925FBF">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__03F0984C" Association="Self.FK__aspnet_Pe__PathI__03F0984C">
+          <AssociationSet Name="FK__aspnet_Pe__PathI__047AA831" Association="Self.FK__aspnet_Pe__PathI__047AA831">
+            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+            <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pe__PathI__093F5D4E" Association="Self.FK__aspnet_Pe__PathI__093F5D4E">
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
             <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__7F2BE32F" Association="Self.FK__aspnet_Pe__PathI__7F2BE32F">
-            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
-            <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__UserI__00200768" Association="Self.FK__aspnet_Pe__UserI__00200768">
+          <AssociationSet Name="FK__aspnet_Pe__UserI__056ECC6A" Association="Self.FK__aspnet_Pe__UserI__056ECC6A">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Ro__Appli__7E37BEF6" Association="Self.FK__aspnet_Ro__Appli__7E37BEF6">
+          <AssociationSet Name="FK__aspnet_Pr__UserI__0662F0A3" Association="Self.FK__aspnet_Pr__UserI__0662F0A3">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Ro__Appli__038683F8" Association="Self.FK__aspnet_Ro__Appli__038683F8">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__Appli__7C4F7684" Association="Self.FK__aspnet_Us__Appli__7C4F7684">
+          <AssociationSet Name="FK__aspnet_Us__Appli__019E3B86" Association="Self.FK__aspnet_Us__Appli__019E3B86">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__RoleI__04E4BC85" Association="Self.FK__aspnet_Us__RoleI__04E4BC85">
+          <AssociationSet Name="FK__aspnet_Us__RoleI__0A338187" Association="Self.FK__aspnet_Us__RoleI__0A338187">
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__UserI__05D8E0BE" Association="Self.FK__aspnet_Us__UserI__05D8E0BE">
+          <AssociationSet Name="FK__aspnet_Us__UserI__0B27A5C0" Association="Self.FK__aspnet_Us__UserI__0B27A5C0">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
           </AssociationSet>
@@ -645,6 +740,18 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             <End Role="Categories" EntitySet="Categories" />
             <End Role="RequestedCategories" EntitySet="RequestedCategories" />
           </AssociationSet>
+          <AssociationSet Name="FK_TaskAssignments_Categories" Association="Self.FK_TaskAssignments_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="TaskAssignments" EntitySet="TaskAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskAssignments_MemberAssignments" Association="Self.FK_TaskAssignments_MemberAssignments">
+            <End Role="MemberAssignments" EntitySet="MemberAssignments" />
+            <End Role="TaskAssignments" EntitySet="TaskAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskAssignments_Tasks" Association="Self.FK_TaskAssignments_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TaskAssignments" EntitySet="TaskAssignments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tasks_Categories" Association="Self.FK_Tasks_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -657,7 +764,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="WebApiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="iPawsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="aspnet_Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -666,10 +773,10 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="LoweredApplicationName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ApplicationId" Type="Guid" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="aspnet_Membership" Relationship="Self.FK__aspnet_Me__Appli__02084FDA" FromRole="aspnet_Applications" ToRole="aspnet_Membership" />
-          <NavigationProperty Name="aspnet_Paths" Relationship="Self.FK__aspnet_Pa__Appli__7D439ABD" FromRole="aspnet_Applications" ToRole="aspnet_Paths" />
-          <NavigationProperty Name="aspnet_Roles" Relationship="Self.FK__aspnet_Ro__Appli__7E37BEF6" FromRole="aspnet_Applications" ToRole="aspnet_Roles" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK__aspnet_Us__Appli__7C4F7684" FromRole="aspnet_Applications" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Membership" Relationship="Self.FK__aspnet_Me__Appli__075714DC" FromRole="aspnet_Applications" ToRole="aspnet_Membership" />
+          <NavigationProperty Name="aspnet_Paths" Relationship="Self.FK__aspnet_Pa__Appli__02925FBF" FromRole="aspnet_Applications" ToRole="aspnet_Paths" />
+          <NavigationProperty Name="aspnet_Roles" Relationship="Self.FK__aspnet_Ro__Appli__038683F8" FromRole="aspnet_Applications" ToRole="aspnet_Roles" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK__aspnet_Us__Appli__019E3B86" FromRole="aspnet_Applications" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Membership">
           <Key>
@@ -696,8 +803,8 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="FailedPasswordAnswerAttemptCount" Type="Int32" Nullable="false" />
           <Property Name="FailedPasswordAnswerAttemptWindowStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="Self.FK__aspnet_Me__Appli__02084FDA" FromRole="aspnet_Membership" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK__aspnet_Me__UserI__02FC7413" FromRole="aspnet_Membership" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="Self.FK__aspnet_Me__Appli__075714DC" FromRole="aspnet_Membership" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK__aspnet_Me__UserI__084B3915" FromRole="aspnet_Membership" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Paths">
           <Key>
@@ -707,9 +814,9 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="PathId" Type="Guid" Nullable="false" />
           <Property Name="Path" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LoweredPath" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="Self.FK__aspnet_Pa__Appli__7D439ABD" FromRole="aspnet_Paths" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_PersonalizationAllUsers" Relationship="Self.FK__aspnet_Pe__PathI__03F0984C" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationAllUsers" />
-          <NavigationProperty Name="aspnet_PersonalizationPerUser" Relationship="Self.FK__aspnet_Pe__PathI__7F2BE32F" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationPerUser" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="Self.FK__aspnet_Pa__Appli__02925FBF" FromRole="aspnet_Paths" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_PersonalizationPerUser" Relationship="Self.FK__aspnet_Pe__PathI__047AA831" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationPerUser" />
+          <NavigationProperty Name="aspnet_PersonalizationAllUsers" Relationship="Self.FK__aspnet_Pe__PathI__093F5D4E" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationAllUsers" />
         </EntityType>
         <EntityType Name="aspnet_PersonalizationAllUsers">
           <Key>
@@ -718,7 +825,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="PathId" Type="Guid" Nullable="false" />
           <Property Name="PageSettings" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Paths" Relationship="Self.FK__aspnet_Pe__PathI__03F0984C" FromRole="aspnet_PersonalizationAllUsers" ToRole="aspnet_Paths" />
+          <NavigationProperty Name="aspnet_Paths" Relationship="Self.FK__aspnet_Pe__PathI__093F5D4E" FromRole="aspnet_PersonalizationAllUsers" ToRole="aspnet_Paths" />
         </EntityType>
         <EntityType Name="aspnet_PersonalizationPerUser">
           <Key>
@@ -729,8 +836,19 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="UserId" Type="Guid" />
           <Property Name="PageSettings" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Paths" Relationship="Self.FK__aspnet_Pe__PathI__7F2BE32F" FromRole="aspnet_PersonalizationPerUser" ToRole="aspnet_Paths" />
-          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK__aspnet_Pe__UserI__00200768" FromRole="aspnet_PersonalizationPerUser" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Paths" Relationship="Self.FK__aspnet_Pe__PathI__047AA831" FromRole="aspnet_PersonalizationPerUser" ToRole="aspnet_Paths" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK__aspnet_Pe__UserI__056ECC6A" FromRole="aspnet_PersonalizationPerUser" ToRole="aspnet_Users" />
+        </EntityType>
+        <EntityType Name="aspnet_Profile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="PropertyNames" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PropertyValuesString" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PropertyValuesBinary" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="aspnet_Users" Relationship="Self.FK__aspnet_Pr__UserI__0662F0A3" FromRole="aspnet_Profile" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Roles">
           <Key>
@@ -741,7 +859,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="RoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LoweredRoleName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="Self.FK__aspnet_Ro__Appli__7E37BEF6" FromRole="aspnet_Roles" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="Self.FK__aspnet_Ro__Appli__038683F8" FromRole="aspnet_Roles" ToRole="aspnet_Applications" />
           <NavigationProperty Name="aspnet_Users" Relationship="Self.aspnet_UsersInRoles" FromRole="aspnet_Roles" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_SchemaVersions">
@@ -764,9 +882,10 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="MobileAlias" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Name="IsAnonymous" Type="Boolean" Nullable="false" />
           <Property Name="LastActivityDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="Self.FK__aspnet_Us__Appli__7C4F7684" FromRole="aspnet_Users" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_Membership" Relationship="Self.FK__aspnet_Me__UserI__02FC7413" FromRole="aspnet_Users" ToRole="aspnet_Membership" />
-          <NavigationProperty Name="aspnet_PersonalizationPerUser" Relationship="Self.FK__aspnet_Pe__UserI__00200768" FromRole="aspnet_Users" ToRole="aspnet_PersonalizationPerUser" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="Self.FK__aspnet_Us__Appli__019E3B86" FromRole="aspnet_Users" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Membership" Relationship="Self.FK__aspnet_Me__UserI__084B3915" FromRole="aspnet_Users" ToRole="aspnet_Membership" />
+          <NavigationProperty Name="aspnet_PersonalizationPerUser" Relationship="Self.FK__aspnet_Pe__UserI__056ECC6A" FromRole="aspnet_Users" ToRole="aspnet_PersonalizationPerUser" />
+          <NavigationProperty Name="aspnet_Profile" Relationship="Self.FK__aspnet_Pr__UserI__0662F0A3" FromRole="aspnet_Users" ToRole="aspnet_Profile" />
           <NavigationProperty Name="aspnet_Roles" Relationship="Self.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
         </EntityType>
         <EntityType Name="aspnet_WebEvent_Events">
@@ -796,10 +915,12 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CategoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CreatedTime" Type="DateTime" Precision="0" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CategoryAssignments" Relationship="Self.FK_CategoryAssignments_Categories" FromRole="Categories" ToRole="CategoryAssignments" />
+          <NavigationProperty Name="RequestedCategories" Relationship="Self.FK_RequestedCategories_Categories" FromRole="Categories" ToRole="RequestedCategories" />
+          <NavigationProperty Name="TaskAssignments" Relationship="Self.FK_TaskAssignments_Categories" FromRole="Categories" ToRole="TaskAssignments" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Categories" FromRole="Categories" ToRole="Tasks" />
-          <NavigationProperty Name="RequestedCategories" Relationship="WebApiModel.FK_RequestedCategories_Categories" FromRole="Category" ToRole="RequestedCategory" />
         </EntityType>
         <EntityType Name="CategoryAssignment">
           <Key>
@@ -849,11 +970,20 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             <PropertyRef Name="AssignedUser" />
           </Key>
           <Property Name="AssignedUser" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="AssignedSupervisor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AssignedSupervisor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CategoryAssignments" Relationship="Self.FK_CategoryAssignments_MemberAssignments" FromRole="MemberAssignments" ToRole="CategoryAssignments" />
           <NavigationProperty Name="CompletedMainSteps" Relationship="Self.FK_CompletedMainSteps_MemberAssignments" FromRole="MemberAssignments" ToRole="CompletedMainSteps" />
+          <NavigationProperty Name="CompletedTasks" Relationship="Self.FK_CompletedTasks_MemberAssignments" FromRole="MemberAssignments" ToRole="CompletedTasks" />
+          <NavigationProperty Name="TaskAssignments" Relationship="Self.FK_TaskAssignments_MemberAssignments" FromRole="MemberAssignments" ToRole="TaskAssignments" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_MemberAssignments" FromRole="MemberAssignments" ToRole="Tasks" />
-          <NavigationProperty Name="CompletedTasks" Relationship="WebApiModel.FK_CompletedTasks_MemberAssignments" FromRole="MemberAssignment" ToRole="CompletedTask" />
+        </EntityType>
+        <EntityType Name="Profile">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Picture" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -871,11 +1001,17 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <NavigationProperty Name="MainSteps" Relationship="Self.FK_MainSteps_Tasks" FromRole="Tasks" ToRole="MainSteps" />
           <NavigationProperty Name="MemberAssignment" Relationship="Self.FK_Tasks_MemberAssignments" FromRole="Tasks" ToRole="MemberAssignments" />
           <NavigationProperty Name="CompletedMainSteps" Relationship="Self.FK_CompletedMainSteps_Tasks" FromRole="Tasks" ToRole="CompletedMainSteps" />
-          <NavigationProperty Name="CompletedTasks" Relationship="WebApiModel.FK_CompletedTasks_Tasks" FromRole="Task" ToRole="CompletedTask" />
+          <NavigationProperty Name="CompletedTasks" Relationship="Self.FK_CompletedTasks_Tasks" FromRole="Tasks" ToRole="CompletedTasks" />
+          <NavigationProperty Name="TaskAssignments" Relationship="Self.FK_TaskAssignments_Tasks" FromRole="Tasks" ToRole="TaskAssignments" />
         </EntityType>
         <EntityType Name="CompletedMainStep">
           <Key>
-            <PropertyRef Name="id" />
+            <PropertyRef Name="MainStepID" />
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="MainStepName" />
+            <PropertyRef Name="AssignedUser" />
+            <PropertyRef Name="DateTimeComplete" />
+            <PropertyRef Name="TotalTime" />
           </Key>
           <Property Name="MainStepID" Type="Int32" Nullable="false" />
           <Property Name="TaskID" Type="Int32" Nullable="false" />
@@ -886,9 +1022,60 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <NavigationProperty Name="MainStep" Relationship="Self.FK_CompletedMainSteps_MainSteps" FromRole="CompletedMainSteps" ToRole="MainSteps" />
           <NavigationProperty Name="MemberAssignment" Relationship="Self.FK_CompletedMainSteps_MemberAssignments" FromRole="CompletedMainSteps" ToRole="MemberAssignments" />
           <NavigationProperty Name="Task" Relationship="Self.FK_CompletedMainSteps_Tasks" FromRole="CompletedMainSteps" ToRole="Tasks" />
-          <Property Name="id" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="FK__aspnet_Me__Appli__02084FDA">
+        <EntityType Name="CompletedTask">
+          <Key>
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="TaskName" />
+            <PropertyRef Name="AssignedUser" />
+            <PropertyRef Name="DateTimeCompleted" />
+            <PropertyRef Name="TotalTime" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="TaskName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AssignedUser" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateTimeCompleted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TotalTime" Type="Double" Nullable="false" />
+          <NavigationProperty Name="MemberAssignment" Relationship="Self.FK_CompletedTasks_MemberAssignments" FromRole="CompletedTasks" ToRole="MemberAssignments" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_CompletedTasks_Tasks" FromRole="CompletedTasks" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="RequestedCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="IsApproved" />
+            <PropertyRef Name="RequestingUser" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="RequestingUser" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_RequestedCategories_Categories" FromRole="RequestedCategories" ToRole="Categories" />
+          <Property Name="Owner" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TaskAssignment">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="AssignedUser" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Category" Relationship="Self.FK_TaskAssignments_Categories" FromRole="TaskAssignments" ToRole="Categories" />
+          <NavigationProperty Name="MemberAssignment" Relationship="Self.FK_TaskAssignments_MemberAssignments" FromRole="TaskAssignments" ToRole="MemberAssignments" />
+          <NavigationProperty Name="Task" Relationship="Self.FK_TaskAssignments_Tasks" FromRole="TaskAssignments" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserName" />
+            <PropertyRef Name="ConnectionID" />
+            <PropertyRef Name="Connected" />
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConnectionID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Connected" Type="Boolean" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="FK__aspnet_Me__Appli__075714DC">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="*" />
           <ReferentialConstraint>
@@ -900,7 +1087,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pa__Appli__7D439ABD">
+        <Association Name="FK__aspnet_Pa__Appli__02925FBF">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="*" />
           <ReferentialConstraint>
@@ -912,7 +1099,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Ro__Appli__7E37BEF6">
+        <Association Name="FK__aspnet_Ro__Appli__038683F8">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Roles" Type="Self.aspnet_Roles" Multiplicity="*" />
           <ReferentialConstraint>
@@ -924,7 +1111,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Us__Appli__7C4F7684">
+        <Association Name="FK__aspnet_Us__Appli__019E3B86">
           <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="*" />
           <ReferentialConstraint>
@@ -936,7 +1123,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Me__UserI__02FC7413">
+        <Association Name="FK__aspnet_Me__UserI__084B3915">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
           <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -948,19 +1135,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pe__PathI__03F0984C">
-          <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="1" />
-          <End Role="aspnet_PersonalizationAllUsers" Type="Self.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Paths">
-              <PropertyRef Name="PathId" />
-            </Principal>
-            <Dependent Role="aspnet_PersonalizationAllUsers">
-              <PropertyRef Name="PathId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__aspnet_Pe__PathI__7F2BE32F">
+        <Association Name="FK__aspnet_Pe__PathI__047AA831">
           <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="0..1" />
           <End Role="aspnet_PersonalizationPerUser" Type="Self.aspnet_PersonalizationPerUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -972,7 +1147,19 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pe__UserI__00200768">
+        <Association Name="FK__aspnet_Pe__PathI__093F5D4E">
+          <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="1" />
+          <End Role="aspnet_PersonalizationAllUsers" Type="Self.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Paths">
+              <PropertyRef Name="PathId" />
+            </Principal>
+            <Dependent Role="aspnet_PersonalizationAllUsers">
+              <PropertyRef Name="PathId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__aspnet_Pe__UserI__056ECC6A">
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
           <End Role="aspnet_PersonalizationPerUser" Type="Self.aspnet_PersonalizationPerUser" Multiplicity="*" />
           <ReferentialConstraint>
@@ -980,6 +1167,18 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="aspnet_PersonalizationPerUser">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__aspnet_Pr__UserI__0662F0A3">
+          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
+          <End Role="aspnet_Profile" Type="Self.aspnet_Profile" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="aspnet_Profile">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -994,6 +1193,30 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
               <PropertyRef Name="CategoryID" />
             </Principal>
             <Dependent Role="CategoryAssignments">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestedCategories_Categories">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="RequestedCategories" Type="Self.RequestedCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="RequestedCategories">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskAssignments_Categories">
+          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="TaskAssignments" Type="Self.TaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Categories">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="TaskAssignments">
               <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1078,6 +1301,30 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CompletedTasks_MemberAssignments">
+          <End Role="MemberAssignments" Type="Self.MemberAssignment" Multiplicity="1" />
+          <End Role="CompletedTasks" Type="Self.CompletedTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberAssignments">
+              <PropertyRef Name="AssignedUser" />
+            </Principal>
+            <Dependent Role="CompletedTasks">
+              <PropertyRef Name="AssignedUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskAssignments_MemberAssignments">
+          <End Role="MemberAssignments" Type="Self.MemberAssignment" Multiplicity="0..1" />
+          <End Role="TaskAssignments" Type="Self.TaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MemberAssignments">
+              <PropertyRef Name="AssignedUser" />
+            </Principal>
+            <Dependent Role="TaskAssignments">
+              <PropertyRef Name="AssignedUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tasks_MemberAssignments">
           <End Role="MemberAssignments" Type="Self.MemberAssignment" Multiplicity="0..1" />
           <End Role="Tasks" Type="Self.Task" Multiplicity="*" />
@@ -1102,16 +1349,43 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CompletedTasks_Tasks">
+          <End Role="Tasks" Type="Self.Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="CompletedTasks" Type="Self.CompletedTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="CompletedTasks">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TaskAssignments_Tasks">
+          <End Role="Tasks" Type="Self.Task" Multiplicity="1" />
+          <End Role="TaskAssignments" Type="Self.TaskAssignment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="TaskAssignments">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="aspnet_UsersInRoles">
           <End Role="aspnet_Roles" Type="Self.aspnet_Roles" Multiplicity="*" />
           <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="WebApiEntites" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="iPawsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="aspnet_Applications" EntityType="Self.aspnet_Applications" />
           <EntitySet Name="aspnet_Membership" EntityType="Self.aspnet_Membership" />
           <EntitySet Name="aspnet_Paths" EntityType="Self.aspnet_Paths" />
           <EntitySet Name="aspnet_PersonalizationAllUsers" EntityType="Self.aspnet_PersonalizationAllUsers" />
           <EntitySet Name="aspnet_PersonalizationPerUser" EntityType="Self.aspnet_PersonalizationPerUser" />
+          <EntitySet Name="aspnet_Profile" EntityType="Self.aspnet_Profile" />
           <EntitySet Name="aspnet_Roles" EntityType="Self.aspnet_Roles" />
           <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" />
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" />
@@ -1121,43 +1395,60 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <EntitySet Name="DetailedSteps" EntityType="Self.DetailedStep" />
           <EntitySet Name="MainSteps" EntityType="Self.MainStep" />
           <EntitySet Name="MemberAssignments" EntityType="Self.MemberAssignment" />
+          <EntitySet Name="Profiles" EntityType="Self.Profile" />
           <EntitySet Name="Tasks" EntityType="Self.Task" />
           <EntitySet Name="CompletedMainSteps" EntityType="Self.CompletedMainStep" />
-          <AssociationSet Name="FK__aspnet_Me__Appli__02084FDA" Association="Self.FK__aspnet_Me__Appli__02084FDA">
+          <EntitySet Name="CompletedTasks" EntityType="Self.CompletedTask" />
+          <EntitySet Name="RequestedCategories" EntityType="Self.RequestedCategory" />
+          <EntitySet Name="TaskAssignments" EntityType="Self.TaskAssignment" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK__aspnet_Me__Appli__075714DC" Association="Self.FK__aspnet_Me__Appli__075714DC">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pa__Appli__7D439ABD" Association="Self.FK__aspnet_Pa__Appli__7D439ABD">
+          <AssociationSet Name="FK__aspnet_Pa__Appli__02925FBF" Association="Self.FK__aspnet_Pa__Appli__02925FBF">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Ro__Appli__7E37BEF6" Association="Self.FK__aspnet_Ro__Appli__7E37BEF6">
+          <AssociationSet Name="FK__aspnet_Ro__Appli__038683F8" Association="Self.FK__aspnet_Ro__Appli__038683F8">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__Appli__7C4F7684" Association="Self.FK__aspnet_Us__Appli__7C4F7684">
+          <AssociationSet Name="FK__aspnet_Us__Appli__019E3B86" Association="Self.FK__aspnet_Us__Appli__019E3B86">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Me__UserI__02FC7413" Association="Self.FK__aspnet_Me__UserI__02FC7413">
+          <AssociationSet Name="FK__aspnet_Me__UserI__084B3915" Association="Self.FK__aspnet_Me__UserI__084B3915">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__03F0984C" Association="Self.FK__aspnet_Pe__PathI__03F0984C">
+          <AssociationSet Name="FK__aspnet_Pe__PathI__047AA831" Association="Self.FK__aspnet_Pe__PathI__047AA831">
+            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+            <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pe__PathI__093F5D4E" Association="Self.FK__aspnet_Pe__PathI__093F5D4E">
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
             <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__7F2BE32F" Association="Self.FK__aspnet_Pe__PathI__7F2BE32F">
-            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
-            <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__UserI__00200768" Association="Self.FK__aspnet_Pe__UserI__00200768">
+          <AssociationSet Name="FK__aspnet_Pe__UserI__056ECC6A" Association="Self.FK__aspnet_Pe__UserI__056ECC6A">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pr__UserI__0662F0A3" Association="Self.FK__aspnet_Pr__UserI__0662F0A3">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
           </AssociationSet>
           <AssociationSet Name="FK_CategoryAssignments_Categories" Association="Self.FK_CategoryAssignments_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestedCategories_Categories" Association="Self.FK_RequestedCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="RequestedCategories" EntitySet="RequestedCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskAssignments_Categories" Association="Self.FK_TaskAssignments_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="TaskAssignments" EntitySet="TaskAssignments" />
           </AssociationSet>
           <AssociationSet Name="FK_Tasks_Categories" Association="Self.FK_Tasks_Categories">
             <End Role="Categories" EntitySet="Categories" />
@@ -1183,6 +1474,14 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
           </AssociationSet>
+          <AssociationSet Name="FK_CompletedTasks_MemberAssignments" Association="Self.FK_CompletedTasks_MemberAssignments">
+            <End Role="MemberAssignments" EntitySet="MemberAssignments" />
+            <End Role="CompletedTasks" EntitySet="CompletedTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskAssignments_MemberAssignments" Association="Self.FK_TaskAssignments_MemberAssignments">
+            <End Role="MemberAssignments" EntitySet="MemberAssignments" />
+            <End Role="TaskAssignments" EntitySet="TaskAssignments" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tasks_MemberAssignments" Association="Self.FK_Tasks_MemberAssignments">
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="Tasks" EntitySet="Tasks" />
@@ -1191,123 +1490,27 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
           </AssociationSet>
+          <AssociationSet Name="FK_CompletedTasks_Tasks" Association="Self.FK_CompletedTasks_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="CompletedTasks" EntitySet="CompletedTasks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TaskAssignments_Tasks" Association="Self.FK_TaskAssignments_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="TaskAssignments" EntitySet="TaskAssignments" />
+          </AssociationSet>
           <AssociationSet Name="aspnet_UsersInRoles" Association="Self.aspnet_UsersInRoles">
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <EntitySet Name="RequestedCategories" EntityType="WebApiModel.RequestedCategory" />
-          <EntitySet Name="TaskAssignments" EntityType="WebApiModel.TaskAssignment" />
-          <AssociationSet Name="FK_RequestedCategories_Categories" Association="WebApiModel.FK_RequestedCategories_Categories">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="RequestedCategory" EntitySet="RequestedCategories" />
-          </AssociationSet>
-          <EntitySet Name="Users" EntityType="WebApiModel.User" />
-          <EntitySet Name="CompletedTasks" EntityType="WebApiModel.CompletedTask" />
-          <AssociationSet Name="FK_CompletedTasks_MemberAssignments" Association="WebApiModel.FK_CompletedTasks_MemberAssignments">
-            <End Role="MemberAssignment" EntitySet="MemberAssignments" />
-            <End Role="CompletedTask" EntitySet="CompletedTasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CompletedTasks_Tasks" Association="WebApiModel.FK_CompletedTasks_Tasks">
-            <End Role="Task" EntitySet="Tasks" />
-            <End Role="CompletedTask" EntitySet="CompletedTasks" />
-          </AssociationSet>
-          <EntitySet Name="Profiles" EntityType="WebApiModel.Profile" />
         </EntityContainer>
-        <EntityType Name="RequestedCategory">
-          <Key>
-            <PropertyRef Name="CategoryID" />
-            <PropertyRef Name="IsApproved" />
-            <PropertyRef Name="RequestingUser" />
-          </Key>
-          <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
-          <Property Name="RequestingUser" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Category" Relationship="WebApiModel.FK_RequestedCategories_Categories" FromRole="RequestedCategory" ToRole="Category" />
-        </EntityType>
-        <EntityType Name="TaskAssignment">
-          <Key>
-            <PropertyRef Name="TaskID" />
-          </Key>
-          <Property Name="TaskID" Type="Int32" Nullable="false" />
-          <Property Name="AssignedUser" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="CategoryID" Type="Int32" />
-        </EntityType>
-        <Association Name="FK_RequestedCategories_Categories">
-          <End Type="WebApiModel.Category" Role="Category" Multiplicity="1" />
-          <End Type="WebApiModel.RequestedCategory" Role="RequestedCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="RequestedCategory">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserName" />
-          </Key>
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="226" FixedLength="false" Unicode="true" />
-          <Property Name="ConnectionID" Type="String" Nullable="false" MaxLength="226" FixedLength="false" Unicode="true" />
-          <Property Name="Connected" Type="Boolean" Nullable="false" />
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
-        <EntityType Name="CompletedTask">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="TaskID" Type="Int32" Nullable="false" />
-          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="AssignedUser" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="DateTimeCompleted" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TotalTime" Type="Double" Nullable="false" />
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="MemberAssignment" Relationship="WebApiModel.FK_CompletedTasks_MemberAssignments" FromRole="CompletedTask" ToRole="MemberAssignment" />
-          <NavigationProperty Name="Task" Relationship="WebApiModel.FK_CompletedTasks_Tasks" FromRole="CompletedTask" ToRole="Task" />
-        </EntityType>
-        <Association Name="FK_CompletedTasks_MemberAssignments">
-          <End Type="WebApiModel.MemberAssignment" Role="MemberAssignment" Multiplicity="1" />
-          <End Type="WebApiModel.CompletedTask" Role="CompletedTask" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="MemberAssignment">
-              <PropertyRef Name="AssignedUser" />
-            </Principal>
-            <Dependent Role="CompletedTask">
-              <PropertyRef Name="AssignedUser" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CompletedTasks_Tasks">
-          <End Type="WebApiModel.Task" Role="Task" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="WebApiModel.CompletedTask" Role="CompletedTask" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Task">
-              <PropertyRef Name="TaskID" />
-            </Principal>
-            <Dependent Role="CompletedTask">
-              <PropertyRef Name="TaskID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="Profile">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Picture" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="WebApiModelStoreContainer" CdmEntityContainer="WebApiEntites">
+        <EntityContainerMapping StorageEntityContainer="iPawsModelStoreContainer" CdmEntityContainer="iPawsEntities">
           <EntitySetMapping Name="aspnet_Applications">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_Applications">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_Applications">
               <MappingFragment StoreEntitySet="aspnet_Applications">
                 <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
                 <ScalarProperty Name="LoweredApplicationName" ColumnName="LoweredApplicationName" />
@@ -1317,7 +1520,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="aspnet_Membership">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_Membership">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_Membership">
               <MappingFragment StoreEntitySet="aspnet_Membership">
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1344,7 +1547,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="aspnet_Paths">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_Paths">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_Paths">
               <MappingFragment StoreEntitySet="aspnet_Paths">
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="PathId" ColumnName="PathId" />
@@ -1354,7 +1557,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="aspnet_PersonalizationAllUsers">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_PersonalizationAllUsers">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_PersonalizationAllUsers">
               <MappingFragment StoreEntitySet="aspnet_PersonalizationAllUsers">
                 <ScalarProperty Name="PathId" ColumnName="PathId" />
                 <ScalarProperty Name="PageSettings" ColumnName="PageSettings" />
@@ -1363,7 +1566,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="aspnet_PersonalizationPerUser">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_PersonalizationPerUser">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_PersonalizationPerUser">
               <MappingFragment StoreEntitySet="aspnet_PersonalizationPerUser">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="PathId" ColumnName="PathId" />
@@ -1373,8 +1576,19 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="aspnet_Profile">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_Profile">
+              <MappingFragment StoreEntitySet="aspnet_Profile">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PropertyNames" ColumnName="PropertyNames" />
+                <ScalarProperty Name="PropertyValuesString" ColumnName="PropertyValuesString" />
+                <ScalarProperty Name="PropertyValuesBinary" ColumnName="PropertyValuesBinary" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="aspnet_Roles">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_Roles">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_Roles">
               <MappingFragment StoreEntitySet="aspnet_Roles">
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
@@ -1385,7 +1599,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="aspnet_SchemaVersions">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_SchemaVersions">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_SchemaVersions">
               <MappingFragment StoreEntitySet="aspnet_SchemaVersions">
                 <ScalarProperty Name="Feature" ColumnName="Feature" />
                 <ScalarProperty Name="CompatibleSchemaVersion" ColumnName="CompatibleSchemaVersion" />
@@ -1394,7 +1608,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="aspnet_Users">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_Users">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_Users">
               <MappingFragment StoreEntitySet="aspnet_Users">
                 <ScalarProperty Name="ApplicationId" ColumnName="ApplicationId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
@@ -1407,7 +1621,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="aspnet_WebEvent_Events">
-            <EntityTypeMapping TypeName="WebApiModel.aspnet_WebEvent_Events">
+            <EntityTypeMapping TypeName="iPawsModel.aspnet_WebEvent_Events">
               <MappingFragment StoreEntitySet="aspnet_WebEvent_Events">
                 <ScalarProperty Name="EventId" ColumnName="EventId" />
                 <ScalarProperty Name="EventTimeUtc" ColumnName="EventTimeUtc" />
@@ -1428,17 +1642,18 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="WebApiModel.Category">
+            <EntityTypeMapping TypeName="iPawsModel.Category">
               <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CategoryAssignments">
-            <EntityTypeMapping TypeName="WebApiModel.CategoryAssignment">
+            <EntityTypeMapping TypeName="iPawsModel.CategoryAssignment">
               <MappingFragment StoreEntitySet="CategoryAssignments">
                 <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
@@ -1447,7 +1662,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DetailedSteps">
-            <EntityTypeMapping TypeName="WebApiModel.DetailedStep">
+            <EntityTypeMapping TypeName="iPawsModel.DetailedStep">
               <MappingFragment StoreEntitySet="DetailedSteps">
                 <ScalarProperty Name="DetailedStepID" ColumnName="DetailedStepID" />
                 <ScalarProperty Name="MainStepID" ColumnName="MainStepID" />
@@ -1461,7 +1676,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MainSteps">
-            <EntityTypeMapping TypeName="WebApiModel.MainStep">
+            <EntityTypeMapping TypeName="iPawsModel.MainStep">
               <MappingFragment StoreEntitySet="MainSteps">
                 <ScalarProperty Name="MainStepID" ColumnName="MainStepID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
@@ -1478,15 +1693,24 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="MemberAssignments">
-            <EntityTypeMapping TypeName="WebApiModel.MemberAssignment">
+            <EntityTypeMapping TypeName="iPawsModel.MemberAssignment">
               <MappingFragment StoreEntitySet="MemberAssignments">
                 <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
                 <ScalarProperty Name="AssignedSupervisor" ColumnName="AssignedSupervisor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Profiles">
+            <EntityTypeMapping TypeName="iPawsModel.Profile">
+              <MappingFragment StoreEntitySet="Profiles">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Tasks">
-            <EntityTypeMapping TypeName="WebApiModel.Task">
+            <EntityTypeMapping TypeName="iPawsModel.Task">
               <MappingFragment StoreEntitySet="Tasks">
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
@@ -1500,9 +1724,8 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="CompletedMainSteps">
-            <EntityTypeMapping TypeName="WebApiModel.CompletedMainStep">
+            <EntityTypeMapping TypeName="iPawsModel.CompletedMainStep">
               <MappingFragment StoreEntitySet="CompletedMainSteps">
-                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="MainStepID" ColumnName="MainStepID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="MainStepName" ColumnName="MainStepName" />
@@ -1512,7 +1735,47 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="aspnet_UsersInRoles" TypeName="WebApiModel.aspnet_UsersInRoles" StoreEntitySet="aspnet_UsersInRoles">
+          <EntitySetMapping Name="CompletedTasks">
+            <EntityTypeMapping TypeName="iPawsModel.CompletedTask">
+              <MappingFragment StoreEntitySet="CompletedTasks">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
+                <ScalarProperty Name="DateTimeCompleted" ColumnName="DateTimeCompleted" />
+                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestedCategories">
+            <EntityTypeMapping TypeName="iPawsModel.RequestedCategory">
+              <MappingFragment StoreEntitySet="RequestedCategories">
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="RequestingUser" ColumnName="RequestingUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskAssignments">
+            <EntityTypeMapping TypeName="iPawsModel.TaskAssignment">
+              <MappingFragment StoreEntitySet="TaskAssignments">
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="iPawsModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ConnectionID" ColumnName="ConnectionID" />
+                <ScalarProperty Name="Connected" ColumnName="Connected" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="aspnet_UsersInRoles" TypeName="iPawsModel.aspnet_UsersInRoles" StoreEntitySet="aspnet_UsersInRoles">
             <EndProperty Name="aspnet_Roles">
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>
@@ -1520,55 +1783,6 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="RequestedCategories">
-            <EntityTypeMapping TypeName="WebApiModel.RequestedCategory">
-              <MappingFragment StoreEntitySet="RequestedCategories">
-                <ScalarProperty Name="RequestingUser" ColumnName="RequestingUser" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TaskAssignments">
-            <EntityTypeMapping TypeName="WebApiModel.TaskAssignment">
-              <MappingFragment StoreEntitySet="TaskAssignments">
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
-                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="WebApiModel.User">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Connected" ColumnName="Connected" />
-                <ScalarProperty Name="ConnectionID" ColumnName="ConnectionID" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CompletedTasks">
-            <EntityTypeMapping TypeName="WebApiModel.CompletedTask">
-              <MappingFragment StoreEntitySet="CompletedTasks">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
-                <ScalarProperty Name="DateTimeCompleted" ColumnName="DateTimeCompleted" />
-                <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
-                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Profiles">
-            <EntityTypeMapping TypeName="WebApiModel.Profile">
-              <MappingFragment StoreEntitySet="Profiles">
-                <ScalarProperty Name="Picture" ColumnName="Picture" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -246,6 +246,23 @@
     <Content Include="Scripts\jquery-1.11.0.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <EntityDeploy Include="Models\iPawsEntity.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>iPawsEntity.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\iPawsEntity.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>iPawsEntity.edmx</DependentUpon>
+      <LastGenOutput>iPawsEntity.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\iPawsEntity.edmx.diagram">
+      <DependentUpon>iPawsEntity.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\iPawsEntity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>iPawsEntity.edmx</DependentUpon>
+      <LastGenOutput>iPawsEntity.cs</LastGenOutput>
+    </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -453,23 +470,6 @@
     <None Include="Fonts\glyphicons-halflings-regular.ttf" />
     <None Include="Fonts\glyphicons-halflings-regular.woff" />
     <Content Include="packages.config" />
-    <EntityDeploy Include="Models\WebApiModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WebApiModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\WebApiModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WebApiModel.edmx</DependentUpon>
-      <LastGenOutput>WebApiModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\WebApiModel.edmx.diagram">
-      <DependentUpon>WebApiModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\WebApiModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>WebApiModel.edmx</DependentUpon>
-      <LastGenOutput>WebApiModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Scripts\toastr.min.js.map" />
     <Content Include="Admin\Dashboard.aspx" />
     <Content Include="Members\web.config" />
@@ -575,82 +575,85 @@
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Applications.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Membership.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Paths.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_PersonalizationAllUsers.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_PersonalizationPerUser.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\aspnet_Profile.cs">
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Roles.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_SchemaVersions.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Users.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_WebEvent_Events.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoryAssignment.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CompletedMainStep.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CompletedTask.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailedStep.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iPawsEntity.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>iPawsEntity.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iPawsEntity.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\iPawsEntity.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>iPawsEntity.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\MainStep.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MemberAssignment.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Profile.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequestedCategory.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Task.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskAssignment.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>WebApiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\WebApiModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WebApiModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\WebApiModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WebApiModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\WebApiModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>WebApiModel.edmx</DependentUpon>
+      <DependentUpon>iPawsEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

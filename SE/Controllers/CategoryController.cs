@@ -17,7 +17,7 @@ namespace SE.Controllers
     }
     public class CategoryController : ApiController
     {
-        WebApiEntites db = new WebApiEntites();
+        iPawsEntities db = new iPawsEntities();
         /// <summary>
         /// Gets all categories from the database.
         /// </summary>

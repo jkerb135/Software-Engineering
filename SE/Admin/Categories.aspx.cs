@@ -334,7 +334,7 @@ namespace SE
                     RefreshDetailedSteps();
 
                     if (btn.Text != "+ Detailed Step")
-                    {  
+                    {
                         ListBoxPanel.Visible = true;
                         EditCategoryPanel.Visible = false;
                         TaskPanel.Visible = false;
@@ -382,7 +382,7 @@ namespace SE
             ManageDetailedStepPanel.Visible = false;
             MainStepButtonNew.Visible = true;
             header.Text = MainStepButton.Text = "Add New Main Step";
-            
+
         }
         protected void AddNewDetailedStep_Click(object sender, EventArgs e)
         {
@@ -537,7 +537,7 @@ namespace SE
             IDetailedStep.DeleteDetailedStep();
             RefreshDetailedSteps();
             SuccessMessage.Text = "detailed step successfully deleted.";
-            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1)) ;
             {
                 detailedStep.Items[0].Attributes.Add("disabled", "disabled");
             }
@@ -601,7 +601,7 @@ namespace SE
             if (catList.Items.Count == 1 && catList.Items[0].Text == "No Categories") { catList.Items[0].Attributes.Add("disabled", "disabled"); }
             if (taskList.Items.Count == 1 && taskList.Items[0].Text == "No Tasks in " + catList.SelectedItem.Text) { taskList.Items[0].Attributes.Add("disabled", "disabled"); }
             if (mainStep.Items.Count == 1 && mainStep.Items[0].Text == "No Main Steps in " + taskList.SelectedItem.Text) { mainStep.Items[0].Attributes.Add("disabled", "disabled"); }
-            if (detailedStep.Items.Count == 1 && detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text) { detailedStep.Items[0].Attributes.Add("disabled", "disabled"); }
+            if (detailedStep.Items.Count == 1 && detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1)) { detailedStep.Items[0].Attributes.Add("disabled", "disabled"); }
             header.Text = "Management Panel";
 
         }
@@ -827,7 +827,7 @@ namespace SE
                 detailedStep.Items.Clear();
                 RefreshDetailedSteps();
 
-                if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
+                if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
                 {
                     detailedStep.Items[0].Attributes.Add("disabled", "disabled");
                     detailFilter.Enabled = false;
@@ -943,7 +943,7 @@ namespace SE
             if (detailedStep.Items.Count == 0)
             {
                 ListItem li = new ListItem();
-                li.Text = "No Detailed Steps in " + mainStep.SelectedItem.Text;
+                li.Text = "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1);
                 detailedStep.Items.Add(li);
                 detailFilter.Enabled = false;
 
@@ -1039,11 +1039,11 @@ namespace SE
                 RefreshMainSteps();
             }
             mainStep.SelectedValue = value;
-            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
             {
                 detailedStep.Items[0].Attributes.Add("disabled", "disabled");
             }
-            
+
         }
         protected void MainStepMoveUp_Click(object sender, EventArgs e)
         {
@@ -1126,7 +1126,7 @@ namespace SE
                 RefreshMainSteps();
             }
             mainStep.SelectedValue = value;
-            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text)
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
             {
                 detailedStep.Items[0].Attributes.Add("disabled", "disabled");
             }

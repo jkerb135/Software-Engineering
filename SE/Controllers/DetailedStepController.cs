@@ -20,7 +20,7 @@ namespace SE.Controllers
     }
     public class DetailedStepController : ApiController
     {
-        WebApiEntites db = new WebApiEntites();
+        iPawsEntities db = new iPawsEntities();
         /// <summary>
         /// Gets all detailed steps from the database.
         /// </summary>

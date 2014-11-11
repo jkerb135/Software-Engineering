@@ -13,10 +13,10 @@ namespace SE.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class WebApiEntites : DbContext
+    public partial class iPawsEntities : DbContext
     {
-        public WebApiEntites()
-            : base("name=WebApiEntites")
+        public iPawsEntities()
+            : base("name=iPawsEntities")
         {
         }
     
@@ -30,6 +30,7 @@ namespace SE.Models
         public virtual DbSet<aspnet_Paths> aspnet_Paths { get; set; }
         public virtual DbSet<aspnet_PersonalizationAllUsers> aspnet_PersonalizationAllUsers { get; set; }
         public virtual DbSet<aspnet_PersonalizationPerUser> aspnet_PersonalizationPerUser { get; set; }
+        public virtual DbSet<aspnet_Profile> aspnet_Profile { get; set; }
         public virtual DbSet<aspnet_Roles> aspnet_Roles { get; set; }
         public virtual DbSet<aspnet_SchemaVersions> aspnet_SchemaVersions { get; set; }
         public virtual DbSet<aspnet_Users> aspnet_Users { get; set; }
@@ -39,12 +40,12 @@ namespace SE.Models
         public virtual DbSet<DetailedStep> DetailedSteps { get; set; }
         public virtual DbSet<MainStep> MainSteps { get; set; }
         public virtual DbSet<MemberAssignment> MemberAssignments { get; set; }
+        public virtual DbSet<Profile> Profiles { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
         public virtual DbSet<CompletedMainStep> CompletedMainSteps { get; set; }
+        public virtual DbSet<CompletedTask> CompletedTasks { get; set; }
         public virtual DbSet<RequestedCategory> RequestedCategories { get; set; }
         public virtual DbSet<TaskAssignment> TaskAssignments { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<CompletedTask> CompletedTasks { get; set; }
-        public virtual DbSet<Profile> Profiles { get; set; }
     }
 }

@@ -17,17 +17,20 @@ namespace SE.Models
         public Category()
         {
             this.CategoryAssignments = new HashSet<CategoryAssignment>();
-            this.Tasks = new HashSet<Task>();
             this.RequestedCategories = new HashSet<RequestedCategory>();
+            this.TaskAssignments = new HashSet<TaskAssignment>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
         public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> CreatedTime { get; set; }
+        public System.DateTime CreatedTime { get; set; }
+        public bool IsActive { get; set; }
     
         public virtual ICollection<CategoryAssignment> CategoryAssignments { get; set; }
-        public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<RequestedCategory> RequestedCategories { get; set; }
+        public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

@@ -16,12 +16,23 @@
     <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
     <script src="<%=ResolveUrl("signalr/hubs") %>"></script>
     <link rel="stylesheet" href="/StyleSheets/JQueryUI/themes/base/jquery.ui.all.css">
-    <script src="/Scripts/ui/jquery.ui.core.js"></script>
-    <script src="/Scripts/ui/jquery.ui.widget.js"></script>
-    <script src="/Scripts/ui/jquery.ui.mouse.js"></script>
-    <script src="/Scripts/ui/jquery.ui.draggable.js"></script>
-    <script src="/Scripts/ui/jquery.ui.resizable.js"></script>
-    <link href="StyleSheets/ChatWindow.css" rel="stylesheet" />
+
+    <!-- Realtime Notification System -->
+    <script type="text/javascript">
+        $(function () {
+            var contact = $.connection.userActivityHub;
+            contact.client.updateNotifications = function (name) {
+                
+            };
+            $.connection.hub.start().done(function () {
+                console.log('start');
+                contact.server.getNotifications();
+            });
+        });
+
+    </script>
+
+    <!-- Profile Picture Upload Script -->
     <script type="text/javascript">
         $(document).on('click', '#ProfilePicture', function () {
             $("#ProfileUpload").click();

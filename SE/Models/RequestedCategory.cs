@@ -17,6 +17,7 @@ namespace SE.Models
         public int CategoryID { get; set; }
         public bool IsApproved { get; set; }
         public string RequestingUser { get; set; }
+        public string Owner { get; set; }
     
         public virtual Category Category { get; set; }
     }

@@ -18,8 +18,9 @@ namespace SE.Models
         {
             this.CategoryAssignments = new HashSet<CategoryAssignment>();
             this.CompletedMainSteps = new HashSet<CompletedMainStep>();
-            this.Tasks = new HashSet<Task>();
             this.CompletedTasks = new HashSet<CompletedTask>();
+            this.TaskAssignments = new HashSet<TaskAssignment>();
+            this.Tasks = new HashSet<Task>();
         }
     
         public string AssignedUser { get; set; }
@@ -27,7 +28,8 @@ namespace SE.Models
     
         public virtual ICollection<CategoryAssignment> CategoryAssignments { get; set; }
         public virtual ICollection<CompletedMainStep> CompletedMainSteps { get; set; }
-        public virtual ICollection<Task> Tasks { get; set; }
         public virtual ICollection<CompletedTask> CompletedTasks { get; set; }
+        public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

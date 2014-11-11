@@ -31,6 +31,7 @@ namespace SE.Models
         public virtual aspnet_Applications aspnet_Applications { get; set; }
         public virtual aspnet_Membership aspnet_Membership { get; set; }
         public virtual ICollection<aspnet_PersonalizationPerUser> aspnet_PersonalizationPerUser { get; set; }
+        public virtual aspnet_Profile aspnet_Profile { get; set; }
         public virtual ICollection<aspnet_Roles> aspnet_Roles { get; set; }
     }
 }

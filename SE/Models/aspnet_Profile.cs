@@ -12,11 +12,14 @@ namespace SE.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class aspnet_Profile
     {
-        public string UserName { get; set; }
-        public string ConnectionID { get; set; }
-        public bool Connected { get; set; }
-        public int Id { get; set; }
+        public System.Guid UserId { get; set; }
+        public string PropertyNames { get; set; }
+        public string PropertyValuesString { get; set; }
+        public byte[] PropertyValuesBinary { get; set; }
+        public System.DateTime LastUpdatedDate { get; set; }
+    
+        public virtual aspnet_Users aspnet_Users { get; set; }
     }
 }

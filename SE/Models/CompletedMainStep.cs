@@ -20,7 +20,6 @@ namespace SE.Models
         public string AssignedUser { get; set; }
         public System.DateTime DateTimeComplete { get; set; }
         public double TotalTime { get; set; }
-        public int id { get; set; }
     
         public virtual MainStep MainStep { get; set; }
         public virtual MemberAssignment MemberAssignment { get; set; }
