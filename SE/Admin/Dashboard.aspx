@@ -15,7 +15,7 @@
                         <asp:UpdatePanel ID="ManageUserGrid" runat="server">
                             <ContentTemplate>
                                 <div class="col-xs-11 userManager" style="padding: 5px;">
-                                    <div class="panel panel-primary" style="position: fixed; top: 70px">
+                                    <div class="panel panel-primary" style="position: fixed; top: 85px">
                                         <div class="panel-heading">
                                             <i class="fa fa-users fa-fw"></i>User Management
                                         </div>
@@ -123,9 +123,9 @@
                                                 </asp:RegularExpressionValidator>
                                                 <asp:TextBox ID="Email" CssClass="form-control" runat="server"></asp:TextBox>
                                             </div>
-                                            <asp:Button ID="CreateUserButton" CssClass="btn btn-default right" runat="server"
+                                            <asp:Button ID="CreateSupervisor" CssClass="btn btn-default right" runat="server"
                                                 ValidationGroup="CreateUserWizard" CausesValidation="true" Text="Submit"
-                                                OnClick="CreateUserButton_Click" />
+                                                OnClick="CreateSupervisorButton_Click" />
                                         </div>
                                     </div>
                                 </div>

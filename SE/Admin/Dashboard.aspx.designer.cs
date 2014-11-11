@@ -229,13 +229,13 @@ namespace SE {
         protected global::System.Web.UI.WebControls.TextBox Email;
         
         /// <summary>
-        /// CreateUserButton control.
+        /// CreateSupervisor control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CreateUserButton;
+        protected global::System.Web.UI.WebControls.Button CreateSupervisor;
         
         /// <summary>
         /// Supervisor control.

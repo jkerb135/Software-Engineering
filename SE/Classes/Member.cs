@@ -428,7 +428,6 @@ namespace SE.Classes
             DataTable userTable = new DataTable();
             userTable = activeUsers.Tables.Add("Supervisor");
             userTable.Columns.Add("Username", Type.GetType("System.String"));
-            userTable.Columns.Add("Online");
             MembershipUserCollection activeUserCollection;
             activeUserCollection = Membership.GetAllUsers();
             foreach (MembershipUser membership in activeUserCollection)
@@ -440,6 +439,13 @@ namespace SE.Classes
                     row["Username"] = "<a class='signalRUser' id= " + membership.UserName + " href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
                     userTable.Rows.Add(row);
                 }
+            }
+            if (userTable.Columns.Count == 1)
+            {
+                DataRow row;
+                row = userTable.NewRow();
+                row["Username"] = "No other supervisors in the system.";
+                userTable.Rows.Add(row);
             }
             return activeUsers;
         }

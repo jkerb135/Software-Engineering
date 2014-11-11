@@ -67,10 +67,9 @@ namespace SE
 
         }
 
-        protected void CreateUserButton_Click(object sender, EventArgs e)
+        protected void CreateSupervisorButton_Click(object sender, EventArgs e)
         {
             string ErrorMessage = "";
-
             if (Member.ValidatePassword(Password.Text, ref ErrorMessage))
             {
                 if (Membership.GetUser(UserName.Text) == null)
@@ -82,6 +81,7 @@ namespace SE
                     // Create User
                     Membership.CreateUser(UserName.Text, Password.Text);
                     MembershipUser NewMember = Membership.GetUser(UserName.Text);
+                    Roles.AddUserToRole(NewMember.UserName, "Supervisor");
                     NewMember.Email = Email.Text;
                     Membership.UpdateUser(NewMember);
 
@@ -91,7 +91,6 @@ namespace SE
                     ErrorMessage = "Username already exists";
                 }
             }
-
             CreateUserErrorMessage.Text = ErrorMessage;
         }
 
