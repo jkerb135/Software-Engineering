@@ -19,27 +19,42 @@
 
     <!-- Realtime Notification System -->
     <script type="text/javascript">
+
         $(function () {
             var contact = $.connection.userActivityHub;
+            $.connection.hub.start().done(function () {
+                contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
+        });;
             contact.client.yourCategoryRequests = function (categories) {
                 $("#requests").html("");
                 for (var i = 0; i < categories.length; i++) {
                     $('#messageCount').html(i + 1);
-                    if (i < 5) {
                         console.log(categories[i]);
-                        var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>10/10/10</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
+                        var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
                         $("#requests").append(code);
-                    }
                 }
                 var code = '<li><a class="text-center" href="#"><strong>Read All Notifications</strong><i class="fa fa-angle-right"></i></a></li>';
                 $("#requests").append(code);
 
             };
-            $.connection.hub.start().done(function(){
-                contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
+            contact.client.sendYourCategoryRequests = function (categories) {
+                console.log('haha');
+                $("#requests").html("");
+                for (var i = 0; i < categories.length; i++) {
+                    $('#messageCount').html(i + 1);
+                        console.log(categories[i]);
+                        var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
+                        $("#requests").append(code);
+                    
+                }
+                var code = '<li><a class="text-center" href="#"><strong>Read All Notifications</strong><i class="fa fa-angle-right"></i></a></li>';
+                $("#requests").append(code);
+                
+            };
+
+            $(document).on('click', '.requestCatBtn', function () {
+                contact.server.sendCategoryNotifications('<%=Request.QueryString["userName"]%>');
             });
-            setInterval(function(){contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>')},3000);
-            
         });
 
     </script>
@@ -107,9 +122,9 @@
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#" ><span id="messageCount"></span>
-                            <i class="fa fa-envelope fa-fw"></i><i class="fa fa-caret-down"></i>
+                            <i class="fa fa-envelope fa-fw" id="envelope"></i><i class="fa fa-caret-down"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-messages" id="requests">
+                        <ul class="dropdown-menu dropdown-messages" id="requests" style="max-height:450px;overflow-y:scroll;">
                         </ul>
                         <!-- /.dropdown-messages -->
                     </li>

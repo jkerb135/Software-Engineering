@@ -100,6 +100,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Data.Services.Client" />
     <Reference Include="System.Drawing" />
@@ -247,22 +248,22 @@
     <Content Include="Scripts\jquery-1.11.0.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
-    <EntityDeploy Include="Models\iPawsEntity.edmx">
+    <EntityDeploy Include="Models\iPaws.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>iPawsEntity.Designer.cs</LastGenOutput>
+      <LastGenOutput>iPaws.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\iPawsEntity.Context.tt">
+    <Content Include="Models\iPaws.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>iPawsEntity.edmx</DependentUpon>
-      <LastGenOutput>iPawsEntity.Context.cs</LastGenOutput>
+      <DependentUpon>iPaws.edmx</DependentUpon>
+      <LastGenOutput>iPaws.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\iPawsEntity.edmx.diagram">
-      <DependentUpon>iPawsEntity.edmx</DependentUpon>
+    <Content Include="Models\iPaws.edmx.diagram">
+      <DependentUpon>iPaws.edmx</DependentUpon>
     </Content>
-    <Content Include="Models\iPawsEntity.tt">
+    <Content Include="Models\iPaws.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>iPawsEntity.edmx</DependentUpon>
-      <LastGenOutput>iPawsEntity.cs</LastGenOutput>
+      <DependentUpon>iPaws.edmx</DependentUpon>
+      <LastGenOutput>iPaws.cs</LastGenOutput>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -576,85 +577,85 @@
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Applications.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Membership.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Paths.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_PersonalizationAllUsers.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_PersonalizationPerUser.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Profile.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Roles.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_SchemaVersions.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Users.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_WebEvent_Events.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Category.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CategoryAssignment.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CompletedMainStep.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CompletedTask.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailedStep.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\iPawsEntity.Context.cs">
+    <Compile Include="Models\iPaws.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>iPawsEntity.Context.tt</DependentUpon>
+      <DependentUpon>iPaws.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\iPawsEntity.cs">
+    <Compile Include="Models\iPaws.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\iPawsEntity.Designer.cs">
+    <Compile Include="Models\iPaws.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>iPawsEntity.edmx</DependentUpon>
+      <DependentUpon>iPaws.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\MainStep.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\MemberAssignment.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Profile.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequestedCategory.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Task.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TaskAssignment.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>iPawsEntity.tt</DependentUpon>
+      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">

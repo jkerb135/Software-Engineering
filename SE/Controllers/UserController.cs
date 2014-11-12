@@ -53,7 +53,7 @@ namespace SE.Controllers
         /// Gets all users in the database
         /// </summary>
         /// <returns></returns>
-       iPawsEntities db = new iPawsEntities();
+       ipawsTeamBEntities db = new ipawsTeamBEntities();
         public IEnumerable<User> GetAllUsers()
         {
             return db.aspnet_Users.ToList().Where(x => x.aspnet_Roles.Any(tl => tl.RoleName == "User")).Select(tl => new User { ApplicationId = tl.ApplicationId, UserId = tl.UserId, UserName = tl.UserName, IsAnonymous = tl.IsAnonymous, LastActivityDate = tl.LastActivityDate, Password = tl.aspnet_Membership.Password }).AsEnumerable<User>();

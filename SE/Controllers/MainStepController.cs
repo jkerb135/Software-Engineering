@@ -23,7 +23,7 @@ namespace SE.Controllers
     }
     public class MainStepController : ApiController
     {
-        iPawsEntities db = new iPawsEntities();
+        ipawsTeamBEntities db = new ipawsTeamBEntities();
         /// <summary>
         /// Gets all main steps from the database.
         /// </summary>

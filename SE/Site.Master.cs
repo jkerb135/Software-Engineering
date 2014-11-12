@@ -45,7 +45,7 @@ namespace SE
 
         protected void getPictureFromDb(string username)
         {
-            using (iPawsEntities db = new iPawsEntities())
+            using (ipawsTeamBEntities db = new ipawsTeamBEntities())
             {
                 var profile = db.Profiles.FirstOrDefault(find => find.Name == username);
                 if (profile == null)
@@ -63,7 +63,7 @@ namespace SE
         public string getOtherPictureFromDb(string username)
         {
             string url;
-            using (iPawsEntities db = new iPawsEntities())
+            using (ipawsTeamBEntities db = new ipawsTeamBEntities())
             {
                 var profile = db.Profiles.FirstOrDefault(find => find.Name == username);
                 if (profile == null)
@@ -84,7 +84,7 @@ namespace SE
             if (ProfileUpload.HasFile)
             {
                 string Message = "";
-                using (iPawsEntities db = new iPawsEntities())
+                using (ipawsTeamBEntities db = new ipawsTeamBEntities())
                 {
                     var exists = db.Profiles.FirstOrDefault(find => find.Name == userName);
                     Message = Methods.UploadFile(ProfileUpload, "Image");

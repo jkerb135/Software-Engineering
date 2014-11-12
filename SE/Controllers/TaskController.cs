@@ -9,7 +9,7 @@ namespace SE.Controllers
 {
     public class TaskController : ApiController
     {
-        iPawsEntities db = new iPawsEntities();
+        ipawsTeamBEntities db = new ipawsTeamBEntities();
         public class CatTasks
         {
             public int CategoryID { get; set; }

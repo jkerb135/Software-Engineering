@@ -13,7 +13,7 @@ namespace SE.Hubs
     
      public class UserActivityHub : Hub
     {
-        iPawsEntities db = new iPawsEntities();
+         ipawsTeamBEntities db = new ipawsTeamBEntities();
         public override System.Threading.Tasks.Task OnConnected()
         {
             var name = Context.User.Identity.Name;
@@ -49,7 +49,7 @@ namespace SE.Hubs
         }
         public override System.Threading.Tasks.Task OnDisconnected(bool stopcalled)
         {
-           using (var db = new iPawsEntities())
+           using (var db = new ipawsTeamBEntities())
            {
                var connection = db.Users.Find(Context.User.Identity.Name);
                connection.Connected = false;
@@ -63,12 +63,29 @@ namespace SE.Hubs
             var yourNotifications = from r in db.RequestedCategories
                                     join c in db.Categories on r.CategoryID equals c.CategoryID
                                     where r.CreatedBy == Context.User.Identity.Name
+                                    orderby r.Date descending
                                     select new
                                     {
                                         CategoryName = c.CategoryName,
                                         Requester = r.RequestingUser,
+                                        Date = r.Date,
                                     };
             Clients.Client(toUser.ConnectionID).yourCategoryRequests(yourNotifications.ToArray());
+        }
+        public void sendCategoryNotifications(string userName)
+        {
+            var toUser = db.Users.FirstOrDefault(find => find.UserName == userName);
+            var yourNotifications = from r in db.RequestedCategories
+                                    join c in db.Categories on r.CategoryID equals c.CategoryID
+                                    where r.CreatedBy == userName
+                                    orderby r.Date descending
+                                    select new
+                                    {
+                                        CategoryName = c.CategoryName,
+                                        Requester = r.RequestingUser,
+                                        Date = r.Date,
+                                    };
+            Clients.Client(toUser.ConnectionID).sendYourCategoryRequests(yourNotifications.ToArray());
         }
 
     }

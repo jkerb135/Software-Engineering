@@ -250,7 +250,7 @@
                                                     <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
                                                         <HeaderTemplate>Request Category</HeaderTemplate>
                                                         <ItemTemplate>
-                                                            <asp:Button ID="RequestCat" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="Request" Text="Request"  CommandArgument='<%# Eval("CategoryID") %>'/>
+                                                            <asp:Button ID="RequestCat" CssClass="btn btn-primary form-control requestCatBtn" runat="server" CausesValidation="false" CommandName="Request" Text="Request"  CommandArgument='<%# Eval("CategoryID") %>'/>
                                                         </ItemTemplate>
                                                     </asp:TemplateField>
                                                 </Columns>
