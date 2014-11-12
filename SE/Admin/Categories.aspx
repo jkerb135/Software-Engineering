@@ -226,12 +226,12 @@
                                 </div>
                                 <div class="col-xs-3" style="padding: 5px">
                                     <div class="row" style="padding: 0px 0px 10px 15px;">
-                                        <div class="col-xs-7 reset">
+                                        <div class="col-xs-11 reset">
                                             <asp:TextBox CssClass="form-control" ID="mainFilter" runat="server" placeholder="Filter Main Steps" AutoPostBack="true" OnTextChanged="mainFilter_TextChanged"></asp:TextBox>
                                         </div>
-                                        <div class="col-xs-4 reset">
+                                        <!--<div class="col-xs-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="mainStepSort" runat="server" Text="" OnClick="mainStep_Sort" />
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <div class="row" style="padding: 0px 0px 0px 15px;">
                                         <div class="col-xs-3 reset">
@@ -253,12 +253,12 @@
                                 </div>
                                 <div class="col-xs-3" style="padding: 5px">
                                     <div class="row" style="padding: 0px 0px 10px 15px;">
-                                        <div class="col-xs-7 reset">
+                                        <div class="col-xs-11 reset">
                                             <asp:TextBox CssClass="form-control" ID="detailFilter" runat="server" placeholder="Filter Detailed Steps" AutoPostBack="true" OnTextChanged="detailFilter_TextChanged"></asp:TextBox>
                                         </div>
-                                        <div class="col-xs-4 reset">
+                                        <!--<div class="col-xs-4 reset">
                                             <asp:Button CssClass="form-control btn btn-primary" ID="detailedSort" runat="server" Text="" OnClick="detailedDateSort_Click" />
-                                        </div>
+                                        </div>-->
                                     </div>
                                      <div class="row" style="padding: 0px 0px 0px 15px;">
                                         <div class="col-xs-3 reset">
