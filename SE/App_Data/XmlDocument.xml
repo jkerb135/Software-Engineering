@@ -2265,9 +2265,36 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Site.profile">
+            <summary>
+            profile control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Site.ProfilePicture">
             <summary>
             ProfilePicture control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Site.ProfileUpload">
+            <summary>
+            ProfileUpload control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Site.UploadFile">
+            <summary>
+            UploadFile control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -2322,24 +2349,6 @@
         <member name="F:SE.Site.otheruser">
             <summary>
             otheruser control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.Site.ProfileUpload">
-            <summary>
-            ProfileUpload control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.Site.UploadFile">
-            <summary>
-            UploadFile control.
             </summary>
             <remarks>
             Auto-generated field.
