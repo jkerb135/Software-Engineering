@@ -1437,6 +1437,15 @@ namespace SE
                 }
                 mainStep.DataSource = sort;
                 mainStep.DataBind();
+
+                //Display the step number
+                int i = 1;
+
+                foreach (ListItem ms in mainStep.Items)
+                {
+                    ms.Text = "Step " + i + ": " + ms.Text;
+                    i++;
+                }
             }
         }
         protected void detailedDateSort_Click(object sender, EventArgs e)
@@ -1479,6 +1488,15 @@ namespace SE
                 }
                 detailedStep.DataSource = sort;
                 detailedStep.DataBind();
+
+                //Display the step number
+                int i = 1;
+
+                foreach (ListItem ds in detailedStep.Items)
+                {
+                    ds.Text = "Step " + i + ": " + ds.Text;
+                    i++;
+                }
             }
         }
 
