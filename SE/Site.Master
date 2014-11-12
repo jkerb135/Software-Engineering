@@ -22,20 +22,24 @@
         $(function () {
             var contact = $.connection.userActivityHub;
             contact.client.yourCategoryRequests = function (categories) {
+                $("#requests").html("");
                 for (var i = 0; i < categories.length; i++) {
                     $('#messageCount').html(i + 1);
-                    console.log(categories[i]);
-                    var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>10/10/10</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
-                    $("#requests").append(code);
+                    if (i < 5) {
+                        console.log(categories[i]);
+                        var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>10/10/10</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
+                        $("#requests").append(code);
+                    }
                 }
                 var code = '<li><a class="text-center" href="#"><strong>Read All Notifications</strong><i class="fa fa-angle-right"></i></a></li>';
                 $("#requests").append(code);
 
             };
-            $.connection.hub.start().done(function () {
-                console.log('start');
+            $.connection.hub.start().done(function(){
                 contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
             });
+            setInterval(function(){contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>')},3000);
+            
         });
 
     </script>
