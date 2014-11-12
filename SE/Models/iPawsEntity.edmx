@@ -243,7 +243,7 @@ warning 6002: The table/view 'dpt_se.dbo.RequestedCategories' does not have a pr
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="IsApproved" Type="bit" Nullable="false" />
           <Property Name="RequestingUser" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="Owner" Type="nvarchar" MaxLength="256" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -646,7 +646,7 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
     [RequestedCategories].[CategoryID] AS [CategoryID], 
     [RequestedCategories].[IsApproved] AS [IsApproved], 
     [RequestedCategories].[RequestingUser] AS [RequestingUser], 
-    [RequestedCategories].[Owner] AS [Owner]
+    [RequestedCategories].[CreatedBy] AS [CreatedBy]
     FROM [dbo].[RequestedCategories] AS [RequestedCategories]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="TaskAssignments" EntityType="Self.TaskAssignments" store:Type="Tables" store:Schema="dbo">
@@ -918,9 +918,9 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="CategoryAssignments" Relationship="Self.FK_CategoryAssignments_Categories" FromRole="Categories" ToRole="CategoryAssignments" />
-          <NavigationProperty Name="RequestedCategories" Relationship="Self.FK_RequestedCategories_Categories" FromRole="Categories" ToRole="RequestedCategories" />
           <NavigationProperty Name="TaskAssignments" Relationship="Self.FK_TaskAssignments_Categories" FromRole="Categories" ToRole="TaskAssignments" />
           <NavigationProperty Name="Tasks" Relationship="Self.FK_Tasks_Categories" FromRole="Categories" ToRole="Tasks" />
+          <NavigationProperty Name="RequestedCategories" Relationship="iPawsModel.FK_RequestedCategories_Categories" FromRole="Category" ToRole="RequestedCategory" />
         </EntityType>
         <EntityType Name="CategoryAssignment">
           <Key>
@@ -1039,18 +1039,6 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <NavigationProperty Name="MemberAssignment" Relationship="Self.FK_CompletedTasks_MemberAssignments" FromRole="CompletedTasks" ToRole="MemberAssignments" />
           <NavigationProperty Name="Task" Relationship="Self.FK_CompletedTasks_Tasks" FromRole="CompletedTasks" ToRole="Tasks" />
         </EntityType>
-        <EntityType Name="RequestedCategory">
-          <Key>
-            <PropertyRef Name="CategoryID" />
-            <PropertyRef Name="IsApproved" />
-            <PropertyRef Name="RequestingUser" />
-          </Key>
-          <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
-          <Property Name="RequestingUser" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_RequestedCategories_Categories" FromRole="RequestedCategories" ToRole="Categories" />
-          <Property Name="Owner" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="TaskAssignment">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -1066,9 +1054,6 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserName" />
-            <PropertyRef Name="ConnectionID" />
-            <PropertyRef Name="Connected" />
-            <PropertyRef Name="Id" />
           </Key>
           <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="ConnectionID" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
@@ -1193,18 +1178,6 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
               <PropertyRef Name="CategoryID" />
             </Principal>
             <Dependent Role="CategoryAssignments">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RequestedCategories_Categories">
-          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
-          <End Role="RequestedCategories" Type="Self.RequestedCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="RequestedCategories">
               <PropertyRef Name="CategoryID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1399,7 +1372,6 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <EntitySet Name="Tasks" EntityType="Self.Task" />
           <EntitySet Name="CompletedMainSteps" EntityType="Self.CompletedMainStep" />
           <EntitySet Name="CompletedTasks" EntityType="Self.CompletedTask" />
-          <EntitySet Name="RequestedCategories" EntityType="Self.RequestedCategory" />
           <EntitySet Name="TaskAssignments" EntityType="Self.TaskAssignment" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK__aspnet_Me__Appli__075714DC" Association="Self.FK__aspnet_Me__Appli__075714DC">
@@ -1441,10 +1413,6 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
           <AssociationSet Name="FK_CategoryAssignments_Categories" Association="Self.FK_CategoryAssignments_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RequestedCategories_Categories" Association="Self.FK_RequestedCategories_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="RequestedCategories" EntitySet="RequestedCategories" />
           </AssociationSet>
           <AssociationSet Name="FK_TaskAssignments_Categories" Association="Self.FK_TaskAssignments_Categories">
             <End Role="Categories" EntitySet="Categories" />
@@ -1502,7 +1470,36 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <EntitySet Name="RequestedCategories" EntityType="iPawsModel.RequestedCategory" />
+          <AssociationSet Name="FK_RequestedCategories_Categories" Association="iPawsModel.FK_RequestedCategories_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="RequestedCategory" EntitySet="RequestedCategories" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="RequestedCategory">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+            <PropertyRef Name="IsApproved" />
+            <PropertyRef Name="RequestingUser" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="RequestingUser" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Category" Relationship="iPawsModel.FK_RequestedCategories_Categories" FromRole="RequestedCategory" ToRole="Category" />
+        </EntityType>
+        <Association Name="FK_RequestedCategories_Categories">
+          <End Type="iPawsModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="iPawsModel.RequestedCategory" Role="RequestedCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="RequestedCategory">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1746,16 +1743,6 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RequestedCategories">
-            <EntityTypeMapping TypeName="iPawsModel.RequestedCategory">
-              <MappingFragment StoreEntitySet="RequestedCategories">
-                <ScalarProperty Name="Owner" ColumnName="Owner" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-                <ScalarProperty Name="RequestingUser" ColumnName="RequestingUser" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="TaskAssignments">
             <EntityTypeMapping TypeName="iPawsModel.TaskAssignment">
               <MappingFragment StoreEntitySet="TaskAssignments">
@@ -1783,6 +1770,16 @@ warning 6002: The table/view 'dpt_se.dbo.TaskAssignments' does not have a primar
               <ScalarProperty Name="UserId" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="RequestedCategories">
+            <EntityTypeMapping TypeName="iPawsModel.RequestedCategory">
+              <MappingFragment StoreEntitySet="RequestedCategories">
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RequestingUser" ColumnName="RequestingUser" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

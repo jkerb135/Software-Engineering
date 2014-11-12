@@ -20,6 +20,8 @@ namespace SE
         {
             if (!IsPostBack)
             {
+                AssignedToLabel.Visible = true;
+                AssignedTo.Visible = true;
                 if (Roles.IsUserInRole(Membership.GetUser().UserName, "Supervisor"))
                 {
                     DashboardView.ActiveViewIndex = (int)DashView.Supervisor;
@@ -67,35 +69,6 @@ namespace SE
             signededIn.HeaderRow.TableSection = TableRowSection.TableHeader;
 
         }
-        protected void CreateSupervisorButton_Click(object sender, EventArgs e)
-        {
-            string ErrorMessage = "";
-
-            if (Member.ValidatePassword(Password.Text, ref ErrorMessage))
-            {
-                if (Membership.GetUser(UserName.Text) == null)
-                {
-                    // Add user to role
-
-                    // Assign the user to supervisor
-
-                    // Create User
-                    Membership.CreateUser(UserName.Text, Password.Text);
-                    MembershipUser NewMember = Membership.GetUser(UserName.Text);
-                    Roles.AddUserToRole(NewMember.UserName, "Supervisor");
-                    NewMember.Email = Email.Text;
-                    Membership.UpdateUser(NewMember);
-
-                }
-                else
-                {
-                    ErrorMessage = "Username already exists";
-                }
-            }
-
-            CreateUserErrorMessage.Text = ErrorMessage;
-        }
-
         protected void CreateUserButton_Click(object sender, EventArgs e)
         {
             string ErrorMessage = "";
@@ -104,26 +77,38 @@ namespace SE
                 if (Membership.GetUser(UserName.Text) == null)
                 {
                     // Add user to role
-
-                    // Assign the user to supervisor
+                    if (managerState.Value == "User")
+                    {
+                        Roles.AddUserToRole(UserName.Text, "User");
+                        Member.AssignToUser(UserName.Text, AssignedTo.SelectedValue);
+                        AssignedToLabel.Visible = true;
+                        AssignedTo.Visible = true;
+                    }
+                    else if (managerState.Value == "Supervisor")
+                    {
+                        AssignedTo.SelectedIndex = 0;
+                        Roles.AddUserToRole(UserName.Text, "Supervisor");
+                        AssignedToLabel.Visible = false;
+                        AssignedTo.Visible = false;
+                    }
 
                     // Create User
                     Membership.CreateUser(UserName.Text, Password.Text);
                     MembershipUser NewMember = Membership.GetUser(UserName.Text);
-                    Roles.AddUserToRole(NewMember.UserName, "Supervisor");
-                    Roles.AddUserToRole(NewMember.UserName, "User");
                     NewMember.Email = Email.Text;
                     Membership.UpdateUser(NewMember);
-
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "blink();", true);
+                    //Success
+                    UserName.Text = Password.Text = ConfirmPassword.Text = Email.Text = String.Empty;
                 }
                 else
                 {
                     ErrorMessage = "Username already exists";
                 }
             }
+
             CreateUserErrorMessage.Text = ErrorMessage;
         }
-
 
         private void BindSupervisors(DropDownList drp)
         {
@@ -132,5 +117,13 @@ namespace SE
 
             Methods.AddBlankToDropDownList(drp);
         }
+
+        protected void allUsers_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            allUsersSource.SelectCommand = "Select a.AssignedSupervisor, b.UserName, b.LastActivityDate, c.Email, c.IsApproved, c.IsLockedOut, e.RoleName from MemberAssignments a right outer join aspnet_Users b on a.AssignedUser = b.UserName inner join aspnet_Membership c on b.UserId = c.UserId inner join aspnet_UsersInRoles d on c.UserId = d.UserId inner join aspnet_Roles e on d.RoleId = e.RoleId";
+            allUsers.PageIndex = e.NewPageIndex;
+            allUsers.DataBind();
+        }
+
     }
 }

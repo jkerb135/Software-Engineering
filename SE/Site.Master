@@ -21,12 +21,20 @@
     <script type="text/javascript">
         $(function () {
             var contact = $.connection.userActivityHub;
-            contact.client.updateNotifications = function (name) {
-                
+            contact.client.yourCategoryRequests = function (categories) {
+                for (var i = 0; i < categories.length; i++) {
+                    $('#messageCount').html(i + 1);
+                    console.log(categories[i]);
+                    var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>10/10/10</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
+                    $("#requests").append(code);
+                }
+                var code = '<li><a class="text-center" href="#"><strong>Read All Notifications</strong><i class="fa fa-angle-right"></i></a></li>';
+                $("#requests").append(code);
+
             };
             $.connection.hub.start().done(function () {
                 console.log('start');
-                contact.server.getNotifications();
+                contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
             });
         });
 
@@ -92,55 +100,12 @@
                     </ul>
                 </div>
                 <!-- /.navbar-header -->
-
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ><span id="messageCount"></span>
                             <i class="fa fa-envelope fa-fw"></i><i class="fa fa-caret-down"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-messages">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <strong>John Smith</strong>
-                                        <span class="pull-right text-muted">
-                                            <em>Yesterday</em>
-                                        </span>
-                                    </div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>Read All Messages</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
+                        <ul class="dropdown-menu dropdown-messages" id="requests">
                         </ul>
                         <!-- /.dropdown-messages -->
                     </li>
@@ -291,8 +256,8 @@
                     <li>
                         <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'"></i> Logout</asp:LinkButton>
                     </li>
-                    <!-- /.dropdown -->
                 </ul>
+                    <!-- /.dropdown -->
                 <!-- /.navbar-top-links -->
 
                 <div class="navbar-default sidebar" role="navigation">

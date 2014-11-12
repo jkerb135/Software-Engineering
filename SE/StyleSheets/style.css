@@ -165,19 +165,16 @@ ul.ripple:hover li{
      border-top-left-radius: 5px;
      border-top-right-radius: 5px;
  }
-.content{
-    margin-left: 20px;
-    width:80%;
-}
+
 #contentWrapper{
-    margin:230px auto 0;
-    z-index:1000;
+    margin:0px auto;
     
 }
 #addSupervisor, #addUser{
     display:none;
+    min-height:400px;
 }
 .userManager {
-    z-index: 9999;
+    z-index: 1;
 
 }

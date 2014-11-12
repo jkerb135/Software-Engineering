@@ -498,7 +498,7 @@ namespace SE.Admin
         protected void RequestCatGrid_RowCommand1(object sender, GridViewCommandEventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "requestCat();", true);
-            string queryString = "Insert Into RequestedCategories (CategoryID, IsApproved, RequestingUser) Values (@id, @bool, @user)";
+            string queryString = "Insert Into RequestedCategories (CategoryID, IsApproved, RequestingUser,CreatedBy) Values (@id, @bool, @user,@owner)";
             string queryString2 = "Select count(*) from RequestedCategories Where CategoryID = @id and RequestingUser=@user";
             using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
             {
@@ -506,6 +506,7 @@ namespace SE.Admin
                 cmd.Parameters.AddWithValue("@id", Convert.ToInt32(e.CommandArgument));
                 cmd.Parameters.AddWithValue("@user", user);
                 cmd.Parameters.AddWithValue("@bool", false);
+                cmd.Parameters.AddWithValue("@owner", Request.QueryString["userName"].ToString());
                 SqlCommand cmd2 = new SqlCommand(queryString2, con);
                 cmd2.Parameters.AddWithValue("@id", Convert.ToInt32(e.CommandArgument));
                 cmd2.Parameters.AddWithValue("@user", user);

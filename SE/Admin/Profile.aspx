@@ -327,39 +327,49 @@
             });
             var openDiv;
             $(document).on("click", ".catButton", function () {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
-                    $('#catData').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#catData');
-                });
+                if ($(openDiv).attr('id') != 'catData') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function () {
+                        $('#catData').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#catData');
+                    });
+                }
             });
             $(document).on("click", ".taskButton", function () {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
-                    $('#taskData').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#taskData');
-                });
+                if ($(openDiv).attr('id') != 'taskData') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function () {
+                        $('#taskData').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#taskData');
+                    });
+                }
             });
             $(document).on("click", ".assignedUsers", function () {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
-                    $('#userData').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#userData');
-                });
+                if ($(openDiv).attr('id') != 'userData') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function () {
+                        $('#userData').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#userData');
+                    });
+                }
             });
             $(document).on("click", ".requestCat", function () {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
-                    $('#requestCat').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#requestCat');
-                });
+                if ($(openDiv).attr('id') != 'requestCat') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function () {
+                        $('#requestCat').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#requestCat');
+                    });
+                }
             });
             $(document).on("click", ".requestTask", function () {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
-                    $('#requestTask').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#requestTask');
-                });
+                if ($(openDiv).attr('id') != 'requestTask') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function () {
+                        $('#requestTask').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#requestTask');
+                    });
+                }
             });
         function hideCats() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);

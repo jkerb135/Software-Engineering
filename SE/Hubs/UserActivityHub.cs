@@ -14,7 +14,6 @@ namespace SE.Hubs
      public class UserActivityHub : Hub
     {
         iPawsEntities db = new iPawsEntities();
-
         public override System.Threading.Tasks.Task OnConnected()
         {
             var name = Context.User.Identity.Name;
@@ -57,6 +56,19 @@ namespace SE.Hubs
                db.SaveChanges();
            }
            return base.OnDisconnected(stopcalled);
+        }
+        public void getCategoryNotifications(string userName)
+        {
+            var toUser = db.Users.FirstOrDefault(find => find.UserName == userName);
+            var yourNotifications = from r in db.RequestedCategories
+                                    join c in db.Categories on r.CategoryID equals c.CategoryID
+                                    where r.CreatedBy == Context.User.Identity.Name
+                                    select new
+                                    {
+                                        CategoryName = c.CategoryName,
+                                        Requester = r.RequestingUser,
+                                    };
+            Clients.Client(toUser.ConnectionID).yourCategoryRequests(yourNotifications.ToArray());
         }
 
     }

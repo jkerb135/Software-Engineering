@@ -286,8 +286,14 @@ namespace SE.Classes
                 cmd.Parameters.AddWithValue("@user", User);
 
                 con.Open();
-
-                Supervisor = cmd.ExecuteScalar().ToString();
+                try
+                {
+                    Supervisor = cmd.ExecuteScalar().ToString();
+                }
+                catch
+                {
+                    Supervisor = "";
+                }
 
                 con.Close();
             }
