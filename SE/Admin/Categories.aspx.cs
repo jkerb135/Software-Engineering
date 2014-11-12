@@ -561,12 +561,16 @@ namespace SE
 
         protected void MoveLeft_Click(object sender, EventArgs e)
         {
-            ListBox control = EditTaskPanel.Visible ? UsersAssignedToTask : UsersInCategory;
+            ListBox control = EditTaskPanel.Visible ? AllUsersTask : AllUsers;
+            ListBox control2 = EditTaskPanel.Visible ? UsersAssignedToTask : UsersInCategory;
 
-            if (control.SelectedItem != null)
+            if (control2.SelectedItem != null)
             {
-                control.Items.Remove(control.SelectedItem.Value);
+                control.Items.Add(control2.SelectedItem.Value);
+                control2.Items.Remove(control2.SelectedItem.Value);
             }
+
+
         }
 
         protected void MoveRight_Click(object sender, EventArgs e)
@@ -578,6 +582,7 @@ namespace SE
                 !control2.Items.Contains(control.SelectedItem))
             {
                 control2.Items.Add(control.SelectedItem.Value);
+                control.Items.Remove(control.SelectedItem.Value);
             }
         }
 
@@ -650,6 +655,11 @@ namespace SE
                 {
                     UsersInCategory.DataSource = UsersAssignedToSupervisorAssignedToCategory;
                     UsersInCategory.DataBind();
+
+                    foreach (string user in UsersAssignedToSupervisorAssignedToCategory)
+                    {
+                        control.Items.Remove(user);
+                    }
                 }
             }
             else if (EditTaskButton.Text == "Update Task" && EditTaskPanel.Visible)
@@ -660,6 +670,11 @@ namespace SE
                 {
                     UsersAssignedToTask.DataSource = UsersAssignedToSupervisorAssignedToTask;
                     UsersAssignedToTask.DataBind();
+
+                    foreach (string user in UsersAssignedToSupervisorAssignedToTask)
+                    {
+                        control.Items.Remove(user);
+                    }
                 }
             }
         }
