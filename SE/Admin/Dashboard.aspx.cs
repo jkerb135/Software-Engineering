@@ -1,8 +1,5 @@
 using SE.Classes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -18,24 +15,24 @@ namespace SE
         }
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
+            if (IsPostBack) return;
+            AssignedToLabel.Visible = true;
+            AssignedTo.Visible = true;
+            var membershipUser = Membership.GetUser();
+            if (membershipUser != null && Roles.IsUserInRole(membershipUser.UserName, "Supervisor"))
             {
-                AssignedToLabel.Visible = true;
-                AssignedTo.Visible = true;
-                if (Roles.IsUserInRole(Membership.GetUser().UserName, "Supervisor"))
-                {
-                    DashboardView.ActiveViewIndex = (int)DashView.Supervisor;
-                    getActiveUsers();
-                    getRecentUsers();
-                    getActiveSupervisor();
-                }
-                else if (Roles.IsUserInRole(Membership.GetUser().UserName, "Manager"))
-                {
-
-                    DashboardView.ActiveViewIndex = (int)DashView.Manager;
-                    getAllUsers();
-                    BindSupervisors(AssignedTo);
-                }
+                DashboardView.ActiveViewIndex = (int) DashView.Supervisor;
+                getActiveUsers();
+                getRecentUsers();
+                getActiveSupervisor();
+            }
+            else
+            {
+                var user = Membership.GetUser();
+                if (user == null || !Roles.IsUserInRole(user.UserName, "Manager")) return;
+                DashboardView.ActiveViewIndex = (int) DashView.Manager;
+                getAllUsers();
+                BindSupervisors(AssignedTo);
             }
         }
         protected void getAllUsers()
@@ -71,46 +68,47 @@ namespace SE
         }
         protected void CreateUserButton_Click(object sender, EventArgs e)
         {
-            string ErrorMessage = "";
-            if (Member.ValidatePassword(Password.Text, ref ErrorMessage))
+            var errorMessage = "";
+            if (Member.ValidatePassword(Password.Text, ref errorMessage))
             {
                 if (Membership.GetUser(UserName.Text) == null)
                 {
                     // Add user to role
-                    if (managerState.Value == "User")
+                    switch (managerState.Value)
                     {
-                        Roles.AddUserToRole(UserName.Text, "User");
-                        Member.AssignToUser(UserName.Text, AssignedTo.SelectedValue);
-                        AssignedToLabel.Visible = true;
-                        AssignedTo.Visible = true;
-                    }
-                    else if (managerState.Value == "Supervisor")
-                    {
-                        AssignedTo.SelectedIndex = 0;
-                        Roles.AddUserToRole(UserName.Text, "Supervisor");
-                        AssignedToLabel.Visible = false;
-                        AssignedTo.Visible = false;
+                        case "User":
+                            Roles.AddUserToRole(UserName.Text, "User");
+                            Member.AssignToUser(UserName.Text, AssignedTo.SelectedValue);
+                            AssignedToLabel.Visible = true;
+                            AssignedTo.Visible = true;
+                            break;
+                        case "Supervisor":
+                            AssignedTo.SelectedIndex = 0;
+                            Roles.AddUserToRole(UserName.Text, "Supervisor");
+                            AssignedToLabel.Visible = false;
+                            AssignedTo.Visible = false;
+                            break;
                     }
 
                     // Create User
                     Membership.CreateUser(UserName.Text, Password.Text);
-                    MembershipUser NewMember = Membership.GetUser(UserName.Text);
-                    NewMember.Email = Email.Text;
-                    Membership.UpdateUser(NewMember);
+                    var newMember = Membership.GetUser(UserName.Text);
+                    newMember.Email = Email.Text;
+                    Membership.UpdateUser(newMember);
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "blink();", true);
                     //Success
                     UserName.Text = Password.Text = ConfirmPassword.Text = Email.Text = String.Empty;
                 }
                 else
                 {
-                    ErrorMessage = "Username already exists";
+                    errorMessage = "Username already exists";
                 }
             }
 
-            CreateUserErrorMessage.Text = ErrorMessage;
+            CreateUserErrorMessage.Text = errorMessage;
         }
 
-        private void BindSupervisors(DropDownList drp)
+        private static void BindSupervisors(DropDownList drp)
         {
             drp.DataSource = Roles.GetUsersInRole("Supervisor");
             drp.DataBind();

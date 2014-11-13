@@ -19,32 +19,134 @@
 
     <!-- Realtime Notification System -->
     <script type="text/javascript">
-
+        var contact = $.connection.userActivityHub;
         $(function () {
-            var contact = $.connection.userActivityHub;
+
             $.connection.hub.start().done(function () {
                     contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
             });;
             contact.client.yourCategoryRequests = function (categories) {
                 $("#requests").html('');
+                var code;
                 if (categories.length == 0) {
                     $('#messageCount').html('0');
-                    var code = "<li><a href='#'><div><strong>Messages</strong><span class='pull-right text-muted'><em></em></span></div><div>No New Requests</div></a></li><li class='divider'></li>";
+                    code = "<li><a href='#'><div><strong>Messages</strong><span class='pull-right text-muted'><em></em></span></div><div>No New Requests</div></a></li><li class='divider'></li>";
                     $("#requests").append(code);
                 }
                 for (var i = 0; i < categories.length; i++) {
                     $('#messageCount').html(i + 1);
-                    var code = "<li><a href='<%=ResolveUrl("~/Admin/Requests.aspx") %>'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.</div></a></li><li class='divider'></li>";
+                    code = "<li><a href='<%=ResolveUrl("~/Admin/Requests.aspx") %>'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.</div></a></li><li class='divider'></li>";
                     $("#requests").append(code);
                 }
             };
             setInterval(function () { contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>'); }, 1500);
         });
-
-    </script>
-
-    <!-- Profile Picture Upload Script -->
-    <script type="text/javascript">
+        $(document).on("click", ".requestButton", function () {
+            console.log(localStorage.getItem("username").toString());
+            contact.server.contactFormSubmitted(localStorage.getItem("username").toString());
+        });
+        var openDiv;
+        $(document).on("click", ".catButton", function () {
+            if ($(openDiv).attr('id') != 'catData') {
+                $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                $(openDiv).promise().done(function () {
+                    $('#catData').show('slide', { direction: 'left' }, 1000);
+                    openDiv = $('#catData');
+                });
+            }
+        });
+        $(document).on("click", ".taskButton", function () {
+            if ($(openDiv).attr('id') != 'taskData') {
+                $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                $(openDiv).promise().done(function () {
+                    $('#taskData').show('slide', { direction: 'left' }, 1000);
+                    openDiv = $('#taskData');
+                });
+            }
+        });
+        $(document).on("click", ".assignedUsers", function () {
+            if ($(openDiv).attr('id') != 'userData') {
+                $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                $(openDiv).promise().done(function () {
+                    $('#userData').show('slide', { direction: 'left' }, 1000);
+                    openDiv = $('#userData');
+                });
+            }
+        });
+        $(document).on("click", ".requestCat", function () {
+            if ($(openDiv).attr('id') != 'requestCat') {
+                $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                $(openDiv).promise().done(function () {
+                    $('#requestCat').show('slide', { direction: 'left' }, 1000);
+                    openDiv = $('#requestCat');
+                });
+            }
+        });
+        $(document).on("click", ".requestTask", function () {
+            if ($(openDiv).attr('id') != 'requestTask') {
+                $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                $(openDiv).promise().done(function () {
+                    $('#requestTask').show('slide', { direction: 'left' }, 1000);
+                    openDiv = $('#requestTask');
+                });
+            }
+        });
+        function hideCats() {
+            $(openDiv).hide('slide', { direction: 'left' }, 1000);
+            $(openDiv).promise().done(function () {
+                $('#catUsers').show('slide', { direction: 'left' }, 1000);
+                openDiv = $('#catUsers');
+            });
+        };
+        function showCats() {
+            $(openDiv).hide('slide', { direction: 'left' }, 1000);
+            $(openDiv).promise().done(function () {
+                $('#catData').show('slide', { direction: 'left' }, 1000);
+                openDiv = $('#catData');
+            });
+        };
+        function hideTasks() {
+            $(openDiv).hide('slide', { direction: 'left' }, 1000);
+            $(openDiv).promise().done(function () {
+                $('#taskUsers').show('slide', { direction: 'left' }, 1000);
+                openDiv = $('#taskUsers');
+            });
+        };
+        function showTasks() {
+            $(openDiv).hide('slide', { direction: 'left' }, 1000);
+            $(openDiv).promise().done(function () {
+                $('#taskData').show('slide', { direction: 'left' }, 1000);
+                openDiv = $('#taskData');
+            });
+        };
+        function showUsers() {
+            $(openDiv).hide('slide', { direction: 'left' }, 1000);
+            $(openDiv).promise().done(function () {
+                $('#userData').show('slide', { direction: 'left' }, 1000);
+                openDiv = $('#userData');
+            });
+        };
+        function hideUsers() {
+            $(openDiv).hide('slide', { direction: 'left' }, 1000);
+            $(openDiv).promise().done(function () {
+                $('#panel').show('slide', { direction: 'left' }, 1000);
+                openDiv = $('#panel');
+            });
+        };
+        function requestCat() {
+            $(openDiv).hide('slide', { direction: 'left' }, 1000);
+            $(openDiv).promise().done(function () {
+                $('#requestCat').show('slide', { direction: 'left' }, 1000);
+                openDiv = $('#requestCat');
+            });
+        };
+        function requestTask() {
+            $(openDiv).hide('slide', { direction: 'left' }, 1000);
+            $(openDiv).promise().done(function () {
+                $('#requestTask').show('slide', { direction: 'left' }, 1000);
+                openDiv = $('#requestTask');
+            });
+        };
         $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {
 
             $.connection.hub.stop();
@@ -140,7 +242,7 @@
                         <asp:Label ID="username" runat="server" Text="" CssClass="text-primary"></asp:Label>
                     </li>
                     <li>
-                        <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'"></i> Logout</asp:LinkButton>
+                        <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'></i> Logout</asp:LinkButton>
                     </li>
                 </ul>
                 <!-- /.dropdown -->

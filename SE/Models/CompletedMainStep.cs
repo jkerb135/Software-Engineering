@@ -9,9 +9,6 @@
 
 namespace SE.Models
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class CompletedMainStep
     {
         public int MainStepID { get; set; }

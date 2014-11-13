@@ -184,7 +184,6 @@
                                 </div>
                     </div>
                 </div>
-            </div>
             <!-- /.col-xs-12 -->
         </asp:View>
 

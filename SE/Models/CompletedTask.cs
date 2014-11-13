@@ -9,9 +9,6 @@
 
 namespace SE.Models
 {
-    using System;
-    using System.Collections.Generic;
-    
     public partial class CompletedTask
     {
         public int TaskID { get; set; }

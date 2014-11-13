@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Security;
 
@@ -17,17 +13,18 @@ namespace SE
         protected void MainLogin_LoggedIn(object sender, EventArgs e)
         {
             var controlLogin = (Login)sender;
-            var User = Membership.GetUser(controlLogin.UserName);
+            var user = Membership.GetUser(controlLogin.UserName);
+            if (user == null) throw new ArgumentNullException("user");
 
-            Session["UserName"] = User.UserName;
+            Session["UserName"] = user.UserName;
 
-            if (Roles.IsUserInRole(User.UserName, "Manager") ||
-                Roles.IsUserInRole(User.UserName, "Supervisor"))
+            if (Roles.IsUserInRole(user.UserName, "Manager") ||
+                Roles.IsUserInRole(user.UserName, "Supervisor"))
             {
                 Response.Redirect("~/Admin/Dashboard.aspx");
             }
 
-            if (Roles.IsUserInRole(User.UserName, "User"))
+            if (Roles.IsUserInRole(user.UserName, "User"))
             {
                 Response.Redirect("~/Default.aspx");
             }

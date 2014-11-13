@@ -1,14 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
-using System.Web;
-using System.Web.Security;
-using System.Web.Mvc;
-using System.Web.Http;
-using System.Web.Routing;
 using Microsoft.AspNet.SignalR;
-using System.Web.Optimization;
 
 [assembly: OwinStartup(typeof(SE.Startup))]
 

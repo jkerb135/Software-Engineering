@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Data.SqlClient;
 
 namespace SE.Classes
 {
-    [Serializable()]
+    [Serializable]
     public class DetailedStep
     {
         #region Properties
 
-        public int DetailedStepID { get; set; }
-        public int MainStepID { get; set; }
+        public int DetailedStepId { get; set; }
+        public int MainStepId { get; set; }
         public string DetailedStepName { get; set; }
         public string DetailedStepText { get; set; }
         public string ImageFilename { get; set; }
@@ -24,45 +22,44 @@ namespace SE.Classes
 
         public DetailedStep()
         {
-            this.DetailedStepID = 0;
-            this.MainStepID = 0;
-            this.DetailedStepName = String.Empty;
-            this.DetailedStepText = null;
-            this.ImageFilename = null;
-            this.ImagePath = null;
+            DetailedStepId = 0;
+            MainStepId = 0;
+            DetailedStepName = String.Empty;
+            DetailedStepText = null;
+            ImageFilename = null;
+            ImagePath = null;
         }
 
         #endregion
 
         public void CreateDetailedStep()
         {
-            string queryString =
-                "SELECT MAX(ListOrder) " +
-                "AS MaxOf " +
-                "FROM DetailedSteps " +
-                "WHERE MainStepID=@mainstepid";
+            const string queryString = "SELECT MAX(ListOrder) " +
+                                       "AS MaxOf " +
+                                       "FROM DetailedSteps " +
+                                       "WHERE MainStepID=@mainstepid";
 
-            string queryString2 =
-                "INSERT INTO DetailedSteps (MainStepID, DetailedStepName, DetailedStepText, ImageFilename, ImagePath, CreatedTime, ListOrder) " +
-                "VALUES (@mainstepid, @detailedstepname, @detailedsteptext, @imagefilename, @imagepath, @createdtime, @listorder)";
+            const string queryString2 = "INSERT INTO DetailedSteps (MainStepID, DetailedStepName, DetailedStepText, ImageFilename, ImagePath, CreatedTime, ListOrder) " +
+                                        "VALUES (@mainstepid, @detailedstepname, @detailedsteptext, @imagefilename, @imagepath, @createdtime, @listorder)";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
 
                 // Get max number
-                cmd.Parameters.AddWithValue("@mainstepid", MainStepID);
+                cmd.Parameters.AddWithValue("@mainstepid", MainStepId);
 
                 con.Open();
 
-                int MaxNumber = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                var maxNumber = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+
 
                 con.Close();
 
                 // Add Detailed Step
-                cmd2.Parameters.AddWithValue("@mainstepid", MainStepID);
+                cmd2.Parameters.AddWithValue("@mainstepid", MainStepId);
                 cmd2.Parameters.AddWithValue("@detailedstepname", DetailedStepName);
 
                 if (DetailedStepText != null)
@@ -83,7 +80,7 @@ namespace SE.Classes
 
                 cmd2.Parameters.AddWithValue("@createdtime", DateTime.Now);
 
-                cmd2.Parameters.AddWithValue("@listorder", MaxNumber + 1);
+                cmd2.Parameters.AddWithValue("@listorder", maxNumber + 1);
 
                 con.Open();
 
@@ -95,35 +92,32 @@ namespace SE.Classes
 
         public void UpdateDetailedStep()
         {
-            string queryString =
-                "UPDATE DetailedSteps " +
-                "SET DetailedStepName=@detailedstepname " +
-                "WHERE DetailedStepID=@detailedstepid";
+            const string queryString = "UPDATE DetailedSteps " +
+                                       "SET DetailedStepName=@detailedstepname " +
+                                       "WHERE DetailedStepID=@detailedstepid";
 
-            string queryString2 =
-                "UPDATE DetailedSteps " +
-                "SET DetailedStepText=@detailedsteptext " +
-                "WHERE DetailedStepID=@DetailedStepID";
+            const string queryString2 = "UPDATE DetailedSteps " +
+                                        "SET DetailedStepText=@detailedsteptext " +
+                                        "WHERE DetailedStepID=@DetailedStepID";
 
-            string queryString3 =
-                "UPDATE DetailedSteps " +
-                "SET ImageFilename=@imagefilename,ImagePath=@imagepath " +
-                "WHERE DetailedStepID=@detailedstepid";
+            const string queryString3 = "UPDATE DetailedSteps " +
+                                        "SET ImageFilename=@imagefilename,ImagePath=@imagepath " +
+                                        "WHERE DetailedStepID=@detailedstepid";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
+                var cmd3 = new SqlCommand(queryString3, con);
 
-                cmd.Parameters.AddWithValue("@detailedstepid", DetailedStepID);
+                cmd.Parameters.AddWithValue("@detailedstepid", DetailedStepId);
                 cmd.Parameters.AddWithValue("@detailedstepname", DetailedStepName);
 
-                cmd2.Parameters.AddWithValue("@detailedstepid", DetailedStepID);
+                cmd2.Parameters.AddWithValue("@detailedstepid", DetailedStepId);
                 cmd2.Parameters.AddWithValue("@detailedsteptext", DetailedStepText);
 
-                cmd3.Parameters.AddWithValue("@detailedstepid", DetailedStepID);
+                cmd3.Parameters.AddWithValue("@detailedstepid", DetailedStepId);
                 cmd3.Parameters.AddWithValue("@imagefilename", ImageFilename);
                 cmd3.Parameters.AddWithValue("@imagepath", ImagePath);
 
@@ -142,16 +136,15 @@ namespace SE.Classes
 
         public void DeleteDetailedStep()
         {
-            string queryString =
-                "DELETE FROM DetailedSteps " +
-                "WHERE DetailedStepID=@detailedstepid";
+            const string queryString = "DELETE FROM DetailedSteps " +
+                                       "WHERE DetailedStepID=@detailedstepid";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@detailedstepid", DetailedStepID);
+                cmd.Parameters.AddWithValue("@detailedstepid", DetailedStepId);
 
                 con.Open();
 
@@ -161,52 +154,51 @@ namespace SE.Classes
             }
         }
 
-        public List<DetailedStep> GetDetailedSteps(int StepID)
+        public List<DetailedStep> GetDetailedSteps(int stepId)
         {
-            List<DetailedStep> DetailedSteps = new List<DetailedStep>();
+            var detailedSteps = new List<DetailedStep>();
 
-            return DetailedSteps;
+            return detailedSteps;
         }
 
         public int GetNumberOfDetailedStepsUsed()
         {
-            int NumberOfDetailedStepsUsed = 0;
+            const int numberOfDetailedStepsUsed = 0;
 
-            return NumberOfDetailedStepsUsed;
+            return numberOfDetailedStepsUsed;
         }
 
-        public static DetailedStep GetDetailedStep(int DetailedStepID)
+        public static DetailedStep GetDetailedStep(int detailedStepId)
         {
-            DetailedStep DetailedStep = new DetailedStep();
+            var detailedStep = new DetailedStep();
 
-            string queryString =
-                "SELECT * " +
-                "FROM DetailedSteps " +
-                "WHERE DetailedStepID=@DetailedStepID";
+            const string queryString = "SELECT * " +
+                                       "FROM DetailedSteps " +
+                                       "WHERE DetailedStepID=@DetailedStepID";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@DetailedStepID", DetailedStepID);
+                cmd.Parameters.AddWithValue("@DetailedStepID", detailedStepId);
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    DetailedStep.DetailedStepName = dr["DetailedStepName"].ToString();
-                    DetailedStep.DetailedStepText = dr["DetailedStepText"].ToString();
-                    DetailedStep.ImageFilename = dr["ImageFilename"].ToString();
-                    DetailedStep.ImagePath = dr["ImagePath"].ToString();
+                    detailedStep.DetailedStepName = dr["DetailedStepName"].ToString();
+                    detailedStep.DetailedStepText = dr["DetailedStepText"].ToString();
+                    detailedStep.ImageFilename = dr["ImageFilename"].ToString();
+                    detailedStep.ImagePath = dr["ImagePath"].ToString();
                 }
 
                 con.Close();
             }
 
-            return DetailedStep;
+            return detailedStep;
         }
     }
 }

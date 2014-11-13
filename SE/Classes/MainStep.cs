@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Data.SqlClient;
-using System.Diagnostics;
 
 namespace SE.Classes
 {
-    [Serializable()]
+    [Serializable]
     public class MainStep
     {
         #region Properties
 
-        public int MainStepID { get; set; }
-        public int TaskID { get; set; }
+        public int MainStepId { get; set; }
+        public int TaskId { get; set; }
         public string MainStepName { get; set; }
         public string MainStepText { get; set; }
         public double MainStepTime { get; set; }
@@ -28,48 +25,46 @@ namespace SE.Classes
 
         public MainStep()
         {
-            this.MainStepID = 0;
-            this.TaskID = 0;
-            this.MainStepName = String.Empty;
-            this.MainStepText = null;
-            this.MainStepTime = 0;
-            this.AudioFilename = null;
-            this.AudioPath = null;
-            this.VideoFilename = null;
-            this.VideoPath = null;
+            MainStepId = 0;
+            TaskId = 0;
+            MainStepName = String.Empty;
+            MainStepText = null;
+            MainStepTime = 0;
+            AudioFilename = null;
+            AudioPath = null;
+            VideoFilename = null;
+            VideoPath = null;
         }
 
         #endregion
 
         public void CreateMainStep()
         {
-            string queryString =
-                "SELECT MAX(ListOrder) " +
-                "AS MaxOf " +
-                "FROM MainSteps " +
-                "WHERE TaskID=@taskid";
+            const string queryString = "SELECT MAX(ListOrder) " +
+                                       "AS MaxOf " +
+                                       "FROM MainSteps " +
+                                       "WHERE TaskID=@taskid";
 
-            string queryString2 =
-                "INSERT INTO MainSteps (TaskID, MainStepName, MainStepText, AudioFileName, AudioPath, VideoFilename, VideoPath, CreatedTime, ListOrder) " +
-                "VALUES (@taskid, @mainstepname, @mainsteptext, @audiofilename, @audiopath, @videofilename, @videopath, @createdtime, @listorder)";
+            const string queryString2 = "INSERT INTO MainSteps (TaskID, MainStepName, MainStepText, AudioFileName, AudioPath, VideoFilename, VideoPath, CreatedTime, ListOrder) " +
+                                        "VALUES (@taskid, @mainstepname, @mainsteptext, @audiofilename, @audiopath, @videofilename, @videopath, @createdtime, @listorder)";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
 
                 // Get max number
-                cmd.Parameters.AddWithValue("@taskid", TaskID);
+                cmd.Parameters.AddWithValue("@taskid", TaskId);
 
                 con.Open();
 
-                int MaxNumber = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                int maxNumber = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                 con.Close();
 
                 // Add Main Step
-                cmd2.Parameters.AddWithValue("@taskid", TaskID);
+                cmd2.Parameters.AddWithValue("@taskid", TaskId);
                 cmd2.Parameters.AddWithValue("@mainstepname", MainStepName);
 
                 if (MainStepText != null)
@@ -101,7 +96,7 @@ namespace SE.Classes
 
                 cmd2.Parameters.AddWithValue("@createdtime", DateTime.Now);
 
-                cmd2.Parameters.AddWithValue("@listorder", MaxNumber+1);
+                cmd2.Parameters.AddWithValue("@listorder", maxNumber+1);
 
                 con.Open();
 
@@ -113,45 +108,41 @@ namespace SE.Classes
 
         public void UpdateMainStep()
         {
-            string queryString =
-                "UPDATE MainSteps " +
-                "SET MainStepName=@mainstepname " +
-                "WHERE MainStepID=@mainstepid";
+            const string queryString = "UPDATE MainSteps " +
+                                       "SET MainStepName=@mainstepname " +
+                                       "WHERE MainStepID=@mainstepid";
 
-            string queryString2 =
-                "UPDATE MainSteps " +
-                "SET MainStepText=@mainsteptext " +
-                "WHERE MainStepID=@MainStepID";
+            const string queryString2 = "UPDATE MainSteps " +
+                                        "SET MainStepText=@mainsteptext " +
+                                        "WHERE MainStepID=@MainStepID";
 
-            string queryString3 =
-                "UPDATE MainSteps " +
-                "SET AudioFilename=@audiofilename,AudioPath=@audiopath " +
-                "WHERE MainStepID=@mainstepid";
+            const string queryString3 = "UPDATE MainSteps " +
+                                        "SET AudioFilename=@audiofilename,AudioPath=@audiopath " +
+                                        "WHERE MainStepID=@mainstepid";
 
-            string queryString4 =
-                "UPDATE MainSteps " +
-                "SET VideoFilename=@videofilename,VideoPath=@videopath " +
-                "WHERE MainStepID=@mainstepid";
+            const string queryString4 = "UPDATE MainSteps " +
+                                        "SET VideoFilename=@videofilename,VideoPath=@videopath " +
+                                        "WHERE MainStepID=@mainstepid";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
-                SqlCommand cmd4 = new SqlCommand(queryString4, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
+                var cmd3 = new SqlCommand(queryString3, con);
+                var cmd4 = new SqlCommand(queryString4, con);
 
-                cmd.Parameters.AddWithValue("@mainstepid", MainStepID);
+                cmd.Parameters.AddWithValue("@mainstepid", MainStepId);
                 cmd.Parameters.AddWithValue("@mainstepname", MainStepName);
 
-                cmd2.Parameters.AddWithValue("@mainstepid", MainStepID);
+                cmd2.Parameters.AddWithValue("@mainstepid", MainStepId);
                 cmd2.Parameters.AddWithValue("@mainsteptext", MainStepText);
 
-                cmd3.Parameters.AddWithValue("@mainstepid", MainStepID);
+                cmd3.Parameters.AddWithValue("@mainstepid", MainStepId);
                 cmd3.Parameters.AddWithValue("@audiofilename", AudioFilename);
                 cmd3.Parameters.AddWithValue("@audiopath", AudioPath);
 
-                cmd4.Parameters.AddWithValue("@mainstepid", MainStepID);
+                cmd4.Parameters.AddWithValue("@mainstepid", MainStepId);
                 cmd4.Parameters.AddWithValue("@videofilename", VideoFilename);
                 cmd4.Parameters.AddWithValue("@videopath", VideoPath);
 
@@ -172,16 +163,15 @@ namespace SE.Classes
 
         public void DeleteMainStep()
         {
-            string queryString =
-                "DELETE FROM MainSteps " +
-                "WHERE MainStepID=@mainstepid";
+            const string queryString = "DELETE FROM MainSteps " +
+                                       "WHERE MainStepID=@mainstepid";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@mainstepid", MainStepID);
+                cmd.Parameters.AddWithValue("@mainstepid", MainStepId);
 
                 con.Open();
 
@@ -196,40 +186,39 @@ namespace SE.Classes
 
         }
 
-        public List<MainStep> GetMainSteps(int TaskID)
+        public List<MainStep> GetMainSteps(int taskId)
         {
-            List<MainStep> MainSteps = new List<MainStep>();
+            var mainSteps = new List<MainStep>();
 
-            return MainSteps;
+            return mainSteps;
         }
 
-        public void AddTimeToMainStep(double Minutes)
+        public void AddTimeToMainStep(double minutes)
         {
 
         }
 
-        public int GetNumberOfMainStepsComplete(int TaskID, string Username)
+        public int GetNumberOfMainStepsComplete(int taskId, string username)
         {
-            int NumberOfMainStepsComplete = 0;
+            const int numberOfMainStepsComplete = 0;
 
-            return NumberOfMainStepsComplete;
+            return numberOfMainStepsComplete;
         }
 
-        public static MainStep GetMainStep(int MainStepID)
+        public static MainStep GetMainStep(int mainStepId)
         {
-            MainStep MainStep = new MainStep();
+            var mainStep = new MainStep();
 
-            string queryString =
-                "SELECT * " +
-                "FROM MainSteps " +
-                "WHERE MainStepID=@MainStepID";
+            const string queryString = "SELECT * " +
+                                       "FROM MainSteps " +
+                                       "WHERE MainStepID=@MainStepID";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@MainStepID", MainStepID);
+                cmd.Parameters.AddWithValue("@MainStepID", mainStepId);
 
                 con.Open();
 
@@ -237,18 +226,18 @@ namespace SE.Classes
 
                 while (dr.Read())
                 {
-                    MainStep.MainStepName = dr["MainStepName"].ToString();
-                    MainStep.MainStepText = dr["MainStepText"].ToString();
-                    MainStep.AudioFilename = dr["AudioFilename"].ToString();
-                    MainStep.AudioPath = dr["AudioPath"].ToString();
-                    MainStep.VideoFilename = dr["VideoFilename"].ToString();
-                    MainStep.VideoPath = dr["VideoPath"].ToString();
+                    mainStep.MainStepName = dr["MainStepName"].ToString();
+                    mainStep.MainStepText = dr["MainStepText"].ToString();
+                    mainStep.AudioFilename = dr["AudioFilename"].ToString();
+                    mainStep.AudioPath = dr["AudioPath"].ToString();
+                    mainStep.VideoFilename = dr["VideoFilename"].ToString();
+                    mainStep.VideoPath = dr["VideoPath"].ToString();
                 }
 
                 con.Close();
             }
 
-            return MainStep;
+            return mainStep;
         }
     }
 }

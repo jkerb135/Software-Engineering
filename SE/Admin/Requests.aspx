@@ -15,7 +15,7 @@
             <i class="fa fa-users fa-fw"></i>
             <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
         </div>
-        <asp:UpdatePanel runat="server" ID="profile">
+        <asp:UpdatePanel runat="server" ID="requestUpdatePanel" UpdateMode="Conditional">
             <ContentTemplate>
                 <div class="panel-body">
                     <div style="overflow: auto; max-height: 250px;">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <p class="text-warning">NOTE: Adding a User to a category assigns them all tasks under that category.</p>
+                    <p class="text-warning"></p>
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>

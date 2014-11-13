@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
 using System.Web.Http;
 using SE.Models;
 
@@ -14,29 +7,29 @@ namespace SE.Controllers
 {
     public class OnlyMainSteps
     {
-        public int taskId { get; set; }
-        public int mainStepId { get; set; }
-        public string mainStepName { get; set; }
-        public string mainStepText { get; set; }
-        public string audioPath { get; set; }
-        public string videoPath { get; set; }
+        public int TaskId { get; set; }
+        public int MainStepId { get; set; }
+        public string MainStepName { get; set; }
+        public string MainStepText { get; set; }
+        public string AudioPath { get; set; }
+        public string VideoPath { get; set; }
     }
     public class MainStepController : ApiController
     {
-        ipawsTeamBEntities db = new ipawsTeamBEntities();
+        readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
         /// <summary>
         /// Gets all main steps from the database.
         /// </summary>
         public IEnumerable<OnlyMainSteps> GetAllMainSteps()
         {
-            return db.MainSteps.Select(tl => new OnlyMainSteps { taskId = tl.TaskID, mainStepId = tl.MainStepID, mainStepName = tl.MainStepName, audioPath = tl.AudioPath, videoPath = tl.VideoPath }).AsEnumerable<OnlyMainSteps>();
+            return _db.MainSteps.Select(tl => new OnlyMainSteps { TaskId = tl.TaskID, MainStepId = tl.MainStepID, MainStepName = tl.MainStepName, AudioPath = tl.AudioPath, VideoPath = tl.VideoPath }).AsEnumerable();
         }
         /// <summary>
         /// Gets all main steps from the database pertaining to a task id.
         /// </summary>
-        public IEnumerable<OnlyMainSteps> GetMainStepByTaskID(int id)
+        public IEnumerable<OnlyMainSteps> GetMainStepByTaskId(int id)
         {
-            return db.MainSteps.Where(tl => tl.TaskID == id).Select(tl => new OnlyMainSteps { taskId = tl.TaskID, mainStepId = tl.MainStepID, mainStepName = tl.MainStepName, audioPath = tl.AudioPath, videoPath = tl.VideoPath }).AsEnumerable<OnlyMainSteps>();
+            return _db.MainSteps.Where(tl => tl.TaskID == id).Select(tl => new OnlyMainSteps { TaskId = tl.TaskID, MainStepId = tl.MainStepID, MainStepName = tl.MainStepName, AudioPath = tl.AudioPath, VideoPath = tl.VideoPath }).AsEnumerable();
         }
     }
 }

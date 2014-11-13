@@ -31,13 +31,13 @@ namespace SE.Admin {
         protected global::System.Web.UI.WebControls.Label Label1;
         
         /// <summary>
-        /// profile control.
+        /// requestUpdatePanel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel profile;
+        protected global::System.Web.UI.UpdatePanel requestUpdatePanel;
         
         /// <summary>
         /// requests control.

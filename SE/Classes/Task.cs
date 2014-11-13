@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Data;
-using System.Web.UI.WebControls;
 
 namespace SE.Classes
 {
-    [Serializable()]
+    [Serializable]
     public class Task
     {
         #region Properties
 
-        private bool isActive = true;
+        private bool _isActive = true;
 
-        public int TaskID { get; set; }
-        public int CategoryID { get; set; }
+        public int TaskId { get; set; }
+        public int CategoryId { get; set; }
         public string AssignedUser { get; set; }
         public string TaskName { get; set; }
         public double TaskTime { get; set; }
@@ -27,44 +23,42 @@ namespace SE.Classes
         {
             get
             {
-                if(TaskID > 0)
+                if(TaskId > 0)
                 {
-                    string queryString =
-                        "SELECT IsActive FROM Tasks " +
-                        "WHERE TaskID=@taskid";
+                    const string queryString = "SELECT IsActive FROM Tasks " +
+                                               "WHERE TaskID=@taskid";
 
-                    using (SqlConnection con = new SqlConnection(
+                    using (var con = new SqlConnection(
                         Methods.GetConnectionString()))
                     {
-                        SqlCommand cmd = new SqlCommand(queryString, con);
+                        var cmd = new SqlCommand(queryString, con);
 
-                        cmd.Parameters.AddWithValue("@taskid", TaskID);
+                        cmd.Parameters.AddWithValue("@taskid", TaskId);
 
                         con.Open();
 
-                        isActive = (bool)cmd.ExecuteScalar();
+                        _isActive = (bool)cmd.ExecuteScalar();
 
                         con.Close();
                     }
                 }
 
-                return isActive;
+                return _isActive;
             }
             set
             {
-                if (TaskID > 0)
+                if (TaskId > 0)
                 {
-                    string queryString =
-                        "UPDATE Tasks " +
-                        "SET IsActive=@isactive " +
-                        "WHERE TaskID=@taskid";
+                    const string queryString = "UPDATE Tasks " +
+                                               "SET IsActive=@isactive " +
+                                               "WHERE TaskID=@taskid";
 
-                    using (SqlConnection con = new SqlConnection(
+                    using (var con = new SqlConnection(
                         Methods.GetConnectionString()))
                     {
-                        SqlCommand cmd = new SqlCommand(queryString, con);
+                        var cmd = new SqlCommand(queryString, con);
 
-                        cmd.Parameters.AddWithValue("@taskid", TaskID);
+                        cmd.Parameters.AddWithValue("@taskid", TaskId);
                         cmd.Parameters.AddWithValue("@isactive", value);
 
                         con.Open();
@@ -75,7 +69,7 @@ namespace SE.Classes
                     }
                 }
 
-                isActive = value;
+                _isActive = value;
             }
         }
 
@@ -85,32 +79,31 @@ namespace SE.Classes
 
         public Task()
         {
-            this.TaskID = 0;
-            this.CategoryID = 0;
-            this.AssignedUser = null;
-            this.TaskName = String.Empty;
-            this.TaskTime = 0;
-            this.IsActive = true;
-            this.TaskAssignments = null;
+            TaskId = 0;
+            CategoryId = 0;
+            AssignedUser = null;
+            TaskName = String.Empty;
+            TaskTime = 0;
+            IsActive = true;
+            TaskAssignments = null;
         }
 
         #endregion
 
         public void CreateTask()
         {
-            string queryString =
-                "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
-                "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
+            const string queryString = "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
+                                       "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
 
-            string queryString2 = "SELECT MAX(TaskID) FROM Tasks";
+            const string queryString2 = "SELECT MAX(TaskID) FROM Tasks";
           
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
 
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd.Parameters.AddWithValue("@categoryid", CategoryId);
                 if (AssignedUser != null){cmd.Parameters.AddWithValue("@assigneduser", AssignedUser);}
                 else {cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);}
                 cmd.Parameters.AddWithValue("@taskname", TaskName);
@@ -123,7 +116,7 @@ namespace SE.Classes
                 con.Open();
 
                 cmd.ExecuteNonQuery();
-                TaskID = Convert.ToInt32(cmd2.ExecuteScalar());
+                TaskId = Convert.ToInt32(cmd2.ExecuteScalar());
 
                 con.Close();
             }
@@ -131,40 +124,37 @@ namespace SE.Classes
 
         public void UpdateTask()
         {
-            string queryString =
-                "UPDATE Tasks " +
-                "SET CategoryID=@categoryid " +
-                "WHERE TaskID=@taskid";
+            const string queryString = "UPDATE Tasks " +
+                                       "SET CategoryID=@categoryid " +
+                                       "WHERE TaskID=@taskid";
     
-            string queryString2 =
-                "UPDATE Tasks " +
-                "SET AssignedUser=@assigneduser " +
-                "WHERE TaskID=@taskid";
+            const string queryString2 = "UPDATE Tasks " +
+                                        "SET AssignedUser=@assigneduser " +
+                                        "WHERE TaskID=@taskid";
 
-            string queryString3 =
-                "UPDATE Tasks " +
-                "SET TaskName=@taskname " +
-                "WHERE TaskID=@taskid";
+            const string queryString3 = "UPDATE Tasks " +
+                                        "SET TaskName=@taskname " +
+                                        "WHERE TaskID=@taskid";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
+                var cmd3 = new SqlCommand(queryString3, con);
 
-                cmd.Parameters.AddWithValue("@taskid", TaskID);
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd.Parameters.AddWithValue("@taskid", TaskId);
+                cmd.Parameters.AddWithValue("@categoryid", CategoryId);
 
-                cmd2.Parameters.AddWithValue("@taskid", TaskID);
+                cmd2.Parameters.AddWithValue("@taskid", TaskId);
                 cmd2.Parameters.AddWithValue("@assigneduser", AssignedUser);
 
-                cmd3.Parameters.AddWithValue("@taskid", TaskID);
+                cmd3.Parameters.AddWithValue("@taskid", TaskId);
                 cmd3.Parameters.AddWithValue("@taskname", TaskName);
 
                 con.Open();
 
-                if (CategoryID != 0)
+                if (CategoryId != 0)
                     cmd.ExecuteScalar();
                 if (!String.IsNullOrEmpty(AssignedUser))
                     cmd2.ExecuteScalar();
@@ -177,39 +167,35 @@ namespace SE.Classes
 
         public void AssignUserTasks()
         {
-            string queryString =
-                "INSERT INTO TaskAssignments (CategoryID, AssignedUser, TaskID) " +
-                "VALUES (@categoryid, @assigneduser,@taskid)";
+            const string queryString = "INSERT INTO TaskAssignments (CategoryID, AssignedUser, TaskID) " +
+                                       "VALUES (@categoryid, @assigneduser,@taskid)";
 
-            string queryString2 =
-                "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
-                "VALUES (@assigneduser,@categoryid)";
+            const string queryString2 = "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
+                                        "VALUES (@assigneduser,@categoryid)";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
 
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
-                cmd.Parameters.AddWithValue("@taskid", TaskID);
+                cmd.Parameters.AddWithValue("@categoryid", CategoryId);
+                cmd.Parameters.AddWithValue("@taskid", TaskId);
                 cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);
 
-                cmd2.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd2.Parameters.AddWithValue("@categoryid", CategoryId);
                 cmd2.Parameters.AddWithValue("@assigneduser", DBNull.Value);
 
                 con.Open();
 
-                foreach (string TaskAssign in TaskAssignments)
+                foreach (string taskAssign in TaskAssignments)
                 {
-                    cmd.Parameters["@assigneduser"].Value = TaskAssign;
+                    cmd.Parameters["@assigneduser"].Value = taskAssign;
                     cmd.ExecuteNonQuery();
 
-                    if (!Category.UserInCategory(TaskAssign, CategoryID))
-                    {
-                        cmd2.Parameters["@assigneduser"].Value = TaskAssign;
-                        cmd2.ExecuteNonQuery();
-                    }
+                    if (Category.UserInCategory(taskAssign, CategoryId)) continue;
+                    cmd2.Parameters["@assigneduser"].Value = taskAssign;
+                    cmd2.ExecuteNonQuery();
                 }
 
                 con.Close();
@@ -218,46 +204,43 @@ namespace SE.Classes
 
         public void ReAssignUserTasks()
         {
-            string queryString =
-                "DELETE FROM TaskAssignments " +
-                "WHERE TaskID=@taskid ";
+            const string queryString = "DELETE FROM TaskAssignments " +
+                                       "WHERE TaskID=@taskid ";
 
-            string queryString2 =
-                "INSERT INTO TaskAssignments (CategoryID, AssignedUser, TaskID) " +
-                "VALUES (@categoryid, @assigneduser,@taskid)";
+            const string queryString2 = "INSERT INTO TaskAssignments (CategoryID, AssignedUser, TaskID) " +
+                                        "VALUES (@categoryid, @assigneduser,@taskid)";
 
-            string queryString3 =
-                "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
-                "VALUES (@assigneduser,@categoryid)";
+            const string queryString3 = "INSERT INTO CategoryAssignments (AssignedUser, CategoryID) " +
+                                        "VALUES (@assigneduser,@categoryid)";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
+                var cmd3 = new SqlCommand(queryString3, con);
 
-                cmd.Parameters.AddWithValue("@taskid", TaskID);
+                cmd.Parameters.AddWithValue("@taskid", TaskId);
 
-                cmd2.Parameters.AddWithValue("@categoryid", CategoryID);
-                cmd2.Parameters.AddWithValue("@taskid", TaskID);
+                cmd2.Parameters.AddWithValue("@categoryid", CategoryId);
+                cmd2.Parameters.AddWithValue("@taskid", TaskId);
                 cmd2.Parameters.AddWithValue("@assigneduser", DBNull.Value);
 
-                cmd3.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd3.Parameters.AddWithValue("@categoryid", CategoryId);
                 cmd3.Parameters.AddWithValue("@assigneduser", DBNull.Value);
 
                 con.Open();
 
                 cmd.ExecuteNonQuery();
 
-                foreach (string TaskAssign in TaskAssignments)
+                foreach (string taskAssign in TaskAssignments)
                 {
-                    cmd2.Parameters["@assigneduser"].Value = TaskAssign;
+                    cmd2.Parameters["@assigneduser"].Value = taskAssign;
                     cmd2.ExecuteNonQuery();
 
-                    if (!Category.UserInCategory(TaskAssign, CategoryID))
+                    if (!Category.UserInCategory(taskAssign, CategoryId))
                     {
-                        cmd3.Parameters["@assigneduser"].Value = TaskAssign;
+                        cmd3.Parameters["@assigneduser"].Value = taskAssign;
                         cmd3.ExecuteNonQuery();
                     }
                 }
@@ -270,62 +253,59 @@ namespace SE.Classes
         {
         }
 
-        public void AddTimeToTask(double Minutes)
+        public void AddTimeToTask(double minutes)
         {
         }
 
-        public int GetNumberOFTasksComplete(string Username)
+        public int GetNumberOfTasksComplete(string username)
         {
-            int NumberOfTasksComplete = 0;
+            const int numberOfTasksComplete = 0;
 
-            return NumberOfTasksComplete;
+            return numberOfTasksComplete;
         }
 
-        public static bool TaskExists(int TaskID)
+        public static bool TaskExists(int taskId)
         {
-            bool TaskExists = false;
+            bool taskExists;
 
-            string queryString =
-                "SELECT COUNT(*) " +
-                "FROM Tasks " +
-                "WHERE TaskID=@TaskID";
+            const string queryString = "SELECT COUNT(*) " +
+                                       "FROM Tasks " +
+                                       "WHERE TaskID=@TaskID";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@taskid", TaskID);
+                cmd.Parameters.AddWithValue("@taskid", taskId);
 
                 con.Open();
 
-                TaskExists = ((int)cmd.ExecuteScalar() > 0) ? true : false;
+                taskExists = ((int)cmd.ExecuteScalar() > 0);
 
                 con.Close();
             }
 
-            return TaskExists;
+            return taskExists;
         }
 
         public static DataSet ManageTasksList()
         {
-            string queryString =
-                "SELECT * FROM Tasks " +
-                "INNER JOIN Categories ON Tasks.CategoryID=Categories.CategoryID " +
-                "WHERE Tasks.CreatedBy=@createdby";
+            const string queryString = "SELECT * FROM Tasks " +
+                                       "INNER JOIN Categories ON Tasks.CategoryID=Categories.CategoryID " +
+                                       "WHERE Tasks.CreatedBy=@createdby";
 
-            DataSet ds = new DataSet();
-            DataTable dt = new DataTable();
-            dt = ds.Tables.Add("Tasks");
+            var ds = new DataSet();
+            DataTable dt = ds.Tables.Add("Tasks");
 
             dt.Columns.Add("Task Name", Type.GetType("System.String"));
             dt.Columns.Add("Assigned Category", Type.GetType("System.String"));
             dt.Columns.Add("Assigned User", Type.GetType("System.String"));
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
                 cmd.Parameters.AddWithValue("@createdby", 
                     System.Web.HttpContext.Current.User.Identity.Name);
@@ -336,9 +316,7 @@ namespace SE.Classes
 
                 while (dr.Read())
                 {
-                    DataRow datarow;
-
-                    datarow = dt.NewRow();
+                    DataRow datarow = dt.NewRow();
 
                     datarow["Task Name"] = "<a href='?taskpage=edittask&taskid=" + dr["TaskID"] + "'>" + dr["TaskName"] + "</a>";
                     datarow["Assigned Category"] = dr["CategoryName"];
@@ -353,49 +331,48 @@ namespace SE.Classes
             return ds;
         }
 
-        public List<Task> GetIncompleteTasks(string Username)
+        public List<Task> GetIncompleteTasks(string username)
         {
-            List<Task> IncompleteTasks = new List<Task>();
+            var incompleteTasks = new List<Task>();
 
-            return IncompleteTasks;
+            return incompleteTasks;
         }
 
-        public List<Task> GetAssignedTasks(string Username)
+        public List<Task> GetAssignedTasks(string username)
         {
-            List<Task> AssignedTasks = new List<Task>();
+            var assignedTasks = new List<Task>();
 
-            return AssignedTasks;
+            return assignedTasks;
         }
 
-        public List<Task> GetTasksInCategory(int CategoryID)
+        public List<Task> GetTasksInCategory(int categoryId)
         {
-            List<Task> TasksInCategory = new List<Task>();
+            var tasksInCategory = new List<Task>();
 
-            return TasksInCategory;
+            return tasksInCategory;
         }
 
-        public List<Task> GetTasksInCategoryAssignedToUser(int CategoryID, string Username)
+        public List<Task> GetTasksInCategoryAssignedToUser(int categoryId, string username)
         {
-            List<Task> TasksInCategoryAssignedToUser = new List<Task>();
+            var tasksInCategoryAssignedToUser = new List<Task>();
 
-            return TasksInCategoryAssignedToUser;
+            return tasksInCategoryAssignedToUser;
         }
 
-        public static int getTaskID(string TaskName)
+        public static int GetTaskId(string taskName)
         {
             int id = -1;
 
-            string queryString =
-                "SELECT TaskID " +
-                "FROM Tasks " +
-                "WHERE TaskName=@taskName";
+            const string queryString = "SELECT TaskID " +
+                                       "FROM Tasks " +
+                                       "WHERE TaskName=@taskName";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@taskName", TaskName);
+                cmd.Parameters.AddWithValue("@taskName", taskName);
 
                 con.Open();
 
@@ -410,25 +387,24 @@ namespace SE.Classes
             }
             return id;
         }
-        public static DataSet GetSupervisorTasks(string Username)
+        public static DataSet GetSupervisorTasks(string username)
         {
-            DataSet SupervisorTasks = new DataSet();
-            DataTable taskTable = SupervisorTasks.Tables.Add("SupervisorTasks");
+            var supervisorTasks = new DataSet();
+            DataTable taskTable = supervisorTasks.Tables.Add("SupervisorTasks");
             taskTable.Columns.Add("Task Name");
             taskTable.Columns.Add("Activity");
             taskTable.Columns.Add("Created");
             taskTable.Columns.Add("Users In Task");
 
-            string queryString =
-                "SELECT * FROM Tasks " +
-                "WHERE CreatedBy=@assignedSupervisor";
+            const string queryString = "SELECT * FROM Tasks " +
+                                       "WHERE CreatedBy=@assignedSupervisor";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
+                cmd.Parameters.AddWithValue("@assignedSupervisor", username);
 
                 con.Open();
 
@@ -454,30 +430,29 @@ namespace SE.Classes
                 {
 
                     DataRow newRow = taskTable.NewRow();
-                    newRow["Task Name"] = Username + " has not created any tasks yet.";
+                    newRow["Task Name"] = username + " has not created any tasks yet.";
                     taskTable.Rows.Add(newRow);
                 }
 
                 con.Close();
             }
-            return SupervisorTasks;
+            return supervisorTasks;
         }
 
-        public static Task GetTask(int TaskID)
+        public static Task GetTask(int taskId)
         {
-            Task Task = new Task();
+            var task = new Task();
 
-            string queryString =
-                "SELECT * " +
-                "FROM Tasks " +
-                "WHERE TaskID=@TaskID";
+            const string queryString = "SELECT * " +
+                                       "FROM Tasks " +
+                                       "WHERE TaskID=@TaskID";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@taskid", TaskID);
+                cmd.Parameters.AddWithValue("@taskid", taskId);
 
                 con.Open();
 
@@ -485,30 +460,29 @@ namespace SE.Classes
 
                 while (dr.Read())
                 {
-                    Task.TaskName = dr["TaskName"].ToString();
-                    Task.AssignedUser = dr["AssignedUser"].ToString();
+                    task.TaskName = dr["TaskName"].ToString();
+                    task.AssignedUser = dr["AssignedUser"].ToString();
                 }
 
                 con.Close();
             }
 
-            return Task;
+            return task;
         }
-        public static string GetTaskName(int TaskID)
+        public static string GetTaskName(int taskId)
         {
             string taskName = "";
 
-            string queryString =
-                "SELECT TaskName " +
-                "FROM Tasks " +
-                "WHERE TaskID=@TaskID";
+            const string queryString = "SELECT TaskName " +
+                                       "FROM Tasks " +
+                                       "WHERE TaskID=@TaskID";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@taskid", TaskID);
+                cmd.Parameters.AddWithValue("@taskid", taskId);
 
                 con.Open();
 
@@ -526,23 +500,22 @@ namespace SE.Classes
         }
 
         public static List<string> UsersAssignedToSupervisorAssignedToTask(
-            string Supervisor, int TaskID)
+            string supervisor, int taskId)
         {
-            List<string> UsersAssignedToSupervisorAssignedToTask = new List<string>();
+            var usersAssignedToSupervisorAssignedToTask = new List<string>();
 
-            string queryString =
-                "SELECT * FROM MemberAssignments " +
-                "INNER JOIN TaskAssignments ON MemberAssignments.AssignedUser=TaskAssignments.AssignedUser " +
-                "WHERE TaskAssignments.TaskID=@taskid " +
-                "AND MemberAssignments.AssignedSupervisor=@assignedsupervisor";
+            const string queryString = "SELECT * FROM MemberAssignments " +
+                                       "INNER JOIN TaskAssignments ON MemberAssignments.AssignedUser=TaskAssignments.AssignedUser " +
+                                       "WHERE TaskAssignments.TaskID=@taskid " +
+                                       "AND MemberAssignments.AssignedSupervisor=@assignedsupervisor";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@taskid", TaskID);
-                cmd.Parameters.AddWithValue("@assignedsupervisor", Supervisor);
+                cmd.Parameters.AddWithValue("@taskid", taskId);
+                cmd.Parameters.AddWithValue("@assignedsupervisor", supervisor);
 
                 con.Open();
 
@@ -550,16 +523,16 @@ namespace SE.Classes
 
                 while (dr.Read())
                 {
-                    if (!UsersAssignedToSupervisorAssignedToTask.Contains(dr["AssignedUser"].ToString()))
+                    if (!usersAssignedToSupervisorAssignedToTask.Contains(dr["AssignedUser"].ToString()))
                     {
-                        UsersAssignedToSupervisorAssignedToTask.Add(dr["AssignedUser"].ToString());
+                        usersAssignedToSupervisorAssignedToTask.Add(dr["AssignedUser"].ToString());
                     }
                 }
 
                 con.Close();
             }
 
-            return UsersAssignedToSupervisorAssignedToTask;
+            return usersAssignedToSupervisorAssignedToTask;
         }
     }
 }

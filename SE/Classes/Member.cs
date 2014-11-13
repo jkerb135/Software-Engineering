@@ -1,53 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Data.SqlClient;
 using System.Data;
 using System.Web.Security;
-using System.Web.UI.WebControls;
 
 namespace SE.Classes
 {
     public static class Member
     {
-        public static bool ValidatePassword(string Password, ref string ErrorMessage)
+        public static bool ValidatePassword(string password, ref string errorMessage)
         {
-            bool Valid = true;
 
             // Password is less then required length
-            if (Password.Length < Membership.MinRequiredPasswordLength)
+            if (password.Length < Membership.MinRequiredPasswordLength)
             {
-                ErrorMessage += "Password must be at least " +
+                errorMessage += "Password must be at least " +
                     Membership.MinRequiredPasswordLength + " characters.<br/>";
-                Valid = false;
+                return false;
             }
 
             // Password does not contain minimum special characters
-            if (Password.Count(c => !char.IsLetterOrDigit(c)) <
-                Membership.MinRequiredNonAlphanumericCharacters)
-            {
-                ErrorMessage += "Password must contain at least " +
-                    Membership.MinRequiredNonAlphanumericCharacters +
-                    " non-alphanumeric characters.<br/>";
-                Valid = false;
-            }
+            if (password.Count(c => !char.IsLetterOrDigit(c)) >= Membership.MinRequiredNonAlphanumericCharacters)
+                return true;
+            errorMessage += "Password must contain at least " +
+                            Membership.MinRequiredNonAlphanumericCharacters +
+                            " non-alphanumeric characters.<br/>";
 
-            return Valid;
+            return false;
         }
 
         /// <summary>Populates a dataset of all users by username, email and user role
         /// </summary> 
         public static DataSet CustomGetAllUsers()
         {
-            DataSet ds = new DataSet();
-            DataTable dt = new DataTable();
-            dt = ds.Tables.Add("Users");
+            var ds = new DataSet();
+            var dt = ds.Tables.Add("Users");
 
             MembershipUserCollection muc;
             muc = Membership.GetAllUsers();
-
-            bool UserIsSupervisor;
 
             dt.Columns.Add("Username", Type.GetType("System.String"));
             dt.Columns.Add("Email", Type.GetType("System.String"));
@@ -61,99 +52,80 @@ namespace SE.Classes
              * LastActivityDate, LastPasswordChangedDate, IsOnline, ProviderName
              */
 
-            foreach (MembershipUser mu in muc)
+            foreach (var mu in muc.Cast<MembershipUser>().Where(mu => !Roles.IsUserInRole(mu.UserName, "Manager")))
             {
-                if (!Roles.IsUserInRole(mu.UserName, "Manager"))
-                {
-                    DataRow dr;
-                    UserIsSupervisor = Roles.IsUserInRole(mu.UserName, "Supervisor");
+                var userIsSupervisor = Roles.IsUserInRole(mu.UserName, "Supervisor");
 
-                    dr = dt.NewRow();
-                    dr["Username"] = "<a href='?userpage=edituser&username=" + mu.UserName + "'>" + mu.UserName + "</a>";
-                    dr["Email"] = mu.Email;
-                    dr["User Role"] = UserIsSupervisor ? "Supervisor" : "User";
-                    dr["Assigned To"] = !UserIsSupervisor ? UserAssignedTo(mu.UserName) : "";
-                    dr["Status"] = mu.IsApproved ? "Active" : "Inactive";
+                var dr = dt.NewRow();
+                dr["Username"] = "<a href='?userpage=edituser&username=" + mu.UserName + "'>" + mu.UserName + "</a>";
+                dr["Email"] = mu.Email;
+                dr["User Role"] = userIsSupervisor ? "Supervisor" : "User";
+                dr["Assigned To"] = !userIsSupervisor ? UserAssignedTo(mu.UserName) : "";
+                dr["Status"] = mu.IsApproved ? "Active" : "Inactive";
 
-                    dt.Rows.Add(dr);
-                }
+                dt.Rows.Add(dr);
             }
             return ds;
         }
 
         public static DataSet CustomGetActiveUsers()
         {
-            DataSet activeUsers = new DataSet();
-            DataTable userTable = new DataTable();
-            userTable = activeUsers.Tables.Add("Users");
+            var activeUsers = new DataSet();
+            var userTable = activeUsers.Tables.Add("Users");
             userTable.Columns.Add("Username", Type.GetType("System.String"));
-            MembershipUserCollection activeUserCollection;
-            activeUserCollection = Membership.GetAllUsers();
-            foreach (MembershipUser membership in activeUserCollection)
+            var activeUserCollection = Membership.GetAllUsers();
+            DataRow row;
+            foreach (var membership in from MembershipUser membership in activeUserCollection let membershipUser = Membership.GetUser() where membershipUser != null && (Roles.IsUserInRole(membership.UserName, "User") && (UserAssignedTo(membership.UserName).ToLower() == membershipUser.UserName.ToLower()) && (membership.IsOnline)) select membership)
             {
-                if (Roles.IsUserInRole(membership.UserName, "User") && (UserAssignedTo(membership.UserName).ToLower() == Membership.GetUser().UserName.ToLower()) && (membership.IsOnline))
-                {
-                    DataRow row;
-                    row = userTable.NewRow();
-                    row["Username"] = membership.UserName;
-                    userTable.Rows.Add(row);
-                }
-            }
-            if (userTable.Rows.Count == 0)
-            {
-                DataRow row = userTable.NewRow();
-                row["Username"] = "No Users Online";
+                row = userTable.NewRow();
+                row["Username"] = membership.UserName;
                 userTable.Rows.Add(row);
             }
+            if (userTable.Rows.Count != 0) return activeUsers;
+            row = userTable.NewRow();
+            row["Username"] = "No Users Online";
+            userTable.Rows.Add(row);
             return activeUsers;
         }
 
         public static DataSet CustomRecentlyAssigned()
         {
-            DataSet recentUsers = new DataSet();
-            DataTable users = new DataTable();
-            users = recentUsers.Tables.Add("Users");
+            var recentUsers = new DataSet();
+            var users = recentUsers.Tables.Add("Users");
+            if (users == null) return recentUsers;
             users.Columns.Add("Username", Type.GetType("System.String"));
-            MembershipUserCollection recentUser = Membership.GetAllUsers();
-            DateTime aWeekAgo = DateTime.Now.AddDays(-7);
-            foreach (MembershipUser membership in recentUser)
+            var recentUser = Membership.GetAllUsers();
+            var aWeekAgo = DateTime.Now.AddDays(-7);
+            foreach (var membership in from MembershipUser membership in recentUser let membershipUser = Membership.GetUser() where membershipUser != null && (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo) && UserAssignedTo(membership.UserName).ToLower() == membershipUser.UserName.ToLower()) select membership)
             {
-                if (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo) && UserAssignedTo(membership.UserName).ToLower() == Membership.GetUser().UserName.ToLower())
-                {
-                    DataRow row;
-                    row = users.NewRow();
-                    row["Username"] = membership.UserName;
-                    users.Rows.Add(row);
-                }
+                var row = users.NewRow();
+                row["Username"] = membership.UserName;
+                users.Rows.Add(row);
             }
-            if (users.Rows.Count == 0)
-            {
-                DataRow newRow;
-                newRow = users.NewRow();
-                newRow["Username"] = "No new users assigned";
-                users.Rows.Add(newRow);
-            }
+            if (users.Rows.Count != 0) return recentUsers;
+            var newRow = users.NewRow();
+            newRow["Username"] = "No new users assigned";
+            users.Rows.Add(newRow);
 
             return recentUsers;
         }
 
         /// <summary>Assign user to supervisor
         /// </summary> 
-        public static void AssignToUser(string User, string Supervisor)
+        public static void AssignToUser(string user, string supervisor)
         {
-            string queryString =
-                "INSERT INTO MemberAssignments (AssignedUser, AssignedSupervisor) " +
-                "VALUES (@user,@supervisor)";
+            const string queryString = "INSERT INTO MemberAssignments (AssignedUser, AssignedSupervisor) " +
+                                       "VALUES (@user,@supervisor)";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@user", User);
+                cmd.Parameters.AddWithValue("@user", user);
 
-                if (!String.IsNullOrEmpty(Supervisor))
-                    cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+                if (!String.IsNullOrEmpty(supervisor))
+                    cmd.Parameters.AddWithValue("@supervisor", supervisor);
                 else
                     cmd.Parameters.AddWithValue("@supervisor", DBNull.Value);
 
@@ -167,22 +139,21 @@ namespace SE.Classes
 
         /// <summary>Edit assign user to supervisor
         /// </summary> 
-        public static void EditAssignToUser(string User, string Supervisor)
+        public static void EditAssignToUser(string user, string supervisor)
         {
-            string queryString =
-                "UPDATE MemberAssignments " +
-                "SET AssignedSupervisor=@supervisor " +
-                "WHERE AssignedUser=@user";
+            const string queryString = "UPDATE MemberAssignments " +
+                                       "SET AssignedSupervisor=@supervisor " +
+                                       "WHERE AssignedUser=@user";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@user", User);
+                cmd.Parameters.AddWithValue("@user", user);
 
-                if (!String.IsNullOrEmpty(Supervisor))
-                    cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+                if (!String.IsNullOrEmpty(supervisor))
+                    cmd.Parameters.AddWithValue("@supervisor", supervisor);
                 else
                     cmd.Parameters.AddWithValue("@supervisor", DBNull.Value);
 
@@ -196,44 +167,39 @@ namespace SE.Classes
 
         /// <summary>Remove user assignment row
         /// </summary> 
-        public static void RemoveAssignedUser(string User)
+        public static void RemoveAssignedUser(string user)
         {
-            string queryString =
-                "DELETE FROM CategoryAssignments " +
-                "WHERE AssignedUser=@user";
+            const string queryString = "DELETE FROM CategoryAssignments " +
+                                       "WHERE AssignedUser=@user";
 
-            string queryString2 =
-                "UPDATE Tasks " +
-                "SET AssignedUser=NULL " +
-                "WHERE AssignedUser=@user";
+            const string queryString2 = "UPDATE Tasks " +
+                                        "SET AssignedUser=NULL " +
+                                        "WHERE AssignedUser=@user";
 
-            string queryString3 =
-                "DELETE FROM CompletedMainSteps " +
-                "WHERE AssignedUser=@user";
+            const string queryString3 = "DELETE FROM CompletedMainSteps " +
+                                        "WHERE AssignedUser=@user";
 
-            string queryString4 =
-                "DELETE FROM CompletedTasks " +
-                "WHERE AssignedUser=@user";
+            const string queryString4 = "DELETE FROM CompletedTasks " +
+                                        "WHERE AssignedUser=@user";
 
-            string queryString5 =
-                "UPDATE MemberAssignments " +
-                "SET AssignedSupervisor=NULL " +
-                "WHERE AssignedUser=@user";
+            const string queryString5 = "UPDATE MemberAssignments " +
+                                        "SET AssignedSupervisor=NULL " +
+                                        "WHERE AssignedUser=@user";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
-                SqlCommand cmd4 = new SqlCommand(queryString4, con);
-                SqlCommand cmd5 = new SqlCommand(queryString5, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
+                var cmd3 = new SqlCommand(queryString3, con);
+                var cmd4 = new SqlCommand(queryString4, con);
+                var cmd5 = new SqlCommand(queryString5, con);
 
-                cmd.Parameters.AddWithValue("@user", User);
-                cmd2.Parameters.AddWithValue("@user", User);
-                cmd3.Parameters.AddWithValue("@user", User);
-                cmd4.Parameters.AddWithValue("@user", User);
-                cmd5.Parameters.AddWithValue("@user", User);
+                cmd.Parameters.AddWithValue("@user", user);
+                cmd2.Parameters.AddWithValue("@user", user);
+                cmd3.Parameters.AddWithValue("@user", user);
+                cmd4.Parameters.AddWithValue("@user", user);
+                cmd5.Parameters.AddWithValue("@user", user);
 
                 con.Open();
 
@@ -249,18 +215,17 @@ namespace SE.Classes
 
         /// <summary>Remove Supervisor
         /// </summary> 
-        public static void RemoveSupervisor(string Supervisor)
+        public static void RemoveSupervisor(string supervisor)
         {
-            string queryString =
-                "DELETE FROM Categories " +
-                "WHERE CreatedBy=@createdby";
+            const string queryString = "DELETE FROM Categories " +
+                                       "WHERE CreatedBy=@createdby";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@createdby", Supervisor);
+                cmd.Parameters.AddWithValue("@createdby", supervisor);
 
                 con.Open();
 
@@ -270,232 +235,216 @@ namespace SE.Classes
             }
         }
 
-        public static string UserAssignedTo(string User)
+        public static string UserAssignedTo(string user)
         {
-            string queryString =
-                "SELECT AssignedSupervisor " +
-                "FROM MemberAssignments " +
-                "WHERE AssignedUser=@user";
-            string Supervisor = "";
+            const string queryString = "SELECT AssignedSupervisor " +
+                                       "FROM MemberAssignments " +
+                                       "WHERE AssignedUser=@user";
+            string supervisor;
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@user", User);
+                cmd.Parameters.AddWithValue("@user", user);
 
                 con.Open();
                 try
                 {
-                    Supervisor = cmd.ExecuteScalar().ToString();
+                    supervisor = cmd.ExecuteScalar().ToString();
                 }
                 catch
                 {
-                    Supervisor = "";
+                    supervisor = "";
                 }
 
                 con.Close();
             }
 
-            return Supervisor;
+            return supervisor;
         }
 
-        public static bool SupervisorHasUsers(String Supervisor)
+        public static bool SupervisorHasUsers(String supervisor)
         {
-            bool HasUsers = false;
+            bool hasUsers;
 
-            string queryString =
-                "SELECT COUNT(*) " +
-                "FROM MemberAssignments " +
-                "WHERE AssignedSupervisor=@supervisor";
+            const string queryString = "SELECT COUNT(*) " +
+                                       "FROM MemberAssignments " +
+                                       "WHERE AssignedSupervisor=@supervisor";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+                cmd.Parameters.AddWithValue("@supervisor", supervisor);
 
                 con.Open();
 
-                HasUsers = ((int)cmd.ExecuteScalar() > 0) ? true : false;
+                hasUsers = ((int)cmd.ExecuteScalar() > 0);
 
                 con.Close();
             }
 
-            return HasUsers;
+            return hasUsers;
         }
 
-        public static List<string> UsersAssignedToSupervisor(string Supervisor)
+        public static List<string> UsersAssignedToSupervisor(string supervisor)
         {
-            List<string> UsersAssignedToSupervisor = new List<string>();
+            var usersAssignedToSupervisor = new List<string>();
 
-            string queryString =
-                "SELECT * FROM MemberAssignments " +
-                "WHERE AssignedSupervisor=@supervisor";
+            const string queryString = "SELECT * FROM MemberAssignments " +
+                                       "WHERE AssignedSupervisor=@supervisor";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@supervisor", Supervisor);
+                cmd.Parameters.AddWithValue("@supervisor", supervisor);
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    if (!UsersAssignedToSupervisor.Contains(dr["AssignedUser"].ToString()))
+                    if (!usersAssignedToSupervisor.Contains(dr["AssignedUser"].ToString()))
                     {
-                        UsersAssignedToSupervisor.Add(dr["AssignedUser"].ToString());
+                        usersAssignedToSupervisor.Add(dr["AssignedUser"].ToString());
                     }
                 }
 
                 con.Close();
             }
 
-            return UsersAssignedToSupervisor;
+            return usersAssignedToSupervisor;
         }
 
-        public static List<string> UsersAssignedToCategory(int CategoryID)
+        public static List<string> UsersAssignedToCategory(int categoryId)
         {
-            List<string> UsersAssignedToCategory = new List<string>();
+            var usersAssignedToCategory = new List<string>();
 
-            string queryString =
-                "SELECT * FROM CategoryAssignments " +
-                "WHERE CategoryID=@categoryid";
+            const string queryString = "SELECT * FROM CategoryAssignments " +
+                                       "WHERE CategoryID=@categoryid";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
+                cmd.Parameters.AddWithValue("@categoryid", categoryId);
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    if (!UsersAssignedToCategory.Contains(dr["AssignedUser"].ToString()))
+                    if (!usersAssignedToCategory.Contains(dr["AssignedUser"].ToString()))
                     {
-                        UsersAssignedToCategory.Add(dr["AssignedUser"].ToString());
+                        usersAssignedToCategory.Add(dr["AssignedUser"].ToString());
                     }
                 }
 
                 con.Close();
             }
 
-            return UsersAssignedToCategory;
+            return usersAssignedToCategory;
         }
 
         public static List<string> UsersAssignedToSupervisorAssignedToCategory(
-            string Supervisor, int CategoryID)
+            string supervisor, int categoryId)
         {
-            List<string> UsersAssignedToSupervisorAssignedToCategory = new List<string>();
+            var usersAssignedToSupervisorAssignedToCategory = new List<string>();
 
-            string queryString =
-                "SELECT * FROM MemberAssignments " +
-                "INNER JOIN CategoryAssignments ON MemberAssignments.AssignedUser=CategoryAssignments.AssignedUser " +
-                "WHERE CategoryAssignments.CategoryID=@categoryid " +
-                "AND MemberAssignments.AssignedSupervisor=@assignedsupervisor";
+            const string queryString = "SELECT * FROM MemberAssignments " +
+                                       "INNER JOIN CategoryAssignments ON MemberAssignments.AssignedUser=CategoryAssignments.AssignedUser " +
+                                       "WHERE CategoryAssignments.CategoryID=@categoryid " +
+                                       "AND MemberAssignments.AssignedSupervisor=@assignedsupervisor";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@categoryid", CategoryID);
-                cmd.Parameters.AddWithValue("@assignedsupervisor", Supervisor);
+                cmd.Parameters.AddWithValue("@categoryid", categoryId);
+                cmd.Parameters.AddWithValue("@assignedsupervisor", supervisor);
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    if (!UsersAssignedToSupervisorAssignedToCategory.Contains(dr["AssignedUser"].ToString()))
+                    if (!usersAssignedToSupervisorAssignedToCategory.Contains(dr["AssignedUser"].ToString()))
                     {
-                        UsersAssignedToSupervisorAssignedToCategory.Add(dr["AssignedUser"].ToString());
+                        usersAssignedToSupervisorAssignedToCategory.Add(dr["AssignedUser"].ToString());
                     }
                 }
 
                 con.Close();
             }
 
-            return UsersAssignedToSupervisorAssignedToCategory;
+            return usersAssignedToSupervisorAssignedToCategory;
         }
         public static DataSet CustomGetActiveSupervisor()
         {
-            DataSet activeUsers = new DataSet();
-            DataTable userTable = new DataTable();
-            userTable = activeUsers.Tables.Add("Supervisor");
+            var activeUsers = new DataSet();
+            var userTable = activeUsers.Tables.Add("Supervisor");
             userTable.Columns.Add("Username", Type.GetType("System.String"));
-            MembershipUserCollection activeUserCollection;
-            activeUserCollection = Membership.GetAllUsers();
-            foreach (MembershipUser membership in activeUserCollection)
+            var activeUserCollection = Membership.GetAllUsers();
+            DataRow row;
+            foreach (var membership in activeUserCollection.Cast<MembershipUser>().Where(membership =>
             {
-                if (Roles.IsUserInRole(membership.UserName, "Supervisor") && (membership.UserName.ToUpper() != Membership.GetUser().UserName.ToUpper()))
-                {
-                    DataRow row;
-                    row = userTable.NewRow();
-                    row["Username"] = "<a class='signalRUser' id= " + membership.UserName + " href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
-                    userTable.Rows.Add(row);
-                }
-            }
-            if (userTable.Columns.Count == 1)
+                var membershipUser = Membership.GetUser();
+                return membershipUser != null && (Roles.IsUserInRole(membership.UserName, "Supervisor") && (membership.UserName.ToUpper() != membershipUser.UserName.ToUpper()));
+            }))
             {
-                DataRow row;
                 row = userTable.NewRow();
-                row["Username"] = "No other supervisors in the system.";
-                if (userTable.Rows.Count == 0)
-                {
-                    row = userTable.NewRow();
-                    row["Username"] = "No other supervisors in the system";
-                    userTable.Rows.Add(row);
-                }
+                row["Username"] = "<a class='signalRUser' id= " + membership.UserName + " href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                userTable.Rows.Add(row);
             }
+            if (userTable.Columns.Count != 1) return activeUsers;
+            row = userTable.NewRow();
+            row["Username"] = "No other supervisors in the system.";
+            if (userTable.Rows.Count != 0) return activeUsers;
+            row = userTable.NewRow();
+            row["Username"] = "No other supervisors in the system";
+            userTable.Rows.Add(row);
             return activeUsers;
         }
-        public static DataSet CustomGetSupervisorsUsers(string Username)
+        public static DataSet CustomGetSupervisorsUsers(string username)
         {
-            DataSet supervisorUsers = new DataSet();
-            DataTable users = new DataTable();
-            users = supervisorUsers.Tables.Add("Users");
+            var supervisorUsers = new DataSet();
+            var users = supervisorUsers.Tables.Add("Users");
             users.Columns.Add("Users", Type.GetType("System.String"));
             users.Columns.Add("Activity");
             users.Columns.Add("Assigned Categories");
-            MembershipUserCollection activeUserCollection;
-            activeUserCollection = Membership.GetAllUsers();
+            Membership.GetAllUsers();
 
-            string queryString =
-                "SELECT AssignedUser FROM MemberAssignments " +
-                "WHERE AssignedSupervisor=@assignedSupervisor";
+            const string queryString = "SELECT AssignedUser FROM MemberAssignments " +
+                                       "WHERE AssignedSupervisor=@assignedSupervisor";
 
-            using (SqlConnection con = new SqlConnection(
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@assignedSupervisor", Username);
+                cmd.Parameters.AddWithValue("@assignedSupervisor", username);
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    DataRow row;
-                    row = users.NewRow();
+                    var row = users.NewRow();
                     row["Users"] = dr["AssignedUser"].ToString();
-                    MembershipUser user = Membership.GetUser(dr["AssignedUser"].ToString());
 
-                    List<string> userCategories = Category.GetUsersCategories(Convert.ToString(dr["AssignedUser"]));
-                    foreach (string item in userCategories)
+                    var userCategories = Category.GetUsersCategories(Convert.ToString(dr["AssignedUser"]));
+                    foreach (var item in userCategories)
                     {
                         row["Assigned Categories"] += item + ",";
                     }

@@ -1,32 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SE.Classes;
 using System.Web.Security;
 using System.Data.SqlClient;
-using System.Data;
-using System.Web.Services;
+
 namespace SE
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class Categories : System.Web.UI.Page
     {
-        public int catIDX = 0, taskIDX = 0, mainIDX = 0, deatIDX = 0;
-        Category Cat = new Category();
-        string UserName = System.Web.HttpContext.Current.User.Identity.Name;
-        Task ITask = new Task();
-        MainStep IMainStep = new MainStep();
-        DetailedStep IDetailedStep = new DetailedStep();
+        public int catIDX = 0;
+        public int taskIDX = 0;
+        public int mainIDX = 0;
+        public int deatIDX = 0;
+        Category _cat = new Category();
+        readonly string _userName = System.Web.HttpContext.Current.User.Identity.Name;
+        Task _task = new Task();
+        MainStep _mainStep = new MainStep();
+        DetailedStep _detailedStep = new DetailedStep();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Init(object sender, EventArgs e)
         {
-            ViewState.Add("Category", Cat);
-            ViewState.Add("Task", ITask);
-            ViewState.Add("MainStep", IMainStep);
-            ViewState.Add("DetailedStep", IDetailedStep);
+            ViewState.Add("Category", _cat);
+            ViewState.Add("Task", _task);
+            ViewState.Add("MainStep", _mainStep);
+            ViewState.Add("DetailedStep", _detailedStep);
             ViewState.Add("CategoriesExist", false);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -74,188 +90,210 @@ namespace SE
             if (detailedStep.Items.Count == 0)
                 detailedStep.Attributes.Add("disabled", "true");
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_PreRender(object sender, EventArgs e)
         {
         }
         /* Management CRUD Functionality */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void EditCategoryButton_Click(object sender, EventArgs e)
         {
-            Cat = (Category)ViewState["Category"];
+            _cat = (Category)ViewState["Category"];
 
-            if (EditCategoryButton.Text == "Add New Category")
+            switch (EditCategoryButton.Text)
             {
-                if (EditCategoryName.Text != String.Empty)
-                {
-                    Cat.CategoryName = EditCategoryName.Text;
-                    Cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
+                case "Add New Category":
+                    if (EditCategoryName.Text != String.Empty)
+                    {
+                        _cat.CategoryName = EditCategoryName.Text;
+                        _cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
 
-                    Cat.CreateCategory();
-                    Cat.AssignUserCategories();
-                    BindCategories(catList);
+                        _cat.CreateCategory();
+                        _cat.AssignUserCategories();
+                        BindCategories(catList);
 
-                    SuccessMessage.Text = "New category successfully added.";
+                        SuccessMessage.Text = "New category successfully added.";
 
-                    EditCategoryName.Text = String.Empty;
+                        EditCategoryName.Text = String.Empty;
 
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                }
-                else
-                {
-                    ErrorMessage.Text = "Error creating new category";
-                }
-                header.Text = "Management Panel";
+                        ListBoxPanel.Visible = true;
+                        EditCategoryPanel.Visible = false;
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = "Error creating new category";
+                    }
+                    header.Text = "Management Panel";
+                    break;
+                case "Update Category":
+                    if (EditCategoryName.Text != String.Empty)
+                    {
+                        _cat.CategoryName = EditCategoryName.Text;
+                        _cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
+
+                        _cat.UpdateCategory();
+                        _cat.ReAssignUserCategories();
+                        BindCategories(catList);
+
+                        SuccessMessage.Text = "Category successfully updated.";
+
+                        EditCategoryName.Text = String.Empty;
+
+                        ListBoxPanel.Visible = true;
+                        EditCategoryPanel.Visible = false;
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = "Error Updating Category";
+                    }
+                    header.Text = "Management Panel";
+                    break;
             }
-            else if (EditCategoryButton.Text == "Update Category")
-            {
-                if (EditCategoryName.Text != String.Empty)
-                {
-                    Cat.CategoryName = EditCategoryName.Text;
-                    Cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
-
-                    Cat.UpdateCategory();
-                    Cat.ReAssignUserCategories();
-                    BindCategories(catList);
-
-                    SuccessMessage.Text = "Category successfully updated.";
-
-                    EditCategoryName.Text = String.Empty;
-
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                }
-                else
-                {
-                    ErrorMessage.Text = "Error Updating Category";
-                }
-                header.Text = "Management Panel";
-            }
-            if (catList.Items.Count > 1) { catList.SelectedIndex = catIDX; };
+            if (catList.Items.Count > 1) { catList.SelectedIndex = catIDX; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void EditTaskButton_Click(object sender, EventArgs e)
         {
-            ITask = (Task)ViewState["Task"];
+            _task = (Task)ViewState["Task"];
 
-            if (EditTaskButton.Text == "Add New Task")
+            switch (EditTaskButton.Text)
             {
-                if (EditTaskName.Text != String.Empty)
-                {
-                    ITask.TaskName = EditTaskName.Text;
+                case "Add New Task":
+                    if (EditTaskName.Text != String.Empty)
+                    {
+                        _task.TaskName = EditTaskName.Text;
 
-                    ITask.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
+                        _task.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
 
-                    ITask.CreateTask();
-                    ITask.AssignUserTasks();
+                        _task.CreateTask();
+                        _task.AssignUserTasks();
 
-                    SuccessMessage.Text = "New task successfully added.";
+                        SuccessMessage.Text = "New task successfully added.";
 
-                    EditTaskName.Text = String.Empty;
+                        EditTaskName.Text = String.Empty;
 
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                    TaskPanel.Visible = false;
-                    RefreshTasks();
-                }
-                else
-                {
-                    ErrorMessage.Text = "Error creating new task";
-                }
-            }
-            else if (EditTaskButton.Text == "Update Task")
-            {
-                if (EditTaskName.Text != String.Empty)
-                {
-                    ITask.TaskName = EditTaskName.Text;
-                    header.Text = "Edit Task: " + ITask.TaskName;
+                        ListBoxPanel.Visible = true;
+                        EditCategoryPanel.Visible = false;
+                        TaskPanel.Visible = false;
+                        RefreshTasks();
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = "Error creating new task";
+                    }
+                    break;
+                case "Update Task":
+                    if (EditTaskName.Text != String.Empty)
+                    {
+                        _task.TaskName = EditTaskName.Text;
+                        header.Text = "Edit Task: " + _task.TaskName;
 
-                    ITask.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
+                        _task.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
 
-                    ITask.UpdateTask();
-                    ITask.ReAssignUserTasks();
+                        _task.UpdateTask();
+                        _task.ReAssignUserTasks();
 
-                    SuccessMessage.Text = "Task successfully updated.";
+                        SuccessMessage.Text = "Task successfully updated.";
 
-                    EditTaskName.Text = String.Empty;
+                        EditTaskName.Text = String.Empty;
 
-                    ListBoxPanel.Visible = true;
-                    EditCategoryPanel.Visible = false;
-                    TaskPanel.Visible = false;
-                    RefreshTasks();
-                }
-                else
-                {
-                    ErrorMessage.Text = "Error Updating Task";
-                }
+                        ListBoxPanel.Visible = true;
+                        EditCategoryPanel.Visible = false;
+                        TaskPanel.Visible = false;
+                        RefreshTasks();
+                    }
+                    else
+                    {
+                        ErrorMessage.Text = "Error Updating Task";
+                    }
+                    break;
             }
             header.Text = "Management Panel";
-            if (taskList.Items.Count > 1) { taskList.SelectedIndex = taskIDX; };
+            if (taskList.Items.Count > 1) { taskList.SelectedIndex = taskIDX; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void EditMainStepButton_Click(object sender, EventArgs e)
         {
-            IMainStep = (MainStep)ViewState["MainStep"];
-            string Message = "";
-            Button btn = (Button)sender;
+            _mainStep = (MainStep)ViewState["MainStep"];
+            var message = "";
+            var btn = (Button)sender;
 
             ErrorMessage.Text = String.Empty;
 
             if (MainStepName.Text != String.Empty)
             {
-                IMainStep.MainStepName = MainStepName.Text;
-                IMainStep.MainStepText =
+                _mainStep.MainStepName = MainStepName.Text;
+                _mainStep.MainStepText =
                     !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
 
                 if (MainStepAudio.HasFile)
-                    Message = Methods.UploadFile(MainStepAudio, "Audio");
+                    message = Methods.UploadFile(MainStepAudio, "Audio");
 
-                if (Message == "")
+                if (message == "")
                 {
-                    IMainStep.AudioFilename =
+                    _mainStep.AudioFilename =
                         MainStepAudio.HasFile ? MainStepAudio.FileName : null;
-                    IMainStep.AudioPath =
+                    _mainStep.AudioPath =
                         MainStepAudio.HasFile ? ("~/Uploads/" + MainStepAudio.FileName) : null;
                 }
                 else
                 {
-                    Message += "<br/>";
+                    message += "<br/>";
                 }
 
                 if (MainStepVideo.HasFile)
-                    Message += Methods.UploadFile(MainStepVideo, "Video");
+                    message += Methods.UploadFile(MainStepVideo, "Video");
 
-                if (Message == "")
+                if (message == "")
                 {
-                    IMainStep.VideoFilename =
+                    _mainStep.VideoFilename =
                         MainStepVideo.HasFile ? MainStepVideo.FileName : null;
-                    IMainStep.VideoPath =
+                    _mainStep.VideoPath =
                         MainStepVideo.HasFile ? ("~/Uploads/" + MainStepVideo.FileName) : null;
                 }
 
                 if (MainStepButton.Text == "Add New Main Step")
                 {
-                    if (Message == "")
+                    if (message == "")
                     {
-                        IMainStep.CreateMainStep();
+                        _mainStep.CreateMainStep();
                         SuccessMessage.Text = "New main step successfully added.";
                     }
                     else
                     {
-                        ErrorMessage.Text = Message;
+                        ErrorMessage.Text = message;
                     }
                 }
                 if (MainStepButton.Text == "Update Main Step")
                 {
-                    if (Message == "")
+                    if (message == "")
                     {
-                        IMainStep.UpdateMainStep();
+                        _mainStep.UpdateMainStep();
                         SuccessMessage.Text = "Main step successfully updated.";
                     }
                     else
                     {
-                        ErrorMessage.Text = Message;
+                        ErrorMessage.Text = message;
                     }
                 }
 
-                if (Message == "")
+                if (message == "")
                 {
                     MainStepName.Text = String.Empty;
                     MainStepText.Text = String.Empty;
@@ -274,59 +312,64 @@ namespace SE
                     }
                 }
             }
-            if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = mainIDX; };
+            if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = mainIDX; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void EditDetailedStepButton_Click(object sender, EventArgs e)
         {
-            IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
-            string Message = "";
-            Button btn = (Button)sender;
+            _detailedStep = (DetailedStep)ViewState["DetailedStep"];
+            var message = "";
+            var btn = (Button)sender;
 
             ErrorMessage.Text = String.Empty;
 
             if (DetailedStepName.Text != String.Empty)
             {
-                IDetailedStep.DetailedStepName = DetailedStepName.Text;
-                IDetailedStep.DetailedStepText =
+                _detailedStep.DetailedStepName = DetailedStepName.Text;
+                _detailedStep.DetailedStepText =
                     !String.IsNullOrEmpty(DetailedStepText.Text) ? DetailedStepText.Text : null;
 
                 if (DetailedStepImage.HasFile)
-                    Message = Methods.UploadFile(DetailedStepImage, "Image");
+                    message = Methods.UploadFile(DetailedStepImage, "Image");
 
-                if (Message == "")
+                if (message == "")
                 {
-                    IDetailedStep.ImageFilename =
+                    _detailedStep.ImageFilename =
                         DetailedStepImage.HasFile ? DetailedStepImage.FileName : null;
-                    IDetailedStep.ImagePath =
+                    _detailedStep.ImagePath =
                         DetailedStepImage.HasFile ? ("~/Uploads/" + DetailedStepImage.FileName) : null;
                 }
 
                 if (EditDetailedStepButton.Text == "Add New Detailed Step")
                 {
-                    if (Message == "")
+                    if (message == "")
                     {
-                        IDetailedStep.CreateDetailedStep();
+                        _detailedStep.CreateDetailedStep();
                         SuccessMessage.Text = "New detailed step successfully added.";
                     }
                     else
                     {
-                        ErrorMessage.Text = Message;
+                        ErrorMessage.Text = message;
                     }
                 }
                 if (EditDetailedStepButton.Text == "Update Detailed Step")
                 {
-                    if (Message == "")
+                    if (message == "")
                     {
-                        IDetailedStep.UpdateDetailedStep();
+                        _detailedStep.UpdateDetailedStep();
                         SuccessMessage.Text = "detailed step successfully updated.";
                     }
                     else
                     {
-                        ErrorMessage.Text = Message;
+                        ErrorMessage.Text = message;
                     }
                 }
 
-                if (Message == "")
+                if (message == "")
                 {
                     DetailedStepName.Text = String.Empty;
                     DetailedStepText.Text = String.Empty;
@@ -344,8 +387,13 @@ namespace SE
                     }
                 }
             }
-            if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = deatIDX; };
+            if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = deatIDX; }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void AddNewCategory_Click(object sender, EventArgs e)
         {
             EditCategoryName.Text = String.Empty;
@@ -359,6 +407,11 @@ namespace SE
 
             GenerateUserLists();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void AddNewTask_Click(object sender, EventArgs e)
         {
             EditTaskName.Text = String.Empty;
@@ -373,6 +426,11 @@ namespace SE
 
             GenerateUserLists();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void AddNewMainStep_Click(object sender, EventArgs e)
         {
             ListBoxPanel.Visible = false;
@@ -384,6 +442,11 @@ namespace SE
             header.Text = MainStepButton.Text = "Add New Main Step";
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void AddNewDetailedStep_Click(object sender, EventArgs e)
         {
             ListBoxPanel.Visible = false;
@@ -394,13 +457,18 @@ namespace SE
             EditDetailedStepButtonNew.Visible = true;
             header.Text = EditDetailedStepButton.Text = "Add New Detailed Step";
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void UpdateCategory_Click(object sender, EventArgs e)
         {
             if (catList.SelectedItem.Text != "No Categories")
             {
-                Cat = (Category)ViewState["Category"];
-                Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
-                ViewState.Add("Category", Cat);
+                _cat = (Category)ViewState["Category"];
+                _cat.CategoryId = Convert.ToInt32(catList.SelectedValue);
+                ViewState.Add("Category", _cat);
                 catFilter.Enabled = true;
 
                 ListBoxPanel.Visible = false;
@@ -416,18 +484,28 @@ namespace SE
                 ErrorMessage.Text = "Not a valid category.";
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void UpdateTask_Click(object sender, EventArgs e)
         {
             ListBoxPanel.Visible = false;
             EditCategoryPanel.Visible = false;
 
             TaskPanel.Visible = true;
-            ITask = Task.GetTask(Convert.ToInt32(taskList.SelectedValue));
-            EditTaskName.Text = ITask.TaskName;
+            _task = Task.GetTask(Convert.ToInt32(taskList.SelectedValue));
+            EditTaskName.Text = _task.TaskName;
             EditTaskButton.Text = "Update Task";
             header.Text = "Update Task: " + taskList.SelectedItem.Text;
             GenerateUserLists();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void UpdateMainStep_Click(object sender, EventArgs e)
         {
             ListBoxPanel.Visible = false;
@@ -435,17 +513,17 @@ namespace SE
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = true;
             ManageDetailedStepPanel.Visible = false;
-            IMainStep = MainStep.GetMainStep(Convert.ToInt32(mainStep.SelectedValue));
-            MainStepName.Text = IMainStep.MainStepName;
-            MainStepText.Text = IMainStep.MainStepText;
+            _mainStep = MainStep.GetMainStep(Convert.ToInt32(mainStep.SelectedValue));
+            MainStepName.Text = _mainStep.MainStepName;
+            MainStepText.Text = _mainStep.MainStepText;
 
-            if (!String.IsNullOrEmpty(IMainStep.AudioFilename))
-                MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(IMainStep.AudioPath) + "'></audio>";
+            if (!String.IsNullOrEmpty(_mainStep.AudioFilename))
+                MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(_mainStep.AudioPath) + "'></audio>";
             else
                 MainStepAudioCurrentLabel.Text = "";
 
-            if (!String.IsNullOrEmpty(IMainStep.VideoFilename))
-                MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(IMainStep.VideoPath) + "'></video>";
+            if (!String.IsNullOrEmpty(_mainStep.VideoFilename))
+                MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(_mainStep.VideoPath) + "'></video>";
             else
                 MainStepVideoCurrentLabel.Text = "";
 
@@ -453,6 +531,11 @@ namespace SE
             MainStepButtonNew.Visible = false;
             header.Text = "Update Main Step: " + mainStep.SelectedItem.Text;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void UpdateDetailedStep_Click(object sender, EventArgs e)
         {
             ListBoxPanel.Visible = false;
@@ -460,12 +543,12 @@ namespace SE
             EditCategoryPanel.Visible = false;
             ManageMainStepPanel.Visible = false;
             ManageDetailedStepPanel.Visible = true;
-            IDetailedStep = DetailedStep.GetDetailedStep(Convert.ToInt32(detailedStep.SelectedValue));
-            DetailedStepName.Text = IDetailedStep.DetailedStepName;
-            DetailedStepText.Text = IDetailedStep.DetailedStepText;
+            _detailedStep = DetailedStep.GetDetailedStep(Convert.ToInt32(detailedStep.SelectedValue));
+            DetailedStepName.Text = _detailedStep.DetailedStepName;
+            DetailedStepText.Text = _detailedStep.DetailedStepText;
 
-            if (!String.IsNullOrEmpty(IDetailedStep.ImageFilename))
-                DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" + ResolveUrl(IDetailedStep.ImagePath) + "'>";
+            if (!String.IsNullOrEmpty(_detailedStep.ImageFilename))
+                DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" + ResolveUrl(_detailedStep.ImagePath) + "'>";
             else
                 DetailedStepImageCurrentLabel.Text = "";
 
@@ -473,20 +556,25 @@ namespace SE
             EditDetailedStepButtonNew.Visible = false;
             header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void DeleteCategoryButton_Click(object sender, EventArgs e)
         {
-            Cat.CategoryID = Convert.ToInt32(catList.SelectedValue);
+            _cat.CategoryId = Convert.ToInt32(catList.SelectedValue);
             string value = catList.SelectedValue;
-            if (Cat.IsActive)
+            if (_cat.IsActive)
             {
-                Cat.IsActive = false;
+                _cat.IsActive = false;
                 DeleteCategory.Text = "Activate";
                 DeleteCategory.CssClass = "btn btn-success form-control";
                 SuccessMessage.Text = "Category has been deactivated";
             }
             else
             {
-                Cat.IsActive = true;
+                _cat.IsActive = true;
                 DeleteCategory.Text = "Deactivate";
                 DeleteCategory.CssClass = "btn btn-danger form-control";
                 SuccessMessage.Text = "Category has been activated";
@@ -494,29 +582,39 @@ namespace SE
             catList.SelectedValue = value;
             BindCategories(catList);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void IsActiveTaskButton_Click(object sender, EventArgs e)
         {
-            ITask = (Task)ViewState["Task"];
+            _task = (Task)ViewState["Task"];
 
-            if (ITask.IsActive)
+            if (_task.IsActive)
             {
-                ITask.IsActive = false;
+                _task.IsActive = false;
                 IsActiveTask.Text = "Activate";
                 IsActiveTask.CssClass = "btn btn-success form-control";
                 SuccessMessage.Text = "Task has been deactivated";
             }
             else
             {
-                ITask.IsActive = true;
+                _task.IsActive = true;
                 IsActiveTask.Text = "Deactivate";
                 IsActiveTask.CssClass = "btn btn-danger form-control";
                 SuccessMessage.Text = "Task has been activated";
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void DeleteMainStep_Click(object sender, EventArgs e)
         {
-            IMainStep.MainStepID = Convert.ToInt32(mainStep.SelectedValue);
-            IMainStep.DeleteMainStep();
+            _mainStep.MainStepId = Convert.ToInt32(mainStep.SelectedValue);
+            _mainStep.DeleteMainStep();
             RefreshMainSteps();
             SuccessMessage.Text = "main step successfully deleted.";
 
@@ -531,19 +629,29 @@ namespace SE
             }
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void DeleteDetailedStep_Click(object sender, EventArgs e)
         {
-            IDetailedStep.DetailedStepID = Convert.ToInt32(detailedStep.SelectedValue);
-            IDetailedStep.DeleteDetailedStep();
+            _detailedStep.DetailedStepId = Convert.ToInt32(detailedStep.SelectedValue);
+            _detailedStep.DeleteDetailedStep();
             RefreshDetailedSteps();
             SuccessMessage.Text = "detailed step successfully deleted.";
-            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1)) ;
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
             {
                 detailedStep.Items[0].Attributes.Add("disabled", "disabled");
             }
         }
 
         /*Button Binding Events*/
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void CategoryList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (CategoryList.SelectedValue != "")
@@ -559,6 +667,11 @@ namespace SE
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void MoveLeft_Click(object sender, EventArgs e)
         {
             ListBox control = EditTaskPanel.Visible ? AllUsersTask : AllUsers;
@@ -573,6 +686,11 @@ namespace SE
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void MoveRight_Click(object sender, EventArgs e)
         {
             ListBox control = EditTaskPanel.Visible ? AllUsersTask : AllUsers;
@@ -587,6 +705,11 @@ namespace SE
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void ButtonCancel_Click(object sender, EventArgs e)
         {
             ListBoxPanel.Visible = true;
@@ -639,24 +762,24 @@ namespace SE
             control.Items.Clear();
             control2.Items.Clear();
 
-            List<string> UsersAssignedToSupervisor = Member.UsersAssignedToSupervisor(UserName);
+            List<string> usersAssignedToSupervisor = Member.UsersAssignedToSupervisor(_userName);
 
-            if (UsersAssignedToSupervisor.Count > 0)
+            if (usersAssignedToSupervisor.Count > 0)
             {
-                control.DataSource = UsersAssignedToSupervisor;
+                control.DataSource = usersAssignedToSupervisor;
                 control.DataBind();
             }
 
             if (EditCategoryButton.Text == "Update Category" && EditCategoryPanel.Visible)
             {
-                List<string> UsersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(UserName, Convert.ToInt32(catList.SelectedValue));
+                List<string> usersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(_userName, Convert.ToInt32(catList.SelectedValue));
 
-                if (UsersAssignedToSupervisorAssignedToCategory.Count > 0)
+                if (usersAssignedToSupervisorAssignedToCategory.Count > 0)
                 {
-                    UsersInCategory.DataSource = UsersAssignedToSupervisorAssignedToCategory;
+                    UsersInCategory.DataSource = usersAssignedToSupervisorAssignedToCategory;
                     UsersInCategory.DataBind();
 
-                    foreach (string user in UsersAssignedToSupervisorAssignedToCategory)
+                    foreach (string user in usersAssignedToSupervisorAssignedToCategory)
                     {
                         control.Items.Remove(user);
                     }
@@ -664,20 +787,25 @@ namespace SE
             }
             else if (EditTaskButton.Text == "Update Task" && EditTaskPanel.Visible)
             {
-                List<string> UsersAssignedToSupervisorAssignedToTask = Task.UsersAssignedToSupervisorAssignedToTask(UserName, Convert.ToInt32(taskList.SelectedValue));
+                List<string> usersAssignedToSupervisorAssignedToTask = Task.UsersAssignedToSupervisorAssignedToTask(_userName, Convert.ToInt32(taskList.SelectedValue));
 
-                if (UsersAssignedToSupervisorAssignedToTask.Count > 0)
+                if (usersAssignedToSupervisorAssignedToTask.Count > 0)
                 {
-                    UsersAssignedToTask.DataSource = UsersAssignedToSupervisorAssignedToTask;
+                    UsersAssignedToTask.DataSource = usersAssignedToSupervisorAssignedToTask;
                     UsersAssignedToTask.DataBind();
 
-                    foreach (string user in UsersAssignedToSupervisorAssignedToTask)
+                    foreach (string user in usersAssignedToSupervisorAssignedToTask)
                     {
                         control.Items.Remove(user);
                     }
                 }
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void QueryTasks(object sender, EventArgs e)
         {
             catIDX = catList.SelectedIndex;
@@ -708,13 +836,13 @@ namespace SE
                 mainStepSort.Attributes.Add("disabled", "true");
                 detailedSort.Attributes.Add("disabled", "true");
 
-                Cat = (Category)ViewState["Category"];
-                Cat.CategoryID = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
-                ViewState.Add("Category", Cat);
+                _cat = (Category)ViewState["Category"];
+                _cat.CategoryId = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
+                ViewState.Add("Category", _cat);
 
-                ITask = (Task)ViewState["Task"];
-                ITask.CategoryID = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
-                ViewState.Add("Task", ITask);
+                _task = (Task)ViewState["Task"];
+                _task.CategoryId = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
+                ViewState.Add("Task", _task);
 
                 taskList.Items.Clear();
                 mainStep.Items.Clear();
@@ -730,7 +858,7 @@ namespace SE
                     taskFilter.Enabled = false;
                 }
 
-                if (Cat.IsActive)
+                if (_cat.IsActive)
                 {
                     DeleteCategory.Text = "Deactivate";
                     DeleteCategory.CssClass = "btn btn-danger form-control";
@@ -757,6 +885,11 @@ namespace SE
 
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void QueryMainStep(object sender, EventArgs e)
         {
             taskIDX = taskList.SelectedIndex;
@@ -777,13 +910,13 @@ namespace SE
                 detailFilter.Enabled = false;
                 mainStepSort.Attributes.Remove("disabled");
                 detailedSort.Attributes.Add("disabled", "true");
-                ITask = (Task)ViewState["Task"];
-                ITask.TaskID = Convert.ToInt32(Convert.ToInt32(taskList.SelectedValue));
-                ViewState.Add("Task", ITask);
+                _task = (Task)ViewState["Task"];
+                _task.TaskId = Convert.ToInt32(Convert.ToInt32(taskList.SelectedValue));
+                ViewState.Add("Task", _task);
 
-                IMainStep = (MainStep)ViewState["MainStep"];
-                IMainStep.TaskID = Convert.ToInt32(Convert.ToInt32(taskList.SelectedValue));
-                ViewState.Add("MainStep", IMainStep);
+                _mainStep = (MainStep)ViewState["MainStep"];
+                _mainStep.TaskId = Convert.ToInt32(Convert.ToInt32(taskList.SelectedValue));
+                ViewState.Add("MainStep", _mainStep);
 
                 mainStep.Items.Clear();
                 detailedStep.Items.Clear();
@@ -795,7 +928,7 @@ namespace SE
                     mainFilter.Enabled = false;
                 }
 
-                if (ITask.IsActive)
+                if (_task.IsActive)
                 {
                     IsActiveTask.Text = "Deactivate";
                     IsActiveTask.CssClass = "btn btn-danger form-control";
@@ -819,6 +952,11 @@ namespace SE
                 UpdateTask.Visible = IsActiveTask.Visible = false;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void QueryDetailedStep(object sender, EventArgs e)
         {
             mainIDX = mainStep.SelectedIndex;
@@ -831,13 +969,13 @@ namespace SE
             {
                 detailFilter.Enabled = true;
                 detailedSort.Attributes.Remove("disabled");
-                IMainStep = (MainStep)ViewState["MainStep"];
-                IMainStep.MainStepID = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
-                ViewState.Add("MainStep", IMainStep);
+                _mainStep = (MainStep)ViewState["MainStep"];
+                _mainStep.MainStepId = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
+                ViewState.Add("MainStep", _mainStep);
 
-                IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
-                IDetailedStep.MainStepID = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
-                ViewState.Add("DetailedStep", IDetailedStep);
+                _detailedStep = (DetailedStep)ViewState["DetailedStep"];
+                _detailedStep.MainStepId = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
+                ViewState.Add("DetailedStep", _detailedStep);
 
                 detailedStep.Items.Clear();
                 RefreshDetailedSteps();
@@ -870,16 +1008,21 @@ namespace SE
                 MainStepMoveDown.Attributes.Add("disabled", "true");
             }
         }
-        protected void detailButtons(object sender, EventArgs e)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected void DetailButtons(object sender, EventArgs e)
         {
             deatIDX = detailedStep.SelectedIndex;
             UpdateDetailedStep.Attributes.Remove("disabled");
             DeleteDetailedStep.Attributes.Remove("disabled");
             if (detailedStep.SelectedItem.Text != "No Detailed Steps")
             {
-                IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
-                IDetailedStep.DetailedStepID = Convert.ToInt32(Convert.ToInt32(detailedStep.SelectedValue));
-                ViewState.Add("DetailedStep", IDetailedStep);
+                _detailedStep = (DetailedStep)ViewState["DetailedStep"];
+                _detailedStep.DetailedStepId = Convert.ToInt32(Convert.ToInt32(detailedStep.SelectedValue));
+                ViewState.Add("DetailedStep", _detailedStep);
 
                 UpdateDetailedStep.Visible = DeleteDetailedStep.Visible = true;
             }
@@ -902,9 +1045,9 @@ namespace SE
         /*Main Step Function*/
         private void RefreshTasks()
         {
-            ITask = (Task)ViewState["Task"];
+            _task = (Task)ViewState["Task"];
             TaskListSource.SelectCommand = "SELECT * FROM [Tasks] WHERE ([CategoryID] = @CategoryID)";
-            TaskListSource.SelectParameters["CategoryID"].DefaultValue = ITask.CategoryID.ToString();
+            TaskListSource.SelectParameters["CategoryID"].DefaultValue = _task.CategoryId.ToString(CultureInfo.InvariantCulture);
             taskList.Items.Clear();
             taskList.DataSource = TaskListSource;
             taskList.DataBind();
@@ -912,9 +1055,9 @@ namespace SE
 
         private void RefreshMainSteps()
         {
-            IMainStep = (MainStep)ViewState["MainStep"];
+            _mainStep = (MainStep)ViewState["MainStep"];
             MainStepListSource.SelectCommand = "SELECT * FROM [MainSteps] WHERE ([TaskID] = @TaskID) ORDER BY ListOrder";
-            MainStepListSource.SelectParameters["TaskID"].DefaultValue = IMainStep.TaskID.ToString();
+            MainStepListSource.SelectParameters["TaskID"].DefaultValue = _mainStep.TaskId.ToString(CultureInfo.InvariantCulture);
             mainStep.Items.Clear();
             mainStep.DataSource = MainStepListSource;
             mainStep.DataBind();
@@ -939,9 +1082,9 @@ namespace SE
 
         private void RefreshDetailedSteps()
         {
-            IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
+            _detailedStep = (DetailedStep)ViewState["DetailedStep"];
             DetailedStepListSource.SelectCommand = "SELECT * FROM [DetailedSteps] WHERE ([MainStepID] = @MainStepID) ORDER BY ListOrder";
-            DetailedStepListSource.SelectParameters["MainStepID"].DefaultValue = IDetailedStep.MainStepID.ToString();
+            DetailedStepListSource.SelectParameters["MainStepID"].DefaultValue = _detailedStep.MainStepId.ToString(CultureInfo.InvariantCulture);
             detailedStep.Items.Clear();
             detailedStep.DataSource = DetailedStepListSource;
             detailedStep.DataBind();
@@ -966,19 +1109,17 @@ namespace SE
         }
 
 
-        private void BindUsers(DropDownList drp)
-        {
-            drp.DataSource = Member.UsersAssignedToSupervisor(UserName);
-            drp.DataBind();
-
-            Methods.AddBlankToDropDownList(drp);
-        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void MainStepMoveDown_Click(object sender, EventArgs e)
         {
             string value = mainStep.SelectedValue;
             if (mainStep.SelectedValue != "" && mainStep.SelectedIndex != mainStep.Items.Count - 1)
             {
-                IMainStep = (MainStep)ViewState["MainStep"];
+                _mainStep = (MainStep)ViewState["MainStep"];
 
                 string queryString =
                     "SELECT ListOrder " +
@@ -1020,29 +1161,29 @@ namespace SE
 
                     con.Open();
 
-                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
                     // Get Second Value
-                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
-                    cmd2.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+                    cmd2.Parameters.AddWithValue("@listorder", firstValue);
+                    cmd2.Parameters.AddWithValue("@taskid", _mainStep.TaskId);
 
-                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
-                    cmd3.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+                    cmd3.Parameters.AddWithValue("@listorder", firstValue);
+                    cmd3.Parameters.AddWithValue("@taskid", _mainStep.TaskId);
 
                     con.Open();
 
-                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
                     // Swap Values
-                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
-                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@listorder1", firstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", secondValue);
                     cmd4.Parameters.AddWithValue("@mainstepid1", Convert.ToInt32(mainStep.SelectedValue));
-                    cmd4.Parameters.AddWithValue("@mainstepid2", ThirdValue);
+                    cmd4.Parameters.AddWithValue("@mainstepid2", thirdValue);
 
                     con.Open();
 
@@ -1060,12 +1201,17 @@ namespace SE
             }
 
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void MainStepMoveUp_Click(object sender, EventArgs e)
         {
             string value = mainStep.SelectedValue;
             if (mainStep.SelectedValue != "" && mainStep.SelectedIndex != 0)
             {
-                IMainStep = (MainStep)ViewState["MainStep"];
+                _mainStep = (MainStep)ViewState["MainStep"];
 
                 string queryString =
                     "SELECT ListOrder " +
@@ -1107,29 +1253,29 @@ namespace SE
 
                     con.Open();
 
-                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
                     // Get Second Value
-                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
-                    cmd2.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+                    cmd2.Parameters.AddWithValue("@listorder", firstValue);
+                    cmd2.Parameters.AddWithValue("@taskid", _mainStep.TaskId);
 
-                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
-                    cmd3.Parameters.AddWithValue("@taskid", IMainStep.TaskID);
+                    cmd3.Parameters.AddWithValue("@listorder", firstValue);
+                    cmd3.Parameters.AddWithValue("@taskid", _mainStep.TaskId);
 
                     con.Open();
 
-                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
                     // Swap Values
-                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
-                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@listorder1", firstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", secondValue);
                     cmd4.Parameters.AddWithValue("@mainstepid1", Convert.ToInt32(mainStep.SelectedValue));
-                    cmd4.Parameters.AddWithValue("@mainstepid2", ThirdValue);
+                    cmd4.Parameters.AddWithValue("@mainstepid2", thirdValue);
 
                     con.Open();
 
@@ -1146,12 +1292,17 @@ namespace SE
                 detailedStep.Items[0].Attributes.Add("disabled", "disabled");
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void DetailedStepMoveDown_Click(object sender, EventArgs e)
         {
             string value = detailedStep.SelectedValue;
             if (detailedStep.SelectedValue != "" && detailedStep.SelectedIndex != detailedStep.Items.Count - 1)
             {
-                IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
+                _detailedStep = (DetailedStep)ViewState["DetailedStep"];
 
                 string queryString =
                     "SELECT ListOrder " +
@@ -1193,29 +1344,29 @@ namespace SE
 
                     con.Open();
 
-                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
                     // Get Second Value
-                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
-                    cmd2.Parameters.AddWithValue("@mainstepid", IDetailedStep.MainStepID);
+                    cmd2.Parameters.AddWithValue("@listorder", firstValue);
+                    cmd2.Parameters.AddWithValue("@mainstepid", _detailedStep.MainStepId);
 
-                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
-                    cmd3.Parameters.AddWithValue("@mainstepid", IDetailedStep.MainStepID);
+                    cmd3.Parameters.AddWithValue("@listorder", firstValue);
+                    cmd3.Parameters.AddWithValue("@mainstepid", _detailedStep.MainStepId);
 
                     con.Open();
 
-                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
                     // Swap Values
-                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
-                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@listorder1", firstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", secondValue);
                     cmd4.Parameters.AddWithValue("@detailedstepid1", Convert.ToInt32(detailedStep.SelectedValue));
-                    cmd4.Parameters.AddWithValue("@detailedstepid2", ThirdValue);
+                    cmd4.Parameters.AddWithValue("@detailedstepid2", thirdValue);
 
                     con.Open();
 
@@ -1228,12 +1379,17 @@ namespace SE
             }
             detailedStep.SelectedValue = value;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void DetailedStepMoveUp_Click(object sender, EventArgs e)
         {
             string value = detailedStep.SelectedValue;
             if (detailedStep.SelectedValue != "" && detailedStep.SelectedIndex != 0)
             {
-                IDetailedStep = (DetailedStep)ViewState["DetailedStep"];
+                _detailedStep = (DetailedStep)ViewState["DetailedStep"];
 
                 string queryString =
                     "SELECT ListOrder " +
@@ -1275,29 +1431,29 @@ namespace SE
 
                     con.Open();
 
-                    int FirstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
                     // Get Second Value
-                    cmd2.Parameters.AddWithValue("@listorder", FirstValue);
-                    cmd2.Parameters.AddWithValue("@mainstepid", IDetailedStep.MainStepID);
+                    cmd2.Parameters.AddWithValue("@listorder", firstValue);
+                    cmd2.Parameters.AddWithValue("@mainstepid", _detailedStep.MainStepId);
 
-                    cmd3.Parameters.AddWithValue("@listorder", FirstValue);
-                    cmd3.Parameters.AddWithValue("@mainstepid", IDetailedStep.MainStepID);
+                    cmd3.Parameters.AddWithValue("@listorder", firstValue);
+                    cmd3.Parameters.AddWithValue("@mainstepid", _detailedStep.MainStepId);
 
                     con.Open();
 
-                    int SecondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int ThirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
                     // Swap Values
-                    cmd4.Parameters.AddWithValue("@listorder1", FirstValue);
-                    cmd4.Parameters.AddWithValue("@listorder2", SecondValue);
+                    cmd4.Parameters.AddWithValue("@listorder1", firstValue);
+                    cmd4.Parameters.AddWithValue("@listorder2", secondValue);
                     cmd4.Parameters.AddWithValue("@detailedstepid1", Convert.ToInt32(detailedStep.SelectedValue));
-                    cmd4.Parameters.AddWithValue("@detailedstepid2", ThirdValue);
+                    cmd4.Parameters.AddWithValue("@detailedstepid2", thirdValue);
 
                     con.Open();
 
@@ -1311,6 +1467,11 @@ namespace SE
             detailedStep.SelectedValue = value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void CategoryListSource_Selected(object sender, SqlDataSourceStatusEventArgs e)
         {
             if (e.AffectedRows > 0)
@@ -1323,6 +1484,11 @@ namespace SE
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void catDateSort_Click(object sender, EventArgs e)
         {
             string queryString = "";
@@ -1330,7 +1496,6 @@ namespace SE
             {
                 case "Date \u25BC": catDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime ASC"; break;
                 case "Date \u25B2": catDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime DESC"; break;
-                default: break;
             }
             catList.DataSource = null;
             catList.Items.Clear();
@@ -1346,7 +1511,9 @@ namespace SE
             {
                 SqlCommand cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
+                var membershipUser = Membership.GetUser();
+                if (membershipUser != null)
+                    cmd.Parameters.AddWithValue("@supervisor", membershipUser.UserName);
 
 
                 con.Open();
@@ -1357,7 +1524,7 @@ namespace SE
                 {
                     Category cat = new Category();
                     cat.CategoryName = Convert.ToString(dr["CategoryName"]);
-                    cat.CategoryID = Convert.ToInt32(dr["CategoryId"]);
+                    cat.CategoryId = Convert.ToInt32(dr["CategoryId"]);
                     cat.CreatedTime = Convert.ToString(dr["CreatedTime"]);
                     sort.Add(cat);
                 }
@@ -1368,168 +1535,204 @@ namespace SE
             catList.DataBind();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void taskDateSort_Click(object sender, EventArgs e)
         {
-            if (catList.SelectedIndex != -1)
+            if (catList.SelectedIndex == -1) return;
+            var queryString = "";
+            switch (taskDateSort.Text)
             {
-                string queryString = "";
-                switch (taskDateSort.Text)
-                {
-                    case "Date \u25BC": taskDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime ASC"; break;
-                    case "Date \u25B2": taskDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime DESC"; break;
-                    default: break;
-                }
-                taskList.DataSource = null;
-                taskList.Items.Clear();
-                mainStep.Items.Clear();
-                mainStep.Attributes.Add("disabled", "true");
-                detailedStep.Items.Clear();
-                detailedStep.Attributes.Add("disabled", "true");
-                List<Task> sort = new List<Task>();
-                using (SqlConnection con = new SqlConnection(
-                    Methods.GetConnectionString()))
-                {
-                    SqlCommand cmd = new SqlCommand(queryString, con);
-
-                    cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
-                    cmd.Parameters.AddWithValue("@catID", catList.SelectedValue);
-                    con.Open();
-
-                    SqlDataReader dr = cmd.ExecuteReader();
-
-                    while (dr.Read())
-                    {
-                        Task task = new Task();
-                        task.TaskName = Convert.ToString(dr["TaskName"]);
-                        task.TaskID = Convert.ToInt32(dr["TaskID"]);
-                        task.CreatedTime = Convert.ToString(dr["CreatedTime"]);
-                        sort.Add(task);
-                    }
-
-                    con.Close();
-                }
-                taskList.DataSource = sort;
-                taskList.DataBind();
+                case "Date \u25BC": taskDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": taskDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime DESC"; break;
             }
+            taskList.DataSource = null;
+            taskList.Items.Clear();
+            mainStep.Items.Clear();
+            mainStep.Attributes.Add("disabled", "true");
+            detailedStep.Items.Clear();
+            detailedStep.Attributes.Add("disabled", "true");
+            var sort = new List<Task>();
+            using (var con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                var cmd = new SqlCommand(queryString, con);
+
+                var membershipUser = Membership.GetUser();
+                if (membershipUser != null)
+                    cmd.Parameters.AddWithValue("@supervisor", membershipUser.UserName);
+                cmd.Parameters.AddWithValue("@catID", catList.SelectedValue);
+                con.Open();
+
+                var dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    var task = new Task
+                    {
+                        TaskName = Convert.ToString(dr["TaskName"]),
+                        TaskId = Convert.ToInt32(dr["TaskID"]),
+                        CreatedTime = Convert.ToString(dr["CreatedTime"])
+                    };
+                    sort.Add(task);
+                }
+
+                con.Close();
+            }
+            taskList.DataSource = sort;
+            taskList.DataBind();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void mainStep_Sort(object sender, EventArgs e)
         {
-            if (taskList.SelectedIndex != -1)
+            if (taskList.SelectedIndex == -1) return;
+            var queryString = "";
+            switch (mainStepSort.Text)
             {
-                string queryString = "";
-                switch (mainStepSort.Text)
+                case "Date \u25BC": mainStepSort.Text = "Date \u25B2"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": mainStepSort.Text = "Date \u25BC"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime DESC"; break;
+            }
+            mainStep.DataSource = null;
+            mainStep.Items.Clear();
+            detailedStep.Items.Clear();
+            detailedStep.Attributes.Add("disabled", "true");
+            var sort = new List<MainStep>();
+            using (var con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                var cmd = new SqlCommand(queryString, con);
+
+                var membershipUser = Membership.GetUser();
+                if (membershipUser != null)
+                    cmd.Parameters.AddWithValue("@supervisor", membershipUser.UserName);
+                cmd.Parameters.AddWithValue("@id", taskList.SelectedValue);
+                con.Open();
+
+                var dr = cmd.ExecuteReader();
+
+                while (dr.Read())
                 {
-                    case "Date \u25BC": mainStepSort.Text = "Date \u25B2"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime ASC"; break;
-                    case "Date \u25B2": mainStepSort.Text = "Date \u25BC"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime DESC"; break;
-                    default: break;
+                    var step = new MainStep();
+                    step.MainStepName = Convert.ToString(dr["MainStepName"]);
+                    step.MainStepId = Convert.ToInt32(dr["MainStepID"]);
+                    step.CreatedTime = Convert.ToString(dr["CreatedTime"]);
+                    sort.Add(step);
                 }
-                mainStep.DataSource = null;
-                mainStep.Items.Clear();
-                detailedStep.Items.Clear();
-                detailedStep.Attributes.Add("disabled", "true");
-                List<MainStep> sort = new List<MainStep>();
-                using (SqlConnection con = new SqlConnection(
-                    Methods.GetConnectionString()))
-                {
-                    SqlCommand cmd = new SqlCommand(queryString, con);
 
-                    cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
-                    cmd.Parameters.AddWithValue("@id", taskList.SelectedValue);
-                    con.Open();
+                con.Close();
+            }
+            mainStep.DataSource = sort;
+            mainStep.DataBind();
 
-                    SqlDataReader dr = cmd.ExecuteReader();
+            //Display the step number
+            var i = 1;
 
-                    while (dr.Read())
-                    {
-                        MainStep step = new MainStep();
-                        step.MainStepName = Convert.ToString(dr["MainStepName"]);
-                        step.MainStepID = Convert.ToInt32(dr["MainStepID"]);
-                        step.CreatedTime = Convert.ToString(dr["CreatedTime"]);
-                        sort.Add(step);
-                    }
-
-                    con.Close();
-                }
-                mainStep.DataSource = sort;
-                mainStep.DataBind();
-
-                //Display the step number
-                int i = 1;
-
-                foreach (ListItem ms in mainStep.Items)
-                {
-                    ms.Text = "Step " + i + ": " + ms.Text;
-                    i++;
-                }
+            foreach (ListItem ms in mainStep.Items)
+            {
+                ms.Text = "Step " + i + ": " + ms.Text;
+                i++;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void detailedDateSort_Click(object sender, EventArgs e)
         {
-            if (mainStep.SelectedIndex != -1)
+            if (mainStep.SelectedIndex == -1) return;
+            var queryString = "";
+            switch (detailedSort.Text)
             {
-                string queryString = "";
-                switch (detailedSort.Text)
+                case "Date \u25BC": detailedSort.Text = "Date \u25B2"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": detailedSort.Text = "Date \u25BC"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime DESC"; break;
+            }
+            detailedStep.DataSource = null;
+            detailedStep.Items.Clear();
+            var sort = new List<DetailedStep>();
+            using (var con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                var cmd = new SqlCommand(queryString, con);
+
+                var membershipUser = Membership.GetUser();
+                if (membershipUser != null)
+                    cmd.Parameters.AddWithValue("@supervisor", membershipUser.UserName);
+                cmd.Parameters.AddWithValue("@id", mainStep.SelectedValue);
+
+
+                con.Open();
+
+                var dr = cmd.ExecuteReader();
+
+                while (dr.Read())
                 {
-                    case "Date \u25BC": detailedSort.Text = "Date \u25B2"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime ASC"; break;
-                    case "Date \u25B2": detailedSort.Text = "Date \u25BC"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime DESC"; break;
-                    default: break;
-                }
-                detailedStep.DataSource = null;
-                detailedStep.Items.Clear();
-                List<DetailedStep> sort = new List<DetailedStep>();
-                using (SqlConnection con = new SqlConnection(
-                    Methods.GetConnectionString()))
-                {
-                    SqlCommand cmd = new SqlCommand(queryString, con);
-
-                    cmd.Parameters.AddWithValue("@supervisor", Membership.GetUser().UserName);
-                    cmd.Parameters.AddWithValue("@id", mainStep.SelectedValue);
-
-
-                    con.Open();
-
-                    SqlDataReader dr = cmd.ExecuteReader();
-
-                    while (dr.Read())
+                    var step = new DetailedStep
                     {
-                        DetailedStep step = new DetailedStep();
-                        step.DetailedStepName = Convert.ToString(dr["DetailedStepName"]);
-                        step.DetailedStepID = Convert.ToInt32(dr["DetailedStepID"]);
-                        step.CreatedTime = Convert.ToString(dr["CreatedTime"]);
-                        sort.Add(step);
-                    }
-
-                    con.Close();
+                        DetailedStepName = Convert.ToString(dr["DetailedStepName"]),
+                        DetailedStepId = Convert.ToInt32(dr["DetailedStepID"]),
+                        CreatedTime = Convert.ToString(dr["CreatedTime"])
+                    };
+                    sort.Add(step);
                 }
-                detailedStep.DataSource = sort;
-                detailedStep.DataBind();
 
-                //Display the step number
-                int i = 1;
+                con.Close();
+            }
+            detailedStep.DataSource = sort;
+            detailedStep.DataBind();
 
-                foreach (ListItem ds in detailedStep.Items)
-                {
-                    ds.Text = "Step " + i + ": " + ds.Text;
-                    i++;
-                }
+            //Display the step number
+            var i = 1;
+
+            foreach (ListItem ds in detailedStep.Items)
+            {
+                ds.Text = "Step " + i + ": " + ds.Text;
+                i++;
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void catFilter_TextChanged(object sender, EventArgs e)
         {
             BindCategories(catList);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void taskFilter_TextChanged(object sender, EventArgs e)
         {
             RefreshTasks();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void mainFilter_TextChanged(object sender, EventArgs e)
         {
             RefreshMainSteps();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void detailFilter_TextChanged(object sender, EventArgs e)
         {
             RefreshDetailedSteps();

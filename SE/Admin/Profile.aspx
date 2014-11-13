@@ -78,7 +78,7 @@
                                 <asp:Button ID="AddUsersToCat" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddUsersToCat_Click" />
                             </div>
                         </div>
-                        <div id="taskData" style="display: none;  min-height:250px;""">
+                        <div id="taskData" style="display: none;  min-height:250px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary ">
                                     <div class="panel-heading">
@@ -105,7 +105,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="taskUsers" style="display: none;  min-height:250px;""">
+                        <div id="taskUsers" style="display: none;  min-height:250px;">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">
@@ -134,7 +134,7 @@
                                 <asp:Button ID="AssignToTask" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AssUsersToTask_Click" />
                             </div>
                         </div>
-                        <div id="userData" style="display: none;  min-height:250px;"">
+                        <div id="userData" style="display: none;  min-height:250px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary ">
                                     <div class="panel-heading">
@@ -166,7 +166,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="panel" style="display: none;  min-height:250px;""">
+                        <div id="panel" style="display: none;  min-height:250px;">
                             <asp:Panel runat="server" ID="categoryData" Visible="false">
                                 <div class="col-xs-10">
 
@@ -233,7 +233,7 @@
                     </div>
 
                     <div class="dataTables" style="padding-left: 20px; z-index:9999">
-                        <div id="requestCat" style="display: none; min-height:250px;"">
+                        <div id="requestCat" style="display: none; min-height:250px;">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">
@@ -320,112 +320,4 @@
         </asp:UpdatePanel>
     </div>
 </div>
-    <script type="text/javascript">
-            $(document).on("click", ".requestButton", function () {
-                console.log(localStorage.getItem("username").toString());
-                contact.server.contactFormSubmitted(localStorage.getItem("username").toString());
-            });
-            var openDiv;
-            $(document).on("click", ".catButton", function () {
-                if ($(openDiv).attr('id') != 'catData') {
-                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                    $(openDiv).promise().done(function () {
-                        $('#catData').show('slide', { direction: 'left' }, 1000);
-                        openDiv = $('#catData');
-                    });
-                }
-            });
-            $(document).on("click", ".taskButton", function () {
-                if ($(openDiv).attr('id') != 'taskData') {
-                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                    $(openDiv).promise().done(function () {
-                        $('#taskData').show('slide', { direction: 'left' }, 1000);
-                        openDiv = $('#taskData');
-                    });
-                }
-            });
-            $(document).on("click", ".assignedUsers", function () {
-                if ($(openDiv).attr('id') != 'userData') {
-                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                    $(openDiv).promise().done(function () {
-                        $('#userData').show('slide', { direction: 'left' }, 1000);
-                        openDiv = $('#userData');
-                    });
-                }
-            });
-            $(document).on("click", ".requestCat", function () {
-                if ($(openDiv).attr('id') != 'requestCat') {
-                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                    $(openDiv).promise().done(function () {
-                        $('#requestCat').show('slide', { direction: 'left' }, 1000);
-                        openDiv = $('#requestCat');
-                    });
-                }
-            });
-            $(document).on("click", ".requestTask", function () {
-                if ($(openDiv).attr('id') != 'requestTask') {
-                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                    $(openDiv).promise().done(function () {
-                        $('#requestTask').show('slide', { direction: 'left' }, 1000);
-                        openDiv = $('#requestTask');
-                    });
-                }
-            });
-        function hideCats() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#catUsers').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#catUsers');
-            });
-        };
-        function showCats() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#catData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#catData');
-            });
-        };
-        function hideTasks() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#taskUsers').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#taskUsers');
-            });
-        };
-        function showTasks() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#taskData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#taskData');
-            });
-        };
-        function showUsers() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#userData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#userData');
-            });
-        };
-        function hideUsers() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#panel').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#panel');
-            });
-        };
-        function requestCat() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#requestCat').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#requestCat');
-            });
-        };
-        function requestTask() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#requestTask').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#requestTask');
-            });
-        };
-    </script>
 </asp:Content>

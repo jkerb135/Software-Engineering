@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Configuration;
-using System.Data.SqlClient;
+using System.Linq;
 using System.Web.UI.WebControls;
-using System.Web.UI;
 
 namespace SE.Classes
 {
@@ -23,75 +19,61 @@ namespace SE.Classes
             drp.SelectedIndex = 0;
         }
 
-        public static string UploadFile(FileUpload File, String FileType)
+        public static string UploadFile(FileUpload file, String fileType)
         {
-            String path = System.Web.HttpContext.Current.Server.MapPath("~/Uploads/");
-            string Message = "";
-            string[] VideoExt = new string[4] { ".avi", ".wmv", ".mp4", ".mpg" };
-            string[] AudioExt = new string[4] { ".mp3", ".wav", ".m4a", ".mwa" };
-            string[] ImageExt = new string[4] { ".jpg", ".png", ".gif", ".bmp" };
-            bool VideoGood, AudioGood, ImageGood;
-            VideoGood = AudioGood = ImageGood = false;
+            var path = System.Web.HttpContext.Current.Server.MapPath("~/Uploads/");
+            var message = "";
+            string[] videoExt = { ".avi", ".wmv", ".mp4", ".mpg" };
+            string[] audioExt = { ".mp3", ".wav", ".m4a", ".mwa" };
+            string[] imageExt = { ".jpg", ".png", ".gif", ".bmp" };
+            bool audioGood, imageGood;
+            var videoGood = audioGood = imageGood = false;
 
-            if (FileType == "Video")
+            if (fileType == "Video")
             {
-                foreach (string ext in VideoExt)
+                if (videoExt.Any(ext => ext ==  System.IO.Path.GetExtension(file.FileName)))
                 {
-                    if(ext ==  System.IO.Path.GetExtension(File.FileName))
-                    {
-                        VideoGood = true;
-                        break;
-                    }
+                    videoGood = true;
                 }
 
-                if (!VideoGood)
-                    Message = "Extension " + System.IO.Path.GetExtension(File.FileName) + " is invalid. Valid video extensions: " + String.Join(", ", VideoExt);
+                if (!videoGood)
+                    message = "Extension " + System.IO.Path.GetExtension(file.FileName) + " is invalid. Valid video extensions: " + String.Join(", ", videoExt);
             }
 
-            if (FileType == "Audio")
+            if (fileType == "Audio")
             {
-                foreach (string ext in AudioExt)
+                if (audioExt.Any(ext => ext == System.IO.Path.GetExtension(file.FileName)))
                 {
-                    if (ext == System.IO.Path.GetExtension(File.FileName))
-                    {
-                        AudioGood = true;
-                        break;
-                    }
+                    audioGood = true;
                 }
 
-                if(!AudioGood)
-                    Message = "Extension " + System.IO.Path.GetExtension(File.FileName) + " is invalid. Valid audio extensions: " + String.Join(", ", AudioExt);
+                if(!audioGood)
+                    message = "Extension " + System.IO.Path.GetExtension(file.FileName) + " is invalid. Valid audio extensions: " + String.Join(", ", audioExt);
             }
 
-            if (FileType == "Image")
+            if (fileType == "Image")
             {
-                foreach (string ext in ImageExt)
+                if (imageExt.Any(ext => ext == System.IO.Path.GetExtension(file.FileName)))
                 {
-                    if (ext == System.IO.Path.GetExtension(File.FileName))
-                    {
-                        ImageGood = true;
-                        break;
-                    }
-                }  
+                    imageGood = true;
+                }
 
-                if(!ImageGood)
-                    Message = "Extension " + System.IO.Path.GetExtension(File.FileName) + " is invalid. Valid image extensions: " + String.Join(", ", ImageExt);
+                if(!imageGood)
+                    message = "Extension " + System.IO.Path.GetExtension(file.FileName) + " is invalid. Valid image extensions: " + String.Join(", ", imageExt);
             }
 
-            if (VideoGood || AudioGood || ImageGood)
+            if (!videoGood && !audioGood && !imageGood) return message;
+            try
             {
-                try
-                {
-                    File.PostedFile.SaveAs(path
-                        + File.FileName);
-                }
-                catch (Exception ex)
-                {
-                    Message = ex.Message;
-                }
+                file.PostedFile.SaveAs(path
+                                       + file.FileName);
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
             }
 
-            return Message;
+            return message;
         }
     }
 }

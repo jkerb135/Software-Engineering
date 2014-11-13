@@ -1,7 +1,7 @@
 ﻿var openDiv;
 $(document).on('click', '.addSupervisor', function () {
     $('#SiteBody_managerState').val('Supervisor');
-    $('#usersContainer').attr("style", "display:none")
+    $('#usersContainer').attr("style", "display:none");
     $('#usermanager').hide('slide', { direction: 'left' }, 1000);
     $('#usermanager').promise().done(function () {
         $('#addSupervisor').show('slide', { direction: 'left' }, 1000);
@@ -10,7 +10,7 @@ $(document).on('click', '.addSupervisor', function () {
 });
 $(document).on('click', '.addUser', function () {
     $('#SiteBody_managerState').val('User');
-    $('#usersContainer').attr("style", "display:block")
+    $('#usersContainer').attr("style", "display:block");
     $('#usermanager').hide('slide', { direction: 'left' }, 1000);
     $('#usermanager').promise().done(function () {
         $('#addSupervisor').show('slide', { direction: 'left' }, 1000);

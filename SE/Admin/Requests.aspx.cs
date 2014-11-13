@@ -1,52 +1,71 @@
-﻿using SE.Classes;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using SE.Classes;
+using SE.Models;
 
 namespace SE.Admin
 {
-    public partial class Requests : System.Web.UI.Page
+    /// <summary>
+    /// 
+    /// </summary>
+    public partial class Requests : Page
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                RequestSource.SelectCommand = "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" + Membership.GetUser().UserName + "' and a.IsApproved = '" + false + "'";
-                requests.DataBind();
-            }
+            if (IsPostBack) return;
+            var membershipUser = Membership.GetUser();
+            if (membershipUser != null)
+                RequestSource.SelectCommand =
+                    "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
+                    membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
+            requests.DataBind();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         protected void users_RowCommand(object sender, GridViewCommandEventArgs e)
         {
+            requestUpdatePanel.Update();
             var args = e.CommandArgument.ToString().Split(';');
-            string CategoryID = args[0];
-            string RequestingUser = args[1];
-            string queryString = "";
-            string queryString2 = ""; 
-            string queryString3 = "";
-            string catName = "";
+            var categoryId = args[0];
+            if (categoryId == null) throw new ArgumentNullException("categoryId");
+            var requestingUser = args[1];
+            if (requestingUser == null) throw new ArgumentNullException("requestingUser");
+            string queryString, queryString2, catName = "";
             if (e.CommandName == "AcceptRequest")
             {
-                queryString = "Update RequestedCategories SET IsApproved= '" + true + "' WHERE RequestingUser = '" + RequestingUser + "' and CategoryID = '" + CategoryID + "'";
-                queryString2 = "Select * From Categories Where CategoryID = '" + CategoryID + "'";
+                queryString = "Update RequestedCategories SET IsApproved= '" + true + "' WHERE RequestingUser = '" +
+                              requestingUser + "' and CategoryID = '" + categoryId + "'";
+                queryString2 = "Select * From Categories Where CategoryID = '" + categoryId + "'";
             }
             else
             {
-                queryString = "Delete From RequestedCategories WHERE RequestingUser = '" + RequestingUser + "' and CategoryID = '" + CategoryID + "'";
+                queryString = "Delete From RequestedCategories WHERE RequestingUser = '" + requestingUser +
+                              "' and CategoryID = '" + categoryId + "'";
+                queryString2 = "";
             }
-            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            using (var con = new SqlConnection(Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                SqlCommand cmd2 = new SqlCommand(queryString2, con);
+                var cmd = new SqlCommand(queryString, con);
+                var cmd2 = new SqlCommand(queryString2, con);
                 con.Open();
                 cmd.ExecuteScalar();
-                if (queryString2 != ""){
-
-                    SqlDataReader dr = cmd2.ExecuteReader();
+                if (queryString2 != "")
+                {
+                    var dr = cmd2.ExecuteReader();
 
                     while (dr.Read())
                     {
@@ -56,31 +75,38 @@ namespace SE.Admin
 
                 con.Close();
             }
-            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
+            using (var con = new SqlConnection(Methods.GetConnectionString()))
             {
                 con.Open();
-                queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values ('" + catName + "','" + RequestingUser + "','" + DateTime.Now + "','" + true + "')";
-                SqlCommand cmd3 = new SqlCommand(queryString3, con);
+                var queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values ('" +
+                                      catName + "','" + requestingUser + "','" + DateTime.Now + "','" + true + "')";
+                var cmd3 = new SqlCommand(queryString3, con);
                 cmd3.ExecuteNonQuery();
                 con.Close();
             }
 
-            addUnderlyingInfo(Convert.ToInt32(CategoryID));
+            AddTasks(catName, categoryId, requestingUser);
         }
-        protected void addUnderlyingInfo(int id)
-        {
-            string queryString = "Select * FROM Categories INNER JOIN Tasks ON Categories.CategoryID = Tasks.CategoryID INNER JOIN MainSteps ON MainSteps.TaskID = Tasks.TaskID INNER JOIN DetailedSteps ON MainSteps.MainStepID = DetailedSteps.MainStepID Where Categories.CategoryID = '" + id + "'";
-            string taskQuery, mainQuery, detailQuery = "";
-            using (SqlConnection con = new SqlConnection(Methods.GetConnectionString()))
-            {
-                SqlCommand cmd = new SqlCommand(queryString, con);
-                con.Open();
-                SqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    var a = dr;
 
-                }
+        /// <summary>
+        /// </summary>
+        /// <param name="catName"></param>
+        /// <param name="previousId"></param>
+        /// <param name="requestingUser"></param>
+        private static void AddTasks(string catName, string previousId, string requestingUser)
+        {
+            var db = new ipawsTeamBEntities();
+            var newCatId = db.Categories.Where(find => find.CategoryName == catName && find.CreatedBy == requestingUser).Select(r => r.CategoryID).FirstOrDefault();
+            using (var con = new SqlConnection(Methods.GetConnectionString()))
+            {
+                con.Open();
+                const string taskQuery = "Insert Into Tasks (CategoryID,TaskName,TaskTime,IsActive,CreatedTime,CreatedBy) Select @id, TaskName, TaskTime, IsActive, CreatedTime, @supervisor From Tasks Where CategoryID = @prevID";
+                var cmd2 = new SqlCommand(taskQuery, con);
+                cmd2.Parameters.AddWithValue("@supervisor", requestingUser);
+                cmd2.Parameters.AddWithValue("@id", newCatId);
+                cmd2.Parameters.AddWithValue("@prevID", previousId);
+                cmd2.ExecuteNonQuery();
+                con.Close();
             }
         }
     }

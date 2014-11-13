@@ -272,7 +272,7 @@
                                      </div>
                                         </div>
                                     
-                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="detailedStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="detailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="detailedStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="DetailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
                                     <div class="form-inline">
                                         <asp:Button ID="DetailedStepMoveDown" CssClass="btn btn-default" runat="server" Text="Move Step Down"
                                             OnClick="DetailedStepMoveDown_Click" />
