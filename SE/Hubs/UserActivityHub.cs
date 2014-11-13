@@ -72,22 +72,6 @@ namespace SE.Hubs
                                     };
             Clients.Client(toUser.ConnectionID).yourCategoryRequests(yourNotifications.ToArray());
         }
-        public void sendCategoryNotifications(string userName)
-        {
-            var toUser = db.Users.FirstOrDefault(find => find.UserName == userName);
-            var yourNotifications = from r in db.RequestedCategories
-                                    join c in db.Categories on r.CategoryID equals c.CategoryID
-                                    where r.CreatedBy == userName
-                                    orderby r.Date descending
-                                    select new
-                                    {
-                                        CategoryName = c.CategoryName,
-                                        Requester = r.RequestingUser,
-                                        Date = r.Date,
-                                    };
-            Clients.Client(toUser.ConnectionID).sendYourCategoryRequests(yourNotifications.ToArray());
-        }
-
     }
 
 }

@@ -1201,6 +1201,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Admin.Requests.profileHeader">
+            <summary>
+            profileHeader control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Admin.Requests.Label1">
             <summary>
             Label1 control.
@@ -1210,18 +1219,27 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Admin.Requests.categories">
+        <member name="F:SE.Admin.Requests.profile">
             <summary>
-            categories control.
+            profile control.
             </summary>
             <remarks>
             Auto-generated field.
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Admin.Requests.CategorySource">
+        <member name="F:SE.Admin.Requests.requests">
             <summary>
-            CategorySource control.
+            requests control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Requests.RequestSource">
+            <summary>
+            RequestSource control.
             </summary>
             <remarks>
             Auto-generated field.

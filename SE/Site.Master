@@ -27,10 +27,14 @@
             });;
             contact.client.yourCategoryRequests = function (categories) {
                 $("#requests").html('');
+                if (categories.length == 0) {
+                    $('#messageCount').html('0');
+                    var code = "<li><a href='#'><div><strong>Messages</strong><span class='pull-right text-muted'><em></em></span></div><div>No New Requests</div></a></li><li class='divider'></li>";
+                    $("#requests").append(code);
+                }
                 for (var i = 0; i < categories.length; i++) {
                     $('#messageCount').html(i + 1);
-                    console.log(categories[i]);
-                    var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.</div></a></li><li class='divider'></li>";
+                    var code = "<li><a href='<%=ResolveUrl("~/Admin/Requests.aspx") %>'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.</div></a></li><li class='divider'></li>";
                     $("#requests").append(code);
                 }
             };
@@ -41,6 +45,10 @@
 
     <!-- Profile Picture Upload Script -->
     <script type="text/javascript">
+        $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {
+
+            $.connection.hub.stop();
+        });
         $(document).on('click', '#ProfilePicture', function () {
             $("#ProfileUpload").click();
             return false;
