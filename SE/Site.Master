@@ -176,7 +176,7 @@
                             <li id="CategoriesMenu" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Task Manager</a>
                             </li>
-                                                        <li id="Li2" runat="server">
+                                                        <li id="RequestsMenu" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Requests.aspx") %>"><i class="fa fa-user fa-fw"></i>Supervisor Requests</a>
                             </li>
                             <li id="ReportsMenu" runat="server">

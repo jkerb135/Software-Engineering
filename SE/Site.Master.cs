@@ -32,6 +32,7 @@ namespace SE
                 CategoriesMenu.Visible = false;
                 Li1.Visible = false;
                 ProfilePic.Visible = false;
+                RequestsMenu.Visible = false;
             }
             getPictureFromDb(UserName);
             }
