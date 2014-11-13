@@ -11,7 +11,7 @@
 
     <title>iPAWS Web App</title>
     <script src="<%=ResolveUrl("//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js") %>"></script>
-        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
     <script src="<%=ResolveUrl("signalr/hubs") %>"></script>
@@ -23,37 +23,23 @@
         $(function () {
             var contact = $.connection.userActivityHub;
             $.connection.hub.start().done(function () {
-                contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
-        });;
-            contact.client.yourCategoryRequests = function (categories) {
-                $("#requests").html("");
-                for (var i = 0; i < categories.length; i++) {
-                    $('#messageCount').html(i + 1);
-                        console.log(categories[i]);
-                        var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
-                        $("#requests").append(code);
-                }
-                var code = '<li><a class="text-center" href="#"><strong>Read All Notifications</strong><i class="fa fa-angle-right"></i></a></li>';
-                $("#requests").append(code);
-
-            };
-            contact.client.sendYourCategoryRequests = function (categories) {
-                console.log('haha');
-                $("#requests").html("");
-                for (var i = 0; i < categories.length; i++) {
-                    $('#messageCount').html(i + 1);
-                        console.log(categories[i]);
-                        var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
-                        $("#requests").append(code);
-                    
-                }
-                var code = '<li><a class="text-center" href="#"><strong>Read All Notifications</strong><i class="fa fa-angle-right"></i></a></li>';
-                $("#requests").append(code);
                 
-            };
+            });;
+            contact.client.yourCategoryRequests = function (categories) {
+                alert('request bitches');
+                $("#requests").html("");
+                for (var i = 0; i < categories.length; i++) {
+                    $('#messageCount').html(i + 1);
+                    console.log(categories[i]);
+                    var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
+                    $("#requests").append(code);
+                }
+                var code = '<li><a class="text-center" href="#"><strong>Read All Notifications</strong><i class="fa fa-angle-right"></i></a></li>';
+                $("#requests").append(code);
 
+            };
             $(document).on('click', '.requestCatBtn', function () {
-                contact.server.sendCategoryNotifications('<%=Request.QueryString["userName"]%>');
+                contact.server.getCategoryNotifications('<%=Request.QueryString["userName"]%>');
             });
         });
 
@@ -121,10 +107,10 @@
                 <!-- /.navbar-header -->
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" ><span id="messageCount"></span>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="messageCount"></span>
                             <i class="fa fa-envelope fa-fw" id="envelope"></i><i class="fa fa-caret-down"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-messages" id="requests" style="max-height:450px;overflow-y:scroll;">
+                        <ul class="dropdown-menu dropdown-messages" id="requests" style="max-height: 450px; overflow-y: scroll;">
                         </ul>
                         <!-- /.dropdown-messages -->
                     </li>
@@ -276,7 +262,7 @@
                         <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'"></i> Logout</asp:LinkButton>
                     </li>
                 </ul>
-                    <!-- /.dropdown -->
+                <!-- /.dropdown -->
                 <!-- /.navbar-top-links -->
 
                 <div class="navbar-default sidebar" role="navigation">
@@ -340,7 +326,7 @@
 
 
             <div id="page-wrapper">
-            <!--<div class="chat-window" style="right: 10px">
+                <!--<div class="chat-window" style="right: 10px">
                 <div class="chat-window-title userList">
                     <div class="text">Online</div>
                 </div>
@@ -349,17 +335,17 @@
                     </div>
                 </div>
             </div>-->
-                
 
-            <script>
-                $(document).on('click', '.userList', function () {
-                    $('.chat-window-content').slideToggle();
-                });
-            </script>
-            <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder>
-        </div>
 
-        <!-- /#page-wrapper -->
+                <script>
+                    $(document).on('click', '.userList', function () {
+                        $('.chat-window-content').slideToggle();
+                    });
+                </script>
+                <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder>
+            </div>
+
+            <!-- /#page-wrapper -->
         </div>
         <!-- /#wrapper -->
 
@@ -375,10 +361,10 @@
         <!-- SE JavaScript -->
         <script src="<%=ResolveUrl("~/Scripts/scripts.js") %>"></script>
         <input id="otheruser" type="hidden" runat="server" />
-                        <div style="display:none; overflow: hidden">
-                    <asp:FileUpload ID="ProfileUpload" runat="server" />
-                    <asp:Button ID="UploadFile" runat="server" Text="Button" OnClick="UploadFile_Click"/>
-                </div>
+        <div style="display: none; overflow: hidden">
+            <asp:FileUpload ID="ProfileUpload" runat="server" />
+            <asp:Button ID="UploadFile" runat="server" Text="Button" OnClick="UploadFile_Click" />
+        </div>
     </form>
 </body>
 </html>

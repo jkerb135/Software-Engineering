@@ -265,12 +265,6 @@
       <DependentUpon>iPaws.edmx</DependentUpon>
       <LastGenOutput>iPaws.cs</LastGenOutput>
     </Content>
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -476,9 +470,13 @@
     <Content Include="Admin\Dashboard.aspx" />
     <Content Include="Members\web.config" />
     <None Include="Properties\PublishProfiles\iPaws.pubxml" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\Categories.aspx.cs">

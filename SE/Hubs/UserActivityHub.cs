@@ -62,7 +62,7 @@ namespace SE.Hubs
             var toUser = db.Users.FirstOrDefault(find => find.UserName == userName);
             var yourNotifications = from r in db.RequestedCategories
                                     join c in db.Categories on r.CategoryID equals c.CategoryID
-                                    where r.CreatedBy == Context.User.Identity.Name
+                                    where r.CreatedBy == userName
                                     orderby r.Date descending
                                     select new
                                     {
