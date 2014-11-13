@@ -193,6 +193,7 @@
     <Content Include="Admin\Categories.aspx" />
     <Content Include="Admin\Profile.aspx" />
     <Content Include="Admin\Reports.aspx" />
+    <Content Include="Admin\Requests.aspx" />
     <Content Include="Admin\Users.aspx" />
     <Content Include="Admin\SignalR.aspx" />
     <Content Include="App_Data\XmlDocument.xml" />
@@ -499,6 +500,13 @@
     </Compile>
     <Compile Include="Admin\Reports.aspx.designer.cs">
       <DependentUpon>Reports.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Requests.aspx.cs">
+      <DependentUpon>Requests.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Requests.aspx.designer.cs">
+      <DependentUpon>Requests.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\RouteEventArgs.cs" />
     <Compile Include="Admin\Users.aspx.cs">

@@ -11,6 +11,7 @@ using System.Web.UI.WebControls;
 using System.Web.Script.Services;
 using System.Web.Services;
 using System.Web.Script.Serialization;
+using SE.Hubs;
 
 namespace SE.Admin
 {

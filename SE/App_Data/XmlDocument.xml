@@ -2301,6 +2301,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Site.Li2">
+            <summary>
+            Li2 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Site.ReportsMenu">
             <summary>
             ReportsMenu control.

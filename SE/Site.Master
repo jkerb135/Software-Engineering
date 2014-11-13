@@ -23,24 +23,18 @@
         $(function () {
             var contact = $.connection.userActivityHub;
             $.connection.hub.start().done(function () {
-                
+                    contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
             });;
             contact.client.yourCategoryRequests = function (categories) {
-                alert('request bitches');
-                $("#requests").html("");
+                $("#requests").html('');
                 for (var i = 0; i < categories.length; i++) {
                     $('#messageCount').html(i + 1);
                     console.log(categories[i]);
-                    var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category. Click for more info</div></a></li><li class='divider'></li>";
+                    var code = "<li><a href='#'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.</div></a></li><li class='divider'></li>";
                     $("#requests").append(code);
                 }
-                var code = '<li><a class="text-center" href="#"><strong>Read All Notifications</strong><i class="fa fa-angle-right"></i></a></li>';
-                $("#requests").append(code);
-
             };
-            $(document).on('click', '.requestCatBtn', function () {
-                contact.server.getCategoryNotifications('<%=Request.QueryString["userName"]%>');
-            });
+            setInterval(function () { contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>'); }, 1500);
         });
 
     </script>
@@ -120,76 +114,6 @@
                             <i class="fa fa-tasks fa-fw"></i><i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-tasks">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 1</strong>
-                                            <span class="pull-right text-muted">40% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-                                                <span class="sr-only">40% Complete (success)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 2</strong>
-                                            <span class="pull-right text-muted">20% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                                                <span class="sr-only">20% Complete</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 3</strong>
-                                            <span class="pull-right text-muted">60% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
-                                                <span class="sr-only">60% Complete (warning)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <p>
-                                            <strong>Task 4</strong>
-                                            <span class="pull-right text-muted">80% Complete</span>
-                                        </p>
-                                        <div class="progress progress-striped active">
-                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                                                <span class="sr-only">80% Complete (danger)</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>See All Tasks</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
                         </ul>
                         <!-- /.dropdown-tasks -->
                     </li>
@@ -199,57 +123,6 @@
                             <i class="fa fa-bell fa-fw"></i><i class="fa fa-caret-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-alerts">
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-comment fa-fw"></i>New Comment
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-twitter fa-fw"></i>3 New Followers
-                                        <span class="pull-right text-muted small">12 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-envelope fa-fw"></i>Message Sent
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-tasks fa-fw"></i>New Task
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">
-                                    <div>
-                                        <i class="fa fa-upload fa-fw"></i>Server Rebooted
-                                        <span class="pull-right text-muted small">4 minutes ago</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a class="text-center" href="#">
-                                    <strong>See All Alerts</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </li>
                         </ul>
                         <!-- /.dropdown-alerts -->
                     </li>
@@ -302,6 +175,9 @@
                             </li>
                             <li id="CategoriesMenu" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Task Manager</a>
+                            </li>
+                                                        <li id="Li2" runat="server">
+                                <a href="<%=ResolveUrl("~/Admin/Requests.aspx") %>"><i class="fa fa-user fa-fw"></i>Supervisor Requests</a>
                             </li>
                             <li id="ReportsMenu" runat="server">
                                 <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>

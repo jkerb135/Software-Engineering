@@ -18,8 +18,8 @@
                         <input type="button" class="assignedUsers btn btn-primary" value="View Assigned Users" style="width: 200px;" />
                     </div>
 
-                    <div class="dataTables">
-                        <div id="catData" style="display:none; min-height:250px;"">
+                    <div class="dataTables" style="z-index:9999">
+                        <div id="catData" style="display:none; min-height:250px;">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="catUsers" style="display: none;  min-height:250px;""">
+                        <div id="catUsers" style="display: none;  min-height:250px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
@@ -232,7 +232,7 @@
                         <input type="button" class="requestTask btn btn-primary" value="Request Assigned Tasks" style="width: 225px;"/>
                     </div>
 
-                    <div class="dataTables" style="padding-left: 20px;">
+                    <div class="dataTables" style="padding-left: 20px; z-index:9999">
                         <div id="requestCat" style="display: none; min-height:250px;"">
                             <div class="col-xs-10">
 
