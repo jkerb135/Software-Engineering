@@ -132,13 +132,13 @@
                         </div>
                         <div class="form-group">
                             <asp:Label ID="MainStepAudioLabel" runat="server" Text="Audio File"></asp:Label>
-                            <asp:Label ID="MainStepAudioCurrentLabel" CssClass="uploaded-file" runat="server"></asp:Label>
-                            <asp:FileUpload ID="MainStepAudio" runat="server" />
+                            <asp:Label ID="MainStepAudioCurrentLabel" CssClass="uploaded-file main-step-audio-preview" runat="server"></asp:Label>
+                            <asp:FileUpload ID="MainStepAudio" CssClass="main-step-audio" runat="server" />
                         </div>
                         <div class="form-group">
                             <asp:Label ID="MainStepVideoLabel" runat="server" Text="Video File"></asp:Label>
-                            <asp:Label ID="MainStepVideoCurrentLabel" CssClass="uploaded-file" runat="server"></asp:Label>
-                            <asp:FileUpload ID="MainStepVideo" runat="server" />
+                            <asp:Label ID="MainStepVideoCurrentLabel" CssClass="uploaded-file main-step-video-preview" runat="server"></asp:Label>
+                            <asp:FileUpload ID="MainStepVideo" CssClass="main-step-video" runat="server" />
                         </div>
                         <div class="row form-group">
                             <div class="right form-group">
@@ -164,8 +164,8 @@
                         </div>
                         <div class="form-group">
                             <asp:Label ID="DetailedStepImageLabel" runat="server" Text="Image File"></asp:Label>
-                            <asp:Label ID="DetailedStepImageCurrentLabel" CssClass="uploaded-file" runat="server"></asp:Label>
-                            <asp:FileUpload ID="DetailedStepImage" runat="server" />
+                            <asp:Label ID="DetailedStepImageCurrentLabel" CssClass="uploaded-file detailed-step-image-preview" runat="server"></asp:Label>
+                            <asp:FileUpload ID="DetailedStepImage" CssClass="detailed-step-image" runat="server" />
                         </div>
                         <div class="right form-group">
                             <asp:Button ID="EditDetailedStepCancel" runat="server" Text="Cancel"
