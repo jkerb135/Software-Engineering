@@ -22,12 +22,13 @@ namespace SE.Controllers
         public IEnumerable<UserCategories> GetAllCategories()
         {
             return from cat in db.Categories
-                   join assignment in db.CategoryAssignments on cat.CategoryID equals assignment.CategoryID
+                   join assignment in db.CategoryAssignments on cat.CategoryID equals assignment.CategoryID into user
+                   from b in user.DefaultIfEmpty()
                    select new UserCategories
                    {
                        CategoryId = cat.CategoryID,
                        CategoryName = cat.CategoryName,
-                       AssignedUser = assignment.AssignedUser
+                       AssignedUser = b.AssignedUser
                    };
         }
     }

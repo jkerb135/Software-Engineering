@@ -22,14 +22,15 @@ namespace SE.Controllers
         {
             return from task in _db.Tasks
                    join cat in _db.Categories on task.CategoryID equals cat.CategoryID
-                   join assigned in _db.TaskAssignments on task.TaskID equals assigned.TaskID
+                   join assigned in _db.TaskAssignments on task.TaskID equals assigned.TaskID into user
+                   from b in user.DefaultIfEmpty()
                    select new CatTasks
                    {
                        CategoryId = cat.CategoryID,
                        CategoryName = cat.CategoryName,
                        TaskId = task.TaskID,
                        TaskName = task.TaskName,
-                       AssignedUser = task.AssignedUser
+                       AssignedUser = b.AssignedUser
                    };
         }
         /// <summary>
@@ -39,7 +40,8 @@ namespace SE.Controllers
         {
             return from task in _db.Tasks
                    join cat in _db.Categories on task.CategoryID equals cat.CategoryID
-                   join assigned in _db.TaskAssignments on task.TaskID equals assigned.TaskID
+                   join assigned in _db.TaskAssignments on task.TaskID equals assigned.TaskID into user
+                   from b in user.DefaultIfEmpty()
                    where cat.CategoryID == id
                    select new CatTasks
                    {
@@ -47,7 +49,7 @@ namespace SE.Controllers
                        CategoryName = cat.CategoryName,
                        TaskId = task.TaskID,
                        TaskName = task.TaskName,
-                       AssignedUser = task.AssignedUser
+                       AssignedUser = b.AssignedUser
                    };
         }
        /// <summary>

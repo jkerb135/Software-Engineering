@@ -246,6 +246,7 @@
     <Content Include="Images\ZenBG-1.png" />
     <Content Include="Images\ZenBG-2.png" />
     <Content Include="Login.aspx" />
+    <Content Include="PreviewTask.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Custom\profile.js" />
@@ -303,6 +304,7 @@
     <Content Include="Scripts\plugins\morris\morris.js" />
     <Content Include="Scripts\plugins\morris\morris.min.js" />
     <Content Include="Scripts\plugins\morris\raphael.min.js" />
+    <Content Include="Scripts\Preview\preview.js" />
     <Content Include="Scripts\sb-admin-2.js" />
     <Content Include="Scripts\scripts.js" />
     <Content Include="Scripts\toastr.js" />
@@ -446,6 +448,9 @@
     <Content Include="StyleSheets\plugins\morris.css" />
     <Content Include="StyleSheets\plugins\social-buttons.css" />
     <Content Include="StyleSheets\plugins\timeline.css" />
+    <Content Include="StyleSheets\Preview\css.css" />
+    <Content Include="StyleSheets\Preview\jquery.mobile.icons.min.css" />
+    <Content Include="StyleSheets\Preview\themed.css" />
     <Content Include="StyleSheets\sb-admin-2.css" />
     <Content Include="StyleSheets\style.css" />
     <Content Include="Admin\web.config" />
@@ -667,6 +672,13 @@
     </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PreviewTask.aspx.cs">
+      <DependentUpon>PreviewTask.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PreviewTask.aspx.designer.cs">
+      <DependentUpon>PreviewTask.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
