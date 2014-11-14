@@ -11,7 +11,7 @@ namespace SE.Hubs
          readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
         public override System.Threading.Tasks.Task OnConnected()
         {
-            var name = Context.User.Identity.Name;
+            var name = Context.User.Identity.Name.ToLower();
             var user = _db.Users.Find(name);
             if (user == null)
             {
@@ -36,7 +36,7 @@ namespace SE.Hubs
 
         public override System.Threading.Tasks.Task OnReconnected()
         {
-            var connection = _db.Users.Find(Context.User.Identity.Name);
+            var connection = _db.Users.Find(Context.User.Identity.Name.ToLower());
             connection.Connected = true;
             _db.SaveChanges();
 
@@ -44,14 +44,14 @@ namespace SE.Hubs
         }
         public override System.Threading.Tasks.Task OnDisconnected(bool stopcalled)
         {
-               var connection = _db.Users.Find(Context.User.Identity.Name);
+               var connection = _db.Users.Find(Context.User.Identity.Name.ToLower());
                connection.Connected = false;
                _db.SaveChanges();
            return base.OnDisconnected(stopcalled);
         }
         public void GetCategoryNotifications(string userName)
         {
-            var toUser = _db.Users.FirstOrDefault(find => find.UserName == userName);
+            var toUser = _db.Users.FirstOrDefault(find => find.UserName == userName.ToLower());
             var yourNotifications =
                 _db.RequestedCategories.Join(_db.Categories, r => r.CategoryID, c => c.CategoryID, (r, c) => new {r, c})
                     .Where(@t => @t.r.CreatedBy == userName && @t.r.IsApproved == false)

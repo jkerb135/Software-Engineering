@@ -16,8 +16,7 @@
         <asp:View ID="Manager" runat="server">
             <script src="../Scripts/Manager.js"></script>
             <div class="row page-header"></div>
-                <div class="col-xs-12">
-                    <div class="row">
+                <div class="row">
                         <div class="col-xs-11 userManager" style="padding: 5px;">
                             <div class="panel panel-primary">
                                 <div class="panel-heading" id="userManagement" style="cursor: pointer">
@@ -54,9 +53,10 @@
                                 </div>
                             </div>
                         </div>
+                    <div class="row">
                                 <div id="contentWrapper" class="col-xs-12">
                                     <div id="usermanager" class="col-xs-12">
-                                        <div class="col-xs-3">
+                                        <div class="col-xs-3 addUser btn">
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">
                                                     <div class="row">
@@ -69,7 +69,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="addUser">
+                                                <div>
                                                     <div class="panel-footer btn btn-default" style="width: 100%">
                                                         <span class="pull-left">Add</span>
                                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -78,7 +78,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xs-3">
+                                        <div class="col-xs-3 btn addSupervisor">
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">
                                                     <div class="row">
@@ -91,16 +91,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="addSupervisor">
-                                                    <div class="panel-footer btn btn-default" style="width: 100%">
+                                                    <div class="panel-footer btn-default" style="width: 100%">
                                                         <span class="pull-left">Add</span>
                                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                                         <div class="clearfix"></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-xs-3">
+                                        <div class="col-xs-3 btn addSupervisor">
                                             <div class="panel panel-primary">
                                                 <div class="panel-heading">
                                                     <div class="row">
@@ -113,7 +111,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="addSupervisor">
+                                                <div>
                                                     <div class="panel-footer btn btn-default" style="width: 100%">
                                                         <span class="pull-left">Add</span>
                                                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -122,6 +120,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                     </div>
                                     <div id="addSupervisor">
                                         <asp:HiddenField  ID="supervisorState" runat="server"/>
@@ -173,7 +172,7 @@
                                                 <asp:TextBox ID="Email" CssClass="form-control" runat="server"></asp:TextBox>
                                             </div>
                                             <input type="button" value="Back" class="btn btn-danger" id="goback" />
-                                            <asp:Button ID="CreateUserButton" CssClass="btn btn-default right" runat="server"
+                                            <asp:Button ID="CreateUserButton" CssClass="btn btn-success right" runat="server"
                                                 ValidationGroup="CreateUserWizard" CausesValidation="true" Text="Submit"
                                                 OnClick="CreateUserButton_Click" />
 
@@ -184,7 +183,7 @@
                                 </div>
                                 </div>
                     </div>
-                </div>
+                
             <!-- /.col-xs-12 -->
         </asp:View>
 

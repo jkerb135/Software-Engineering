@@ -37,7 +37,7 @@
     <form id="MainForm" runat="server">
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-md-offset-4">
+                <div class="col-xs-4 col-xs-offset-4">
                     <asp:Login ID="MainLogin" OnLoggedIn="MainLogin_LoggedIn" runat="server">
                         <LayoutTemplate>
                             <div class="login-panel panel panel-login">

@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="dataTables" style="z-index:9999">
-                        <div id="catData" style="display:none; min-height:400px;">
+                        <div id="catData" style="display:none; min-height:50%;">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">

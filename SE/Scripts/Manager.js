@@ -6,6 +6,8 @@ $(document).on('click', '.addSupervisor', function () {
     $('#usermanager').promise().done(function () {
         $('#addSupervisor').show('slide', { direction: 'left' }, 1000);
         openDiv = $('#addSupervisor');
+        $('.panel-body').slideToggle();
+        $('#mgmtHead').toggleClass("fa-arrow-up fa-arrow-down");
     });
 });
 $(document).on('click', '.addUser', function () {
@@ -15,6 +17,8 @@ $(document).on('click', '.addUser', function () {
     $('#usermanager').promise().done(function () {
         $('#addSupervisor').show('slide', { direction: 'left' }, 1000);
         openDiv = $('#addSupervisor');
+        $('.panel-body').slideToggle();
+        $('#mgmtHead').toggleClass("fa-arrow-up fa-arrow-down");
     });
 });
 $(document).on('click', '#goback', function () {
@@ -22,6 +26,8 @@ $(document).on('click', '#goback', function () {
     $(openDiv).promise().done(function () {
         $('#usermanager').show('slide', { direction: 'left' }, 1000);
         openDiv = $('#usermanager');
+        $('.panel-body').slideToggle();
+        $('#mgmtHead').toggleClass("fa-arrow-up fa-arrow-down");
     });
 });
 $(document).on('click', '#userManagement', function () {
