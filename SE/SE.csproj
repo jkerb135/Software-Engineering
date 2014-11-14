@@ -212,6 +212,7 @@
     <Content Include="FontAwesome\css\font-awesome.min.css" />
     <Content Include="FontAwesome\css\fonts\fontawesome-webfont.svg" />
     <Content Include="Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="FrontEndTest.html" />
     <Content Include="Global.asax" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\active.gif" />
@@ -268,6 +269,7 @@
       <DependentUpon>iPaws.edmx</DependentUpon>
       <LastGenOutput>iPaws.cs</LastGenOutput>
     </Content>
+    <Content Include="Handlers\Users.ashx" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />
@@ -575,6 +577,9 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Handlers\Users.ashx.cs">
+      <DependentUpon>Users.ashx</DependentUpon>
     </Compile>
     <Compile Include="Hubs\UserActivityHub.cs" />
     <Compile Include="Login.aspx.cs">
