@@ -430,6 +430,36 @@ namespace SE.Classes
             }
             return id;
         }
+
+        public static int GetCategoryIdBySupervisor(string categoryName, string creator)
+        {
+            var id = -1;
+
+            const string queryString = "SELECT CategoryID " +
+                                       "FROM Categories " +
+                                       "WHERE CategoryName=@categoryName and CreatedBy = @creator";
+
+            using (var con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                var cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@categoryname", categoryName);
+                cmd.Parameters.AddWithValue("@creator", creator);
+
+                con.Open();
+
+                var dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    id = Convert.ToInt32(dr["CategoryID"]);
+                }
+
+                con.Close();
+            }
+            return id;
+        }
         public static string GetCategoryName(int id)
         {
             var catName = "";

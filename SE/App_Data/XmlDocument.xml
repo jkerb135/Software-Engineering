@@ -1441,9 +1441,9 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Admin.Profile.GridView3">
+        <member name="F:SE.Admin.Profile.RequestTaskGrid">
             <summary>
-            GridView3 control.
+            RequestTaskGrid control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -1552,6 +1552,42 @@
         <member name="F:SE.Admin.Requests.RequestSource">
             <summary>
             RequestSource control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Requests.Label3">
+            <summary>
+            Label3 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Requests.UpdatePanel1">
+            <summary>
+            UpdatePanel1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Requests.TaskGrid">
+            <summary>
+            TaskGrid control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.Requests.TaskSource">
+            <summary>
+            TaskSource control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -2492,7 +2528,7 @@
             Gets all main steps from the database.
             </summary>
         </member>
-        <member name="M:SE.Controllers.MainStepController.GetMainStepByTaskID(System.Int32)">
+        <member name="M:SE.Controllers.MainStepController.GetMainStepByTaskId(System.Int32)">
             <summary>
             Gets all main steps from the database pertaining to a task id.
             </summary>
@@ -2502,7 +2538,7 @@
             Gets all Tasks in the database.
             </summary>
         </member>
-        <member name="M:SE.Controllers.TaskController.GetTaskByCategoryID(System.Int32)">
+        <member name="M:SE.Controllers.TaskController.GetTaskByCategoryId(System.Int32)">
             <summary>
             Gets all tasks from the database pertaining to a category id.
             </summary>
@@ -2523,7 +2559,7 @@
             Gets all detailed steps from the database pertaining to a main step id.
             </summary>
         </member>
-        <member name="F:SE.Controllers.UserController.db">
+        <member name="F:SE.Controllers.UserController._db">
             <summary>
             Gets all users in the database
             </summary>

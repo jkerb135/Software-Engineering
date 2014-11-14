@@ -14,6 +14,7 @@ namespace SE.Admin
     /// </summary>
     public partial class Requests : Page
     {
+        readonly MembershipUser _membershipUser = Membership.GetUser();
         /// <summary>
         /// 
         /// </summary>
@@ -22,12 +23,16 @@ namespace SE.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
-            var membershipUser = Membership.GetUser();
-            if (membershipUser != null)
+            if (_membershipUser != null)
                 RequestSource.SelectCommand =
                     "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
-                    membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
+                    _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
+            if (_membershipUser != null)
+                TaskSource.SelectCommand =
+                    "Select b.TaskID,b.TaskName,a.Requester, a.Date From RequestedTasks a inner join Tasks b on a.TaskID = b.TaskID Where a.CreatedBy = '" +
+                    _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
             requests.DataBind();
+            TaskGrid.DataBind();
         }
 
         /// <summary>
@@ -86,6 +91,11 @@ namespace SE.Admin
             }
 
             AddTasks(catName, categoryId, requestingUser);
+            RequestSource.SelectCommand =
+                    "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
+                    _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
+            requests.DataBind();
+
         }
 
         /// <summary>

@@ -26,4 +26,5 @@ $(document).on('click', '#goback', function () {
 });
 $(document).on('click', '#userManagement', function () {
     $('.panel-body').slideToggle();
+    $('#mgmtHead').toggleClass("fa-arrow-up fa-arrow-down");
 });

@@ -233,16 +233,14 @@ namespace SE.Classes
 
                 cmd.ExecuteNonQuery();
 
-                foreach (string taskAssign in TaskAssignments)
+                foreach (var taskAssign in TaskAssignments)
                 {
                     cmd2.Parameters["@assigneduser"].Value = taskAssign;
                     cmd2.ExecuteNonQuery();
 
-                    if (!Category.UserInCategory(taskAssign, CategoryId))
-                    {
-                        cmd3.Parameters["@assigneduser"].Value = taskAssign;
-                        cmd3.ExecuteNonQuery();
-                    }
+                    if (Category.UserInCategory(taskAssign, CategoryId)) continue;
+                    cmd3.Parameters["@assigneduser"].Value = taskAssign;
+                    cmd3.ExecuteNonQuery();
                 }
 
                 con.Close();
@@ -359,9 +357,39 @@ namespace SE.Classes
             return tasksInCategoryAssignedToUser;
         }
 
+        public static int GetTaskIdBySupervisor(string taskName, string creator)
+        {
+            var id = -1;
+
+            const string queryString = "SELECT TaskID " +
+                                       "FROM Tasks " +
+                                       "WHERE TaskName=@taskName and CreatedBy = @creator";
+
+            using (var con = new SqlConnection(
+                Methods.GetConnectionString()))
+            {
+                var cmd = new SqlCommand(queryString, con);
+
+                cmd.Parameters.AddWithValue("@taskName", taskName);
+                cmd.Parameters.AddWithValue("@creator", creator);
+
+                con.Open();
+
+                var dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    id = Convert.ToInt32(dr["TaskID"]);
+                }
+
+                con.Close();
+            }
+            return id;
+
+        }
         public static int GetTaskId(string taskName)
         {
-            int id = -1;
+            var id = -1;
 
             const string queryString = "SELECT TaskID " +
                                        "FROM Tasks " +
@@ -376,7 +404,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {

@@ -70,7 +70,8 @@ body {
     #page-wrapper {
         margin: 0 0 0 250px;
         border-left: 1px solid #222;
-        background-color: #fff;
+        background-color:#dddddd;
+        
     }
 }
 

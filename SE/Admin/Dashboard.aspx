@@ -15,13 +15,14 @@
     <asp:MultiView ID="DashboardView" ActiveViewIndex="0" runat="server">
         <asp:View ID="Manager" runat="server">
             <script src="../Scripts/Manager.js"></script>
-            <div class="row page-header">
+            <div class="row page-header"></div>
                 <div class="col-xs-12">
                     <div class="row">
                         <div class="col-xs-11 userManager" style="padding: 5px;">
                             <div class="panel panel-primary">
                                 <div class="panel-heading" id="userManagement" style="cursor: pointer">
                                     <i class="fa fa-users fa-fw"></i>User Management
+                                    <i class="fa fa-arrow-down right" id="mgmtHead"></i>
                                        
                                 </div>
                                 <div class="panel-body">
