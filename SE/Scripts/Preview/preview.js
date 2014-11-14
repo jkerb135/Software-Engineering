@@ -1,10 +1,10 @@
 ﻿$(document).ready(function () {
-		    $(document).bind('pageinit');
+		    //$(document).bind('pageinit');
 		    $("#next").hide();
 		    $("#finish").hide();
 		    $("#pump").hide();
 		    $("#done").hide();
-		    $("#start").show();
+		    //$("#start").show();
 
 		
 		    $("#done").click(function(){
@@ -39,20 +39,12 @@
 		    $("#reset").click(function(){
 		        location.reload();
 		    });
-		  
-		    //Clear session storage on logout confirmation  
-		    $("#yes").click(function(){
-		        logout();
-		    }); 
+		
 		
 		    //Clear seesion data when going to another task
 		    $("#clearrun").click(function(){
 		        cleartask();
 		    }); 
-		  
-		    $("#loginto").click(function(){
-		        getLogin();
-		    });
 		
 		    $("#gettaskapi").click(function(){
 		        getTasks();
@@ -61,7 +53,7 @@
 		    var wait = 0;
 		
 		    //When a user clicks on a task get the id of the task to pass to api to pull the correct task
-		            var tasknum = '16';
+		            var tasknum = '17';
 		            //prints to console for debugging
 		            //console.log(task);
 		            //fucntion that loads the tasks
@@ -77,68 +69,6 @@
 		        sessionStorage.setItem("UserId", keepuid);
 		        sessionStorage.setItem("stepnum", 0);
 		    }
-		
-		    function logout() {
-		        sessionStorage.clear();
-		    }
-		
-		    //var stepnum=1;
-		 
-		    function getLogin() {
-		        //Username
-		        var uname = $("#uname").val();
-		        //password
-		        var password = $("#password").val();
-				
-		        //Team A user API
-		        $.getJSON("http://ipawsteama.csweb.kutztown.edu/api/user/getallusers",
-                    function (data) {
-                        //$('#products').empty(); // Clear the table body.
-						
-                        //isTrue is a test bit to through error on usernot found
-                        var isTrue = 0;
-                        //var rows = "";
-                        // Loop through the list of users.
-                        $.each(data, function (key, val) {
-                            if (val.UserName == uname) {
-                                //alert (val.UserName);
-                                //alert("found");
-                                if (val.Password == password) {
-                                    //alert(val.UserId);
-                                    //isTrue set to 1 to avaoid throughing user not found error
-                                    isTrue = 1;
-                                    //Saves the username
-                                    sessionStorage.setItem("UserId", val.UserId);
-                                    //redirects user to home page
-                                    //alert( "username = " + sessionStorage.getItem("UserID"));
-                                    window.location.href = "#home";
-									
-                                }
-                                else {
-                                    //User enters incorrect password
-                                    alert("Invalid Username or Password");
-                                }
-                            }
-								
-                            else {
-                                //User enters incorrect username
-                                //alert("Invalid Username or Password");
-                                //return to loop through next key, val
-                                return;
-								
-                            }
-								
-                            // Add a table row for each product.
-                            //rows += '<tr><td>' + val.ApplicationId + '</td><td>' + val.UserId + '</td><td>' + val.UserName + '</td></tr>' + val.IsAnonymous + '</td></tr>' + val.LastActivityDate + '</td></tr>';          
-                        });
-						
-                        //if user not found through error
-                        if (isTrue == 0) {
-                            alert("Invalid Username or Password");
-                        }
-                        //document.getElementById('products').innerHTML = rows;
-                    });
-		    } //end getLogin
 			
 		    function getTasks() {
 		        //Change page to task page
@@ -157,8 +87,6 @@
 		        //Team A user API
 		        $.getJSON(api,
                     function (data) {
-
-                        console.log(data);
                         //var rows = "";
                         // Loop through the list of users.
                         $.each(data, function (key, val) {
@@ -173,6 +101,7 @@
 		    } //end gettask
 			
 		    function getMainSteps() {
+		        alert('inside main step');
 		        //var task = $(this).attr('name');
 		        var task = sessionStorage.getItem("task");
 		        //alert(task);
@@ -184,21 +113,18 @@
 		        //Team A user API
 		        $.getJSON(api,
                     function (data) {
-                        console.log(data);
                         // Loop through the steps.
                         $.each(data, function (key, val) {
                             total += 1;
-							
-                            var taskdet = new Task(val.stepId, val.text, val.audio, val.video, val.image);
+                            var taskdet = new Task(val.mainStepId, val.mainStepName, val.mainStepText, val.audioPath, val.videoPath);
                             var store = JSON.stringify(taskdet);
                             sessionStorage.setItem(total, store);
                             //alert(JSON.stringify(JSON.parse(sessionStorage.getItem(total))));
                             //alert("debug" + taskdet.text);
-
                             //getDetSteps(total);
                             sessionStorage.setItem('maintotal', total);
                             //
-                            $("#bot").append('<li id="step' + total + '">' + val.text + '</li>');
+                            $("#bot").append('<li id="step' + total + '">' + val.mainStepName + '</li>');
                             $('#bot').listview().listview('refresh');
                             //$("#steptitle").text(sessionStorage.getItem("1"));      
                         });
@@ -224,21 +150,23 @@
 		        //var detnum = sessionStorage.getItem("step" + total);
 		        //alert(detnum);
 		        //window.location.href = "#dotask";
-		        var api = ("http://ipawsteama.csweb.kutztown.edu/api/step/getdetailedsteps/" + id );
+		        var api = ("http://ipawsteamb.csweb.kutztown.edu/api/DetailedStep/GetDetailedStepById/" + id);
 		        var dtotal = 0;
 		        //$("#detailstep").empty();
 		        //Team A user API
 		        $.getJSON(api,
                     function (data) {
-                        dtotal +=1;
+                        dtotal += 1;
+                        console.log(dtotal);
                         // Loop through the steps.
                         $.each(data, function (key, val) {
+                            console.log("Detailed Steps " + val);
                             //dtotal += 1;
                             //sessionStorage.setItem(total + "dstep" + dtotal, val.text);
                             //sessionStorage.setItem(total + "dtotal", dtotal);
-                            $("#detailstep").append('<p id="step' + val.stepId + '">Step: '+ dtotal + ': ' + val.text + '</p>');
+                            $("#detailstep").append('<p id="step' + val.detailedStepId + '">Step: ' + dtotal + ': ' + val.detailedStepText + '</p>');
                             if (val.image != null) {
-                                $("#image").append('<p><img src="http://' + val.image + '" height="200" alt="' + val.text + '" /></p>');
+                                $("#image").append('<p><img src="http://' + val.imagePath + '" height="200" alt="' + val.imageName + '" /></p>');
                             }
                             //$('#bot').listview().listview('refresh');;
                             //$("#steptitle").text(sessionStorage.getItem("1"));      
@@ -311,10 +239,10 @@
 		        $("#steptitle").text(test.text); 
 		        $("#av").empty();
 		        if (test.video != null) {
-		            $("#av").append('<video width="400" controls><source src="http://' + test.video + '" type="video/mp4"><img src="images/video.png" border="0" height="50px" /></video>');
+		            $("#av").append('<video width="400" controls><source src="http://' + test.video + '" type="../../video/mp4"><img src="images/video.png" border="0" height="50px" /></video>');
 		        }
 		        if (test.audio != null) {
-		            $("#av").append('<audio width="400" controls><source src="http://' + test.audio + '" type="audio/mp3"><img src="images/audio.png" border="0" height="50px" /></audio>');
+		            $("#av").append('<audio width="400" controls><source src="http://' + test.audio + '" type="../../audio/mp3"><img src="images/audio.png" border="0" height="50px" /></audio>');
 		        }
 		        $("#detailstep").empty();
 		        $("#image").empty();

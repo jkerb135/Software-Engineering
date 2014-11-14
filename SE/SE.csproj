@@ -218,6 +218,7 @@
     <Content Include="Images\active.gif" />
     <Content Include="Images\add.png" />
     <Content Include="Images\ajax-loader.gif" />
+    <Content Include="Images\audio.png" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\chat-offline.png" />
     <Content Include="Images\chat-online.png" />
@@ -243,6 +244,7 @@
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
     <Content Include="Images\users.png" />
+    <Content Include="Images\Video.png" />
     <Content Include="Images\ZenBG-1.png" />
     <Content Include="Images\ZenBG-2.png" />
     <Content Include="Login.aspx" />
