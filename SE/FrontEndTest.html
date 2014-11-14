@@ -30,7 +30,7 @@
             $("#result").empty();
             $.ajax({
                 type: "POST",
-                url: "http://localhost/se/handlers/users.ashx",
+                url: "handlers/users.ashx",
                 data: { action: 'login', username: $("#username").val(), password: $("#password").val() },
                 dataType: "json",
                 success: function (response) {
@@ -47,7 +47,7 @@
             $("#result").empty();
             $.ajax({
                 type: "POST",
-                url: "http://localhost/se/handlers/users.ashx",
+                url: "handlers/users.ashx",
                 data: { action: 'logout', username: $("#username").val() },
                 dataType: "json",
                 success: function (response) {
