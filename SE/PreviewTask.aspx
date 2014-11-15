@@ -13,8 +13,8 @@
 		  <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script><script src="Scripts/Preview/preview.js"></script>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div data-role="page" id="dotask" data-theme="d">
+<!-- TASK PAGE -->
+		<div data-role="page" id="dotask" data-theme="d">
 			<div data-role="header" data-position="fixed">
 			<a href="#" class="ui-btn ui-icon-back ui-btn-icon-left" data-rel="back">Go Back</a>
 			<!--<a href="#" id="reset" class="ui-btn ui-icon-refresh ui-btn-icon-right">Restart</a>-->
@@ -31,9 +31,8 @@
 						<li id="mainstep">
 						<h2 id="steptitle"></h2>
 						<div id="av"></div>
-                            <link href="StyleSheets/Preview/css.css" rel="stylesheet" />
 						</li>
-						<div data-role="collapsible">
+						<div data-role="collapsible" id="detailSteps">
 						  <h1>Click here for more detailed instructions.</h1>
 
 						  <div class="ui-grid-a">
@@ -73,7 +72,7 @@
 			</div>
 			</div>
 		</div>
-
-    </form>
+
+	
 </body>
 </html>

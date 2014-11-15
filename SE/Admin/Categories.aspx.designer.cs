@@ -22,6 +22,15 @@ namespace SE {
         protected global::System.Web.UI.UpdatePanel CategoryContainer;
         
         /// <summary>
+        /// taskIDValue control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden taskIDValue;
+        
+        /// <summary>
         /// header control.
         /// </summary>
         /// <remarks>
@@ -659,6 +668,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox taskList;
+        
+        /// <summary>
+        /// PreviewTask control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button PreviewTask;
         
         /// <summary>
         /// mainFilter control.

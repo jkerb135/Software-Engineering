@@ -298,6 +298,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Categories.taskIDValue">
+            <summary>
+            taskIDValue control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Categories.header">
             <summary>
             header control.
@@ -931,6 +940,15 @@
         <member name="F:SE.Categories.taskList">
             <summary>
             taskList control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Categories.PreviewTask">
+            <summary>
+            PreviewTask control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -2598,15 +2616,6 @@
         <member name="F:SE.Default.MainLogin">
             <summary>
             MainLogin control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.PreviewTask.form1">
-            <summary>
-            form1 control.
             </summary>
             <remarks>
             Auto-generated field.

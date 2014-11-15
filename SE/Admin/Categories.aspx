@@ -1,6 +1,14 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Categories.aspx.cs" Inherits="SE.Categories" %>
 
 <asp:Content ID="PageHead" ContentPlaceHolderID="SiteHead" runat="server">
+    <script>
+        function previewTask() {
+            console.log('clicked');
+            var taskID = $(".taskValue").val();
+            var url = "http://localhost:6288/PreviewTask.aspx?taskId=" + taskID;
+            window.open(url);
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">
     <asp:UpdatePanel ID="CategoryContainer" runat="server">
@@ -12,6 +20,7 @@
         </Triggers>
         <ContentTemplate>
             <div class="row">
+                <input type="hidden" class="taskValue" id="taskIDValue" value="" runat="server"/>
                 <div class="col-xs-12">
                     <h1 class="page-header">
                         <asp:Label ID="header" runat="server" Text="Management Panel"></asp:Label></h1>
@@ -196,7 +205,7 @@
                                         <div class="col-xs-4 reset">
                                             <asp:Button ID="DeleteCategory" runat="server" CssClass="btn btn-danger form-control" Text="Deactivate" OnClick="DeleteCategoryButton_Click" /></div>
                                     </div>
-                                    <asp:ListBox CssClass="form-control" ID="catList" runat="server" Height="350px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate" AppendDataBoundItems="true" DataTextField="CategoryName" DataValueField="CategoryID"></asp:ListBox>
+                                    <asp:ListBox CssClass="form-control" style="overflow-x: scroll" ID="catList" runat="server" Height="350px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate" AppendDataBoundItems="true" DataTextField="CategoryName" DataValueField="CategoryID"></asp:ListBox>
                                 </div>
                                 <div class="col-xs-3" style="padding: 5px">
                                     <div class="row" style="padding: 0px 0px 10px 15px">
@@ -222,7 +231,12 @@
                                             <asp:Button ID="IsActiveTask" runat="server" CssClass="btn btn-danger form-control" OnClick="IsActiveTaskButton_Click" Text="Deactivate"/>
                                         </div>
                                     </div>
-                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="taskList" runat="server" Height="350px" OnSelectedIndexChanged="QueryMainStep" AutoPostBack="True" DataTextField="TaskName" DataValueField="TaskID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <asp:ListBox CssClass="col-xs-12 form-control" style="overflow-x: scroll" ID="taskList" runat="server" Height="350px" OnSelectedIndexChanged="QueryMainStep" AutoPostBack="True" DataTextField="TaskName" DataValueField="TaskID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <div class="row" style="padding: 0px 0px 0px 15px;">
+                                        <div class="col-xs-11 reset">
+                                            <asp:Button ID="PreviewTask" runat="server" CssClass="btn btn-success form-control" Text="Preview Task" OnClientClick="previewTask();return false;"/>
+                                        </div>
+                                        </div>
                                 </div>
                                 <div class="col-xs-3" style="padding: 5px">
                                     <div class="row" style="padding: 0px 0px 10px 15px;">
@@ -245,7 +259,7 @@
                                      </div>
                                         </div>
                                     
-                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="mainStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="QueryDetailedStep" DataTextField="MainStepName" DataValueField="MainStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="mainStep" style="overflow-x: scroll" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="QueryDetailedStep" DataTextField="MainStepName" DataValueField="MainStepID" AppendDataBoundItems="true"></asp:ListBox>
                                     <div class="form-inline">
                                         <asp:Button ID="MainStepMoveDown" CssClass="btn btn-default form-control" runat="server" Text="Move Step Down" OnClick="MainStepMoveDown_Click" Visible="True" />
                                         <asp:Button ID="MainStepMoveUp" CssClass="btn btn-default form-control" runat="server" Text="Move Step Up" OnClick="MainStepMoveUp_Click" Visible="True" />
@@ -272,7 +286,7 @@
                                      </div>
                                         </div>
                                     
-                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="detailedStep" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="DetailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
+                                    <asp:ListBox CssClass="col-xs-12 form-control" ID="detailedStep" style="overflow-x: scroll" runat="server" Height="350px" AutoPostBack="True" OnSelectedIndexChanged="DetailButtons" DataTextField="DetailedStepName" DataValueField="DetailedStepID" AppendDataBoundItems="true"></asp:ListBox>
                                     <div class="form-inline">
                                         <asp:Button ID="DetailedStepMoveDown" CssClass="btn btn-default" runat="server" Text="Move Step Down"
                                             OnClick="DetailedStepMoveDown_Click" />

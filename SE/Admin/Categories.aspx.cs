@@ -47,7 +47,7 @@ namespace SE
         {
             if (!IsPostBack)
             {
-                catFilter.Enabled = taskFilter.Enabled = mainFilter.Enabled = detailFilter.Enabled = false;
+                catFilter.Enabled = taskFilter.Enabled = mainFilter.Enabled = detailFilter.Enabled = PreviewTask.Enabled = false;
                 catDateSort.Text = "Date \u25B2";
                 taskDateSort.Text = "Date \u25B2";
                 mainStepSort.Text = "Date \u25B2";
@@ -808,6 +808,7 @@ namespace SE
         /// <param name="e"></param>
         protected void QueryTasks(object sender, EventArgs e)
         {
+            PreviewTask.Enabled = false;
             catIDX = catList.SelectedIndex;
             taskDateSort.Text = "Date \u25B2";
             UpdateCategory.Attributes.Remove("disabled");
@@ -893,6 +894,8 @@ namespace SE
         protected void QueryMainStep(object sender, EventArgs e)
         {
             taskIDX = taskList.SelectedIndex;
+            PreviewTask.Enabled = true;
+            taskIDValue.Value = taskList.SelectedValue;
             mainStepSort.Text = "Date \u25B2";
             detailedStep.Attributes.Add("disabled", "true");
             AddNewDetailedStep.Attributes.Add("disabled", "true");
