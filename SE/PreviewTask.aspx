@@ -10,12 +10,56 @@
     <link href="StyleSheets/Preview/jquery.mobile.icons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile.structure-1.4.3.min.css" /> 
 		  <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
-		  <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script><script src="Scripts/Preview/preview.js"></script>
+		  <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+<script src="Scripts/Preview/preview.js"></script>
+    <style>
+table td
+{
+    text-align: center;
+    vertical-align: middle;
+    padding: 5px;
+    position: relative;
+}
+
+table td img
+{
+    vertical-align: middle;
+    display: inline-block;
+}
+
+table td p
+{
+    display: inline-block;
+    width: 430px;
+    background: #ccc;
+    vertical-align: middle
+}
+    </style>
+    <script type='text/javascript'>
+<!--
+$(document).bind('mobileinit',function(){
+    $.extend(  $.mobile , {
+      defaultPageTransition: "none"
+    });
+});
+//-->
+</script>
+    <style type='text/css'>
+<!--
+    @media only screen and (min-width: 1025px){
+        #dotask {
+            width: 960px !important;
+            margin: 0 auto !important;
+            position: relative !important;
+        }
+    }
+-->
+</style>
 </head>
 <body>
 <!-- TASK PAGE -->
-		<div data-role="page" id="dotask" data-theme="d">
-			<div data-role="header" data-position="fixed">
+		<div data-role="page" id="dotask" data-theme="d" style="width:50%">
+			<div data-role="header" style="width:960px">
 			<a href="#" class="ui-btn ui-icon-back ui-btn-icon-left" data-rel="back">Go Back</a>
 			<!--<a href="#" id="reset" class="ui-btn ui-icon-refresh ui-btn-icon-right">Restart</a>-->
 				
@@ -36,15 +80,8 @@
 						  <h1>Click here for more detailed instructions.</h1>
 
 						  <div class="ui-grid-a">
-							  <div class="ui-block-a">
-								<div id="detailstep">
+							  <div id="detailstep">
 								</div>
-							  </div>
-
-							  <div class="ui-block-b">
-								<div id="image">
-								</div>
-							  </div>
 							</div>
 						  
 						 
@@ -63,7 +100,7 @@
 					</ul>
 
 			</div>
-			<div data-role="footer" data-position="fixed">
+			<div data-role="footer" style="width:960px">
 			
 			<div data-role="navbar">	
 				<ul data-type="horizontal">
@@ -73,6 +110,8 @@
 			</div>
 		</div>
 
-	
+	
+
+
 </body>
 </html>

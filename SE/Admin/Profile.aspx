@@ -17,7 +17,7 @@
                     </div>
 
                     <div class="dataTables" style="z-index:9999">
-                        <div id="catData" style="display:none; min-height:50%;">
+                        <div id="catData" style="display:none; min-height:450px;">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="catUsers" style="display: none;  min-height:400px;">
+                        <div id="catUsers" style="display: none;  min-height:450px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
@@ -76,7 +76,7 @@
                                 <asp:Button ID="AddUsersToCat" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddUsersToCat_Click" />
                             </div>
                         </div>
-                        <div id="taskData" style="display: none;  min-height:400px;">
+                        <div id="taskData" style="display: none;  min-height:450px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary ">
                                     <div class="panel-heading">
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="taskUsers" style="display: none;  min-height:400px;">
+                        <div id="taskUsers" style="display: none;  min-height:450px;">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">
@@ -132,7 +132,7 @@
                                 <asp:Button ID="AssignToTask" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AssUsersToTask_Click" />
                             </div>
                         </div>
-                        <div id="userData" style="display: none;  min-height:400px;">
+                        <div id="userData" style="display: none;  min-height:450px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary ">
                                     <div class="panel-heading">

@@ -852,8 +852,7 @@ namespace SE
 
                 if (taskList.Items.Count == 0)
                 {
-                    ListItem li = new ListItem();
-                    li.Text = "No Tasks in " + catList.SelectedItem.Text;
+                    var li = new ListItem {Text = "No Tasks in " + catList.SelectedItem.Text};
                     li.Attributes.Add("disabled", "disabled");
                     taskList.Items.Add(li);
                     taskFilter.Enabled = false;
@@ -1074,13 +1073,10 @@ namespace SE
                 i++;
             }
 
-            if (mainStep.Items.Count == 0)
-            {
-                ListItem li = new ListItem();
-                li.Text = "No Main Steps in " + taskList.SelectedItem.Text;
-                mainStep.Items.Add(li);
-                mainFilter.Enabled = false;
-            }
+            if (mainStep.Items.Count != 0) return;
+            var li = new ListItem {Text = "No Main Steps in " + taskList.SelectedItem.Text};
+            mainStep.Items.Add(li);
+            mainFilter.Enabled = false;
         }
 
         private void RefreshDetailedSteps()
@@ -1101,14 +1097,15 @@ namespace SE
                 i++;
             }
 
-            if (detailedStep.Items.Count == 0)
+            if (detailedStep.Items.Count != 0) return;
+            var li = new ListItem
             {
-                ListItem li = new ListItem();
-                li.Text = "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1);
-                detailedStep.Items.Add(li);
-                detailFilter.Enabled = false;
-
-            }
+                Text =
+                    "No Detailed Steps in " +
+                    mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1)
+            };
+            detailedStep.Items.Add(li);
+            detailFilter.Enabled = false;
         }
 
 
@@ -1119,52 +1116,48 @@ namespace SE
         /// <param name="e"></param>
         protected void MainStepMoveDown_Click(object sender, EventArgs e)
         {
-            string value = mainStep.SelectedValue;
+            var value = mainStep.SelectedValue;
             if (mainStep.SelectedValue != "" && mainStep.SelectedIndex != mainStep.Items.Count - 1)
             {
                 _mainStep = (MainStep)ViewState["MainStep"];
 
-                string queryString =
-                    "SELECT ListOrder " +
-                    "FROM MainSteps " +
-                    "WHERE MainStepID=@mainstepid";
+                const string queryString = "SELECT ListOrder " +
+                                           "FROM MainSteps " +
+                                           "WHERE MainStepID=@mainstepid";
 
-                string queryString2 =
-                    "SELECT MIN(ListOrder) " +
-                    "FROM MainSteps " +
-                    "WHERE ListOrder > @listorder " +
-                    "AND TaskID=@taskid";
+                const string queryString2 = "SELECT MIN(ListOrder) " +
+                                            "FROM MainSteps " +
+                                            "WHERE ListOrder > @listorder " +
+                                            "AND TaskID=@taskid";
 
-                string queryString3 =
-                    "SELECT MainStepID " +
-                    "FROM MainSteps " +
-                    "WHERE ListOrder = ( " +
-                        "SELECT MIN(ListOrder) " +
-                        "FROM MainSteps " +
-                        "WHERE ListOrder > @listorder " +
-                        "AND TaskID=@taskid " +
-                    ") " +
-                    "AND TaskID=@taskid";
+                const string queryString3 = "SELECT MainStepID " +
+                                            "FROM MainSteps " +
+                                            "WHERE ListOrder = ( " +
+                                            "SELECT MIN(ListOrder) " +
+                                            "FROM MainSteps " +
+                                            "WHERE ListOrder > @listorder " +
+                                            "AND TaskID=@taskid " +
+                                            ") " +
+                                            "AND TaskID=@taskid";
 
-                string queryString4 =
-                    "UPDATE MainSteps " +
-                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
-                    "WHERE MainStepID IN (@mainstepid1, @mainstepid2)";
+                const string queryString4 = "UPDATE MainSteps " +
+                                            "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                                            "WHERE MainStepID IN (@mainstepid1, @mainstepid2)";
 
-                using (SqlConnection con = new SqlConnection(
+                using (var con = new SqlConnection(
                     Methods.GetConnectionString()))
                 {
-                    SqlCommand cmd = new SqlCommand(queryString, con);
-                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
-                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+                    var cmd = new SqlCommand(queryString, con);
+                    var cmd2 = new SqlCommand(queryString2, con);
+                    var cmd3 = new SqlCommand(queryString3, con);
+                    var cmd4 = new SqlCommand(queryString4, con);
 
                     // Get First Value
                     cmd.Parameters.AddWithValue("@mainstepid", Convert.ToInt32(mainStep.SelectedValue));
 
                     con.Open();
 
-                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    var firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1177,8 +1170,8 @@ namespace SE
 
                     con.Open();
 
-                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    var secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    var thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1211,52 +1204,48 @@ namespace SE
         /// <param name="e"></param>
         protected void MainStepMoveUp_Click(object sender, EventArgs e)
         {
-            string value = mainStep.SelectedValue;
+            var value = mainStep.SelectedValue;
             if (mainStep.SelectedValue != "" && mainStep.SelectedIndex != 0)
             {
                 _mainStep = (MainStep)ViewState["MainStep"];
 
-                string queryString =
-                    "SELECT ListOrder " +
-                    "FROM MainSteps " +
-                    "WHERE MainStepID=@mainstepid";
+                const string queryString = "SELECT ListOrder " +
+                                           "FROM MainSteps " +
+                                           "WHERE MainStepID=@mainstepid";
 
-                string queryString2 =
-                    "SELECT MAX(ListOrder) " +
-                    "FROM MainSteps " +
-                    "WHERE ListOrder < @listorder " +
-                    "AND TaskID=@taskid";
+                const string queryString2 = "SELECT MAX(ListOrder) " +
+                                            "FROM MainSteps " +
+                                            "WHERE ListOrder < @listorder " +
+                                            "AND TaskID=@taskid";
 
-                string queryString3 =
-                    "SELECT MainStepID " +
-                    "FROM MainSteps " +
-                    "WHERE ListOrder = ( " +
-                        "SELECT MAX(ListOrder) " +
-                        "FROM MainSteps " +
-                        "WHERE ListOrder < @listorder " +
-                        "AND TaskID=@taskid " +
-                    ") " +
-                    "AND TaskID=@taskid";
+                const string queryString3 = "SELECT MainStepID " +
+                                            "FROM MainSteps " +
+                                            "WHERE ListOrder = ( " +
+                                            "SELECT MAX(ListOrder) " +
+                                            "FROM MainSteps " +
+                                            "WHERE ListOrder < @listorder " +
+                                            "AND TaskID=@taskid " +
+                                            ") " +
+                                            "AND TaskID=@taskid";
 
-                string queryString4 =
-                    "UPDATE MainSteps " +
-                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
-                    "WHERE MainStepID IN (@mainstepid1, @mainstepid2)";
+                const string queryString4 = "UPDATE MainSteps " +
+                                            "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                                            "WHERE MainStepID IN (@mainstepid1, @mainstepid2)";
 
-                using (SqlConnection con = new SqlConnection(
+                using (var con = new SqlConnection(
                     Methods.GetConnectionString()))
                 {
-                    SqlCommand cmd = new SqlCommand(queryString, con);
-                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
-                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+                    var cmd = new SqlCommand(queryString, con);
+                    var cmd2 = new SqlCommand(queryString2, con);
+                    var cmd3 = new SqlCommand(queryString3, con);
+                    var cmd4 = new SqlCommand(queryString4, con);
 
                     // Get First Value
                     cmd.Parameters.AddWithValue("@mainstepid", Convert.ToInt32(mainStep.SelectedValue));
 
                     con.Open();
 
-                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    var firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1269,8 +1258,8 @@ namespace SE
 
                     con.Open();
 
-                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    var secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    var thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1302,52 +1291,48 @@ namespace SE
         /// <param name="e"></param>
         protected void DetailedStepMoveDown_Click(object sender, EventArgs e)
         {
-            string value = detailedStep.SelectedValue;
+            var value = detailedStep.SelectedValue;
             if (detailedStep.SelectedValue != "" && detailedStep.SelectedIndex != detailedStep.Items.Count - 1)
             {
                 _detailedStep = (DetailedStep)ViewState["DetailedStep"];
 
-                string queryString =
-                    "SELECT ListOrder " +
-                    "FROM DetailedSteps " +
-                    "WHERE DetailedStepID=@detailedstepid";
+                const string queryString = "SELECT ListOrder " +
+                                           "FROM DetailedSteps " +
+                                           "WHERE DetailedStepID=@detailedstepid";
 
-                string queryString2 =
-                    "SELECT MIN(ListOrder) " +
-                    "FROM DetailedSteps " +
-                    "WHERE ListOrder > @listorder " +
-                    "AND MainStepID=@mainstepid";
+                const string queryString2 = "SELECT MIN(ListOrder) " +
+                                            "FROM DetailedSteps " +
+                                            "WHERE ListOrder > @listorder " +
+                                            "AND MainStepID=@mainstepid";
 
-                string queryString3 =
-                    "SELECT DetailedStepID " +
-                    "FROM DetailedSteps " +
-                    "WHERE ListOrder = ( " +
-                        "SELECT MIN(ListOrder) " +
-                        "FROM DetailedSteps " +
-                        "WHERE ListOrder > @listorder " +
-                        "AND MainStepID=@mainstepid " +
-                    ") " +
-                    "AND MainStepID=@mainstepid";
+                const string queryString3 = "SELECT DetailedStepID " +
+                                            "FROM DetailedSteps " +
+                                            "WHERE ListOrder = ( " +
+                                            "SELECT MIN(ListOrder) " +
+                                            "FROM DetailedSteps " +
+                                            "WHERE ListOrder > @listorder " +
+                                            "AND MainStepID=@mainstepid " +
+                                            ") " +
+                                            "AND MainStepID=@mainstepid";
 
-                string queryString4 =
-                    "UPDATE DetailedSteps " +
-                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
-                    "WHERE DetailedStepID IN (@detailedstepid1, @detailedstepid2)";
+                const string queryString4 = "UPDATE DetailedSteps " +
+                                            "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                                            "WHERE DetailedStepID IN (@detailedstepid1, @detailedstepid2)";
 
-                using (SqlConnection con = new SqlConnection(
+                using (var con = new SqlConnection(
                     Methods.GetConnectionString()))
                 {
-                    SqlCommand cmd = new SqlCommand(queryString, con);
-                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
-                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+                    var cmd = new SqlCommand(queryString, con);
+                    var cmd2 = new SqlCommand(queryString2, con);
+                    var cmd3 = new SqlCommand(queryString3, con);
+                    var cmd4 = new SqlCommand(queryString4, con);
 
                     // Get First Value
                     cmd.Parameters.AddWithValue("@detailedstepid", Convert.ToInt32(detailedStep.SelectedValue));
 
                     con.Open();
 
-                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    var firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1360,8 +1345,8 @@ namespace SE
 
                     con.Open();
 
-                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    var secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    var thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1389,52 +1374,48 @@ namespace SE
         /// <param name="e"></param>
         protected void DetailedStepMoveUp_Click(object sender, EventArgs e)
         {
-            string value = detailedStep.SelectedValue;
+            var value = detailedStep.SelectedValue;
             if (detailedStep.SelectedValue != "" && detailedStep.SelectedIndex != 0)
             {
                 _detailedStep = (DetailedStep)ViewState["DetailedStep"];
 
-                string queryString =
-                    "SELECT ListOrder " +
-                    "FROM DetailedSteps " +
-                    "WHERE DetailedStepID=@detailedstepid";
+                const string queryString = "SELECT ListOrder " +
+                                           "FROM DetailedSteps " +
+                                           "WHERE DetailedStepID=@detailedstepid";
 
-                string queryString2 =
-                    "SELECT MAX(ListOrder) " +
-                    "FROM DetailedSteps " +
-                    "WHERE ListOrder < @listorder " +
-                    "AND MainStepID=@mainstepid";
+                const string queryString2 = "SELECT MAX(ListOrder) " +
+                                            "FROM DetailedSteps " +
+                                            "WHERE ListOrder < @listorder " +
+                                            "AND MainStepID=@mainstepid";
 
-                string queryString3 =
-                    "SELECT DetailedStepID " +
-                    "FROM DetailedSteps " +
-                    "WHERE ListOrder = ( " +
-                        "SELECT MAX(ListOrder) " +
-                        "FROM DetailedSteps " +
-                        "WHERE ListOrder < @listorder " +
-                        "AND MainStepID=@mainstepid " +
-                    ") " +
-                    "AND MainStepID=@mainstepid";
+                const string queryString3 = "SELECT DetailedStepID " +
+                                            "FROM DetailedSteps " +
+                                            "WHERE ListOrder = ( " +
+                                            "SELECT MAX(ListOrder) " +
+                                            "FROM DetailedSteps " +
+                                            "WHERE ListOrder < @listorder " +
+                                            "AND MainStepID=@mainstepid " +
+                                            ") " +
+                                            "AND MainStepID=@mainstepid";
 
-                string queryString4 =
-                    "UPDATE DetailedSteps " +
-                    "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
-                    "WHERE DetailedStepID IN (@detailedstepid1, @detailedstepid2)";
+                const string queryString4 = "UPDATE DetailedSteps " +
+                                            "SET ListOrder=@listorder1 + @listorder2 - ListOrder " +
+                                            "WHERE DetailedStepID IN (@detailedstepid1, @detailedstepid2)";
 
-                using (SqlConnection con = new SqlConnection(
+                using (var con = new SqlConnection(
                     Methods.GetConnectionString()))
                 {
-                    SqlCommand cmd = new SqlCommand(queryString, con);
-                    SqlCommand cmd2 = new SqlCommand(queryString2, con);
-                    SqlCommand cmd3 = new SqlCommand(queryString3, con);
-                    SqlCommand cmd4 = new SqlCommand(queryString4, con);
+                    var cmd = new SqlCommand(queryString, con);
+                    var cmd2 = new SqlCommand(queryString2, con);
+                    var cmd3 = new SqlCommand(queryString3, con);
+                    var cmd4 = new SqlCommand(queryString4, con);
 
                     // Get First Value
                     cmd.Parameters.AddWithValue("@detailedstepid", Convert.ToInt32(detailedStep.SelectedValue));
 
                     con.Open();
 
-                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    var firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1494,7 +1475,7 @@ namespace SE
         /// <param name="e"></param>
         protected void catDateSort_Click(object sender, EventArgs e)
         {
-            string queryString = "";
+            var queryString = "";
             switch (catDateSort.Text)
             {
                 case "Date \u25BC": catDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime ASC"; break;
@@ -1508,11 +1489,11 @@ namespace SE
             mainStep.Attributes.Add("disabled", "true");
             detailedStep.Items.Clear();
             detailedStep.Attributes.Add("disabled", "true");
-            List<Category> sort = new List<Category>();
-            using (SqlConnection con = new SqlConnection(
+            var sort = new List<Category>();
+            using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
-                SqlCommand cmd = new SqlCommand(queryString, con);
+                var cmd = new SqlCommand(queryString, con);
 
                 var membershipUser = Membership.GetUser();
                 if (membershipUser != null)
@@ -1521,14 +1502,16 @@ namespace SE
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    Category cat = new Category();
-                    cat.CategoryName = Convert.ToString(dr["CategoryName"]);
-                    cat.CategoryId = Convert.ToInt32(dr["CategoryId"]);
-                    cat.CreatedTime = Convert.ToString(dr["CreatedTime"]);
+                    var cat = new Category
+                    {
+                        CategoryName = Convert.ToString(dr["CategoryName"]),
+                        CategoryId = Convert.ToInt32(dr["CategoryId"]),
+                        CreatedTime = Convert.ToString(dr["CreatedTime"])
+                    };
                     sort.Add(cat);
                 }
 
@@ -1622,10 +1605,12 @@ namespace SE
 
                 while (dr.Read())
                 {
-                    var step = new MainStep();
-                    step.MainStepName = Convert.ToString(dr["MainStepName"]);
-                    step.MainStepId = Convert.ToInt32(dr["MainStepID"]);
-                    step.CreatedTime = Convert.ToString(dr["CreatedTime"]);
+                    var step = new MainStep
+                    {
+                        MainStepName = Convert.ToString(dr["MainStepName"]),
+                        MainStepId = Convert.ToInt32(dr["MainStepID"]),
+                        CreatedTime = Convert.ToString(dr["CreatedTime"])
+                    };
                     sort.Add(step);
                 }
 

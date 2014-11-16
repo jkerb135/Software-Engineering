@@ -24,11 +24,12 @@
 
 html {
 	height: 100%;
-	
+    width: 100%;
 }
 
 body {
 	font-family: montserrat, arial, verdana;
+    width: 100%;
 }
 /*form styles*/
 #msform {
