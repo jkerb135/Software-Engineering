@@ -19,7 +19,12 @@
 .error-messages li, .success-messages li {list-style: none}
 
 .image-preview {max-width: 300px; width: 100%}
-
+.centered {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 /* the good stuff: */
 ul.ripple{
   float:left;

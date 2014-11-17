@@ -182,7 +182,6 @@
                                     </div>
                                 </div>
                                 </div>
-                    </div>
                 
             <!-- /.col-xs-12 -->
         </asp:View>
@@ -244,4 +243,27 @@
             </div>
         </asp:View>
     </asp:MultiView>
+    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+            <ContentTemplate>
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 class="modal-title"><asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4><asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label></h4>
+                        <br/>
+                        <h4 style="text-align:left"><asp:Label ID="lblSincere" runat="server" Text=""></asp:Label></h4>
+                        <h4 style="text-align:left"><asp:Label ID="From" runat="server" Text=""></asp:Label></h4></div>
+                    <div class="modal-footer">
+                        <asp:CheckBox ID="ShowAgain" runat="server" /><asp:Label ID="Label1" runat="server" Text="Don't Show On Login."></asp:Label>
+                        <asp:Button runat="server" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" Text="Close" UseSubmitBehavior="false" ID="SaveState" OnClick="SaveState_Click"></asp:Button>
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
+</div>
 </asp:Content>

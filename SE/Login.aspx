@@ -35,12 +35,15 @@
 </head>
 <body class="login">
     <form id="MainForm" runat="server">
-        <div class="container">
+        <div class="container centered">
             <div class="row">
-                <div class="col-xs-4 col-xs-offset-4">
+                <div class="col-xs-4 col-xs-offset-4 ">
                     <asp:Login ID="MainLogin" OnLoggedIn="MainLogin_LoggedIn" runat="server">
                         <LayoutTemplate>
-                            <div class="login-panel panel panel-login">
+                                                                <div class="col-xs-offset-1 left ">
+                    <img src="Images/logo.png" />
+                </div>
+                            <div class="login-panel panel panel-login ">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Please Sign In</h3>
                                 </div>

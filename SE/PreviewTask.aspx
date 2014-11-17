@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PreviewTask.aspx.cs" Inherits="SE.PreviewTask" %>
-
+<!-- Credit goes to the frontend team. ipawsteamc.csweb.kutztown.edu for use of their stylesheet and html code -->
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -33,6 +33,10 @@ table td p
     width: 430px;
     background: #ccc;
     vertical-align: middle
+}
+#bot li{
+    cursor: pointer;
+    
 }
     </style>
     <script type='text/javascript'>

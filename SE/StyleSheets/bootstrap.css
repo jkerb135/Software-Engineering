@@ -5,8 +5,13 @@
  */
 
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+
+@font-face {
+    font-family: 'PTF55F';
+    src: url('../Fonts/PTF55F.ttf') format('truetype');
+}
 html {
-  font-family: Trajan;
+  font-family: PTF55F;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
 }
@@ -896,7 +901,6 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: Trajan;
   font-size: 14px;
   line-height: 1.42857143;
   color: #333;
@@ -5437,7 +5441,7 @@ button.close {
 }
 .modal-content {
   position: relative;
-  background-color: #fff;
+  background-color: #dddddd;
   -webkit-background-clip: padding-box;
           background-clip: padding-box;
   border: 1px solid #999;
@@ -5465,6 +5469,7 @@ button.close {
   opacity: .5;
 }
 .modal-header {
+    color: #fff;
   min-height: 16.42857143px;
   padding: 15px;
   border-bottom: 1px solid #e5e5e5;
@@ -5483,7 +5488,7 @@ button.close {
 .modal-footer {
   padding: 15px;
   text-align: right;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #222;
 }
 .modal-footer .btn + .btn {
   margin-bottom: 0;
@@ -5850,7 +5855,6 @@ button.close {
   width: 20px;
   height: 20px;
   margin-top: -10px;
-  font-family: Trajan;
 }
 .carousel-control .icon-prev:before {
   content: '\2039';

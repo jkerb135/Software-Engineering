@@ -5,8 +5,8 @@
         function previewTask() {
             console.log('clicked');
             var taskId = $(".taskValue").val();
-            //var url = "http://localhost:6288/PreviewTask.aspx?taskId=" + taskId;
-            var url = "http://ipawsteamb.csweb.kutztown.edu/PreviewTask.aspx?taskId=" + taskId;
+            var url = "http://localhost:6288/PreviewTask.aspx?taskId=" + taskId;
+            //var url = "http://ipawsteamb.csweb.kutztown.edu/PreviewTask.aspx?taskId=" + taskId;
             window.open(url);
         }
     </script>

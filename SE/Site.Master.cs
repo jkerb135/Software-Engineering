@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Security;
 using SE.Models;
 using SE.Classes;
+using System.Globalization;
 
 namespace SE
 {
@@ -13,10 +14,11 @@ namespace SE
         protected void Page_Load(object sender, EventArgs e)
         {
             getProfilePic = ResolveUrl("/Images/default.png");
-            if (!IsPostBack) {
-
-            string UserName = System.Web.HttpContext.Current.User.Identity.Name;
-            username.Text = " " + Membership.GetUser().UserName.ToUpper() + " ";
+            if (IsPostBack) return;
+            var UserName = System.Web.HttpContext.Current.User.Identity.Name;
+            var textInfo = new CultureInfo("en-US", false).TextInfo;
+            var formatUsername = textInfo.ToTitleCase(UserName);
+            username.Text = " " + formatUsername + " ";
             if (!Roles.IsUserInRole(UserName, "Manager"))
             {
                 CreateUserMenu.Visible = false;
@@ -30,18 +32,23 @@ namespace SE
                 RequestsMenu.Visible = false;
             }
             getPictureFromDb(UserName);
-            }
         }
 
         protected void LogoutButton_Click(object sender, EventArgs e)
         {
+            var membershipUser = Membership.GetUser();
+            if (membershipUser.Comment != "Verified")
+            {
+                membershipUser.Comment = null;
+                Membership.UpdateUser(membershipUser);
+            }
             FormsAuthentication.SignOut();
             FormsAuthentication.RedirectToLoginPage();
         }
 
         protected void getPictureFromDb(string username)
         {
-            using (ipawsTeamBEntities db = new ipawsTeamBEntities())
+            using (var db = new ipawsTeamBEntities())
             {
                 var profile = db.Profiles.FirstOrDefault(find => find.Name == username);
                 if (profile == null)

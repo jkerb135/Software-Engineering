@@ -1,6 +1,7 @@
 ﻿var api = "http://ipawsteamb.csweb.kutztown.edu/api/";
 //var api = "http://localhost:6288/api/";
 var url = "http://ipawsteamb.csweb.kutztown.edu";
+var prevStep = null;
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
@@ -37,14 +38,15 @@ function getMainSteps(taskId) {
         type: "GET",
         url: mrequest,
         datatype: 'json',
-        success: function(data, status, xhr) {
+        success: function(data) {
             console.log(data);
             $.each(data, function(key, main) {
                 mtotal += 1;
                 var taskData = JSON.stringify(new TaskObject(main.mainStepId, main.mainStepName, main.mainStepText, main.audioPath, main.videoPath));
+                console.log("MAIN STEP ID ----> " + main.mainStepId);
                 sessionStorage.setItem(mtotal, taskData);
                 sessionStorage.setItem('totalSteps', mtotal);
-                $("#bot").append('<li id="step ' + mtotal + '">' + main.mainStepName + '</li>');
+                $("#bot").append('<li id="step ' + mtotal + '" name="'+ main.mainStepId + '">' + main.mainStepName + '</li>');
                 $('#bot').listview().listview('refresh');
                 sessionStorage.setItem('maintotal', mtotal);
             }); // end of each
@@ -58,7 +60,6 @@ function getMainSteps(taskId) {
 function getDetailedSteps(mainId) {
     var dtotal = 0;
     var row = "";
-        $("#bot").empty();
         var drequest = api + "DetailedStep/GetDetailedStepById/" + mainId;
         $.ajax({
             type: "GET",
@@ -85,7 +86,8 @@ function getDetailedSteps(mainId) {
         });//end of ajax
 
 
-}function next() {
+}
+function next() {
     var stepup = sessionStorage.getItem("stepnum");
     stepup = parseInt(stepup);
     $('#step' + stepup).prepend('completed - ');
@@ -94,17 +96,18 @@ function getDetailedSteps(mainId) {
     sessionStorage.setItem("stepnum", stepup);
     var end = sessionStorage.getItem("maintotal");
     if (end == stepup) {
-        setpage();
+        setpage(sessionStorage.getItem("stepnum"));
         $("#next").hide();
         $("#done").hide();
         $("#finish").show();
     }
     else {
-        setpage();
+        setpage(sessionStorage.getItem("stepnum"));
     }
 
-}function setpage() {
-    var step = sessionStorage.getItem("stepnum");
+}
+function setpage(stepnum) {
+    var step = stepnum;
     step = parseInt(step);
     console.log("step #: " + step);
     if (sessionStorage.getItem(step) != null) {
@@ -133,7 +136,22 @@ function getDetailedSteps(mainId) {
         $("#detailSteps").hide();
         $("#start").hide();
     }
-}
+}
+
+var prev = null;
+$(document).on('click', '#bot li', function () {
+    $('#detailstep').empty();
+    $("#detailSteps").collapsible("collapse");
+    if (prev != null) {
+        $(prev).css("background", "white");
+    }
+    prev = $(this);
+    $(this).css("background", "yellow");
+    setpage($(this).attr('id').substr($(this).attr('id').indexOf(' ') + 1));
+    //$("#detailSteps").collapsible("expand");
+    $("#start").hide();
+    $("#detailSteps").show();
+});
 $(document).on('click', '#start', function () {
     $("#next").hide();
     $("#pump").hide();
@@ -141,22 +159,28 @@ $(document).on('click', '#start', function () {
     $("#start").hide();
     $("#detailSteps").show();
     next();
-});$(document).on('click', '#done', function () {
+});
+$(document).on('click', '#done', function () {
     $("#detailSteps").collapsible("collapse");
     $("#next").show();
     $("#pump").show();
     $("#done").hide();
     $("#start").hide();
-});$(document).on('click', '#next', function () {
+});
+$(document).on('click', '#next', function () {
     $("#next").hide();
     $("#pump").hide();
     $("#done").show();
     $("#start").hide();
     next();
-});$(document).on('click', '#finish', function () {
+});
+$(document).on('click', '#finish', function () {
     cleartask();
     window.close();
-});function cleartask() {
+});
+function cleartask() {
     sessionStorage.clear();
     sessionStorage.setItem("stepnum", 0);
-}
+}
+
+
