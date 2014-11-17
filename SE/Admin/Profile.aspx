@@ -327,14 +327,10 @@
             var loading;
             $(document).on("click", ".catButton", function (e) {
                 if ($(openDiv).attr('id') != 'catData') {
-                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                    $(openDiv).promise().done(function () {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000, function () {
                         $('#catData').show('slide', { direction: 'left' }, 1000);
-                        $('#catData').promise().done(function() {
-                            loading = false;
-                        });
+
                     });
-                    
                 }
             });
             $(document).on("click", ".taskButton", function (e) {
