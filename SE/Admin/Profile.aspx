@@ -326,42 +326,33 @@
             var openDiv;
             var loading;
             $(document).on("click", ".catButton", function (e) {
-                if ($(openDiv).attr('id') != 'catData') {
+                console.log($(openDiv).is(':animated'));
+                if ($(openDiv).is(':animated') == false){ 
                     $(openDiv).hide('slide', { direction: 'left' }, 1000, function () {
                         $('#catData').show('slide', { direction: 'left' }, 1000);
-
+                        openDiv = $('#catData');
+                        console.log($(openDiv).is(':animated'));
                     });
                 }
             });
             $(document).on("click", ".taskButton", function (e) {
-                    if ($(openDiv).attr('id') != 'taskData') {
-                        $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                        $(openDiv).promise().done(function() {
+                    if ($(openDiv).is(':animated') == false) {
+                        $(openDiv).hide('slide', { direction: 'left' }, 1000,function(){
                             $('#taskData').show('slide', { direction: 'left' }, 1000);
-                            $('#taskData').promise().done(function() {
-                                loading = false;
-                            });
                         });
                     }
             });
             $(document).on("click", ".assignedUsers", function (e) {
-                if ($(openDiv).attr('id') != 'userData') {
-                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                    $(openDiv).promise().done(function () {
-
-                            $('#userData').show('slide', { direction: 'left' }, 1000);
-                            $('#userData').promise().done(function () {
-                                loading = false;
-                            });
-                        
+                if ($(openDiv).is(':animated') == false) {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000,function(){
+                            $('#userData').show('slide', { direction: 'left' }, 1000);                        
                     });
                 }
             
             });
             $(document).on("click", ".requestCat", function (e) {
                 if ($(openDiv).attr('id') != 'requestCat') {
-                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                    $(openDiv).promise().done(function () {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000,function(){
                         $('#requestCat').show('slide', { direction: 'left' }, 1000);
                         openDiv = $('#requestCat');
                     });
