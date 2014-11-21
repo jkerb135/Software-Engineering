@@ -8,10 +8,9 @@ namespace SE
         public static void Register(HttpConfiguration config)
         {
             // TODO: Add any additional configuration code.
-
             // Web API routes
             config.MapHttpAttributeRoutes();
-
+            config.EnableCors();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}/{username}",

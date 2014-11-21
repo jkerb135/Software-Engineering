@@ -24,16 +24,7 @@
       [CategoryAssignments].[CategoryID] AS [CategoryID]
       FROM [dbo].[CategoryAssignments] AS [CategoryAssignments]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="CompletedMainSteps" EntityType="ipawsTeamBModel.Store.CompletedMainSteps" store:Type="Tables" store:Schema="dbo" store:Name="CompletedMainSteps">
-            <DefiningQuery>SELECT 
-      [CompletedMainSteps].[MainStepID] AS [MainStepID], 
-      [CompletedMainSteps].[TaskID] AS [TaskID], 
-      [CompletedMainSteps].[MainStepName] AS [MainStepName], 
-      [CompletedMainSteps].[AssignedUser] AS [AssignedUser], 
-      [CompletedMainSteps].[DateTimeComplete] AS [DateTimeComplete], 
-      [CompletedMainSteps].[TotalTime] AS [TotalTime]
-      FROM [dbo].[CompletedMainSteps] AS [CompletedMainSteps]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="CompletedMainSteps" EntityType="ipawsTeamBModel.Store.CompletedMainSteps" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="CompletedTasks" EntityType="ipawsTeamBModel.Store.CompletedTasks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="DetailedSteps" EntityType="ipawsTeamBModel.Store.DetailedSteps" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="MainSteps" EntityType="ipawsTeamBModel.Store.MainSteps" store:Type="Tables" Schema="dbo" />
@@ -305,17 +296,9 @@
           <Property Name="AssignedUser" Type="varchar" MaxLength="255" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'ipawsTeamB.dbo.CompletedMainSteps' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <EntityType Name="CompletedMainSteps">
           <Key>
-            <PropertyRef Name="MainStepID" />
-            <PropertyRef Name="TaskID" />
-            <PropertyRef Name="MainStepName" />
-            <PropertyRef Name="AssignedUser" />
-            <PropertyRef Name="DateTimeComplete" />
-            <PropertyRef Name="TotalTime" />
+            <PropertyRef Name="id" />
           </Key>
           <Property Name="MainStepID" Type="int" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
@@ -323,6 +306,7 @@
           <Property Name="AssignedUser" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="DateTimeComplete" Type="datetime" Nullable="false" />
           <Property Name="TotalTime" Type="float" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="CompletedTasks">
           <Key>
@@ -1014,12 +998,7 @@
         </EntityType>
         <EntityType Name="CompletedMainStep">
           <Key>
-            <PropertyRef Name="MainStepID" />
-            <PropertyRef Name="TaskID" />
-            <PropertyRef Name="MainStepName" />
-            <PropertyRef Name="AssignedUser" />
-            <PropertyRef Name="DateTimeComplete" />
-            <PropertyRef Name="TotalTime" />
+            <PropertyRef Name="id" />
           </Key>
           <Property Name="MainStepID" Type="Int32" Nullable="false" />
           <Property Name="TaskID" Type="Int32" Nullable="false" />
@@ -1030,6 +1009,7 @@
           <NavigationProperty Name="MainStep" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps" FromRole="CompletedMainSteps" ToRole="MainSteps" />
           <NavigationProperty Name="MemberAssignment" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments" FromRole="CompletedMainSteps" ToRole="MemberAssignments" />
           <NavigationProperty Name="Task" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_Tasks" FromRole="CompletedMainSteps" ToRole="Tasks" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="CompletedTask">
           <Key>
@@ -1584,6 +1564,7 @@
           <EntitySetMapping Name="CompletedMainSteps">
             <EntityTypeMapping TypeName="ipawsTeamBModel.CompletedMainStep">
               <MappingFragment StoreEntitySet="CompletedMainSteps">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="MainStepID" ColumnName="MainStepID" />
                 <ScalarProperty Name="TaskID" ColumnName="TaskID" />
                 <ScalarProperty Name="MainStepName" ColumnName="MainStepName" />

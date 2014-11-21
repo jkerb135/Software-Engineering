@@ -9,6 +9,9 @@
 
 namespace SE.Models
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class aspnet_WebEvent_Events
     {
         public string EventId { get; set; }

@@ -9,6 +9,9 @@
 
 namespace SE.Models
 {
+    using System;
+    using System.Collections.Generic;
+    
     public partial class aspnet_Profile
     {
         public System.Guid UserId { get; set; }

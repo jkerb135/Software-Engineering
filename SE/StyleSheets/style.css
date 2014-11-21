@@ -181,7 +181,7 @@ ul.ripple:hover li{
     margin:0 auto;
     
 }
-#addSupervisor, #addUser{
+#addSupervisor, #addUser, #reportGeneration{
     display:none;
     min-height:400px;
 }

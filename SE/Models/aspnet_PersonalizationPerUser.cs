@@ -10,7 +10,8 @@
 namespace SE.Models
 {
     using System;
-
+    using System.Collections.Generic;
+    
     public partial class aspnet_PersonalizationPerUser
     {
         public System.Guid Id { get; set; }
