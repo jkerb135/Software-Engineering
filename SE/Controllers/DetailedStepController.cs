@@ -2,9 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using SE.Models;
+using System.Web.Http.Cors;
 
 namespace SE.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class OnlyDetailedSteps{
         public int MainStepId { get; set; }
         public int DetailedStepId { get; set; }

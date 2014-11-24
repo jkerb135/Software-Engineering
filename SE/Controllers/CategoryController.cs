@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace SE.Controllers
 {
-
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserCategories
     {
         public int CategoryId { get; set; }
