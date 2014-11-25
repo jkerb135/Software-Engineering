@@ -109,7 +109,7 @@ namespace SE.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
-               var complete = _db.CompletedMainSteps.SingleOrDefault(u => u.AssignedUser == mainstep.AssignedUser && u.MainStepID == mainstep.MainStepID && u.TaskID == mainstep.TaskID && u.DateTimeComplete == mainstep.DateTimeComplete && u.MainStepName == mainstep.MainStepName);
+               var complete = _db.CompletedMainSteps.SingleOrDefault(u => u.AssignedUser == mainstep.AssignedUser && u.MainStepID == mainstep.MainStepID && u.MainStepName == mainstep.MainStepName && u.DateTimeComplete == mainstep.DateTimeComplete);
             if (complete != null)
                 return Request.CreateResponse(HttpStatusCode.Conflict, "Completed Main Step already exists in database");
             mainstep.DateTimeComplete = DateTime.Now;
