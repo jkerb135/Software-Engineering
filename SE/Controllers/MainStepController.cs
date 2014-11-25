@@ -6,7 +6,7 @@ using System.Web.Http.Cors;
 
 namespace SE.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    
     public class OnlyMainSteps
     {
         public int TaskId { get; set; }
@@ -16,6 +16,7 @@ namespace SE.Controllers
         public string AudioPath { get; set; }
         public string VideoPath { get; set; }
     }
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class MainStepController : ApiController
     {
         readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();

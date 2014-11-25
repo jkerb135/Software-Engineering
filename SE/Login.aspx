@@ -40,11 +40,12 @@
                 <div class="col-xs-4 col-xs-offset-4 ">
                     <asp:Login ID="MainLogin" OnLoggedIn="MainLogin_LoggedIn" runat="server">
                         <LayoutTemplate>
-                                                                <div class="col-xs-offset-1 left ">
+                                                                <div class="col-xs-8">
                     <img src="Images/logo.png" />
                 </div>
+                            <br />
                             <div class="login-panel panel panel-login ">
-                                <div class="panel-heading">
+                                <div class="panel-heading" style="text-align:center">
                                     <h3 class="panel-title">Please Sign In</h3>
                                 </div>
                                 <div class="panel-body">

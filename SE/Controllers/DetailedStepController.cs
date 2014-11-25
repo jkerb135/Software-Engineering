@@ -6,7 +6,7 @@ using System.Web.Http.Cors;
 
 namespace SE.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+
     public class OnlyDetailedSteps{
         public int MainStepId { get; set; }
         public int DetailedStepId { get; set; }
@@ -15,6 +15,7 @@ namespace SE.Controllers
         public string ImageName { get; set; }
         public string ImagePath { get; set; }
     }
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class DetailedStepController : ApiController
     {
         readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
