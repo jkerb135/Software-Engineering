@@ -30,7 +30,7 @@ namespace SE.Classes
             var videoGood = audioGood = imageGood = false;
 
             if (fileType == "Video")
-            {
+            { 
                 if (videoExt.Any(ext => ext ==  System.IO.Path.GetExtension(file.FileName)))
                 {
                     videoGood = true;
