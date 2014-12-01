@@ -4,6 +4,7 @@ using System;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
 
 namespace SE
 {
@@ -18,6 +19,7 @@ namespace SE
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
+            BindUserAccounts();
             AssignedToLabel.Visible = true;
             AssignedTo.Visible = true;
             var textInfo = new CultureInfo("en-US",false).TextInfo;
@@ -61,10 +63,10 @@ namespace SE
         }
         protected void GetAllUsers()
         {
-            allUsersSource.SelectCommand = "Select a.AssignedSupervisor, b.UserName, b.LastActivityDate, c.Email, c.IsApproved, c.IsLockedOut, e.RoleName from MemberAssignments a right outer join aspnet_Users b on a.AssignedUser = b.UserName inner join aspnet_Membership c on b.UserId = c.UserId inner join aspnet_UsersInRoles d on c.UserId = d.UserId inner join aspnet_Roles e on d.RoleId = e.RoleId";
+            /*allUsersSource.SelectCommand = "Select a.AssignedSupervisor, b.UserName, b.LastActivityDate, c.Email, c.IsApproved, c.IsLockedOut, e.RoleName from MemberAssignments a right outer join aspnet_Users b on a.AssignedUser = b.UserName inner join aspnet_Membership c on b.UserId = c.UserId inner join aspnet_UsersInRoles d on c.UserId = d.UserId inner join aspnet_Roles e on d.RoleId = e.RoleId";
             allUsers.DataBind();
             allUsers.UseAccessibleHeader = true;
-            allUsers.HeaderRow.TableSection = TableRowSection.TableHeader;
+            allUsers.HeaderRow.TableSection = TableRowSection.TableHeader;*/
         }
         protected void GetActiveUsers()
         {
@@ -146,13 +148,98 @@ namespace SE
 
             Methods.AddBlankToDropDownList(drp);
         }
-
-        protected void allUsers_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        private void BindUserAccounts()
         {
-            allUsersSource.SelectCommand = "Select a.AssignedSupervisor, b.UserName, b.LastActivityDate, c.Email, c.IsApproved, c.IsLockedOut, e.RoleName from MemberAssignments a right outer join aspnet_Users b on a.AssignedUser = b.UserName inner join aspnet_Membership c on b.UserId = c.UserId inner join aspnet_UsersInRoles d on c.UserId = d.UserId inner join aspnet_Roles e on d.RoleId = e.RoleId";
-            allUsers.PageIndex = e.NewPageIndex;
-            allUsers.DataBind();
+            GridView1.DataSource = Member.CustomGetAllUsers();
+            GridView1.DataBind();
+            Session["DataSource"] = Member.CustomGetAllUsers();
         }
+        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            BindUserAccounts();
+        }
+
+        protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+
+        }
+        protected void GridView1_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            DataTable dataTable = (DataTable)Session["DataSource"];
+
+            if (dataTable != null)
+            {
+                DataView dataView = new DataView(dataTable);
+                if ((string)ViewState["SortDir"] == "ASC" || String.IsNullOrEmpty((string)ViewState["SortDir"]))
+                {
+                    dataView.Sort = e.SortExpression + " ASC";
+                    ViewState["SortDir"] = "DESC";
+                }
+                else if ((string)ViewState["SortDir"] == "DESC")
+                {
+                    dataView.Sort = e.SortExpression + " DESC";
+                    ViewState["SortDir"] = "ASC";
+                }
+
+                GridView1.DataSource = dataView;
+                GridView1.DataBind();
+            }
+        }
+        protected void NewInsert_Click(object sender, EventArgs e)
+        {
+            var Username = (TextBox)GridView1.FooterRow.FindControl("UsernameTxt");
+            var Password = (TextBox)GridView1.FooterRow.FindControl("PasswordTxt");
+            var Email = (TextBox)GridView1.FooterRow.FindControl("EmailTxt");
+            var Role = (DropDownList)GridView1.FooterRow.FindControl("RoleDrp");
+            var Assigned = (DropDownList)GridView1.FooterRow.FindControl("AssignDrp");
+            var LockOut = (DropDownList)GridView1.FooterRow.FindControl("LockOutDrp");
+
+            Membership.CreateUser(Username.Text, Password.Text);
+            MembershipUser newMember = Membership.GetUser(Username.Text);
+            newMember = Membership.GetUser(Username.Text);
+            newMember.Email = Email.Text;
+            newMember.IsApproved = Convert.ToBoolean(LockOut.SelectedIndex);
+            Roles.AddUserToRole(Username.Text, Role.SelectedValue);
+            if (Assigned.Enabled == true)
+            {
+                Member.AssignToUser(Username.Text, AssignedTo.SelectedValue);
+            }
+            Membership.UpdateUser(newMember);
+
+            Username.Text = Password.Text = Email.Text = String.Empty;
+            Assigned.Enabled = false;
+        }
+
+        protected void RoleDrp_SelectedIndexChanged(object sender, EventArgs e)
+        {
+                var Role = (DropDownList)GridView1.FooterRow.FindControl("RoleDrp");
+                var Assigned = (DropDownList)GridView1.FooterRow.FindControl("AssignDrp");
+                if (Role.SelectedValue == "User")
+                {
+                    Assigned.Enabled = true;
+                }
+                else
+                {
+                    Assigned.Enabled = false;
+                }
+        }
+        protected void btnReset_OnClick(object sender, EventArgs e)
+        {
+            userSearch.Text = String.Empty;
+        }
+
+        protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+
+        }
+
+        protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView1.EditIndex = e.NewEditIndex;
+            BindUserAccounts();
+        }
+
 
     }
 }

@@ -2820,18 +2820,45 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Dashboard.allUsers">
+        <member name="F:SE.Dashboard.userSearch">
             <summary>
-            allUsers control.
+            userSearch control.
             </summary>
             <remarks>
             Auto-generated field.
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Dashboard.allUsersSource">
+        <member name="F:SE.Dashboard.btnSearch">
             <summary>
-            allUsersSource control.
+            btnSearch control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Dashboard.btnReset">
+            <summary>
+            btnReset control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Dashboard.GridView1">
+            <summary>
+            GridView1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Dashboard.SqlDataSource2">
+            <summary>
+            SqlDataSource2 control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -3030,6 +3057,24 @@
         <member name="F:SE.Dashboard.CreateUserButton">
             <summary>
             CreateUserButton control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Dashboard.reports">
+            <summary>
+            reports control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Dashboard.reportGenerationSource">
+            <summary>
+            reportGenerationSource control.
             </summary>
             <remarks>
             Auto-generated field.

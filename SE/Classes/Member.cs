@@ -33,19 +33,21 @@ namespace SE.Classes
 
         /// <summary>Populates a dataset of all users by username, email and user role
         /// </summary> 
-        public static DataSet CustomGetAllUsers()
+        public static DataTable CustomGetAllUsers()
         {
-            var ds = new DataSet();
-            var dt = ds.Tables.Add("Users");
+
+            var dt = new DataTable();
 
             MembershipUserCollection muc;
             muc = Membership.GetAllUsers();
 
             dt.Columns.Add("Username", Type.GetType("System.String"));
             dt.Columns.Add("Email", Type.GetType("System.String"));
-            dt.Columns.Add("User Role", Type.GetType("System.String"));
-            dt.Columns.Add("Assigned To", Type.GetType("System.String"));
-            dt.Columns.Add("Status", Type.GetType("System.String"));
+            dt.Columns.Add("Password", Type.GetType("System.String"));
+            dt.Columns.Add("RoleName", Type.GetType("System.String"));
+            dt.Columns.Add("LastLoginDate", Type.GetType("System.String"));
+            dt.Columns.Add("AssignedSupervisor", Type.GetType("System.String"));
+            dt.Columns.Add("IsLockedOut", Type.GetType("System.String"));
 
             /* Here is the list of columns returned of the Membership.GetAllUsers() method
              * UserName, Email, PasswordQuestion, Comment, IsApproved
@@ -58,15 +60,17 @@ namespace SE.Classes
                 var userIsSupervisor = Roles.IsUserInRole(mu.UserName, "Supervisor");
 
                 var dr = dt.NewRow();
-                dr["Username"] = "<a href='?userpage=edituser&username=" + mu.UserName + "'>" + mu.UserName + "</a>";
+                dr["Username"] = mu.UserName;
+                dr["Password"] = "";
                 dr["Email"] = mu.Email;
-                dr["User Role"] = userIsSupervisor ? "Supervisor" : "User";
-                dr["Assigned To"] = !userIsSupervisor ? UserAssignedTo(mu.UserName) : "";
-                dr["Status"] = mu.IsApproved ? "Active" : "Inactive";
+                dr["LastLoginDate"] = mu.LastLoginDate;
+                dr["RoleName"] = userIsSupervisor ? "Supervisor" : "User";
+                dr["AssignedSupervisor"] = !userIsSupervisor ? UserAssignedTo(mu.UserName) : "";
+                dr["IsLockedOut"] = mu.IsApproved;
 
                 dt.Rows.Add(dr);
             }
-            return ds;
+            return dt;
         }
 
         public static DataSet CustomGetActiveUsers()
