@@ -113,30 +113,42 @@ namespace SE
         }
         protected void NewInsert_Click(object sender, EventArgs e)
         {
-            var username = (TextBox)GridView1.FooterRow.FindControl("UsernameTxt");
-            var password = (TextBox)GridView1.FooterRow.FindControl("PasswordTxt");
-            var email = (TextBox)GridView1.FooterRow.FindControl("EmailTxt");
-            var role = (DropDownList)GridView1.FooterRow.FindControl("RoleDrp");
-            var assigned = (DropDownList)GridView1.FooterRow.FindControl("AssignDrp");
-            var lockOut = (DropDownList)GridView1.FooterRow.FindControl("LockOutDrp");
-
-            Membership.CreateUser(username.Text, password.Text);
-            var newMember = Membership.GetUser(username.Text);
-            if (newMember != null)
+            try
             {
-                newMember.Email = email.Text;
-                newMember.IsApproved = Convert.ToBoolean(lockOut.SelectedIndex);
-                Roles.AddUserToRole(username.Text, role.SelectedValue);
-                if (assigned.Enabled && assigned.Visible)
-                {
-                    Member.AssignToUser(username.Text, assigned.SelectedValue);
-                }
-                Membership.UpdateUser(newMember);
-            }
+                var username = (TextBox)GridView1.FooterRow.FindControl("UsernameTxt");
+                var password = (TextBox)GridView1.FooterRow.FindControl("PasswordTxt");
+                var email = (TextBox)GridView1.FooterRow.FindControl("EmailTxt");
+                var role = (DropDownList)GridView1.FooterRow.FindControl("RoleDrp");
+                var assigned = (DropDownList)GridView1.FooterRow.FindControl("AssignDrp");
+                var lockOut = (DropDownList)GridView1.FooterRow.FindControl("LockOutDrp");
 
-            username.Text = password.Text = email.Text = String.Empty;
-            assigned.Enabled = true;
-            assigned.Visible = false;
+                Membership.CreateUser(username.Text, password.Text);
+                var newMember = Membership.GetUser(username.Text);
+                if (newMember != null)
+                {
+                    newMember.Email = email.Text;
+                    newMember.IsApproved = Convert.ToBoolean(lockOut.SelectedIndex);
+                    Roles.AddUserToRole(username.Text, role.SelectedValue);
+                    if (assigned.Enabled && assigned.Visible)
+                    {
+                        Member.AssignToUser(username.Text, assigned.SelectedValue);
+                    }
+                    Membership.UpdateUser(newMember);
+                }
+
+                username.Text = password.Text = email.Text = String.Empty;
+                assigned.Enabled = true;
+                assigned.Visible = false;
+                Session["DataSource"] = Member.CustomGetAllUsers();
+                GridView1.DataSource = Member.CustomGetAllUsers();
+                ScriptManager.RegisterStartupScript(this, GetType(), "script", "successToast();", true);
+            }
+            catch (Exception e1)
+            {
+                string Error = e1.Message.ToString();
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("errorToast('{0}');", Error), true);
+            }
+          
         }
 
         protected void RoleDrp_SelectedIndexChanged(object sender, EventArgs e)

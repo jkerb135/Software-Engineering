@@ -13,7 +13,7 @@
         }
         function errorToast(error) {
             toastr.options.closeButton = true;
-            toastr.error('Password has to be 8 characters with 3 speicial characters');
+            toastr.error(error);
         }
     </script>
 </asp:Content>
@@ -33,7 +33,7 @@
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
 
                     <ContentTemplate>
-                        <div class="form-inline">
+                        <div class="form-inline" style="margin-bottom: 20px">
                         <div class="form-group">
                                     Search By Username: <asp:TextBox runat="server" ID="userSearch" OnTextChanged="userSearch_OnTextChanged" CssClass="form-control" stlye="width:30%"></asp:TextBox><asp:Button runat="server" ID="btnSearch" Text="Search" CssClass="btn btn-primary"/><asp:Button runat="server" ID="btnReset" Text="Reset" CssClass="btn btn-danger" OnClick="btnReset_OnClick"/>
                         </div>

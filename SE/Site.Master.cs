@@ -21,7 +21,6 @@ namespace SE
             username.Text = " " + formatUsername + " ";
             if (!Roles.IsUserInRole(UserName, "Manager"))
             {
-                CreateUserMenu.Visible = false;
                 ReportsMenu.Visible = false;
             }
             else

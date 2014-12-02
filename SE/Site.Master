@@ -271,18 +271,6 @@
                             <li id="Li1" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>User Assignment</a>
                             </li>
-                            <li id="CreateUserMenu" runat="server">
-                                <a href="#"><i class="fa fa-wrench fa-fw"></i>Users<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Users.aspx") %>">Manage Users</a>
-                                    </li>
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Users.aspx?userpage=createuser") %>">Create User</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
                             <li id="CategoriesMenu" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Task Manager</a>
                             </li>
