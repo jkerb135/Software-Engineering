@@ -18,6 +18,9 @@
 .error-messages ul, .success-messages ul {padding-left: 0}
 .error-messages li, .success-messages li {list-style: none}
 
+.report, .report-details {background-color: #fff}
+.report tr:hover {cursor: pointer;}
+
 .image-preview {max-width: 300px; width: 100%}
 .centered {
   position: fixed;
