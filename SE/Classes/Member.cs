@@ -37,16 +37,15 @@ namespace SE.Classes
 
             var dt = new DataTable();
 
-            MembershipUserCollection muc;
-            muc = Membership.GetAllUsers();
+            var muc = Membership.GetAllUsers();
 
-            dt.Columns.Add("Username", Type.GetType("System.String"));
-            dt.Columns.Add("Email", Type.GetType("System.String"));
-            dt.Columns.Add("Password", Type.GetType("System.String"));
-            dt.Columns.Add("RoleName", Type.GetType("System.String"));
-            dt.Columns.Add("LastLoginDate", Type.GetType("System.String"));
-            dt.Columns.Add("AssignedSupervisor", Type.GetType("System.String"));
-            dt.Columns.Add("IsApproved", Type.GetType("System.String"));
+            dt.Columns.Add("Username");
+            dt.Columns.Add("Email");
+            dt.Columns.Add("Password");
+            dt.Columns.Add("RoleName");
+            dt.Columns.Add("LastLoginDate");
+            dt.Columns.Add("AssignedSupervisor");
+            dt.Columns.Add("IsApproved");
 
             /* Here is the list of columns returned of the Membership.GetAllUsers() method
              * UserName, Email, PasswordQuestion, Comment, IsApproved
@@ -76,7 +75,7 @@ namespace SE.Classes
         {
             var activeUsers = new DataSet();
             var userTable = activeUsers.Tables.Add("Users");
-            userTable.Columns.Add("Username", Type.GetType("System.String"));
+            userTable.Columns.Add("Username");
             var activeUserCollection = Membership.GetAllUsers();
             DataRow row;
             foreach (var membership in from MembershipUser membership in activeUserCollection let membershipUser = Membership.GetUser() where membershipUser != null && (Roles.IsUserInRole(membership.UserName, "User") && (UserAssignedTo(membership.UserName).ToLower() == membershipUser.UserName.ToLower()) && (membership.IsOnline)) select membership)
@@ -96,11 +95,10 @@ namespace SE.Classes
         {
             var recentUsers = new DataSet();
             var users = recentUsers.Tables.Add("Users");
-            if (users == null) return recentUsers;
-            users.Columns.Add("Username", Type.GetType("System.String"));
+            users.Columns.Add("Username");
             var recentUser = Membership.GetAllUsers();
             var aWeekAgo = DateTime.Now.AddDays(-7);
-            foreach (var membership in from MembershipUser membership in recentUser let membershipUser = Membership.GetUser() where membershipUser != null && (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo) && UserAssignedTo(membership.UserName).ToLower() == membershipUser.UserName.ToLower()) select membership)
+            foreach (var membership in from MembershipUser membership in recentUser let membershipUser = Membership.GetUser() where membershipUser != null && (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo) && String.Equals(UserAssignedTo(membership.UserName), membershipUser.UserName, StringComparison.CurrentCultureIgnoreCase)) select membership)
             {
                 var row = users.NewRow();
                 row["Username"] = membership.UserName;
@@ -397,7 +395,7 @@ namespace SE.Classes
         {
             var activeUsers = new DataSet();
             var userTable = activeUsers.Tables.Add("Supervisor");
-            userTable.Columns.Add("Username", Type.GetType("System.String"));
+            userTable.Columns.Add("Username");
             var activeUserCollection = Membership.GetAllUsers();
             DataRow row;
             foreach (var membership in activeUserCollection.Cast<MembershipUser>().Where(membership =>
@@ -423,7 +421,7 @@ namespace SE.Classes
         {
             var supervisorUsers = new DataSet();
             var users = supervisorUsers.Tables.Add("Users");
-            users.Columns.Add("Users", Type.GetType("System.String"));
+            users.Columns.Add("Users");
             users.Columns.Add("Activity");
             users.Columns.Add("Assigned Categories");
             Membership.GetAllUsers();

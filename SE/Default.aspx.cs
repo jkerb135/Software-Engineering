@@ -7,11 +7,7 @@ namespace SE
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!User.Identity.IsAuthenticated)
-            {
-                Response.Redirect(FormsAuthentication.LoginUrl);
-            }
+            Response.Redirect(!User.Identity.IsAuthenticated ? FormsAuthentication.LoginUrl : "Admin/Dashboard.aspx");
         }
-
     }
 }

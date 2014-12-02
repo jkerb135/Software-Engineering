@@ -14,7 +14,7 @@ namespace SE
         {
             var controlLogin = (Login)sender;
             var user = Membership.GetUser(controlLogin.UserName);
-            if (user == null) throw new ArgumentNullException("user");
+            if (user == null) throw new ArgumentNullException("sender");
 
             Session["UserName"] = user.UserName;
 
@@ -22,11 +22,6 @@ namespace SE
                 Roles.IsUserInRole(user.UserName, "Supervisor"))
             {
                 Response.Redirect("~/Admin/Dashboard.aspx");
-            }
-
-            if (Roles.IsUserInRole(user.UserName, "User"))
-            {
-                Response.Redirect("~/Default.aspx");
             }
         }
     }

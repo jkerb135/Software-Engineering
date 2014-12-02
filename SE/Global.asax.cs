@@ -18,14 +18,12 @@ namespace SE
 
         protected void Session_Start(object sender, EventArgs e)
         {
-            if (HttpContext.Current.Request.IsAuthenticated)
-            {
-                //old authentication, kill it
-                FormsAuthentication.SignOut();
-                //or use Response.Redirect to go to a different page
-                FormsAuthentication.RedirectToLoginPage("Session=Expired");
-                HttpContext.Current.Response.End();
-            }
+            if (!HttpContext.Current.Request.IsAuthenticated) return;
+            //old authentication, kill it
+            FormsAuthentication.SignOut();
+            //or use Response.Redirect to go to a different page
+            FormsAuthentication.RedirectToLoginPage("Session=Expired");
+            HttpContext.Current.Response.End();
         }
 
         protected void Application_BeginRequest(object sender, EventArgs e)

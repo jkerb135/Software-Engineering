@@ -23,8 +23,6 @@ namespace SE
             if (IsPostBack) return;
             Session["DataSource"] = Member.CustomGetAllUsers();
             BindUserAccounts();
-            AssignedToLabel.Visible = true;
-            AssignedTo.Visible = true;
             var textInfo = new CultureInfo("en-US",false).TextInfo;
 
             var formatUsername = textInfo.ToTitleCase(_membershipUser.UserName);
@@ -53,7 +51,6 @@ namespace SE
                 if (user == null || !Roles.IsUserInRole(user.UserName, "Manager")) return;
                 DashboardView.ActiveViewIndex = (int) DashView.Manager;
                 GetAllUsers();
-                BindSupervisors(AssignedTo);
             }
         }
 
@@ -94,54 +91,6 @@ namespace SE
             signededIn.UseAccessibleHeader = true;
             signededIn.HeaderRow.TableSection = TableRowSection.TableHeader;
 
-        }
-        protected void CreateUserButton_Click(object sender, EventArgs e)
-        {
-            var errorMessage = "";
-            if (Member.ValidatePassword(Password.Text, ref errorMessage))
-            {
-                if (Membership.GetUser(UserName.Text) == null)
-                {
-                    MembershipUser newMember = null;
-                    // Add user to role
-                    switch (managerState.Value)
-                    {
-                        case "User":
-                            newMember = Membership.GetUser(UserName.Text);
-                            Roles.AddUserToRole(UserName.Text, "User");
-                            Member.AssignToUser(UserName.Text, AssignedTo.SelectedValue);
-                            AssignedToLabel.Visible = true;
-                            AssignedTo.Visible = true;
-                            break;
-                        case "Supervisor":
-                            newMember = Membership.GetUser(UserName.Text);
-                            if (newMember != null) newMember.Comment = null;
-                            AssignedTo.SelectedIndex = 0;
-                            Roles.AddUserToRole(UserName.Text, "Supervisor");
-                            AssignedToLabel.Visible = false;
-                            AssignedTo.Visible = false;
-                            break;
-                    }
-
-                    // Create User
-                    Membership.CreateUser(UserName.Text, Password.Text);
-
-                    if (newMember != null)
-                    {
-                        newMember.Email = Email.Text;
-                        Membership.UpdateUser(newMember);
-                    }
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "script", "blink();", true);
-                    //Success
-                    UserName.Text = Password.Text = ConfirmPassword.Text = Email.Text = String.Empty;
-                }
-                else
-                {
-                    errorMessage = "Username already exists";
-                }
-            }
-
-            CreateUserErrorMessage.Text = errorMessage;
         }
 
         private static void BindSupervisors(BaseDataBoundControl drp)
@@ -198,7 +147,7 @@ namespace SE
 
         protected void RoleDrp_SelectedIndexChanged(object sender, EventArgs e)
         {
-                var role = (Label)GridView1.FooterRow.FindControl("RoleLbl");
+                var role = (DropDownList)GridView1.FooterRow.FindControl("RoleDrp");
                 var assigned = (DropDownList)GridView1.FooterRow.FindControl("AssignDrp");
                 assigned.Visible = role.Text == "User";
         }
