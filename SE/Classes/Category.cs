@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common.CommandTrees.ExpressionBuilder;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Security.Policy;
+using System.Data.SqlClient;
+using System.Web;
 using System.Web.Security;
-using HtmlAgilityPack;
-using Microsoft.Ajax.Utilities;
-using SE.Models;
 
 namespace SE.Classes
 {
     [Serializable]
-    public partial class Category
+    public class Category
     {
         #region Properties
 
@@ -23,6 +18,7 @@ namespace SE.Classes
         public string CategoryName { get; set; }
         public string CreatedTime { get; set; }
         public List<string> CategoryAssignments { get; set; }
+
         public bool IsActive
         {
             get
@@ -109,8 +105,8 @@ namespace SE.Classes
                 var cmd2 = new SqlCommand(queryString2, con);
 
                 cmd.Parameters.AddWithValue("@categoryname", CategoryName);
-                cmd.Parameters.AddWithValue("@createdby", 
-                    System.Web.HttpContext.Current.User.Identity.Name);
+                cmd.Parameters.AddWithValue("@createdby",
+                    HttpContext.Current.User.Identity.Name);
                 cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
 
                 con.Open();
@@ -179,7 +175,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                foreach (var catAssign in CategoryAssignments)
+                foreach (string catAssign in CategoryAssignments)
                 {
                     cmd.Parameters["@assigneduser"].Value = catAssign;
                     cmd.ExecuteNonQuery();
@@ -228,7 +224,7 @@ namespace SE.Classes
                 cmd.ExecuteNonQuery();
                 cmd2.ExecuteNonQuery();
 
-                foreach (var catAssign in CategoryAssignments)
+                foreach (string catAssign in CategoryAssignments)
                 {
                     cmd3.Parameters["@assigneduser"].Value = catAssign;
                     cmd3.ExecuteNonQuery();
@@ -258,7 +254,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -272,14 +268,16 @@ namespace SE.Classes
 
                 con.Close();
             }
-            
+
             return assignedCategories;
         }
+
         public static List<string> GetUsersCategories(string username)
         {
             var assignedCategories = new List<string>();
 
-            const string queryString = "SELECT * FROM CategoryAssignments INNER JOIN Categories ON CategoryAssignments.CategoryID = Categories.CategoryID Where AssignedUser = @user";
+            const string queryString =
+                "SELECT * FROM CategoryAssignments INNER JOIN Categories ON CategoryAssignments.CategoryID = Categories.CategoryID Where AssignedUser = @user";
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -290,7 +288,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -302,10 +300,11 @@ namespace SE.Classes
 
             return assignedCategories;
         }
+
         public static DataSet GetSupervisorCategories(string username)
         {
             var assignedCategories = new DataSet();
-            var categories = assignedCategories.Tables.Add("Users");
+            DataTable categories = assignedCategories.Tables.Add("Users");
             categories.Columns.Add("Category Name");
             categories.Columns.Add("Activity");
             //categories.Columns.Add("Created Date");
@@ -324,17 +323,20 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    var row = categories.NewRow();
+                    DataRow row = categories.NewRow();
                     row["Category Name"] = dr["CategoryName"].ToString();
                     //row["IsActive"] = dr["CategoryName"].ToString();
                     //row["Created Date"] = dr["CreatedTime"].ToString();
-                    var membershipUser = Membership.GetUser();
+                    MembershipUser membershipUser = Membership.GetUser();
                     if (membershipUser != null)
-                        foreach (var item in Member.UsersAssignedToSupervisorAssignedToCategory(membershipUser.ToString(), Convert.ToInt32(dr["CategoryId"])))
+                        foreach (
+                            string item in
+                                Member.UsersAssignedToSupervisorAssignedToCategory(membershipUser.ToString(),
+                                    Convert.ToInt32(dr["CategoryId"])))
                         {
                             row["Users In Category"] += item + ", ";
                         }
@@ -345,6 +347,7 @@ namespace SE.Classes
             }
             return assignedCategories;
         }
+
         public bool CategoryIsAssigned()
         {
             bool categoryIsAssigned;
@@ -368,8 +371,8 @@ namespace SE.Classes
 
                 con.Open();
 
-                categoryIsAssigned = ((int)cmd.ExecuteScalar() > 0);
-                categoryIsAssigned = ((int)cmd2.ExecuteScalar() > 0) || categoryIsAssigned;
+                categoryIsAssigned = ((int) cmd.ExecuteScalar() > 0);
+                categoryIsAssigned = ((int) cmd2.ExecuteScalar() > 0) || categoryIsAssigned;
 
                 con.Close();
             }
@@ -390,7 +393,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -408,9 +411,10 @@ namespace SE.Classes
 
             return allCategories;
         }
+
         public static int GetCategoryId(string categoryName)
         {
-            var id = -1;
+            int id = -1;
 
             const string queryString = "SELECT CategoryID " +
                                        "FROM Categories " +
@@ -425,7 +429,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -439,7 +443,7 @@ namespace SE.Classes
 
         public static int GetCategoryIdBySupervisor(string categoryName, string creator)
         {
-            var id = -1;
+            int id = -1;
 
             const string queryString = "SELECT CategoryID " +
                                        "FROM Categories " +
@@ -455,7 +459,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -466,9 +470,10 @@ namespace SE.Classes
             }
             return id;
         }
+
         public static string GetCategoryName(int id)
         {
-            var catName = "";
+            string catName = "";
             const string queryString = "SELECT CategoryName " +
                                        "FROM Categories " +
                                        "WHERE CategoryID=@categoryID";
@@ -482,7 +487,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -513,12 +518,12 @@ namespace SE.Classes
 
                 con.Open();
 
-                userInCategory = ((int)cmd.ExecuteScalar() > 0);
+                userInCategory = ((int) cmd.ExecuteScalar() > 0);
 
                 con.Close();
             }
 
-            return userInCategory; 
+            return userInCategory;
         }
     }
 }

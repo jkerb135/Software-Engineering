@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
+using System.Web;
 
 namespace SE.Classes
 {
@@ -19,11 +20,12 @@ namespace SE.Classes
         public double TaskTime { get; set; }
         public string CreatedTime { get; set; }
         public List<string> TaskAssignments { get; set; }
+
         public bool IsActive
         {
             get
             {
-                if(TaskId > 0)
+                if (TaskId > 0)
                 {
                     const string queryString = "SELECT IsActive FROM Tasks " +
                                                "WHERE TaskID=@taskid";
@@ -37,7 +39,7 @@ namespace SE.Classes
 
                         con.Open();
 
-                        _isActive = (bool)cmd.ExecuteScalar();
+                        _isActive = (bool) cmd.ExecuteScalar();
 
                         con.Close();
                     }
@@ -92,11 +94,12 @@ namespace SE.Classes
 
         public void CreateTask()
         {
-            const string queryString = "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
-                                       "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
+            const string queryString =
+                "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
+                "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
 
             const string queryString2 = "SELECT MAX(TaskID) FROM Tasks";
-          
+
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
             {
@@ -104,14 +107,20 @@ namespace SE.Classes
                 var cmd2 = new SqlCommand(queryString2, con);
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryId);
-                if (AssignedUser != null){cmd.Parameters.AddWithValue("@assigneduser", AssignedUser);}
-                else {cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);}
+                if (AssignedUser != null)
+                {
+                    cmd.Parameters.AddWithValue("@assigneduser", AssignedUser);
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);
+                }
                 cmd.Parameters.AddWithValue("@taskname", TaskName);
                 cmd.Parameters.AddWithValue("@tasktime", TaskTime);
                 cmd.Parameters.AddWithValue("@isactive", true);
                 cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
-                cmd.Parameters.AddWithValue("@createdby", 
-                    System.Web.HttpContext.Current.User.Identity.Name);
+                cmd.Parameters.AddWithValue("@createdby",
+                    HttpContext.Current.User.Identity.Name);
 
                 con.Open();
 
@@ -127,7 +136,7 @@ namespace SE.Classes
             const string queryString = "UPDATE Tasks " +
                                        "SET CategoryID=@categoryid " +
                                        "WHERE TaskID=@taskid";
-    
+
             const string queryString2 = "UPDATE Tasks " +
                                         "SET AssignedUser=@assigneduser " +
                                         "WHERE TaskID=@taskid";
@@ -233,7 +242,7 @@ namespace SE.Classes
 
                 cmd.ExecuteNonQuery();
 
-                foreach (var taskAssign in TaskAssignments)
+                foreach (string taskAssign in TaskAssignments)
                 {
                     cmd2.Parameters["@assigneduser"].Value = taskAssign;
                     cmd2.ExecuteNonQuery();
@@ -279,7 +288,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                taskExists = ((int)cmd.ExecuteScalar() > 0);
+                taskExists = ((int) cmd.ExecuteScalar() > 0);
 
                 con.Close();
             }
@@ -305,8 +314,8 @@ namespace SE.Classes
             {
                 var cmd = new SqlCommand(queryString, con);
 
-                cmd.Parameters.AddWithValue("@createdby", 
-                    System.Web.HttpContext.Current.User.Identity.Name);
+                cmd.Parameters.AddWithValue("@createdby",
+                    HttpContext.Current.User.Identity.Name);
 
                 con.Open();
 
@@ -316,7 +325,8 @@ namespace SE.Classes
                 {
                     DataRow datarow = dt.NewRow();
 
-                    datarow["Task Name"] = "<a href='?taskpage=edittask&taskid=" + dr["TaskID"] + "'>" + dr["TaskName"] + "</a>";
+                    datarow["Task Name"] = "<a href='?taskpage=edittask&taskid=" + dr["TaskID"] + "'>" + dr["TaskName"] +
+                                           "</a>";
                     datarow["Assigned Category"] = dr["CategoryName"];
                     datarow["Assigned User"] = dr["AssignedUser"];
 
@@ -359,7 +369,7 @@ namespace SE.Classes
 
         public static int GetTaskIdBySupervisor(string taskName, string creator)
         {
-            var id = -1;
+            int id = -1;
 
             const string queryString = "SELECT TaskID " +
                                        "FROM Tasks " +
@@ -375,7 +385,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -385,11 +395,11 @@ namespace SE.Classes
                 con.Close();
             }
             return id;
-
         }
+
         public static int GetTaskId(string taskName)
         {
-            var id = -1;
+            int id = -1;
 
             const string queryString = "SELECT TaskID " +
                                        "FROM Tasks " +
@@ -404,7 +414,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -415,6 +425,7 @@ namespace SE.Classes
             }
             return id;
         }
+
         public static DataSet GetSupervisorTasks(string username)
         {
             var supervisorTasks = new DataSet();
@@ -456,7 +467,6 @@ namespace SE.Classes
                 }
                 if (taskTable.Rows.Count == 0)
                 {
-
                     DataRow newRow = taskTable.NewRow();
                     newRow["Task Name"] = username + " has not created any tasks yet.";
                     taskTable.Rows.Add(newRow);
@@ -497,6 +507,7 @@ namespace SE.Classes
 
             return task;
         }
+
         public static string GetTaskName(int taskId)
         {
             string taskName = "";

@@ -12,14 +12,13 @@
 
         public Report()
         {
-            this.ReportID = 0;
+            ReportID = 0;
         }
 
         #endregion
 
         public void GenerateReport()
         {
-
         }
     }
 }

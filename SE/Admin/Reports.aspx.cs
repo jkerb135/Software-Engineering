@@ -1,19 +1,18 @@
-﻿using SE.Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.Web.UI;
 using System.Web.UI.WebControls;
+using SE.Classes;
 
 namespace SE
 {
-    public partial class Reports : System.Web.UI.Page
+    public partial class Reports : Page
     {
         protected void Page_Init(object sender, EventArgs e)
         {
-
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -36,19 +35,18 @@ namespace SE
 
         protected void EmailReportButton_Click(object sender, EventArgs e)
         {
-            
         }
 
         protected void PrintReportButton_Click(object sender, EventArgs e)
         {
-
         }
 
-        protected void OverviewRDB(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        protected void OverviewRDB(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(ReportOverview, "Select$" + e.Row.RowIndex);
+                e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(ReportOverview,
+                    "Select$" + e.Row.RowIndex);
                 e.Row.ToolTip = "Click to select this row.";
             }
         }
@@ -58,7 +56,6 @@ namespace SE
             if (!ReportDetailsPanel.Visible)
             {
                 ReportDetailsPanel.Visible = true;
-                
             }
 
             foreach (GridViewRow row in ReportOverview.Rows)
@@ -83,7 +80,7 @@ namespace SE
         private void GenerateReport()
         {
             var ReportDataSet = new DataSet();
-            var ReportTable = ReportDataSet.Tables.Add("Overview");
+            DataTable ReportTable = ReportDataSet.Tables.Add("Overview");
             var AllUsers = new List<string>();
 
             ReportTable.Columns.Add("User");
@@ -106,7 +103,7 @@ namespace SE
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -117,7 +114,7 @@ namespace SE
 
                 foreach (string user in AllUsers)
                 {
-                    var row = ReportTable.NewRow();
+                    DataRow row = ReportTable.NewRow();
                     cmd2.Parameters["@assigneduser"].Value = cmd3.Parameters["@assigneduser"].Value = user;
 
                     row["User"] = user;
@@ -137,7 +134,7 @@ namespace SE
         private void GenerateDetailedReport(string user)
         {
             var ReportDataSet = new DataSet();
-            var ReportTable = ReportDataSet.Tables.Add("Detailed");
+            DataTable ReportTable = ReportDataSet.Tables.Add("Detailed");
 
             ReportTable.Columns.Add("Task Name");
             ReportTable.Columns.Add("Main Steps Complete");
@@ -145,15 +142,16 @@ namespace SE
             ReportTable.Columns.Add("Time Spent on Task");
             ReportTable.Columns.Add("Date Completed");
 
-            const string queryString =  "SELECT * FROM Tasks " +
-                                        "INNER JOIN TaskAssignments ON Tasks.TaskID = TaskAssignments.TaskID " +
-                                        "WHERE TaskAssignments.AssignedUser=@assigneduser";
+            const string queryString = "SELECT * FROM Tasks " +
+                                       "INNER JOIN TaskAssignments ON Tasks.TaskID = TaskAssignments.TaskID " +
+                                       "WHERE TaskAssignments.AssignedUser=@assigneduser";
 
             const string queryString2 = "SELECT * FROM Tasks " +
                                         "INNER JOIN CompletedTasks ON Tasks.TaskID = CompletedTasks.TaskID " +
                                         "WHERE CompletedTasks.AssignedUser=@assigneduser";
 
-            const string queryString3 = "SELECT COUNT(*) FROM CompletedMainSteps WHERE AssignedUser=@assigneduser AND TaskID=@taskid";
+            const string queryString3 =
+                "SELECT COUNT(*) FROM CompletedMainSteps WHERE AssignedUser=@assigneduser AND TaskID=@taskid";
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -173,16 +171,16 @@ namespace SE
                 con.Open();
 
                 // tasks in progress
-                var dr = cmd.ExecuteReader();
-                while(dr.Read())
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
                 {
-                    var row = ReportTable.NewRow();
+                    DataRow row = ReportTable.NewRow();
                     cmd3.Parameters["@taskid"].Value = Convert.ToInt32(dr["TaskID"]);
 
                     row["Task Name"] = dr["TaskName"].ToString();
                     row["Main Steps Complete"] = cmd3.ExecuteScalar().ToString();
                     row["Detailed Steps Used"] = dr["DetailedStepsUsed"].ToString();
-                    row["Time Spent on Task"] = dr["TaskTime"].ToString() + " minutes";
+                    row["Time Spent on Task"] = dr["TaskTime"] + " minutes";
                     row["Date Completed"] = "In Progress";
                     ReportTable.Rows.Add(row);
                 }
@@ -192,13 +190,13 @@ namespace SE
                 dr = cmd2.ExecuteReader();
                 while (dr.Read())
                 {
-                    var row = ReportTable.NewRow();
+                    DataRow row = ReportTable.NewRow();
                     cmd3.Parameters["@taskid"].Value = Convert.ToInt32(dr["TaskID"]);
 
                     row["Task Name"] = dr["TaskName"].ToString();
                     row["Main Steps Complete"] = cmd3.ExecuteScalar().ToString();
                     row["Detailed Steps Used"] = dr["TotalDetailedStepsUsed"].ToString();
-                    row["Time Spent on Task"] = dr["TotalTime"].ToString() + " minutes";
+                    row["Time Spent on Task"] = dr["TotalTime"] + " minutes";
                     row["Date Completed"] = dr["DateTimeCompleted"].ToString();
                     ReportTable.Rows.Add(row);
                 }

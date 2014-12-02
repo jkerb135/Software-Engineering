@@ -3,326 +3,335 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head runat="server">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <head runat="server">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="author" content="">
 
-    <title>iPAWS Web App</title>
-    <script src="<%=ResolveUrl("//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js") %>"></script>
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
-    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-    <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
-    <script src="<%=ResolveUrl("signalr/hubs") %>"></script>
-    <link rel="stylesheet" href="/StyleSheets/JQueryUI/themes/base/jquery.ui.all.css">
+        <title>iPAWS Web App</title>
+        <script src="<%= ResolveUrl("//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js") %>"></script>
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+        <script src="<%= ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
+        <script src="<%= ResolveUrl("signalr/hubs") %>"></script>
+        <link rel="stylesheet" href="/StyleSheets/JQueryUI/themes/base/jquery.ui.all.css">
 
-    <!-- Realtime Notification System -->
-    <script type="text/javascript">
-        var contact = $.connection.userActivityHub;
-        $(function () {
+        <!-- Realtime Notification System -->
+        <script type="text/javascript">
+            var contact = $.connection.userActivityHub;
+            $(function() {
 
-            $.connection.hub.start().done(function () {
-                    contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
-            });;
-            contact.client.yourCategoryRequests = function (categories) {
-                $("#requests").html('');
-                var code;
-                if (categories.length == 0) {
-                    $('#messageCount').html('0');
-                    code = "<li><a href='#'><div><strong>Messages</strong><span class='pull-right text-muted'><em></em></span></div><div>No New Requests</div></a></li><li class='divider'></li>";
-                    $("#requests").append(code);
+                $.connection.hub.start().done(function() {
+                    contact.server.getCategoryNotifications('<%= Membership.GetUser().UserName %>');
+                });;
+                contact.client.yourCategoryRequests = function(categories) {
+                    $("#requests").html('');
+                    var code;
+                    if (categories.length == 0) {
+                        $('#messageCount').html('0');
+                        code = "<li><a href='#'><div><strong>Messages</strong><span class='pull-right text-muted'><em></em></span></div><div>No New Requests</div></a></li><li class='divider'></li>";
+                        $("#requests").append(code);
+                    }
+                    for (var i = 0; i < categories.length; i++) {
+                        $('#messageCount').html(i + 1);
+                        code = "<li><a href='<%= ResolveUrl("~/Admin/Requests.aspx") %>'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.</div></a></li><li class='divider'></li>";
+                        $("#requests").append(code);
+                    }
+                };
+                setInterval(function() { contact.server.getCategoryNotifications('<%= Membership.GetUser().UserName %>'); }, 1500);
+            });
+            $(document).on("click", ".requestButton", function() {
+                console.log(localStorage.getItem("username").toString());
+                contact.server.contactFormSubmitted(localStorage.getItem("username").toString());
+            });
+            var openDiv;
+            $(document).on("click", ".catButton", function() {
+                if ($(openDiv).attr('id') != 'catData') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function() {
+                        $('#catData').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#catData');
+                    });
                 }
-                for (var i = 0; i < categories.length; i++) {
-                    $('#messageCount').html(i + 1);
-                    code = "<li><a href='<%=ResolveUrl("~/Admin/Requests.aspx") %>'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.</div></a></li><li class='divider'></li>";
-                    $("#requests").append(code);
+            });
+            $(document).on("click", ".taskButton", function() {
+                if ($(openDiv).attr('id') != 'taskData') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function() {
+                        $('#taskData').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#taskData');
+                    });
                 }
-            };
-            setInterval(function () { contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>'); }, 1500);
-        });
-        $(document).on("click", ".requestButton", function () {
-            console.log(localStorage.getItem("username").toString());
-            contact.server.contactFormSubmitted(localStorage.getItem("username").toString());
-        });
-        var openDiv;
-        $(document).on("click", ".catButton", function () {
-            if ($(openDiv).attr('id') != 'catData') {
+            });
+            $(document).on("click", ".assignedUsers", function() {
+                if ($(openDiv).attr('id') != 'userData') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function() {
+                        $('#userData').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#userData');
+                    });
+                }
+            });
+            $(document).on("click", ".requestCat", function() {
+                if ($(openDiv).attr('id') != 'requestCat') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function() {
+                        $('#requestCat').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#requestCat');
+                    });
+                }
+            });
+            $(document).on("click", ".requestTask", function() {
+                if ($(openDiv).attr('id') != 'requestTask') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function() {
+                        $('#requestTask').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#requestTask');
+                    });
+                }
+            });
+
+            function hideCats() {
                 $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
+                $(openDiv).promise().done(function() {
+                    $('#catUsers').show('slide', { direction: 'left' }, 1000);
+                    openDiv = $('#catUsers');
+                });
+            };
+
+            function showCats() {
+                $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                $(openDiv).promise().done(function() {
                     $('#catData').show('slide', { direction: 'left' }, 1000);
                     openDiv = $('#catData');
                 });
-            }
-        });
-        $(document).on("click", ".taskButton", function () {
-            if ($(openDiv).attr('id') != 'taskData') {
+            };
+
+            function hideTasks() {
                 $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
+                $(openDiv).promise().done(function() {
+                    $('#taskUsers').show('slide', { direction: 'left' }, 1000);
+                    openDiv = $('#taskUsers');
+                });
+            };
+
+            function showTasks() {
+                $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                $(openDiv).promise().done(function() {
                     $('#taskData').show('slide', { direction: 'left' }, 1000);
                     openDiv = $('#taskData');
                 });
-            }
-        });
-        $(document).on("click", ".assignedUsers", function () {
-            if ($(openDiv).attr('id') != 'userData') {
+            };
+
+            function showUsers() {
                 $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
+                $(openDiv).promise().done(function() {
                     $('#userData').show('slide', { direction: 'left' }, 1000);
                     openDiv = $('#userData');
                 });
-            }
-        });
-        $(document).on("click", ".requestCat", function () {
-            if ($(openDiv).attr('id') != 'requestCat') {
+            };
+
+            function hideUsers() {
                 $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
+                $(openDiv).promise().done(function() {
+                    $('#panel').show('slide', { direction: 'left' }, 1000);
+                    openDiv = $('#panel');
+                });
+            };
+
+            function requestCat() {
+                $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                $(openDiv).promise().done(function() {
                     $('#requestCat').show('slide', { direction: 'left' }, 1000);
                     openDiv = $('#requestCat');
                 });
-            }
-        });
-        $(document).on("click", ".requestTask", function () {
-            if ($(openDiv).attr('id') != 'requestTask') {
+            };
+
+            function requestTask() {
                 $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
+                $(openDiv).promise().done(function() {
                     $('#requestTask').show('slide', { direction: 'left' }, 1000);
                     openDiv = $('#requestTask');
                 });
-            }
-        });
-        function hideCats() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#catUsers').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#catUsers');
+            };
+
+            $(document).on('click', '#<%= LogoutButton.ClientID %>', function() {
+
+                $.connection.hub.stop();
             });
-        };
-        function showCats() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#catData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#catData');
+            $(document).on('click', '#ProfilePicture', function() {
+                $("#ProfileUpload").click();
+                return false;
             });
-        };
-        function hideTasks() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#taskUsers').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#taskUsers');
+            $(document).on('change', '#<%= ProfileUpload.ClientID %>', function() {
+                $(document).find('#<%= UploadFile.ClientID %>').click();
             });
-        };
-        function showTasks() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#taskData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#taskData');
-            });
-        };
-        function showUsers() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#userData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#userData');
-            });
-        };
-        function hideUsers() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#panel').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#panel');
-            });
-        };
-        function requestCat() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#requestCat').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#requestCat');
-            });
-        };
-        function requestTask() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#requestTask').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#requestTask');
-            });
-        };
-        $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {
+        </script>
 
-            $.connection.hub.stop();
-        });
-        $(document).on('click', '#ProfilePicture', function () {
-            $("#ProfileUpload").click();
-            return false;
-        });
-        $(document).on('change', '#<%=ProfileUpload.ClientID%>', function () {
-            $(document).find('#<%=UploadFile.ClientID%>').click();
-        })
-    </script>
+        <!-- Bootstrap Core CSS -->
+        <link href="<%= ResolveUrl("~/StyleSheets/bootstrap.css") %>" rel="stylesheet">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="<%=ResolveUrl("~/StyleSheets/bootstrap.css") %>" rel="stylesheet">
+        <!-- MetisMenu CSS -->
+        <link href="<%= ResolveUrl("~/StyleSheets/plugins/metisMenu/metisMenu.min.css") %>" rel="stylesheet">
 
-    <!-- MetisMenu CSS -->
-    <link href="<%=ResolveUrl("~/StyleSheets/plugins/metisMenu/metisMenu.min.css") %>" rel="stylesheet">
+        <!-- Custom CSS -->
+        <link href="<%= ResolveUrl("~/StyleSheets/sb-admin-2.css") %>" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="<%=ResolveUrl("~/StyleSheets/sb-admin-2.css") %>" rel="stylesheet">
+        <!-- Custom Fonts -->
+        <link href="<%= ResolveUrl("~/FontAwesome/css/font-awesome.min.css") %>" rel="stylesheet" type="text/css">
 
-    <!-- Custom Fonts -->
-    <link href="<%=ResolveUrl("~/FontAwesome/css/font-awesome.min.css") %>" rel="stylesheet" type="text/css">
+        <!-- SE CSS -->
+        <link href="<%= ResolveUrl("~/StyleSheets/style.css") %>" rel="stylesheet" type="text/css" />
+        <link href="<%= ResolveUrl("~/Content/toastr.css") %>" rel="stylesheet" />
 
-    <!-- SE CSS -->
-    <link href="<%=ResolveUrl("~/StyleSheets/style.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=ResolveUrl("~/Content/toastr.css") %>" rel="stylesheet" />
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="<%= ResolveUrl("~/Scripts/toastr.js") %>"></script>
+        <asp:ContentPlaceHolder ID="SiteHead" runat="server"></asp:ContentPlaceHolder>
+    </head>
+    <body>
+        <form id="masterForm" enctype="multipart/form-data" runat="server">
+            <asp:ScriptManager ID="ScriptManage" runat="server">
+            </asp:ScriptManager>
+            <div id="wrapper">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <script src="<%=ResolveUrl("~/Scripts/toastr.js") %>"></script>
-    <asp:ContentPlaceHolder ID="SiteHead" runat="server"></asp:ContentPlaceHolder>
-</head>
-<body>
-    <form id="masterForm" enctype="multipart/form-data" runat="server">
-        <asp:ScriptManager ID="ScriptManage" runat="server">
-        </asp:ScriptManager>
-        <div id="wrapper">
-
-            <!-- Navigation -->
-            <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <ul class="ripple">
-                        <li>i</li>
-                        <li>P</li>
-                        <li>A</li>
-                        <li>W</li>
-                        <li>S</li>
-                    </ul>
-                </div>
-                <!-- /.navbar-header -->
-                <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="messageCount"></span>
-                            <i class="fa fa-envelope fa-fw" id="envelope"></i><i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-messages" id="requests" style="max-height: 450px; overflow-y: scroll;">
-                        </ul>
-                        <!-- /.dropdown-messages -->
-                    </li>
-                    <!-- /.dropdown -->
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-tasks fa-fw"></i><i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-tasks">
-                        </ul>
-                        <!-- /.dropdown-tasks -->
-                    </li>
-                    <!-- /.dropdown -->
-                    <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-bell fa-fw"></i><i class="fa fa-caret-down"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-alerts">
-                        </ul>
-                        <!-- /.dropdown-alerts -->
-                    </li>
-                    <!-- /.dropdown -->
-                    <li>
-                        <i class="fa fa-user fa-fw text-primary"></i>
-                        <asp:Label ID="username" runat="server" Text="" CssClass="text-primary"></asp:Label>
-                    </li>
-                    <li>
-                        <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'></i> Logout</asp:LinkButton>
-                    </li>
-                </ul>
-                <!-- /.dropdown -->
-                <!-- /.navbar-top-links -->
-
-                <div class="navbar-default sidebar" role="navigation">
-                    <div class="sidebar-nav navbar-collapse">
-                        <ul class="nav" id="side-menu">
-                            <li class="sidebar-search" style="display: none">
-                                <div class="input-group custom-search-form">
-                                    <input type="text" class="form-control" placeholder="Search..." />
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                <!-- /input-group -->
-                            </li>
-                            <li style="margin: 20px 0px 0px 10px" id="ProfilePic" runat="server">
-                                <asp:Image ID="ProfilePicture" runat="server" Style="height: 200px; width: 225px" />
-                            </li>
-                            <li style="margin-top: 20px">
-                                <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
-                            </li>
-                            <li id="Li1" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>User Assignment</a>
-                            </li>
-                            <li id="CategoriesMenu" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Task Manager</a>
-                            </li>
-                                                        <li id="RequestsMenu" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Requests.aspx") %>"><i class="fa fa-user fa-fw"></i>Supervisor Requests</a>
-                            </li>
-                            <li id="ReportsMenu" runat="server">
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Reports.aspx") %>">View Reports</a>
-                                    </li>
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Reports.aspx?reportpage=printreports") %>">Print Reports</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
-                            </li>
+                <!-- Navigation -->
+                <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <ul class="ripple">
+                            <li>i</li>
+                            <li>P</li>
+                            <li>A</li>
+                            <li>W</li>
+                            <li>S</li>
                         </ul>
                     </div>
-                    <!-- /.sidebar-collapse -->
+                    <!-- /.navbar-header -->
+                    <ul class="nav navbar-top-links navbar-right">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="messageCount"></span>
+                                <i class="fa fa-envelope fa-fw" id="envelope"></i><i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-messages" id="requests" style="max-height: 450px; overflow-y: scroll;">
+                            </ul>
+                            <!-- /.dropdown-messages -->
+                        </li>
+                        <!-- /.dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-tasks fa-fw"></i><i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-tasks">
+                            </ul>
+                            <!-- /.dropdown-tasks -->
+                        </li>
+                        <!-- /.dropdown -->
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-bell fa-fw"></i><i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-alerts">
+                            </ul>
+                            <!-- /.dropdown-alerts -->
+                        </li>
+                        <!-- /.dropdown -->
+                        <li>
+                            <i class="fa fa-user fa-fw text-primary"></i>
+                            <asp:Label ID="username" runat="server" Text="" CssClass="text-primary"></asp:Label>
+                        </li>
+                        <li>
+                            <asp:LinkButton ID="LogoutButton" runat="server" OnClick="LogoutButton_Click"><i class='fa fa-sign-out fa-fw text-primary'></i> Logout</asp:LinkButton>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown -->
+                    <!-- /.navbar-top-links -->
+
+                    <div class="navbar-default sidebar" role="navigation">
+                        <div class="sidebar-nav navbar-collapse">
+                            <ul class="nav" id="side-menu">
+                                <li class="sidebar-search" style="display: none">
+                                    <div class="input-group custom-search-form">
+                                        <input type="text" class="form-control" placeholder="Search..." />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <!-- /input-group -->
+                                </li>
+                                <li style="margin: 20px 0px 0px 10px" id="ProfilePic" runat="server">
+                                    <asp:Image ID="ProfilePicture" runat="server" Style="height: 200px; width: 225px" />
+                                </li>
+                                <li style="margin-top: 20px">
+                                    <a href="<%= ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                                </li>
+                                <li id="Li1" runat="server">
+                                    <a href="<%= ResolveUrl("~/Admin/Profile.aspx?userName=" + Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>User Assignment</a>
+                                </li>
+                                <li id="CategoriesMenu" runat="server">
+                                    <a href="<%= ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Task Manager</a>
+                                </li>
+                                <li id="RequestsMenu" runat="server">
+                                    <a href="<%= ResolveUrl("~/Admin/Requests.aspx") %>"><i class="fa fa-user fa-fw"></i>Supervisor Requests</a>
+                                </li>
+                                <li id="ReportsMenu" runat="server">
+                                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="<%= ResolveUrl("~/Admin/Reports.aspx") %>">View Reports</a>
+                                        </li>
+                                        <li>
+                                            <a href="<%= ResolveUrl("~/Admin/Reports.aspx?reportpage=printreports") %>">Print Reports</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.nav-second-level -->
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.sidebar-collapse -->
+                    </div>
+                    <!-- /.navbar-static-side -->
+                </nav>
+
+                <!-- Page Content -->
+
+
+                <div id="page-wrapper">
+                    <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder>
                 </div>
-                <!-- /.navbar-static-side -->
-            </nav>
 
-            <!-- Page Content -->
-
-
-            <div id="page-wrapper">
-                <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder>
+                <!-- /#page-wrapper -->
             </div>
+            <!-- /#wrapper -->
 
-            <!-- /#page-wrapper -->
-        </div>
-        <!-- /#wrapper -->
+            <!-- Bootstrap Core JavaScript -->
+            <script src="<%= ResolveUrl("~/Scripts/bootstrap.min.js") %>"></script>
 
-        <!-- Bootstrap Core JavaScript -->
-        <script src="<%=ResolveUrl("~/Scripts/bootstrap.min.js") %>"></script>
+            <!-- Metis Menu Plugin JavaScript -->
+            <script src="<%= ResolveUrl("~/Scripts/plugins/metisMenu/metisMenu.min.js") %>"></script>
 
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="<%=ResolveUrl("~/Scripts/plugins/metisMenu/metisMenu.min.js") %>"></script>
+            <!-- Custom Theme JavaScript -->
+            <script src="<%= ResolveUrl("~/Scripts/sb-admin-2.js") %>"></script>
 
-        <!-- Custom Theme JavaScript -->
-        <script src="<%=ResolveUrl("~/Scripts/sb-admin-2.js") %>"></script>
-
-        <!-- SE JavaScript -->
-        <script src="<%=ResolveUrl("~/Scripts/scripts.js") %>"></script>
-        <input id="otheruser" type="hidden" runat="server" />
-        <div style="display: none; overflow: hidden">
-            <asp:FileUpload ID="ProfileUpload" runat="server" />
-            <asp:Button ID="UploadFile" runat="server" Text="Button" OnClick="UploadFile_Click" />
-        </div>
-    </form>
-</body>
+            <!-- SE JavaScript -->
+            <script src="<%= ResolveUrl("~/Scripts/scripts.js") %>"></script>
+            <input id="otheruser" type="hidden" runat="server" />
+            <div style="display: none; overflow: hidden">
+                <asp:FileUpload ID="ProfileUpload" runat="server" />
+                <asp:Button ID="UploadFile" runat="server" Text="Button" OnClick="UploadFile_Click" />
+            </div>
+        </form>
+    </body>
 </html>

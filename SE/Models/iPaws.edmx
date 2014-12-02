@@ -1,118 +1,163 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ipawsTeamBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="ipawsTeamBModel.Store" Alias="Self" Provider="System.Data.SqlClient"
+              ProviderManifestToken="2008"
+              xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="ipawsTeamBModelStoreContainer">
-          <EntitySet Name="aspnet_Applications" EntityType="ipawsTeamBModel.Store.aspnet_Applications" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_Membership" EntityType="ipawsTeamBModel.Store.aspnet_Membership" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_Paths" EntityType="ipawsTeamBModel.Store.aspnet_Paths" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_PersonalizationAllUsers" EntityType="ipawsTeamBModel.Store.aspnet_PersonalizationAllUsers" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_PersonalizationPerUser" EntityType="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_Profile" EntityType="ipawsTeamBModel.Store.aspnet_Profile" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_Roles" EntityType="ipawsTeamBModel.Store.aspnet_Roles" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_SchemaVersions" EntityType="ipawsTeamBModel.Store.aspnet_SchemaVersions" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_Users" EntityType="ipawsTeamBModel.Store.aspnet_Users" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_UsersInRoles" EntityType="ipawsTeamBModel.Store.aspnet_UsersInRoles" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="aspnet_WebEvent_Events" EntityType="ipawsTeamBModel.Store.aspnet_WebEvent_Events" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Applications" EntityType="ipawsTeamBModel.Store.aspnet_Applications"
+                     store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Membership" EntityType="ipawsTeamBModel.Store.aspnet_Membership" store:Type="Tables"
+                     Schema="dbo" />
+          <EntitySet Name="aspnet_Paths" EntityType="ipawsTeamBModel.Store.aspnet_Paths" store:Type="Tables"
+                     Schema="dbo" />
+          <EntitySet Name="aspnet_PersonalizationAllUsers"
+                     EntityType="ipawsTeamBModel.Store.aspnet_PersonalizationAllUsers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_PersonalizationPerUser"
+                     EntityType="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Profile" EntityType="ipawsTeamBModel.Store.aspnet_Profile" store:Type="Tables"
+                     Schema="dbo" />
+          <EntitySet Name="aspnet_Roles" EntityType="ipawsTeamBModel.Store.aspnet_Roles" store:Type="Tables"
+                     Schema="dbo" />
+          <EntitySet Name="aspnet_SchemaVersions" EntityType="ipawsTeamBModel.Store.aspnet_SchemaVersions"
+                     store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Users" EntityType="ipawsTeamBModel.Store.aspnet_Users" store:Type="Tables"
+                     Schema="dbo" />
+          <EntitySet Name="aspnet_UsersInRoles" EntityType="ipawsTeamBModel.Store.aspnet_UsersInRoles"
+                     store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_WebEvent_Events" EntityType="ipawsTeamBModel.Store.aspnet_WebEvent_Events"
+                     store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Categories" EntityType="ipawsTeamBModel.Store.Categories" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CategoryAssignments" EntityType="ipawsTeamBModel.Store.CategoryAssignments" store:Type="Tables" store:Schema="dbo" store:Name="CategoryAssignments">
-            <DefiningQuery>SELECT 
-      [CategoryAssignments].[AssignedUser] AS [AssignedUser], 
-      [CategoryAssignments].[CategoryID] AS [CategoryID]
-      FROM [dbo].[CategoryAssignments] AS [CategoryAssignments]</DefiningQuery>
+          <EntitySet Name="CategoryAssignments" EntityType="ipawsTeamBModel.Store.CategoryAssignments"
+                     store:Type="Tables" store:Schema="dbo" store:Name="CategoryAssignments">
+            <DefiningQuery>
+              SELECT
+              [CategoryAssignments].[AssignedUser] AS [AssignedUser],
+              [CategoryAssignments].[CategoryID] AS [CategoryID]
+              FROM [dbo].[CategoryAssignments] AS [CategoryAssignments]
+            </DefiningQuery>
           </EntitySet>
-          <EntitySet Name="CompletedMainSteps" EntityType="ipawsTeamBModel.Store.CompletedMainSteps" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="CompletedTasks" EntityType="ipawsTeamBModel.Store.CompletedTasks" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="DetailedSteps" EntityType="ipawsTeamBModel.Store.DetailedSteps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CompletedMainSteps" EntityType="ipawsTeamBModel.Store.CompletedMainSteps"
+                     store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CompletedTasks" EntityType="ipawsTeamBModel.Store.CompletedTasks" store:Type="Tables"
+                     Schema="dbo" />
+          <EntitySet Name="DetailedSteps" EntityType="ipawsTeamBModel.Store.DetailedSteps" store:Type="Tables"
+                     Schema="dbo" />
           <EntitySet Name="MainSteps" EntityType="ipawsTeamBModel.Store.MainSteps" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="MemberAssignments" EntityType="ipawsTeamBModel.Store.MemberAssignments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MemberAssignments" EntityType="ipawsTeamBModel.Store.MemberAssignments" store:Type="Tables"
+                     Schema="dbo" />
           <EntitySet Name="Profile" EntityType="ipawsTeamBModel.Store.Profile" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="RequestedCategories" EntityType="ipawsTeamBModel.Store.RequestedCategories" store:Type="Tables" store:Schema="dbo" store:Name="RequestedCategories">
-            <DefiningQuery>SELECT 
-      [RequestedCategories].[CategoryID] AS [CategoryID], 
-      [RequestedCategories].[IsApproved] AS [IsApproved], 
-      [RequestedCategories].[RequestingUser] AS [RequestingUser], 
-      [RequestedCategories].[CreatedBy] AS [CreatedBy], 
-      [RequestedCategories].[Date] AS [Date]
-      FROM [dbo].[RequestedCategories] AS [RequestedCategories]</DefiningQuery>
+          <EntitySet Name="RequestedCategories" EntityType="ipawsTeamBModel.Store.RequestedCategories"
+                     store:Type="Tables" store:Schema="dbo" store:Name="RequestedCategories">
+            <DefiningQuery>
+              SELECT
+              [RequestedCategories].[CategoryID] AS [CategoryID],
+              [RequestedCategories].[IsApproved] AS [IsApproved],
+              [RequestedCategories].[RequestingUser] AS [RequestingUser],
+              [RequestedCategories].[CreatedBy] AS [CreatedBy],
+              [RequestedCategories].[Date] AS [Date]
+              FROM [dbo].[RequestedCategories] AS [RequestedCategories]
+            </DefiningQuery>
           </EntitySet>
-          <EntitySet Name="TaskAssignments" EntityType="ipawsTeamBModel.Store.TaskAssignments" store:Type="Tables" store:Schema="dbo" store:Name="TaskAssignments">
-            <DefiningQuery>SELECT 
-      [TaskAssignments].[CategoryID] AS [CategoryID], 
-      [TaskAssignments].[TaskID] AS [TaskID], 
-      [TaskAssignments].[AssignedUser] AS [AssignedUser]
-      FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
+          <EntitySet Name="TaskAssignments" EntityType="ipawsTeamBModel.Store.TaskAssignments" store:Type="Tables"
+                     store:Schema="dbo" store:Name="TaskAssignments">
+            <DefiningQuery>
+              SELECT
+              [TaskAssignments].[CategoryID] AS [CategoryID],
+              [TaskAssignments].[TaskID] AS [TaskID],
+              [TaskAssignments].[AssignedUser] AS [AssignedUser]
+              FROM [dbo].[TaskAssignments] AS [TaskAssignments]
+            </DefiningQuery>
           </EntitySet>
           <EntitySet Name="Tasks" EntityType="ipawsTeamBModel.Store.Tasks" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="User" EntityType="ipawsTeamBModel.Store.User" store:Type="Tables" Schema="dbo" />
-          <AssociationSet Name="FK__aspnet_Me__Appli__60B24907" Association="ipawsTeamBModel.Store.FK__aspnet_Me__Appli__60B24907">
+          <AssociationSet Name="FK__aspnet_Me__Appli__60B24907"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Me__Appli__60B24907">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Me__UserI__61A66D40" Association="ipawsTeamBModel.Store.FK__aspnet_Me__UserI__61A66D40">
+          <AssociationSet Name="FK__aspnet_Me__UserI__61A66D40"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Me__UserI__61A66D40">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pa__Appli__5BED93EA" Association="ipawsTeamBModel.Store.FK__aspnet_Pa__Appli__5BED93EA">
+          <AssociationSet Name="FK__aspnet_Pa__Appli__5BED93EA"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Pa__Appli__5BED93EA">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__5DD5DC5C" Association="ipawsTeamBModel.Store.FK__aspnet_Pe__PathI__5DD5DC5C">
+          <AssociationSet Name="FK__aspnet_Pe__PathI__5DD5DC5C"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Pe__PathI__5DD5DC5C">
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
             <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__629A9179" Association="ipawsTeamBModel.Store.FK__aspnet_Pe__PathI__629A9179">
+          <AssociationSet Name="FK__aspnet_Pe__PathI__629A9179"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Pe__PathI__629A9179">
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
             <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__UserI__5ECA0095" Association="ipawsTeamBModel.Store.FK__aspnet_Pe__UserI__5ECA0095">
+          <AssociationSet Name="FK__aspnet_Pe__UserI__5ECA0095"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Pe__UserI__5ECA0095">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pr__UserI__5FBE24CE" Association="ipawsTeamBModel.Store.FK__aspnet_Pr__UserI__5FBE24CE">
+          <AssociationSet Name="FK__aspnet_Pr__UserI__5FBE24CE"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Pr__UserI__5FBE24CE">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Ro__Appli__5CE1B823" Association="ipawsTeamBModel.Store.FK__aspnet_Ro__Appli__5CE1B823">
+          <AssociationSet Name="FK__aspnet_Ro__Appli__5CE1B823"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Ro__Appli__5CE1B823">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__Appli__5AF96FB1" Association="ipawsTeamBModel.Store.FK__aspnet_Us__Appli__5AF96FB1">
+          <AssociationSet Name="FK__aspnet_Us__Appli__5AF96FB1"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Us__Appli__5AF96FB1">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__RoleI__638EB5B2" Association="ipawsTeamBModel.Store.FK__aspnet_Us__RoleI__638EB5B2">
+          <AssociationSet Name="FK__aspnet_Us__RoleI__638EB5B2"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Us__RoleI__638EB5B2">
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__UserI__6482D9EB" Association="ipawsTeamBModel.Store.FK__aspnet_Us__UserI__6482D9EB">
+          <AssociationSet Name="FK__aspnet_Us__UserI__6482D9EB"
+                          Association="ipawsTeamBModel.Store.FK__aspnet_Us__UserI__6482D9EB">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
           </AssociationSet>
-          <AssociationSet Name="FK_CategoryAssignments_Categories" Association="ipawsTeamBModel.Store.FK_CategoryAssignments_Categories">
+          <AssociationSet Name="FK_CategoryAssignments_Categories"
+                          Association="ipawsTeamBModel.Store.FK_CategoryAssignments_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
           </AssociationSet>
-          <AssociationSet Name="FK_CategoryAssignments_MemberAssignments" Association="ipawsTeamBModel.Store.FK_CategoryAssignments_MemberAssignments">
+          <AssociationSet Name="FK_CategoryAssignments_MemberAssignments"
+                          Association="ipawsTeamBModel.Store.FK_CategoryAssignments_MemberAssignments">
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
           </AssociationSet>
-          <AssociationSet Name="FK_CompletedMainSteps_MainSteps" Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_MainSteps">
+          <AssociationSet Name="FK_CompletedMainSteps_MainSteps"
+                          Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_MainSteps">
             <End Role="MainSteps" EntitySet="MainSteps" />
             <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
           </AssociationSet>
-          <AssociationSet Name="FK_CompletedMainSteps_MemberAssignments" Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_MemberAssignments">
+          <AssociationSet Name="FK_CompletedMainSteps_MemberAssignments"
+                          Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_MemberAssignments">
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
           </AssociationSet>
-          <AssociationSet Name="FK_CompletedMainSteps_Tasks" Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_Tasks">
+          <AssociationSet Name="FK_CompletedMainSteps_Tasks"
+                          Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_Tasks">
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
           </AssociationSet>
-          <AssociationSet Name="FK_DetailedSteps_MainSteps" Association="ipawsTeamBModel.Store.FK_DetailedSteps_MainSteps">
+          <AssociationSet Name="FK_DetailedSteps_MainSteps"
+                          Association="ipawsTeamBModel.Store.FK_DetailedSteps_MainSteps">
             <End Role="MainSteps" EntitySet="MainSteps" />
             <End Role="DetailedSteps" EntitySet="DetailedSteps" />
           </AssociationSet>
@@ -120,15 +165,18 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="MainSteps" EntitySet="MainSteps" />
           </AssociationSet>
-          <AssociationSet Name="FK_RequestedCategories_Categories" Association="ipawsTeamBModel.Store.FK_RequestedCategories_Categories">
+          <AssociationSet Name="FK_RequestedCategories_Categories"
+                          Association="ipawsTeamBModel.Store.FK_RequestedCategories_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="RequestedCategories" EntitySet="RequestedCategories" />
           </AssociationSet>
-          <AssociationSet Name="FK_TaskAssignments_Categories" Association="ipawsTeamBModel.Store.FK_TaskAssignments_Categories">
+          <AssociationSet Name="FK_TaskAssignments_Categories"
+                          Association="ipawsTeamBModel.Store.FK_TaskAssignments_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="TaskAssignments" EntitySet="TaskAssignments" />
           </AssociationSet>
-          <AssociationSet Name="FK_TaskAssignments_MemberAssignments" Association="ipawsTeamBModel.Store.FK_TaskAssignments_MemberAssignments">
+          <AssociationSet Name="FK_TaskAssignments_MemberAssignments"
+                          Association="ipawsTeamBModel.Store.FK_TaskAssignments_MemberAssignments">
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="TaskAssignments" EntitySet="TaskAssignments" />
           </AssociationSet>
@@ -140,7 +188,8 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tasks_MemberAssignments" Association="ipawsTeamBModel.Store.FK_Tasks_MemberAssignments">
+          <AssociationSet Name="FK_Tasks_MemberAssignments"
+                          Association="ipawsTeamBModel.Store.FK_Tasks_MemberAssignments">
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
@@ -450,7 +499,8 @@
         </Association>
         <Association Name="FK__aspnet_Pe__PathI__5DD5DC5C">
           <End Role="aspnet_Paths" Type="ipawsTeamBModel.Store.aspnet_Paths" Multiplicity="0..1" />
-          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser" Multiplicity="*" />
+          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser"
+               Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Paths">
               <PropertyRef Name="PathId" />
@@ -462,7 +512,8 @@
         </Association>
         <Association Name="FK__aspnet_Pe__PathI__629A9179">
           <End Role="aspnet_Paths" Type="ipawsTeamBModel.Store.aspnet_Paths" Multiplicity="1" />
-          <End Role="aspnet_PersonalizationAllUsers" Type="ipawsTeamBModel.Store.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
+          <End Role="aspnet_PersonalizationAllUsers" Type="ipawsTeamBModel.Store.aspnet_PersonalizationAllUsers"
+               Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Paths">
               <PropertyRef Name="PathId" />
@@ -474,7 +525,8 @@
         </Association>
         <Association Name="FK__aspnet_Pe__UserI__5ECA0095">
           <End Role="aspnet_Users" Type="ipawsTeamBModel.Store.aspnet_Users" Multiplicity="0..1" />
-          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser" Multiplicity="*" />
+          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser"
+               Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Users">
               <PropertyRef Name="UserId" />
@@ -710,10 +762,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="ipawsTeamBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="ipawsTeamBModel" Alias="Self" p1:UseStrongSpatialTypes="false"
+              xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation"
+              xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ipawsTeamBEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="aspnet_Applications" EntityType="ipawsTeamBModel.aspnet_Applications" />
           <EntitySet Name="aspnet_Membership" EntityType="ipawsTeamBModel.aspnet_Membership" />
@@ -736,51 +792,63 @@
           <EntitySet Name="TaskAssignments" EntityType="ipawsTeamBModel.TaskAssignment" />
           <EntitySet Name="Tasks" EntityType="ipawsTeamBModel.Task" />
           <EntitySet Name="Users" EntityType="ipawsTeamBModel.User" />
-          <AssociationSet Name="FK__aspnet_Me__Appli__60B24907" Association="ipawsTeamBModel.FK__aspnet_Me__Appli__60B24907">
+          <AssociationSet Name="FK__aspnet_Me__Appli__60B24907"
+                          Association="ipawsTeamBModel.FK__aspnet_Me__Appli__60B24907">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pa__Appli__5BED93EA" Association="ipawsTeamBModel.FK__aspnet_Pa__Appli__5BED93EA">
+          <AssociationSet Name="FK__aspnet_Pa__Appli__5BED93EA"
+                          Association="ipawsTeamBModel.FK__aspnet_Pa__Appli__5BED93EA">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Ro__Appli__5CE1B823" Association="ipawsTeamBModel.FK__aspnet_Ro__Appli__5CE1B823">
+          <AssociationSet Name="FK__aspnet_Ro__Appli__5CE1B823"
+                          Association="ipawsTeamBModel.FK__aspnet_Ro__Appli__5CE1B823">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__Appli__5AF96FB1" Association="ipawsTeamBModel.FK__aspnet_Us__Appli__5AF96FB1">
+          <AssociationSet Name="FK__aspnet_Us__Appli__5AF96FB1"
+                          Association="ipawsTeamBModel.FK__aspnet_Us__Appli__5AF96FB1">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Me__UserI__61A66D40" Association="ipawsTeamBModel.FK__aspnet_Me__UserI__61A66D40">
+          <AssociationSet Name="FK__aspnet_Me__UserI__61A66D40"
+                          Association="ipawsTeamBModel.FK__aspnet_Me__UserI__61A66D40">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__5DD5DC5C" Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__5DD5DC5C">
+          <AssociationSet Name="FK__aspnet_Pe__PathI__5DD5DC5C"
+                          Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__5DD5DC5C">
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
             <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__629A9179" Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__629A9179">
+          <AssociationSet Name="FK__aspnet_Pe__PathI__629A9179"
+                          Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__629A9179">
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
             <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__UserI__5ECA0095" Association="ipawsTeamBModel.FK__aspnet_Pe__UserI__5ECA0095">
+          <AssociationSet Name="FK__aspnet_Pe__UserI__5ECA0095"
+                          Association="ipawsTeamBModel.FK__aspnet_Pe__UserI__5ECA0095">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pr__UserI__5FBE24CE" Association="ipawsTeamBModel.FK__aspnet_Pr__UserI__5FBE24CE">
+          <AssociationSet Name="FK__aspnet_Pr__UserI__5FBE24CE"
+                          Association="ipawsTeamBModel.FK__aspnet_Pr__UserI__5FBE24CE">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
           </AssociationSet>
-          <AssociationSet Name="FK_CategoryAssignments_Categories" Association="ipawsTeamBModel.FK_CategoryAssignments_Categories">
+          <AssociationSet Name="FK_CategoryAssignments_Categories"
+                          Association="ipawsTeamBModel.FK_CategoryAssignments_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
           </AssociationSet>
-          <AssociationSet Name="FK_RequestedCategories_Categories" Association="ipawsTeamBModel.FK_RequestedCategories_Categories">
+          <AssociationSet Name="FK_RequestedCategories_Categories"
+                          Association="ipawsTeamBModel.FK_RequestedCategories_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="RequestedCategories" EntitySet="RequestedCategories" />
           </AssociationSet>
-          <AssociationSet Name="FK_TaskAssignments_Categories" Association="ipawsTeamBModel.FK_TaskAssignments_Categories">
+          <AssociationSet Name="FK_TaskAssignments_Categories"
+                          Association="ipawsTeamBModel.FK_TaskAssignments_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="TaskAssignments" EntitySet="TaskAssignments" />
           </AssociationSet>
@@ -788,15 +856,18 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
-          <AssociationSet Name="FK_CategoryAssignments_MemberAssignments" Association="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments">
+          <AssociationSet Name="FK_CategoryAssignments_MemberAssignments"
+                          Association="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments">
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
           </AssociationSet>
-          <AssociationSet Name="FK_CompletedMainSteps_MainSteps" Association="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps">
+          <AssociationSet Name="FK_CompletedMainSteps_MainSteps"
+                          Association="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps">
             <End Role="MainSteps" EntitySet="MainSteps" />
             <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
           </AssociationSet>
-          <AssociationSet Name="FK_CompletedMainSteps_MemberAssignments" Association="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments">
+          <AssociationSet Name="FK_CompletedMainSteps_MemberAssignments"
+                          Association="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments">
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
           </AssociationSet>
@@ -812,7 +883,8 @@
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="MainSteps" EntitySet="MainSteps" />
           </AssociationSet>
-          <AssociationSet Name="FK_TaskAssignments_MemberAssignments" Association="ipawsTeamBModel.FK_TaskAssignments_MemberAssignments">
+          <AssociationSet Name="FK_TaskAssignments_MemberAssignments"
+                          Association="ipawsTeamBModel.FK_TaskAssignments_MemberAssignments">
             <End Role="MemberAssignments" EntitySet="MemberAssignments" />
             <End Role="TaskAssignments" EntitySet="TaskAssignments" />
           </AssociationSet>
@@ -834,14 +906,20 @@
           <Key>
             <PropertyRef Name="ApplicationId" />
           </Key>
-          <Property Name="ApplicationName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
-          <Property Name="LoweredApplicationName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="ApplicationName" Type="String" Nullable="false" MaxLength="256" Unicode="true"
+                    FixedLength="false" />
+          <Property Name="LoweredApplicationName" Type="String" Nullable="false" MaxLength="256" Unicode="true"
+                    FixedLength="false" />
           <Property Name="ApplicationId" Type="Guid" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="aspnet_Membership" Relationship="ipawsTeamBModel.FK__aspnet_Me__Appli__60B24907" FromRole="aspnet_Applications" ToRole="aspnet_Membership" />
-          <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pa__Appli__5BED93EA" FromRole="aspnet_Applications" ToRole="aspnet_Paths" />
-          <NavigationProperty Name="aspnet_Roles" Relationship="ipawsTeamBModel.FK__aspnet_Ro__Appli__5CE1B823" FromRole="aspnet_Applications" ToRole="aspnet_Roles" />
-          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Us__Appli__5AF96FB1" FromRole="aspnet_Applications" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Membership" Relationship="ipawsTeamBModel.FK__aspnet_Me__Appli__60B24907"
+                              FromRole="aspnet_Applications" ToRole="aspnet_Membership" />
+          <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pa__Appli__5BED93EA"
+                              FromRole="aspnet_Applications" ToRole="aspnet_Paths" />
+          <NavigationProperty Name="aspnet_Roles" Relationship="ipawsTeamBModel.FK__aspnet_Ro__Appli__5CE1B823"
+                              FromRole="aspnet_Applications" ToRole="aspnet_Roles" />
+          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Us__Appli__5AF96FB1"
+                              FromRole="aspnet_Applications" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Membership">
           <Key>
@@ -851,7 +929,8 @@
           <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
           <Property Name="PasswordFormat" Type="Int32" Nullable="false" />
-          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" Unicode="true"
+                    FixedLength="false" />
           <Property Name="MobilePIN" Type="String" MaxLength="16" Unicode="true" FixedLength="false" />
           <Property Name="Email" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="LoweredEmail" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
@@ -868,8 +947,10 @@
           <Property Name="FailedPasswordAnswerAttemptCount" Type="Int32" Nullable="false" />
           <Property Name="FailedPasswordAnswerAttemptWindowStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Comment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Me__Appli__60B24907" FromRole="aspnet_Membership" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Me__UserI__61A66D40" FromRole="aspnet_Membership" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Me__Appli__60B24907"
+                              FromRole="aspnet_Membership" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Me__UserI__61A66D40"
+                              FromRole="aspnet_Membership" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Paths">
           <Key>
@@ -878,10 +959,16 @@
           <Property Name="ApplicationId" Type="Guid" Nullable="false" />
           <Property Name="PathId" Type="Guid" Nullable="false" />
           <Property Name="Path" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
-          <Property Name="LoweredPath" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Pa__Appli__5BED93EA" FromRole="aspnet_Paths" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_PersonalizationPerUser" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__5DD5DC5C" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationPerUser" />
-          <NavigationProperty Name="aspnet_PersonalizationAllUsers" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__629A9179" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationAllUsers" />
+          <Property Name="LoweredPath" Type="String" Nullable="false" MaxLength="256" Unicode="true"
+                    FixedLength="false" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Pa__Appli__5BED93EA"
+                              FromRole="aspnet_Paths" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_PersonalizationPerUser"
+                              Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__5DD5DC5C" FromRole="aspnet_Paths"
+                              ToRole="aspnet_PersonalizationPerUser" />
+          <NavigationProperty Name="aspnet_PersonalizationAllUsers"
+                              Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__629A9179" FromRole="aspnet_Paths"
+                              ToRole="aspnet_PersonalizationAllUsers" />
         </EntityType>
         <EntityType Name="aspnet_PersonalizationAllUsers">
           <Key>
@@ -890,7 +977,8 @@
           <Property Name="PathId" Type="Guid" Nullable="false" />
           <Property Name="PageSettings" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__629A9179" FromRole="aspnet_PersonalizationAllUsers" ToRole="aspnet_Paths" />
+          <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__629A9179"
+                              FromRole="aspnet_PersonalizationAllUsers" ToRole="aspnet_Paths" />
         </EntityType>
         <EntityType Name="aspnet_PersonalizationPerUser">
           <Key>
@@ -901,19 +989,24 @@
           <Property Name="UserId" Type="Guid" />
           <Property Name="PageSettings" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__5DD5DC5C" FromRole="aspnet_PersonalizationPerUser" ToRole="aspnet_Paths" />
-          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Pe__UserI__5ECA0095" FromRole="aspnet_PersonalizationPerUser" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__5DD5DC5C"
+                              FromRole="aspnet_PersonalizationPerUser" ToRole="aspnet_Paths" />
+          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Pe__UserI__5ECA0095"
+                              FromRole="aspnet_PersonalizationPerUser" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Profile">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
           <Property Name="UserId" Type="Guid" Nullable="false" />
-          <Property Name="PropertyNames" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="PropertyValuesString" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PropertyNames" Type="String" Nullable="false" MaxLength="Max" Unicode="true"
+                    FixedLength="false" />
+          <Property Name="PropertyValuesString" Type="String" Nullable="false" MaxLength="Max" Unicode="true"
+                    FixedLength="false" />
           <Property Name="PropertyValuesBinary" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Pr__UserI__5FBE24CE" FromRole="aspnet_Profile" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Pr__UserI__5FBE24CE"
+                              FromRole="aspnet_Profile" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Roles">
           <Key>
@@ -922,10 +1015,13 @@
           <Property Name="ApplicationId" Type="Guid" Nullable="false" />
           <Property Name="RoleId" Type="Guid" Nullable="false" />
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
-          <Property Name="LoweredRoleName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="LoweredRoleName" Type="String" Nullable="false" MaxLength="256" Unicode="true"
+                    FixedLength="false" />
           <Property Name="Description" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Ro__Appli__5CE1B823" FromRole="aspnet_Roles" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.aspnet_UsersInRoles" FromRole="aspnet_Roles" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Ro__Appli__5CE1B823"
+                              FromRole="aspnet_Roles" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.aspnet_UsersInRoles"
+                              FromRole="aspnet_Roles" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_SchemaVersions">
           <Key>
@@ -933,7 +1029,8 @@
             <PropertyRef Name="CompatibleSchemaVersion" />
           </Key>
           <Property Name="Feature" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
-          <Property Name="CompatibleSchemaVersion" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="CompatibleSchemaVersion" Type="String" Nullable="false" MaxLength="128" Unicode="true"
+                    FixedLength="false" />
           <Property Name="IsCurrentVersion" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="aspnet_Users">
@@ -943,15 +1040,22 @@
           <Property Name="ApplicationId" Type="Guid" Nullable="false" />
           <Property Name="UserId" Type="Guid" Nullable="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
-          <Property Name="LoweredUserName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="LoweredUserName" Type="String" Nullable="false" MaxLength="256" Unicode="true"
+                    FixedLength="false" />
           <Property Name="MobileAlias" Type="String" MaxLength="16" Unicode="true" FixedLength="false" />
           <Property Name="IsAnonymous" Type="Boolean" Nullable="false" />
           <Property Name="LastActivityDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Us__Appli__5AF96FB1" FromRole="aspnet_Users" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_Membership" Relationship="ipawsTeamBModel.FK__aspnet_Me__UserI__61A66D40" FromRole="aspnet_Users" ToRole="aspnet_Membership" />
-          <NavigationProperty Name="aspnet_PersonalizationPerUser" Relationship="ipawsTeamBModel.FK__aspnet_Pe__UserI__5ECA0095" FromRole="aspnet_Users" ToRole="aspnet_PersonalizationPerUser" />
-          <NavigationProperty Name="aspnet_Profile" Relationship="ipawsTeamBModel.FK__aspnet_Pr__UserI__5FBE24CE" FromRole="aspnet_Users" ToRole="aspnet_Profile" />
-          <NavigationProperty Name="aspnet_Roles" Relationship="ipawsTeamBModel.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Us__Appli__5AF96FB1"
+                              FromRole="aspnet_Users" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Membership" Relationship="ipawsTeamBModel.FK__aspnet_Me__UserI__61A66D40"
+                              FromRole="aspnet_Users" ToRole="aspnet_Membership" />
+          <NavigationProperty Name="aspnet_PersonalizationPerUser"
+                              Relationship="ipawsTeamBModel.FK__aspnet_Pe__UserI__5ECA0095" FromRole="aspnet_Users"
+                              ToRole="aspnet_PersonalizationPerUser" />
+          <NavigationProperty Name="aspnet_Profile" Relationship="ipawsTeamBModel.FK__aspnet_Pr__UserI__5FBE24CE"
+                              FromRole="aspnet_Users" ToRole="aspnet_Profile" />
+          <NavigationProperty Name="aspnet_Roles" Relationship="ipawsTeamBModel.aspnet_UsersInRoles"
+                              FromRole="aspnet_Users" ToRole="aspnet_Roles" />
         </EntityType>
         <EntityType Name="aspnet_WebEvent_Events">
           <Key>
@@ -968,7 +1072,8 @@
           <Property Name="Message" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
           <Property Name="ApplicationPath" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="ApplicationVirtualPath" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
-          <Property Name="MachineName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="MachineName" Type="String" Nullable="false" MaxLength="256" Unicode="true"
+                    FixedLength="false" />
           <Property Name="RequestUrl" Type="String" MaxLength="1024" Unicode="true" FixedLength="false" />
           <Property Name="ExceptionType" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="Details" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
@@ -978,14 +1083,21 @@
             <PropertyRef Name="CategoryID" />
           </Key>
           <Property Name="CategoryID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" Unicode="false"
+                    FixedLength="false" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CategoryAssignment" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="Categories" ToRole="CategoryAssignments" />
-          <NavigationProperty Name="RequestedCategories" Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories" FromRole="Categories" ToRole="RequestedCategories" />
-          <NavigationProperty Name="TaskAssignments" Relationship="ipawsTeamBModel.FK_TaskAssignments_Categories" FromRole="Categories" ToRole="TaskAssignments" />
-          <NavigationProperty Name="Tasks" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Categories" ToRole="Tasks" />
+          <NavigationProperty Name="CategoryAssignment"
+                              Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="Categories"
+                              ToRole="CategoryAssignments" />
+          <NavigationProperty Name="RequestedCategories"
+                              Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories" FromRole="Categories"
+                              ToRole="RequestedCategories" />
+          <NavigationProperty Name="TaskAssignments" Relationship="ipawsTeamBModel.FK_TaskAssignments_Categories"
+                              FromRole="Categories" ToRole="TaskAssignments" />
+          <NavigationProperty Name="Tasks" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Categories"
+                              ToRole="Tasks" />
         </EntityType>
         <EntityType Name="CategoryAssignment">
           <Key>
@@ -993,8 +1105,11 @@
           </Key>
           <Property Name="AssignedUser" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="CategoryAssignments" ToRole="Categories" />
-          <NavigationProperty Name="MemberAssignment" Relationship="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments" FromRole="CategoryAssignments" ToRole="MemberAssignments" />
+          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories"
+                              FromRole="CategoryAssignments" ToRole="Categories" />
+          <NavigationProperty Name="MemberAssignment"
+                              Relationship="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments"
+                              FromRole="CategoryAssignments" ToRole="MemberAssignments" />
         </EntityType>
         <EntityType Name="CompletedMainStep">
           <Key>
@@ -1002,13 +1117,19 @@
           </Key>
           <Property Name="MainStepID" Type="Int32" Nullable="false" />
           <Property Name="TaskID" Type="Int32" Nullable="false" />
-          <Property Name="MainStepName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="AssignedUser" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="MainStepName" Type="String" Nullable="false" MaxLength="255" Unicode="false"
+                    FixedLength="false" />
+          <Property Name="AssignedUser" Type="String" Nullable="false" MaxLength="255" Unicode="false"
+                    FixedLength="false" />
           <Property Name="DateTimeComplete" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TotalTime" Type="Double" Nullable="false" />
-          <NavigationProperty Name="MainStep" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps" FromRole="CompletedMainSteps" ToRole="MainSteps" />
-          <NavigationProperty Name="MemberAssignment" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments" FromRole="CompletedMainSteps" ToRole="MemberAssignments" />
-          <NavigationProperty Name="Task" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_Tasks" FromRole="CompletedMainSteps" ToRole="Tasks" />
+          <NavigationProperty Name="MainStep" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps"
+                              FromRole="CompletedMainSteps" ToRole="MainSteps" />
+          <NavigationProperty Name="MemberAssignment"
+                              Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments"
+                              FromRole="CompletedMainSteps" ToRole="MemberAssignments" />
+          <NavigationProperty Name="Task" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_Tasks"
+                              FromRole="CompletedMainSteps" ToRole="Tasks" />
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="CompletedTask">
@@ -1017,7 +1138,8 @@
           </Key>
           <Property Name="TaskID" Type="Int32" Nullable="false" />
           <Property Name="TaskName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="AssignedUser" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="AssignedUser" Type="String" Nullable="false" MaxLength="255" Unicode="false"
+                    FixedLength="false" />
           <Property Name="DateTimeCompleted" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="TotalTime" Type="Double" Nullable="false" />
           <Property Name="id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
@@ -1028,13 +1150,15 @@
           </Key>
           <Property Name="DetailedStepID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="MainStepID" Type="Int32" Nullable="false" />
-          <Property Name="DetailedStepName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="DetailedStepName" Type="String" Nullable="false" MaxLength="255" Unicode="false"
+                    FixedLength="false" />
           <Property Name="DetailedStepText" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="ImageFilename" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="ImagePath" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ListOrder" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="MainStep" Relationship="ipawsTeamBModel.FK_DetailedSteps_MainSteps" FromRole="DetailedSteps" ToRole="MainSteps" />
+          <NavigationProperty Name="MainStep" Relationship="ipawsTeamBModel.FK_DetailedSteps_MainSteps"
+                              FromRole="DetailedSteps" ToRole="MainSteps" />
         </EntityType>
         <EntityType Name="MainStep">
           <Key>
@@ -1042,7 +1166,8 @@
           </Key>
           <Property Name="MainStepID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="TaskID" Type="Int32" Nullable="false" />
-          <Property Name="MainStepName" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="MainStepName" Type="String" Nullable="false" MaxLength="255" Unicode="false"
+                    FixedLength="false" />
           <Property Name="MainStepText" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="MainStepTime" Type="Double" />
           <Property Name="AudioFilename" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
@@ -1051,20 +1176,31 @@
           <Property Name="VideoPath" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ListOrder" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="CompletedMainSteps" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps" FromRole="MainSteps" ToRole="CompletedMainSteps" />
-          <NavigationProperty Name="DetailedSteps" Relationship="ipawsTeamBModel.FK_DetailedSteps_MainSteps" FromRole="MainSteps" ToRole="DetailedSteps" />
-          <NavigationProperty Name="Task" Relationship="ipawsTeamBModel.FK_MainSteps_Tasks" FromRole="MainSteps" ToRole="Tasks" />
+          <NavigationProperty Name="CompletedMainSteps" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps"
+                              FromRole="MainSteps" ToRole="CompletedMainSteps" />
+          <NavigationProperty Name="DetailedSteps" Relationship="ipawsTeamBModel.FK_DetailedSteps_MainSteps"
+                              FromRole="MainSteps" ToRole="DetailedSteps" />
+          <NavigationProperty Name="Task" Relationship="ipawsTeamBModel.FK_MainSteps_Tasks" FromRole="MainSteps"
+                              ToRole="Tasks" />
         </EntityType>
         <EntityType Name="MemberAssignment">
           <Key>
             <PropertyRef Name="AssignedUser" />
           </Key>
-          <Property Name="AssignedUser" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
+          <Property Name="AssignedUser" Type="String" Nullable="false" MaxLength="255" Unicode="false"
+                    FixedLength="false" />
           <Property Name="AssignedSupervisor" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="CategoryAssignments" Relationship="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments" FromRole="MemberAssignments" ToRole="CategoryAssignments" />
-          <NavigationProperty Name="CompletedMainSteps" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments" FromRole="MemberAssignments" ToRole="CompletedMainSteps" />
-          <NavigationProperty Name="TaskAssignments" Relationship="ipawsTeamBModel.FK_TaskAssignments_MemberAssignments" FromRole="MemberAssignments" ToRole="TaskAssignments" />
-          <NavigationProperty Name="Tasks" Relationship="ipawsTeamBModel.FK_Tasks_MemberAssignments" FromRole="MemberAssignments" ToRole="Tasks" />
+          <NavigationProperty Name="CategoryAssignments"
+                              Relationship="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments"
+                              FromRole="MemberAssignments" ToRole="CategoryAssignments" />
+          <NavigationProperty Name="CompletedMainSteps"
+                              Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments"
+                              FromRole="MemberAssignments" ToRole="CompletedMainSteps" />
+          <NavigationProperty Name="TaskAssignments"
+                              Relationship="ipawsTeamBModel.FK_TaskAssignments_MemberAssignments"
+                              FromRole="MemberAssignments" ToRole="TaskAssignments" />
+          <NavigationProperty Name="Tasks" Relationship="ipawsTeamBModel.FK_Tasks_MemberAssignments"
+                              FromRole="MemberAssignments" ToRole="Tasks" />
         </EntityType>
         <EntityType Name="RequestedCategory">
           <Key>
@@ -1074,10 +1210,12 @@
           </Key>
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="IsApproved" Type="Boolean" Nullable="false" />
-          <Property Name="RequestingUser" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="RequestingUser" Type="String" Nullable="false" MaxLength="256" Unicode="true"
+                    FixedLength="false" />
           <Property Name="CreatedBy" Type="String" MaxLength="256" Unicode="true" FixedLength="false" />
           <Property Name="Date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories" FromRole="RequestedCategories" ToRole="Categories" />
+          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories"
+                              FromRole="RequestedCategories" ToRole="Categories" />
         </EntityType>
         <EntityType Name="TaskAssignment">
           <Key>
@@ -1087,9 +1225,13 @@
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <Property Name="TaskID" Type="Int32" Nullable="false" />
           <Property Name="AssignedUser" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_TaskAssignments_Categories" FromRole="TaskAssignments" ToRole="Categories" />
-          <NavigationProperty Name="MemberAssignment" Relationship="ipawsTeamBModel.FK_TaskAssignments_MemberAssignments" FromRole="TaskAssignments" ToRole="MemberAssignments" />
-          <NavigationProperty Name="Task" Relationship="ipawsTeamBModel.FK_TaskAssignments_Tasks" FromRole="TaskAssignments" ToRole="Tasks" />
+          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_TaskAssignments_Categories"
+                              FromRole="TaskAssignments" ToRole="Categories" />
+          <NavigationProperty Name="MemberAssignment"
+                              Relationship="ipawsTeamBModel.FK_TaskAssignments_MemberAssignments"
+                              FromRole="TaskAssignments" ToRole="MemberAssignments" />
+          <NavigationProperty Name="Task" Relationship="ipawsTeamBModel.FK_TaskAssignments_Tasks"
+                              FromRole="TaskAssignments" ToRole="Tasks" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -1103,18 +1245,24 @@
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Tasks" ToRole="Categories" />
-          <NavigationProperty Name="CompletedMainSteps" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_Tasks" FromRole="Tasks" ToRole="CompletedMainSteps" />
-          <NavigationProperty Name="MainSteps" Relationship="ipawsTeamBModel.FK_MainSteps_Tasks" FromRole="Tasks" ToRole="MainSteps" />
-          <NavigationProperty Name="MemberAssignment" Relationship="ipawsTeamBModel.FK_Tasks_MemberAssignments" FromRole="Tasks" ToRole="MemberAssignments" />
-          <NavigationProperty Name="TaskAssignments" Relationship="ipawsTeamBModel.FK_TaskAssignments_Tasks" FromRole="Tasks" ToRole="TaskAssignments" />
+          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Tasks"
+                              ToRole="Categories" />
+          <NavigationProperty Name="CompletedMainSteps" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_Tasks"
+                              FromRole="Tasks" ToRole="CompletedMainSteps" />
+          <NavigationProperty Name="MainSteps" Relationship="ipawsTeamBModel.FK_MainSteps_Tasks" FromRole="Tasks"
+                              ToRole="MainSteps" />
+          <NavigationProperty Name="MemberAssignment" Relationship="ipawsTeamBModel.FK_Tasks_MemberAssignments"
+                              FromRole="Tasks" ToRole="MemberAssignments" />
+          <NavigationProperty Name="TaskAssignments" Relationship="ipawsTeamBModel.FK_TaskAssignments_Tasks"
+                              FromRole="Tasks" ToRole="TaskAssignments" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserName" />
           </Key>
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
-          <Property Name="ConnectionID" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="ConnectionID" Type="String" Nullable="false" MaxLength="256" Unicode="true"
+                    FixedLength="false" />
           <Property Name="Connected" Type="Boolean" Nullable="false" />
           <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
         </EntityType>
@@ -1180,7 +1328,8 @@
         </Association>
         <Association Name="FK__aspnet_Pe__PathI__5DD5DC5C">
           <End Role="aspnet_Paths" Type="ipawsTeamBModel.aspnet_Paths" Multiplicity="0..1" />
-          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.aspnet_PersonalizationPerUser" Multiplicity="*" />
+          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.aspnet_PersonalizationPerUser"
+               Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Paths">
               <PropertyRef Name="PathId" />
@@ -1192,7 +1341,8 @@
         </Association>
         <Association Name="FK__aspnet_Pe__PathI__629A9179">
           <End Role="aspnet_Paths" Type="ipawsTeamBModel.aspnet_Paths" Multiplicity="1" />
-          <End Role="aspnet_PersonalizationAllUsers" Type="ipawsTeamBModel.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
+          <End Role="aspnet_PersonalizationAllUsers" Type="ipawsTeamBModel.aspnet_PersonalizationAllUsers"
+               Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Paths">
               <PropertyRef Name="PathId" />
@@ -1204,7 +1354,8 @@
         </Association>
         <Association Name="FK__aspnet_Pe__UserI__5ECA0095">
           <End Role="aspnet_Users" Type="ipawsTeamBModel.aspnet_Users" Multiplicity="0..1" />
-          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.aspnet_PersonalizationPerUser" Multiplicity="*" />
+          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.aspnet_PersonalizationPerUser"
+               Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Users">
               <PropertyRef Name="UserId" />
@@ -1409,7 +1560,8 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ipawsTeamBModelStoreContainer" CdmEntityContainer="ipawsTeamBEntities">
+        <EntityContainerMapping StorageEntityContainer="ipawsTeamBModelStoreContainer"
+                                CdmEntityContainer="ipawsTeamBEntities">
           <EntitySetMapping Name="aspnet_Applications">
             <EntityTypeMapping TypeName="ipawsTeamBModel.aspnet_Applications">
               <MappingFragment StoreEntitySet="aspnet_Applications">
@@ -1442,7 +1594,8 @@
                 <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
                 <ScalarProperty Name="FailedPasswordAttemptWindowStart" ColumnName="FailedPasswordAttemptWindowStart" />
                 <ScalarProperty Name="FailedPasswordAnswerAttemptCount" ColumnName="FailedPasswordAnswerAttemptCount" />
-                <ScalarProperty Name="FailedPasswordAnswerAttemptWindowStart" ColumnName="FailedPasswordAnswerAttemptWindowStart" />
+                <ScalarProperty Name="FailedPasswordAnswerAttemptWindowStart"
+                                ColumnName="FailedPasswordAnswerAttemptWindowStart" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1669,7 +1822,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="aspnet_UsersInRoles" TypeName="ipawsTeamBModel.aspnet_UsersInRoles" StoreEntitySet="aspnet_UsersInRoles">
+          <AssociationSetMapping Name="aspnet_UsersInRoles" TypeName="ipawsTeamBModel.aspnet_UsersInRoles"
+                                 StoreEntitySet="aspnet_UsersInRoles">
             <EndProperty Name="aspnet_Roles">
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>

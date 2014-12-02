@@ -1,17 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using SE.Classes;
-using System;
-using System.Data.SqlClient;
 using System.Web.Security;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.Services;
-using SE.Models;
-using Category = SE.Classes.Category;
-using Task = SE.Classes.Task;
+using SE.Classes;
 
 namespace SE.Admin
 {
@@ -20,8 +16,8 @@ namespace SE.Admin
         public static int CategoryId, TaskId;
         public static string AssignedUsername;
         public static bool PendingRequest = false;
-        private readonly string _user = Membership.GetUser().UserName;
         private readonly string _otherUser = HttpContext.Current.Request.QueryString["userName"];
+        private readonly string _user = Membership.GetUser().UserName;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -57,7 +53,6 @@ namespace SE.Admin
             categories.DataBind();
             categories.UseAccessibleHeader = true;
             categories.HeaderRow.TableSection = TableRowSection.TableHeader;
-
         }
 
         private void QueryRequestCategories()
@@ -65,6 +60,7 @@ namespace SE.Admin
             RequestCatGrid.DataSource = UserRequests.CategoriesNotOwned(_user, _otherUser);
             RequestCatGrid.DataBind();
         }
+
         private void QueryYourTasks()
         {
             TaskSource.SelectCommand =
@@ -92,7 +88,7 @@ namespace SE.Admin
             const string queryString = "SELECT AssignedUser FROM CategoryAssignments WHERE CategoryID=@id";
             catUserLabel.Text = "Manage Users in Category: " + Category.GetCategoryName(CategoryId);
             foreach (
-                var box in
+                CheckBox box in
                     AddUserGrid.Rows.Cast<GridViewRow>()
                         .Select(row => (CheckBox) row.FindControl("catUsersChk"))
                         .Where(box => box != null))
@@ -104,7 +100,7 @@ namespace SE.Admin
                 var cmd = new SqlCommand(queryString, con);
                 cmd.Parameters.AddWithValue("@id", CategoryId.ToString(CultureInfo.InvariantCulture));
                 con.Open();
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
                     foreach (GridViewRow row in AddUserGrid.Rows)
@@ -170,7 +166,7 @@ namespace SE.Admin
                     con.Open();
                     lblModalTitle.Text = "Request is Successful";
                     lblModalBody.Text = String.Empty;
-                    var flag = false;
+                    bool flag = false;
                     foreach (GridViewRow row in AddUserGrid.Rows)
                     {
                         var box = (CheckBox) row.FindControl("catUsersChk");
@@ -220,7 +216,8 @@ namespace SE.Admin
             UsersInTask.HeaderRow.TableSection = TableRowSection.TableHeader;
             TaskId = Convert.ToInt32(e.CommandArgument);
             foreach (
-                var box in from GridViewRow row in UsersInTask.Rows select (CheckBox) row.FindControl("UsersInTaskChk"))
+                CheckBox box in
+                    from GridViewRow row in UsersInTask.Rows select (CheckBox) row.FindControl("UsersInTaskChk"))
             {
                 box.Checked = false;
             }
@@ -232,7 +229,7 @@ namespace SE.Admin
                 var cmd = new SqlCommand(queryString, con);
                 cmd.Parameters.AddWithValue("@id", TaskId);
                 con.Open();
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
                     foreach (GridViewRow row in UsersInTask.Rows)
@@ -283,7 +280,7 @@ namespace SE.Admin
                 con.Open();
                 lblModalTitle.Text = "Request is Successful";
                 lblModalBody.Text = String.Empty;
-                var flag = false;
+                bool flag = false;
                 foreach (GridViewRow row in UsersInTask.Rows)
                 {
                     cmd4.Parameters["@user"].Value = row.Cells[1].Text;
@@ -331,7 +328,7 @@ namespace SE.Admin
                 AllCategoriesGridView.UseAccessibleHeader = true;
                 AllCategoriesGridView.HeaderRow.TableSection = TableRowSection.TableHeader;
                 foreach (
-                    var box in
+                    CheckBox box in
                         from GridViewRow row in AllCategoriesGridView.Rows
                         select (CheckBox) row.FindControl("AllCategoriesChk"))
                 {
@@ -343,10 +340,10 @@ namespace SE.Admin
                 {
                     var cmd = new SqlCommand(queryString, con);
                     con.Open();
-                    var dr = cmd.ExecuteReader();
+                    SqlDataReader dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
-                        foreach (var box in from GridViewRow row in AllCategoriesGridView.Rows
+                        foreach (CheckBox box in from GridViewRow row in AllCategoriesGridView.Rows
                             let box = (CheckBox) row.FindControl("AllCategoriesChk")
                             where
                                 row.Cells[1].Text == dr["CategoryName"].ToString() &&
@@ -359,7 +356,6 @@ namespace SE.Admin
 
                     con.Close();
                 }
-
             }
             else
             {
@@ -373,7 +369,7 @@ namespace SE.Admin
                 AddTasksGridView.UseAccessibleHeader = true;
                 AddTasksGridView.HeaderRow.TableSection = TableRowSection.TableHeader;
                 foreach (
-                    var box in
+                    CheckBox box in
                         from GridViewRow row in AddTasksGridView.Rows select (CheckBox) row.FindControl("AddTaskChk"))
                 {
                     box.Checked = false;
@@ -384,10 +380,10 @@ namespace SE.Admin
                 {
                     var cmd = new SqlCommand(queryString, con);
                     con.Open();
-                    var dr = cmd.ExecuteReader();
+                    SqlDataReader dr = cmd.ExecuteReader();
                     while (dr.Read())
                     {
-                        foreach (var box in from GridViewRow row in AddTasksGridView.Rows
+                        foreach (CheckBox box in from GridViewRow row in AddTasksGridView.Rows
                             let box = (CheckBox) row.FindControl("AddTaskChk")
                             where
                                 row.Cells[2].Text == dr["TaskName"].ToString() &&
@@ -441,7 +437,7 @@ namespace SE.Admin
                 con.Open();
                 lblModalTitle.Text = "Request is Successful";
                 lblModalBody.Text = String.Empty;
-                var flag = false;
+                bool flag = false;
                 foreach (GridViewRow row in AllCategoriesGridView.Rows)
                 {
                     var box = (CheckBox) row.FindControl("AllCategoriesChk");
@@ -500,7 +496,7 @@ namespace SE.Admin
                 con.Open();
                 lblModalTitle.Text = "Request is Successful";
                 lblModalBody.Text = String.Empty;
-                var flag = false;
+                bool flag = false;
                 foreach (GridViewRow row in AddTasksGridView.Rows)
                 {
                     cmd.Parameters["@id"].Value = Task.GetTaskId(row.Cells[2].Text);
@@ -580,12 +576,12 @@ namespace SE.Admin
                 var cmd = new SqlCommand(queryString, con);
                 cmd.Parameters.AddWithValue("@user", _user);
                 con.Open();
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
                     foreach (GridViewRow row in RequestCatGrid.Rows)
                     {
-                        var approved = Convert.ToBoolean(dr["IsApproved"]);
+                        bool approved = Convert.ToBoolean(dr["IsApproved"]);
                         var request = (Button) row.FindControl("RequestCat");
                         if (approved &&
                             Convert.ToInt32(dr["CategoryID"]) ==

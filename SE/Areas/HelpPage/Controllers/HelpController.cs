@@ -7,7 +7,7 @@ using SE.Areas.HelpPage.Models;
 namespace SE.Areas.HelpPage.Controllers
 {
     /// <summary>
-    /// The controller that will handle requests for the help page.
+    ///     The controller that will handle requests for the help page.
     /// </summary>
     public class HelpController : Controller
     {

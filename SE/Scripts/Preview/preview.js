@@ -2,13 +2,15 @@
 //var api = "http://localhost:6288/api/";
 var url = "http://ipawsteamb.csweb.kutztown.edu";
 var prevStep = null;
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
         results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
-$(function () {
+
+$(function() {
     sessionStorage.setItem("stepnum", 0);
     $(document).bind('pageinit');
     $("#next").hide();
@@ -17,11 +19,12 @@ $(function () {
     $("#done").hide();
     $("#detailSteps").hide();
     $("#start").show();
-    
+
     var taskId = getParameterByName('taskId');
     console.log(taskId);
     getMainSteps(taskId);
 });
+
 function TaskObject(id, name, text, audio, video) {
     this.stepId = id;
     this.text = name;
@@ -46,7 +49,7 @@ function getMainSteps(taskId) {
                 console.log("MAIN STEP ID ----> " + main.mainStepId);
                 sessionStorage.setItem(mtotal, taskData);
                 sessionStorage.setItem('totalSteps', mtotal);
-                $("#bot").append('<li id="step ' + mtotal + '" name="'+ main.mainStepId + '">' + main.mainStepName + '</li>');
+                $("#bot").append('<li id="step ' + mtotal + '" name="' + main.mainStepId + '">' + main.mainStepName + '</li>');
                 $('#bot').listview().listview('refresh');
                 sessionStorage.setItem('maintotal', mtotal);
             }); // end of each
@@ -60,33 +63,34 @@ function getMainSteps(taskId) {
 function getDetailedSteps(mainId) {
     var dtotal = 0;
     var row = "";
-        var drequest = api + "DetailedStep/GetDetailedStepById/" + mainId;
-        $.ajax({
-            type: "GET",
-            url:  drequest,
-            datatype: 'json',
-            success: function (data, status, xhr) {
-                console.log(data);
-                row = "<table>";
-                $.each(data, function (key, detail) {
-                    dtotal += 1;
-                    console.log(detail.imagePath);
-                    row += ('<tr><td id="step' + detail.detailedStepId + '">Step: ' + dtotal + ': ' + detail.detailedStepText + '</td><td>');
-                    if (detail.imagePath != null) {
-                        var imgUrl = url + detail.imagePath.substr(detail.imagePath.indexOf('~') + 1);
-                        row += ('<img src="' + imgUrl + '" height="200" alt="' + detail.imageName + '" /></td></tr>');
-                    }
-                });// end of each
-                row += "</table>";
-                $(row).appendTo("#detailstep");
-            },//end of success
-            error: function (xhr) {
-                console.log(xhr.responseText);
-            }
-        });//end of ajax
+    var drequest = api + "DetailedStep/GetDetailedStepById/" + mainId;
+    $.ajax({
+        type: "GET",
+        url: drequest,
+        datatype: 'json',
+        success: function(data, status, xhr) {
+            console.log(data);
+            row = "<table>";
+            $.each(data, function(key, detail) {
+                dtotal += 1;
+                console.log(detail.imagePath);
+                row += ('<tr><td id="step' + detail.detailedStepId + '">Step: ' + dtotal + ': ' + detail.detailedStepText + '</td><td>');
+                if (detail.imagePath != null) {
+                    var imgUrl = url + detail.imagePath.substr(detail.imagePath.indexOf('~') + 1);
+                    row += ('<img src="' + imgUrl + '" height="200" alt="' + detail.imageName + '" /></td></tr>');
+                }
+            }); // end of each
+            row += "</table>";
+            $(row).appendTo("#detailstep");
+        }, //end of success
+        error: function(xhr) {
+            console.log(xhr.responseText);
+        }
+    }); //end of ajax
 
 
 }
+
 function next() {
     var stepup = sessionStorage.getItem("stepnum");
     stepup = parseInt(stepup);
@@ -100,12 +104,12 @@ function next() {
         $("#next").hide();
         $("#done").hide();
         $("#finish").show();
-    }
-    else {
+    } else {
         setpage(sessionStorage.getItem("stepnum"));
     }
 
 }
+
 function setpage(stepnum) {
     var step = stepnum;
     step = parseInt(step);
@@ -139,7 +143,7 @@ function setpage(stepnum) {
 }
 
 var prev = null;
-$(document).on('click', '#bot li', function () {
+$(document).on('click', '#bot li', function() {
     $('#detailstep').empty();
     $("#detailSteps").collapsible("collapse");
     if (prev != null) {
@@ -152,7 +156,7 @@ $(document).on('click', '#bot li', function () {
     $("#start").hide();
     $("#detailSteps").show();
 });
-$(document).on('click', '#start', function () {
+$(document).on('click', '#start', function() {
     $("#next").hide();
     $("#pump").hide();
     $("#done").show();
@@ -160,27 +164,26 @@ $(document).on('click', '#start', function () {
     $("#detailSteps").show();
     next();
 });
-$(document).on('click', '#done', function () {
+$(document).on('click', '#done', function() {
     $("#detailSteps").collapsible("collapse");
     $("#next").show();
     $("#pump").show();
     $("#done").hide();
     $("#start").hide();
 });
-$(document).on('click', '#next', function () {
+$(document).on('click', '#next', function() {
     $("#next").hide();
     $("#pump").hide();
     $("#done").show();
     $("#start").hide();
     next();
 });
-$(document).on('click', '#finish', function () {
+$(document).on('click', '#finish', function() {
     cleartask();
     window.close();
 });
+
 function cleartask() {
     sessionStorage.clear();
     sessionStorage.setItem("stepnum", 0);
 }
-
-

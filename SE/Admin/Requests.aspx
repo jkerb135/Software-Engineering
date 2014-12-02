@@ -2,15 +2,15 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="SiteHead" runat="server">
     <script>
-        $(document).on('click', '#categoryRequests', function () {
+        $(document).on('click', '#categoryRequests', function() {
             $('#catBody').slideToggle();
             $('#catDir').toggleClass("fa-arrow-up fa-arrow-down");
         });
-    $(document).on('click', '#taskRequests', function () {
-        $('#taskBody').slideToggle();
-        $('#taskDir').toggleClass("fa-arrow-up fa-arrow-down");
-    });
-        </script>
+        $(document).on('click', '#taskRequests', function() {
+            $('#taskBody').slideToggle();
+            $('#taskDir').toggleClass("fa-arrow-up fa-arrow-down");
+        });
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
     <div class="row">
@@ -21,7 +21,7 @@
     </div>
     <div class="panel panel-primary" id="categoryRequests">
 
-        <div class="panel-heading" style="cursor:pointer">
+        <div class="panel-heading" style="cursor: pointer">
             <i class="fa fa-users fa-fw"></i>
             <asp:Label ID="Label1" runat="server" Text="Your Category Requests"></asp:Label>
             <i class="fa fa-arrow-down right" id="catDir"></i>
@@ -30,7 +30,7 @@
         <asp:UpdatePanel runat="server" ID="requestUpdatePanel" UpdateMode="Conditional">
             <ContentTemplate>
                 <div class="panel-body" id="catBody" >
-                    <div style="overflow: auto; max-height: 250px;">
+                    <div style="max-height: 250px; overflow: auto;">
 
                         <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Pending Category Requests from other Supervisors" DataSourceID="RequestSource" DataKeyNames="CategoryName" ID="requests" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false" OnRowCommand="users_RowCommand">
                             <Columns>

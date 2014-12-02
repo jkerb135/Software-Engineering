@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Web.Security;
 
 namespace SE.Classes
@@ -11,12 +11,11 @@ namespace SE.Classes
     {
         public static bool ValidatePassword(string password, ref string errorMessage)
         {
-
             // Password is less then required length
             if (password.Length < Membership.MinRequiredPasswordLength)
             {
                 errorMessage += "Password must be at least " +
-                    Membership.MinRequiredPasswordLength + " characters.<br/>";
+                                Membership.MinRequiredPasswordLength + " characters.<br/>";
                 return false;
             }
 
@@ -30,14 +29,14 @@ namespace SE.Classes
             return false;
         }
 
-        /// <summary>Populates a dataset of all users by username, email and user role
-        /// </summary> 
+        /// <summary>
+        ///     Populates a dataset of all users by username, email and user role
+        /// </summary>
         public static DataTable CustomGetAllUsers()
         {
-
             var dt = new DataTable();
 
-            var muc = Membership.GetAllUsers();
+            MembershipUserCollection muc = Membership.GetAllUsers();
 
             dt.Columns.Add("Username");
             dt.Columns.Add("Email");
@@ -53,11 +52,13 @@ namespace SE.Classes
              * LastActivityDate, LastPasswordChangedDate, IsOnline, ProviderName
              */
 
-            foreach (var mu in muc.Cast<MembershipUser>().Where(mu => !Roles.IsUserInRole(mu.UserName, "Manager")))
+            foreach (
+                MembershipUser mu in muc.Cast<MembershipUser>().Where(mu => !Roles.IsUserInRole(mu.UserName, "Manager"))
+                )
             {
-                var userIsSupervisor = Roles.IsUserInRole(mu.UserName, "Supervisor");
+                bool userIsSupervisor = Roles.IsUserInRole(mu.UserName, "Supervisor");
 
-                var dr = dt.NewRow();
+                DataRow dr = dt.NewRow();
                 dr["Username"] = mu.UserName;
                 dr["Password"] = "";
                 dr["Email"] = mu.Email;
@@ -74,11 +75,18 @@ namespace SE.Classes
         public static DataSet CustomGetActiveUsers()
         {
             var activeUsers = new DataSet();
-            var userTable = activeUsers.Tables.Add("Users");
+            DataTable userTable = activeUsers.Tables.Add("Users");
             userTable.Columns.Add("Username");
-            var activeUserCollection = Membership.GetAllUsers();
+            MembershipUserCollection activeUserCollection = Membership.GetAllUsers();
             DataRow row;
-            foreach (var membership in from MembershipUser membership in activeUserCollection let membershipUser = Membership.GetUser() where membershipUser != null && (Roles.IsUserInRole(membership.UserName, "User") && (UserAssignedTo(membership.UserName).ToLower() == membershipUser.UserName.ToLower()) && (membership.IsOnline)) select membership)
+            foreach (MembershipUser membership in from MembershipUser membership in activeUserCollection
+                let membershipUser = Membership.GetUser()
+                where
+                    membershipUser != null &&
+                    (Roles.IsUserInRole(membership.UserName, "User") &&
+                     (UserAssignedTo(membership.UserName).ToLower() == membershipUser.UserName.ToLower()) &&
+                     (membership.IsOnline))
+                select membership)
             {
                 row = userTable.NewRow();
                 row["Username"] = membership.UserName;
@@ -94,26 +102,34 @@ namespace SE.Classes
         public static DataSet CustomRecentlyAssigned()
         {
             var recentUsers = new DataSet();
-            var users = recentUsers.Tables.Add("Users");
+            DataTable users = recentUsers.Tables.Add("Users");
             users.Columns.Add("Username");
-            var recentUser = Membership.GetAllUsers();
-            var aWeekAgo = DateTime.Now.AddDays(-7);
-            foreach (var membership in from MembershipUser membership in recentUser let membershipUser = Membership.GetUser() where membershipUser != null && (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo) && String.Equals(UserAssignedTo(membership.UserName), membershipUser.UserName, StringComparison.CurrentCultureIgnoreCase)) select membership)
+            MembershipUserCollection recentUser = Membership.GetAllUsers();
+            DateTime aWeekAgo = DateTime.Now.AddDays(-7);
+            foreach (MembershipUser membership in from MembershipUser membership in recentUser
+                let membershipUser = Membership.GetUser()
+                where
+                    membershipUser != null &&
+                    (Roles.IsUserInRole(membership.UserName, "User") && (membership.CreationDate >= aWeekAgo) &&
+                     String.Equals(UserAssignedTo(membership.UserName), membershipUser.UserName,
+                         StringComparison.CurrentCultureIgnoreCase))
+                select membership)
             {
-                var row = users.NewRow();
+                DataRow row = users.NewRow();
                 row["Username"] = membership.UserName;
                 users.Rows.Add(row);
             }
             if (users.Rows.Count != 0) return recentUsers;
-            var newRow = users.NewRow();
+            DataRow newRow = users.NewRow();
             newRow["Username"] = "No new users assigned";
             users.Rows.Add(newRow);
 
             return recentUsers;
         }
 
-        /// <summary>Assign user to supervisor
-        /// </summary> 
+        /// <summary>
+        ///     Assign user to supervisor
+        /// </summary>
         public static void AssignToUser(string user, string supervisor)
         {
             const string queryString = "INSERT INTO MemberAssignments (AssignedUser, AssignedSupervisor) " +
@@ -139,8 +155,9 @@ namespace SE.Classes
             }
         }
 
-        /// <summary>Edit assign user to supervisor
-        /// </summary> 
+        /// <summary>
+        ///     Edit assign user to supervisor
+        /// </summary>
         public static void EditAssignToUser(string user, string supervisor)
         {
             const string queryString = "UPDATE MemberAssignments " +
@@ -167,8 +184,9 @@ namespace SE.Classes
             }
         }
 
-        /// <summary>Remove user assignment row
-        /// </summary> 
+        /// <summary>
+        ///     Remove user assignment row
+        /// </summary>
         public static void RemoveAssignedUser(string user)
         {
             const string queryString = "DELETE FROM CategoryAssignments " +
@@ -215,8 +233,9 @@ namespace SE.Classes
             }
         }
 
-        /// <summary>Remove Supervisor
-        /// </summary> 
+        /// <summary>
+        ///     Remove Supervisor
+        /// </summary>
         public static void RemoveSupervisor(string supervisor)
         {
             const string queryString = "DELETE FROM Categories " +
@@ -284,7 +303,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                hasUsers = ((int)cmd.ExecuteScalar() > 0);
+                hasUsers = ((int) cmd.ExecuteScalar() > 0);
 
                 con.Close();
             }
@@ -308,7 +327,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -340,7 +359,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -376,7 +395,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -391,21 +410,26 @@ namespace SE.Classes
 
             return usersAssignedToSupervisorAssignedToCategory;
         }
+
         public static DataSet CustomGetActiveSupervisor()
         {
             var activeUsers = new DataSet();
-            var userTable = activeUsers.Tables.Add("Supervisor");
+            DataTable userTable = activeUsers.Tables.Add("Supervisor");
             userTable.Columns.Add("Username");
-            var activeUserCollection = Membership.GetAllUsers();
+            MembershipUserCollection activeUserCollection = Membership.GetAllUsers();
             DataRow row;
-            foreach (var membership in activeUserCollection.Cast<MembershipUser>().Where(membership =>
+            foreach (MembershipUser membership in activeUserCollection.Cast<MembershipUser>().Where(membership =>
             {
-                var membershipUser = Membership.GetUser();
-                return membershipUser != null && (Roles.IsUserInRole(membership.UserName, "Supervisor") && (!String.Equals(membership.UserName, membershipUser.UserName, StringComparison.CurrentCultureIgnoreCase)));
+                MembershipUser membershipUser = Membership.GetUser();
+                return membershipUser != null &&
+                       (Roles.IsUserInRole(membership.UserName, "Supervisor") &&
+                        (!String.Equals(membership.UserName, membershipUser.UserName,
+                            StringComparison.CurrentCultureIgnoreCase)));
             }))
             {
                 row = userTable.NewRow();
-                row["Username"] = "<a class='signalRUser' id= " + membership.UserName + " href='Profile.aspx?userName=" + membership.UserName + "'>" + membership.UserName + "</a>";
+                row["Username"] = "<a class='signalRUser' id= " + membership.UserName + " href='Profile.aspx?userName=" +
+                                  membership.UserName + "'>" + membership.UserName + "</a>";
                 userTable.Rows.Add(row);
             }
             if (userTable.Columns.Count != 1) return activeUsers;
@@ -417,10 +441,11 @@ namespace SE.Classes
             userTable.Rows.Add(row);
             return activeUsers;
         }
+
         public static DataSet CustomGetSupervisorsUsers(string username)
         {
             var supervisorUsers = new DataSet();
-            var users = supervisorUsers.Tables.Add("Users");
+            DataTable users = supervisorUsers.Tables.Add("Users");
             users.Columns.Add("Users");
             users.Columns.Add("Activity");
             users.Columns.Add("Assigned Categories");
@@ -438,15 +463,15 @@ namespace SE.Classes
 
                 con.Open();
 
-                var dr = cmd.ExecuteReader();
+                SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
-                    var row = users.NewRow();
+                    DataRow row = users.NewRow();
                     row["Users"] = dr["AssignedUser"].ToString();
 
-                    var userCategories = Category.GetUsersCategories(Convert.ToString(dr["AssignedUser"]));
-                    foreach (var item in userCategories)
+                    List<string> userCategories = Category.GetUsersCategories(Convert.ToString(dr["AssignedUser"]));
+                    foreach (string item in userCategories)
                     {
                         row["Assigned Categories"] += item + ",";
                     }
@@ -464,19 +489,20 @@ namespace SE.Classes
         {
             var dt = new DataTable();
 
-            var muc = Membership.GetAllUsers();
+            MembershipUserCollection muc = Membership.GetAllUsers();
 
             dt.Columns.Add("Username");
-            foreach (var mu in muc.Cast<MembershipUser>().Where(mu => !Roles.IsUserInRole(mu.UserName, "Manager")))
+            foreach (
+                MembershipUser mu in muc.Cast<MembershipUser>().Where(mu => !Roles.IsUserInRole(mu.UserName, "Manager"))
+                )
             {
                 if (!Roles.IsUserInRole(mu.UserName, "Supervisor")) continue;
-                var row = dt.NewRow();
+                DataRow row = dt.NewRow();
                 row["Username"] = mu.UserName;
                 dt.Rows.Add(row);
             }
 
             return dt;
-        } 
-
+        }
     }
 }

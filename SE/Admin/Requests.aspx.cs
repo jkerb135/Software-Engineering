@@ -10,13 +10,12 @@ using SE.Models;
 namespace SE.Admin
 {
     /// <summary>
-    /// 
     /// </summary>
     public partial class Requests : Page
     {
-        readonly MembershipUser _membershipUser = Membership.GetUser();
+        private readonly MembershipUser _membershipUser = Membership.GetUser();
+
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -30,7 +29,6 @@ namespace SE.Admin
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -38,10 +36,10 @@ namespace SE.Admin
         protected void users_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             requestUpdatePanel.Update();
-            var args = e.CommandArgument.ToString().Split(';');
-            var categoryId = args[0];
+            string[] args = e.CommandArgument.ToString().Split(';');
+            string categoryId = args[0];
             if (categoryId == null) throw new ArgumentNullException("sender");
-            var requestingUser = args[1];
+            string requestingUser = args[1];
             if (requestingUser == null) throw new ArgumentNullException("sender");
             string queryString, queryString2, catName = "";
             if (e.CommandName == "AcceptRequest")
@@ -64,7 +62,7 @@ namespace SE.Admin
                 cmd.ExecuteScalar();
                 if (queryString2 != "")
                 {
-                    var dr = cmd2.ExecuteReader();
+                    SqlDataReader dr = cmd2.ExecuteReader();
 
                     while (dr.Read())
                     {
@@ -77,7 +75,7 @@ namespace SE.Admin
             using (var con = new SqlConnection(Methods.GetConnectionString()))
             {
                 con.Open();
-                var queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values ('" +
+                string queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values ('" +
                                       catName + "','" + requestingUser + "','" + DateTime.Now + "','" + true + "')";
                 var cmd3 = new SqlCommand(queryString3, con);
                 cmd3.ExecuteNonQuery();
@@ -86,10 +84,9 @@ namespace SE.Admin
 
             AddTasks(catName, categoryId, requestingUser);
             RequestSource.SelectCommand =
-                    "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
-                    _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
+                "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
+                _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
             requests.DataBind();
-
         }
 
         /// <summary>
@@ -100,11 +97,15 @@ namespace SE.Admin
         private static void AddTasks(string catName, string previousId, string requestingUser)
         {
             var db = new ipawsTeamBEntities();
-            var newCatId = db.Categories.Where(find => find.CategoryName == catName && find.CreatedBy == requestingUser).Select(r => r.CategoryID).FirstOrDefault();
+            int newCatId =
+                db.Categories.Where(find => find.CategoryName == catName && find.CreatedBy == requestingUser)
+                    .Select(r => r.CategoryID)
+                    .FirstOrDefault();
             using (var con = new SqlConnection(Methods.GetConnectionString()))
             {
                 con.Open();
-                const string taskQuery = "Insert Into Tasks (CategoryID,TaskName,TaskTime,IsActive,CreatedTime,CreatedBy) Select @id, TaskName, TaskTime, IsActive, CreatedTime, @supervisor From Tasks Where CategoryID = @prevID";
+                const string taskQuery =
+                    "Insert Into Tasks (CategoryID,TaskName,TaskTime,IsActive,CreatedTime,CreatedBy) Select @id, TaskName, TaskTime, IsActive, CreatedTime, @supervisor From Tasks Where CategoryID = @prevID";
                 var cmd2 = new SqlCommand(taskQuery, con);
                 cmd2.Parameters.AddWithValue("@supervisor", requestingUser);
                 cmd2.Parameters.AddWithValue("@id", newCatId);

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Web.Security;
+using System.Web.UI;
 
 namespace SE
 {
-    public class Default1 : System.Web.UI.Page
+    public class Default1 : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

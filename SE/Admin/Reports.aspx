@@ -9,7 +9,7 @@
                 <h2>Overview</h2>
                 <div class="table-responsive">
                     <asp:GridView ID="ReportOverview" CssClass="report table table-bordered" runat="server" 
-                        OnRowDataBound = "OverviewRDB" OnSelectedIndexChanged = "OverviewSIC">
+                                  OnRowDataBound = "OverviewRDB" OnSelectedIndexChanged = "OverviewSIC">
                     </asp:GridView>
                 </div>
             </asp:Panel>

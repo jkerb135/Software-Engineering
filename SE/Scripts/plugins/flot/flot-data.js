@@ -1,4 +1,4 @@
-//Flot Line Chart
+﻿//Flot Line Chart
 $(document).ready(function() {
     console.log("document ready");
     var offset = 0;
@@ -38,13 +38,15 @@ $(document).ready(function() {
             }
         };
 
-        var plotObj = $.plot($("#flot-line-chart"), [{
-                data: sin,
-                label: "sin(x)"
-            }, {
-                data: cos,
-                label: "cos(x)"
-            }],
+        var plotObj = $.plot($("#flot-line-chart"), [
+                {
+                    data: sin,
+                    label: "sin(x)"
+                }, {
+                    data: cos,
+                    label: "cos(x)"
+                }
+            ],
             options);
     }
 });
@@ -52,19 +54,21 @@ $(document).ready(function() {
 //Flot Pie Chart
 $(function() {
 
-    var data = [{
-        label: "Series 0",
-        data: 1
-    }, {
-        label: "Series 1",
-        data: 3
-    }, {
-        label: "Series 2",
-        data: 9
-    }, {
-        label: "Series 3",
-        data: 20
-    }];
+    var data = [
+        {
+            label: "Series 0",
+            data: 1
+        }, {
+            label: "Series 1",
+            data: 3
+        }, {
+            label: "Series 2",
+            data: 9
+        }, {
+            label: "Series 3",
+            data: 20
+        }
+    ];
 
     var plotObj = $.plot($("#flot-pie-chart"), data, {
         series: {
@@ -1054,25 +1058,31 @@ $(function() {
     }
 
     function doPlot(position) {
-        $.plot($("#flot-line-chart-multi"), [{
-            data: oilprices,
-            label: "Oil price ($)"
-        }, {
-            data: exchangerates,
-            label: "USD/EUR exchange rate",
-            yaxis: 2
-        }], {
-            xaxes: [{
-                mode: 'time'
-            }],
-            yaxes: [{
-                min: 0
+        $.plot($("#flot-line-chart-multi"), [
+            {
+                data: oilprices,
+                label: "Oil price ($)"
             }, {
-                // align if we are to the right
-                alignTicksWithAxis: position == "right" ? 1 : null,
-                position: position,
-                tickFormatter: euroFormatter
-            }],
+                data: exchangerates,
+                label: "USD/EUR exchange rate",
+                yaxis: 2
+            }
+        ], {
+            xaxes: [
+                {
+                    mode: 'time'
+                }
+            ],
+            yaxes: [
+                {
+                    min: 0
+                }, {
+                    // align if we are to the right
+                    alignTicksWithAxis: position == "right" ? 1 : null,
+                    position: position,
+                    tickFormatter: euroFormatter
+                }
+            ],
             legend: {
                 position: 'sw'
             },
@@ -1130,7 +1140,7 @@ $(function() {
 
         var res = [];
         for (var i = 0; i < data.length; ++i) {
-            res.push([i, data[i]])
+            res.push([i, data[i]]);
         }
 
         return res;
@@ -1138,12 +1148,14 @@ $(function() {
 
     //
 
-    series = [{
-        data: getRandomData(),
-        lines: {
-            fill: true
+    series = [
+        {
+            data: getRandomData(),
+            lines: {
+                fill: true
+            }
         }
-    }];
+    ];
 
     //
 

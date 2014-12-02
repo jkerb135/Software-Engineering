@@ -1,18 +1,19 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNet.SignalR;
 using SE.Models;
-using System.Linq;
+using Task = System.Threading.Tasks.Task;
 
 namespace SE.Hubs
 {
-    
-     public class UserActivityHub : Hub
+    public class UserActivityHub : Hub
     {
-         readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
-        public override System.Threading.Tasks.Task OnConnected()
+        private readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
+
+        public override Task OnConnected()
         {
-            var name = Context.User.Identity.Name.ToLower();
-            var user = _db.Users.Find(name);
+            string name = Context.User.Identity.Name.ToLower();
+            User user = _db.Users.Find(name);
             if (user == null)
             {
                 var newUser = new User
@@ -22,7 +23,6 @@ namespace SE.Hubs
                     UserName = name,
                 };
                 _db.Users.Add(newUser);
-
             }
             else
             {
@@ -34,24 +34,26 @@ namespace SE.Hubs
             return base.OnConnected();
         }
 
-        public override System.Threading.Tasks.Task OnReconnected()
+        public override Task OnReconnected()
         {
-            var connection = _db.Users.Find(Context.User.Identity.Name.ToLower());
+            User connection = _db.Users.Find(Context.User.Identity.Name.ToLower());
             connection.Connected = true;
             _db.SaveChanges();
 
             return base.OnReconnected();
         }
-        public override System.Threading.Tasks.Task OnDisconnected(bool stopcalled)
+
+        public override Task OnDisconnected(bool stopcalled)
         {
-               var connection = _db.Users.Find(Context.User.Identity.Name.ToLower());
-               connection.Connected = false;
-               _db.SaveChanges();
-           return base.OnDisconnected(stopcalled);
+            User connection = _db.Users.Find(Context.User.Identity.Name.ToLower());
+            connection.Connected = false;
+            _db.SaveChanges();
+            return base.OnDisconnected(stopcalled);
         }
+
         public void GetCategoryNotifications(string userName)
         {
-            var toUser = _db.Users.FirstOrDefault(find => find.UserName == userName.ToLower());
+            User toUser = _db.Users.FirstOrDefault(find => find.UserName == userName.ToLower());
             var yourNotifications =
                 _db.RequestedCategories.Join(_db.Categories, r => r.CategoryID, c => c.CategoryID, (r, c) => new {r, c})
                     .Where(@t => @t.r.CreatedBy == userName && @t.r.IsApproved == false)
@@ -59,11 +61,11 @@ namespace SE.Hubs
                     .Select(@t => new
                     {
                         @t.c.CategoryName,
-                        Requester = @t.r.RequestingUser, @t.r.Date,
+                        Requester = @t.r.RequestingUser,
+                        @t.r.Date,
                     });
             if (yourNotifications == null) throw new ArgumentNullException("yourNotifications");
             Clients.Client(toUser.ConnectionID).yourCategoryRequests(yourNotifications.ToArray());
         }
     }
-
 }

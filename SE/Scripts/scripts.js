@@ -1,7 +1,7 @@
 ﻿function showPreview(files, type) {
     for (var i = 0, f; f = files[i]; i++) {
         var reader = new FileReader();
-        reader.onload = function (evt) {
+        reader.onload = function(evt) {
             var mimeType = evt.target.result.split(",")[0].split(":")[1].split(";")[0];
 
             if (type == "audio" && mimeType.match(/audio/)) {
@@ -18,22 +18,22 @@
                 var image = "<img class='image-preview' src='" + evt.target.result + "'/>";
                 $('.detailed-step-image-preview').append(image);
             }
-        }
+        };
         reader.readAsDataURL(f);
     }
 }
 
-$("body").on('change', '.main-step-audio', function (evt) {
+$("body").on('change', '.main-step-audio', function(evt) {
     $('.main-step-audio-preview').empty();
     showPreview(evt.target.files, "audio");
 });
 
-$("body").on('change', '.main-step-video', function (evt) {
+$("body").on('change', '.main-step-video', function(evt) {
     $('.main-step-video-preview').empty();
     showPreview(evt.target.files, "video");
 });
 
-$("body").on('change', '.detailed-step-image', function (evt) {
+$("body").on('change', '.detailed-step-image', function(evt) {
     $('.detailed-step-image-preview').empty();
     showPreview(evt.target.files, "image");
 });

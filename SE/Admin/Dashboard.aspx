@@ -7,14 +7,17 @@
         function blink() {
             $('#userManagement').fadeTo(100, 0.1).fadeTo(200, 1.0);
         }
+
         function newUserToast() {
             toastr.options.closeButton = true;
             toastr.success('New User Created');
         }
+
         function successToast() {
             toastr.options.closeButton = true;
             toastr.success('Users Information was successfully updated');
         }
+
         function errorToast(error) {
             toastr.options.closeButton = true;
             toastr.error(error);
@@ -34,126 +37,126 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading">Account Manager</div>
                     <div class="panel-body">
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
 
-                    <ContentTemplate>
-                        <div class="form-inline" style="margin-bottom: 20px">
-                        <div class="form-group">
-                                    Search By Username: <asp:TextBox runat="server" ID="userSearch" OnTextChanged="userSearch_OnTextChanged" CssClass="form-control" stlye="width:30%"></asp:TextBox><asp:Button runat="server" ID="btnSearch" Text="Search" CssClass="btn btn-primary"/><asp:Button runat="server" ID="btnReset" Text="Reset" CssClass="btn btn-danger" OnClick="btnReset_OnClick"/>
-                        </div>
-                        </div>        
-                        <asp:GridView OnRowDataBound="GridView1_OnRowDataBound" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" AllowSorting="true" OnSorting="GridView1_Sorting" OnPageIndexChanging="GridView1_PageIndexChanging" GridLines="None" ShowFooter="True" CssClass="table table-striped" ID="GridView1" runat="server" AutoGenerateColumns="False" AllowPaging="True" PageSize="6">
-                            <SortedAscendingHeaderStyle CssClass="fa fa-arrow-up"></SortedAscendingHeaderStyle>
-                        <SortedDescendingHeaderStyle CssClass="fa fa-arrow-down"></SortedDescendingHeaderStyle>
-                            <PagerTemplate>
-                            <asp:Button Text="Previous" CommandName="Page" CommandArgument="Prev" runat="server" ID="btnPrev" CssClass="btn btn-primary" />
-                            <asp:Button Text="Next" CommandName="Page" CommandArgument="Next" runat="server" ID="btnNext" CssClass="btn btn-primary" />
-                        </PagerTemplate>
-                        <PagerSettings Position="Bottom"></PagerSettings>
-                            <Columns>
-                                <asp:BoundField HeaderText="User ID" DataField="UserId" InsertVisible="False" SortExpression="UserId" Visible="false" />
-                                <asp:TemplateField HeaderText="Username" SortExpression="Username">
-                                    <ItemTemplate>
-                                        <asp:Label runat="server" ID="UserLabel" Text='<%# Eval("UserName") %>'></asp:Label>
-                                    </ItemTemplate>
-                                    <EditItemTemplate>
-                                        <asp:Label runat="server" ID="UserLabel" Text='<%# Eval("UserName") %>'></asp:Label>
-                                    </EditItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:TextBox ID="UsernameTxt" CssClass="form-control" runat="server" Placeholder="Username"></asp:TextBox>
-                                    </FooterTemplate>
-                                    <ItemStyle Width="8.2%" />
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Update Password">
-                                    <EditItemTemplate>
-                                        <asp:TextBox CssClass="form-control" runat="server" ID="PasswordTxt" Text='<%# Eval("Password") %>'></asp:TextBox>
-                                    </EditItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:TextBox ID="PasswordTxt" CssClass="form-control" runat="server" Placeholder="Password"></asp:TextBox>
-                                    </FooterTemplate>
-                                    <ItemStyle Width="8.2%" />
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Email" ItemStyle-Width="5.2%" SortExpression="Email">
-                                    <ItemTemplate>
-                                        <asp:Label runat="server" ID="EmailLbl" Text='<%# Eval("Email") %>'></asp:Label>
-                                    </ItemTemplate>
-                                    <EditItemTemplate>
-                                        <asp:TextBox CssClass="form-control" runat="server" ID="EmailTxt" Text='<%# Eval("Email") %>'></asp:TextBox>
-                                    </EditItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:TextBox ID="EmailTxt" CssClass="form-control" runat="server" Placeholder="Email"></asp:TextBox>
-                                    </FooterTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField HeaderText="Last Active Date" DataField="LastLoginDate" InsertVisible="False" SortExpression="LastLoginDate" ReadOnly="true" ItemStyle-Width="8.2%"/>
-                                <asp:TemplateField HeaderText="Role Name" SortExpression="RoleName">
-                                    <ItemTemplate>
-                                        <asp:Label runat="server" ID="RoleLbl" Text='<%# Eval("RoleName") %>'></asp:Label>
-                                    </ItemTemplate>
-                                    <EditItemTemplate>
-                                        <asp:Label runat="server" ID="RoleLbl" Text='<%# Eval("RoleName") %>'></asp:Label>
-                                    </EditItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:DropDownList runat="server" ID="RoleDrp" CssClass="form-control" OnSelectedIndexChanged="RoleDrp_SelectedIndexChanged" AutoPostBack="true">
-                                            <asp:ListItem Value="Supervisor">Supervisor</asp:ListItem>
-                                            <asp:ListItem Value="User">User</asp:ListItem>
-                                        </asp:DropDownList>
-                                    </FooterTemplate>
-                                    <ItemStyle Width="10.2%" />
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Assigned Supervisor" SortExpression="AssignedSupervisor">
-                                    <ItemTemplate>
-                                        <asp:Label runat="server" ID="AssignLbl" Text='<%# Eval("AssignedSupervisor") %>'></asp:Label>
-                                    </ItemTemplate>
-                                    <EditItemTemplate>
-                                        <asp:DropDownList runat="server" Visible="false" DataTextField="UserName" ID="AssignDrp" CssClass="form-control">
-                                            <asp:ListItem Value="Unassigned">Unassigned</asp:ListItem>
-                                        </asp:DropDownList> 
+                            <ContentTemplate>
+                                <div class="form-inline" style="margin-bottom: 20px">
+                                    <div class="form-group">
+                                        Search By Username: <asp:TextBox runat="server" ID="userSearch" OnTextChanged="userSearch_OnTextChanged" CssClass="form-control" stlye="width:30%"></asp:TextBox><asp:Button runat="server" ID="btnSearch" Text="Search" CssClass="btn btn-primary"/><asp:Button runat="server" ID="btnReset" Text="Reset" CssClass="btn btn-danger" OnClick="btnReset_OnClick"/>
+                                    </div>
+                                </div>        
+                                <asp:GridView OnRowDataBound="GridView1_OnRowDataBound" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" AllowSorting="true" OnSorting="GridView1_Sorting" OnPageIndexChanging="GridView1_PageIndexChanging" GridLines="None" ShowFooter="True" CssClass="table table-striped" ID="GridView1" runat="server" AutoGenerateColumns="False" AllowPaging="True" PageSize="6">
+                                    <SortedAscendingHeaderStyle CssClass="fa fa-arrow-up"></SortedAscendingHeaderStyle>
+                                    <SortedDescendingHeaderStyle CssClass="fa fa-arrow-down"></SortedDescendingHeaderStyle>
+                                    <PagerTemplate>
+                                        <asp:Button Text="Previous" CommandName="Page" CommandArgument="Prev" runat="server" ID="btnPrev" CssClass="btn btn-primary" />
+                                        <asp:Button Text="Next" CommandName="Page" CommandArgument="Next" runat="server" ID="btnNext" CssClass="btn btn-primary" />
+                                    </PagerTemplate>
+                                    <PagerSettings Position="Bottom"></PagerSettings>
+                                    <Columns>
+                                        <asp:BoundField HeaderText="User ID" DataField="UserId" InsertVisible="False" SortExpression="UserId" Visible="false" />
+                                        <asp:TemplateField HeaderText="Username" SortExpression="Username">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="UserLabel" Text='<%# Eval("UserName") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <asp:Label runat="server" ID="UserLabel" Text='<%# Eval("UserName") %>'></asp:Label>
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:TextBox ID="UsernameTxt" CssClass="form-control" runat="server" Placeholder="Username"></asp:TextBox>
+                                            </FooterTemplate>
+                                            <ItemStyle Width="8.2%" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Update Password">
+                                            <EditItemTemplate>
+                                                <asp:TextBox CssClass="form-control" runat="server" ID="PasswordTxt" Text='<%# Eval("Password") %>'></asp:TextBox>
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:TextBox ID="PasswordTxt" CssClass="form-control" runat="server" Placeholder="Password"></asp:TextBox>
+                                            </FooterTemplate>
+                                            <ItemStyle Width="8.2%" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Email" ItemStyle-Width="5.2%" SortExpression="Email">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="EmailLbl" Text='<%# Eval("Email") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <asp:TextBox CssClass="form-control" runat="server" ID="EmailTxt" Text='<%# Eval("Email") %>'></asp:TextBox>
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:TextBox ID="EmailTxt" CssClass="form-control" runat="server" Placeholder="Email"></asp:TextBox>
+                                            </FooterTemplate>
+                                        </asp:TemplateField>
+                                        <asp:BoundField HeaderText="Last Active Date" DataField="LastLoginDate" InsertVisible="False" SortExpression="LastLoginDate" ReadOnly="true" ItemStyle-Width="8.2%"/>
+                                        <asp:TemplateField HeaderText="Role Name" SortExpression="RoleName">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="RoleLbl" Text='<%# Eval("RoleName") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <asp:Label runat="server" ID="RoleLbl" Text='<%# Eval("RoleName") %>'></asp:Label>
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:DropDownList runat="server" ID="RoleDrp" CssClass="form-control" OnSelectedIndexChanged="RoleDrp_SelectedIndexChanged" AutoPostBack="true">
+                                                    <asp:ListItem Value="Supervisor">Supervisor</asp:ListItem>
+                                                    <asp:ListItem Value="User">User</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </FooterTemplate>
+                                            <ItemStyle Width="10.2%" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Assigned Supervisor" SortExpression="AssignedSupervisor">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="AssignLbl" Text='<%# Eval("AssignedSupervisor") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <asp:DropDownList runat="server" Visible="false" DataTextField="UserName" ID="AssignDrp" CssClass="form-control">
+                                                    <asp:ListItem Value="Unassigned">Unassigned</asp:ListItem>
+                                                </asp:DropDownList> 
 
-                                    </EditItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:DropDownList runat="server" Visible="false" DataTextField="UserName" ID="AssignDrp" CssClass="form-control">
-                                        </asp:DropDownList>
-                                    </FooterTemplate>
-                                    <ItemStyle Width="8.2%" />
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Is Active" ItemStyle-Width="5.2%" SortExpression="IsLockedOut">
-                                    <ItemTemplate>
-                                        <asp:Label runat="server" ID="LockOutLbl" Text='<%# Eval("IsApproved") %>'></asp:Label>
-                                    </ItemTemplate>
-                                    <EditItemTemplate>
-                                        <asp:DropDownList runat="server" ID="LockOutDrp" CssClass="form-control" SelectedValue='<%# Eval("IsApproved") %>'>
-                                            <asp:ListItem Value="True">True</asp:ListItem>
-                                            <asp:ListItem Value="False">False</asp:ListItem>
-                                        </asp:DropDownList> 
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:DropDownList runat="server" Visible="false" DataTextField="UserName" ID="AssignDrp" CssClass="form-control">
+                                                </asp:DropDownList>
+                                            </FooterTemplate>
+                                            <ItemStyle Width="8.2%" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Is Active" ItemStyle-Width="5.2%" SortExpression="IsLockedOut">
+                                            <ItemTemplate>
+                                                <asp:Label runat="server" ID="LockOutLbl" Text='<%# Eval("IsApproved") %>'></asp:Label>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <asp:DropDownList runat="server" ID="LockOutDrp" CssClass="form-control" SelectedValue='<%# Eval("IsApproved") %>'>
+                                                    <asp:ListItem Value="True">True</asp:ListItem>
+                                                    <asp:ListItem Value="False">False</asp:ListItem>
+                                                </asp:DropDownList> 
 
-                                    </EditItemTemplate>
-                                    <FooterTemplate>
-                                        <asp:DropDownList runat="server" ID="LockOutDrp" CssClass="form-control">
-                                            <asp:ListItem Value="True">True</asp:ListItem>
-                                            <asp:ListItem Value="False">False</asp:ListItem>
-                                        </asp:DropDownList>
-                                    </FooterTemplate>
-                                    <ItemStyle Width="10.2%" />
-                                </asp:TemplateField>
-                                 <asp:TemplateField>
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:DropDownList runat="server" ID="LockOutDrp" CssClass="form-control">
+                                                    <asp:ListItem Value="True">True</asp:ListItem>
+                                                    <asp:ListItem Value="False">False</asp:ListItem>
+                                                </asp:DropDownList>
+                                            </FooterTemplate>
+                                            <ItemStyle Width="10.2%" />
+                                        </asp:TemplateField>
+                                        <asp:TemplateField>
 
-                                <ItemTemplate>
-                                    <asp:LinkButton ID="EditBtn" runat="server" CssClass="btn btn-warning" CommandName="Edit" Text="Edit" CausesValidation="False"></asp:LinkButton>
-                                </ItemTemplate>
-                                <EditItemTemplate>
-                                    <asp:LinkButton ID="UpdateBtn" runat="server" CssClass="btn btn-primary" CommandName="Update" Text="Update" CausesValidation="False"></asp:LinkButton>
-                                    <asp:LinkButton ID="CancelBtn" runat="server" CssClass="btn btn-danger" CommandName="Cancel" Text="Cancel" CausesValidation="False"></asp:LinkButton>
-                                </EditItemTemplate>
-                                <FooterTemplate>
-                                    <asp:LinkButton ID="NewInsert" runat="server" Text="Add" CommandName="FooterInsert" CssClass="btn btn-success" CausesValidation="False" OnClick="NewInsert_Click" ></asp:LinkButton>
-                                </FooterTemplate>
-                                <ItemStyle Width="12.2%" />
-                            </asp:TemplateField>
-                                 </Columns>
-                        </asp:GridView>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-               </div>
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="EditBtn" runat="server" CssClass="btn btn-warning" CommandName="Edit" Text="Edit" CausesValidation="False"></asp:LinkButton>
+                                            </ItemTemplate>
+                                            <EditItemTemplate>
+                                                <asp:LinkButton ID="UpdateBtn" runat="server" CssClass="btn btn-primary" CommandName="Update" Text="Update" CausesValidation="False"></asp:LinkButton>
+                                                <asp:LinkButton ID="CancelBtn" runat="server" CssClass="btn btn-danger" CommandName="Cancel" Text="Cancel" CausesValidation="False"></asp:LinkButton>
+                                            </EditItemTemplate>
+                                            <FooterTemplate>
+                                                <asp:LinkButton ID="NewInsert" runat="server" Text="Add" CommandName="FooterInsert" CssClass="btn btn-success" CausesValidation="False" OnClick="NewInsert_Click" ></asp:LinkButton>
+                                            </FooterTemplate>
+                                            <ItemStyle Width="12.2%" />
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </div>
                 </div>
                 <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:ipawsTeamBConnectionString %>" SelectCommand="SELECT aspnet_Users.UserName, aspnet_Users.UserId FROM aspnet_Users INNER JOIN aspnet_UsersInRoles ON aspnet_Users.UserId = aspnet_UsersInRoles.UserId INNER JOIN aspnet_Roles ON aspnet_UsersInRoles.RoleId = aspnet_Roles.RoleId WHERE (aspnet_Roles.RoleName = 'Supervisor')"></asp:SqlDataSource>
 
