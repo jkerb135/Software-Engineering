@@ -44,6 +44,7 @@ namespace SE.Admin
             QueryYourCategories();
             QueryYourTasks();
             QueryYourUsers();
+            QueryRequestCategories();
             UsersInCategory.SelectCommand =
                 addUserDataSource.SelectCommand =
                     "select UserName,IsApproved,LastActivityDate from aspnet_Membership as p inner join aspnet_Users as r on p.UserId = r.UserId inner join aspnet_UsersInRoles as t on t.UserId = p.UserId inner join MemberAssignments as z on z.AssignedUser = r.UserName where t.RoleId = 'F0D05C09-B992-45A3-8F5E-4EA772C760FD' And AssignedSupervisor = '" +
@@ -59,6 +60,11 @@ namespace SE.Admin
 
         }
 
+        private void QueryRequestCategories()
+        {
+            RequestCatGrid.DataSource = UserRequests.CategoriesNotOwned(_user, _otherUser);
+            RequestCatGrid.DataBind();
+        }
         private void QueryYourTasks()
         {
             TaskSource.SelectCommand =
@@ -606,120 +612,6 @@ namespace SE.Admin
         protected void RequestCatGrid_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             QueryCatRequestStatus();
-        }
-
-        protected void RequestTaskGrid_RowCommand(object sender, GridViewCommandEventArgs e)
-        {
-            var args = e.CommandArgument.ToString().Split(';');
-            var taskId = args[0];
-            var catName = args[1];
-            ScriptManager.RegisterStartupScript(this, GetType(), "script", "requestTask();", true);
-            const string queryString =
-                "Insert Into RequestedTasks (CategoryID, TaskID, IsApproved, Requester,CreatedBy,Date) Values (@catID, @id, @bool, @user,@owner,@date)";
-            const string queryString2 =
-                "Select count(*) from RequestedTasks Where TaskID = @id and Requester=@user";
-            using (var con = new SqlConnection(Methods.GetConnectionString()))
-            {
-                var cmd = new SqlCommand(queryString, con);
-                cmd.Parameters.AddWithValue("@catID", Category.GetCategoryId(catName));
-                cmd.Parameters.AddWithValue("@id", taskId);
-                cmd.Parameters.AddWithValue("@user", _user);
-                cmd.Parameters.AddWithValue("@bool", false);
-                cmd.Parameters.AddWithValue("@owner", _otherUser);
-                cmd.Parameters.AddWithValue("@date", DateTime.Now);
-                var cmd2 = new SqlCommand(queryString2, con);
-                cmd2.Parameters.AddWithValue("@id", taskId);
-                cmd2.Parameters.AddWithValue("@user", _user);
-
-
-                con.Open();
-                PendingRequest = false;
-                var count = (Int32) cmd2.ExecuteScalar();
-                if (count == 0)
-                {
-                    cmd.ExecuteNonQuery();
-                    PendingRequest = true;
-                }
-                else
-                {
-                    error.CssClass = "text-danger";
-                }
-                con.Close();
-                QueryTaskRequestStatus();
-            }
-        }
-
-        private void QueryTaskRequestStatus()
-        {
-            const string queryString = "Select IsApproved,TaskID From RequestedTasks Where Requester=@user";
-            const string queryString2 = "Select * From Tasks Where CreatedBy=@you and TaskID=@id";
-            var taskId = new List<string>();
-            using (var con = new SqlConnection(Methods.GetConnectionString()))
-            {
-                var cmd = new SqlCommand(queryString, con);
-                cmd.Parameters.AddWithValue("@user", _user);
-
-                con.Open();
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    taskId.Add(dr["TaskID"].ToString());
-
-                    foreach (GridViewRow row in RequestTaskGrid.Rows)
-                    {
-                        var approved = Convert.ToBoolean(dr["IsApproved"]);
-                        var request = (Button) row.FindControl("RequestTask");
-                        if (approved &&
-                            Convert.ToInt32(dr["TaskID"]) == Task.GetTaskIdBySupervisor(row.Cells[0].Text, _otherUser))
-                        {
-                            request.Text = "Approved";
-                            request.CssClass = "btn btn-success form-control";
-                            request.Enabled = false;
-                        }
-                        else if (!approved && Convert.ToInt32(dr["TaskID"]) ==
-                                 Task.GetTaskIdBySupervisor(row.Cells[0].Text, _otherUser))
-                        {
-                            request.Text = "Pending";
-                            request.CssClass = "btn btn-warning form-control";
-                            request.Enabled = false;
-                        }
-                    }
-                }
-
-                con.Close();
-                using (var con2 = new SqlConnection(Methods.GetConnectionString()))
-                {
-                    var db = new ipawsTeamBEntities();
-                    con2.Open();
-                    var cmd2 = new SqlCommand(queryString2, con2);
-                    cmd2.Parameters.AddWithValue("@you", _user);
-                    foreach (var newTaskId in taskId.Select(id => Task.GetTaskName(Convert.ToInt32(id))).Select(taskName => db.Tasks.Where(find => find.TaskName == taskName && find.CreatedBy == _user).Select(r => r.TaskID).FirstOrDefault()))
-                    {
-                        cmd2.Parameters.AddWithValue("@id", newTaskId);
-                        var dr2 = cmd2.ExecuteReader();
-                        while (dr2.Read())
-                        {
-                            foreach (var request in from GridViewRow row in RequestTaskGrid.Rows
-                                let request = (Button) row.FindControl("RequestTask")
-                                where
-                                    Convert.ToInt32(dr["TaskID"]) ==
-                                    Task.GetTaskIdBySupervisor(row.Cells[0].Text, _otherUser)
-                                select request)
-                            {
-                                request.Text = "Approved";
-                                request.CssClass = "btn btn-success form-control";
-                                request.Enabled = false;
-                            }
-                        }
-                    }
-                    con2.Close();
-                }
-            }
-        }
-
-        protected void RequestTaskGrid_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-           // QueryTaskRequestStatus();
         }
     }
 }

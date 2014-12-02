@@ -1,5 +1,5 @@
-using System.Data.Entity.Core.Metadata.Edm;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using SE.Classes;
 using System;
 using System.Web.Security;
@@ -21,7 +21,7 @@ namespace SE
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
-            var textInfo = new CultureInfo("en-US",false).TextInfo;
+            var textInfo = new CultureInfo("en-US", false).TextInfo;
             Session["DataSource"] = Member.CustomGetAllUsers();
             BindUserAccounts();
             var formatUsername = textInfo.ToTitleCase(_membershipUser.UserName);
@@ -36,10 +36,10 @@ namespace SE
                         "This is your portal to the interactive personal assistant web-app system (or just iPAWS for short). This first page is your Dashboard where you can see if you have any active users online, if you have any newly assigned users or what other supervisors are using the system. The Dashboard is just a staging ground to keep you up to date on what is going on. If you would like to create, update or delete a Category or task go to the Task Manager on the left hand menu. If you would like to view what users are assigned to what task or category or if you would like to update who is assigned to what go to User Assignment. If you would like to review requests from other supervisors go to the Supervisor Requests. Lastly if you would like to request or view reports go to the Reports. We hope you enjoy the web-app.";
                     lblSincere.Text = "Cheers,";
                     From.Text = "iPAWS Team B";
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();",true);
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
                     upModal.Update();
                 }
-                DashboardView.ActiveViewIndex = (int) DashView.Supervisor;
+                DashboardView.ActiveViewIndex = (int)DashView.Supervisor;
                 GetActiveUsers();
                 GetRecentUsers();
                 GetActiveSupervisor();
@@ -48,7 +48,7 @@ namespace SE
             {
                 var user = Membership.GetUser();
                 if (user == null || !Roles.IsUserInRole(user.UserName, "Manager")) return;
-                DashboardView.ActiveViewIndex = (int) DashView.Manager;
+                DashboardView.ActiveViewIndex = (int)DashView.Manager;
                 GetAllUsers();
             }
         }
@@ -105,30 +105,33 @@ namespace SE
         }
         protected void GridView1_Sorting(object sender, GridViewSortEventArgs e)
         {
-            var dataTable = (DataTable) GridView1.DataSource;
+            var dataTable = (DataTable)GridView1.DataSource;
             if (dataTable == null) return;
-            var dataView = new DataView(dataTable) {Sort = e.SortExpression};
+            var dataView = new DataView(dataTable) { Sort = e.SortExpression };
             GridView1.DataSource = dataView;
             GridView1.DataBind();
         }
         protected void NewInsert_Click(object sender, EventArgs e)
         {
+                var username = (TextBox) GridView1.FooterRow.FindControl("UsernameTxt");
+                var password = (TextBox) GridView1.FooterRow.FindControl("PasswordTxt");
+                var email = (TextBox) GridView1.FooterRow.FindControl("EmailTxt");
+                var role = (DropDownList) GridView1.FooterRow.FindControl("RoleDrp");
+                var assigned = (DropDownList) GridView1.FooterRow.FindControl("AssignDrp");
+                var lockOut = (DropDownList) GridView1.FooterRow.FindControl("LockOutDrp");
+                var emailRegex = new Regex(@"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$");
             try
             {
-                var username = (TextBox)GridView1.FooterRow.FindControl("UsernameTxt");
-                var password = (TextBox)GridView1.FooterRow.FindControl("PasswordTxt");
-                var email = (TextBox)GridView1.FooterRow.FindControl("EmailTxt");
-                var role = (DropDownList)GridView1.FooterRow.FindControl("RoleDrp");
-                var assigned = (DropDownList)GridView1.FooterRow.FindControl("AssignDrp");
-                var lockOut = (DropDownList)GridView1.FooterRow.FindControl("LockOutDrp");
-
+                if (!emailRegex.IsMatch(email.Text))
+                    throw new Exception("Email is not in the correct format");
                 Membership.CreateUser(username.Text, password.Text);
                 var newMember = Membership.GetUser(username.Text);
                 if (newMember != null)
                 {
+                    if (newMember.ProviderUserKey != null)
+                        Roles.AddUserToRole(newMember.ProviderUserKey.ToString(), role.SelectedValue.ToLower());
                     newMember.Email = email.Text;
                     newMember.IsApproved = Convert.ToBoolean(lockOut.SelectedIndex);
-                    Roles.AddUserToRole(username.Text, role.SelectedValue);
                     if (assigned.Enabled && assigned.Visible)
                     {
                         Member.AssignToUser(username.Text, assigned.SelectedValue);
@@ -141,21 +144,35 @@ namespace SE
                 assigned.Visible = false;
                 Session["DataSource"] = Member.CustomGetAllUsers();
                 GridView1.DataSource = Member.CustomGetAllUsers();
-                ScriptManager.RegisterStartupScript(this, GetType(), "script", "successToast();", true);
+                ScriptManager.RegisterStartupScript(this, GetType(), "script", "newUserToast();", true);
             }
-            catch (Exception e1)
+            catch (MembershipCreateUserException e1)
             {
-                string Error = e1.Message.ToString();
-                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("errorToast('{0}');", Error), true);
+                var error = e1.Message;
+                ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
+                    String.Format("errorToast('{0}');", error), true);
+            }
+            catch (MembershipPasswordException)
+            {
+                var error = "";
+                Member.ValidatePassword(password.Text, ref error);
+                ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
+                    String.Format("errorToast('{0}');", error), true);
+            }
+            catch(Exception e1)
+            {
+                var error = e1.Message;
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
+                    String.Format("errorToast('{0}');", error), true);
             }
           
         }
 
         protected void RoleDrp_SelectedIndexChanged(object sender, EventArgs e)
         {
-                var role = (DropDownList)GridView1.FooterRow.FindControl("RoleDrp");
-                var assigned = (DropDownList)GridView1.FooterRow.FindControl("AssignDrp");
-                assigned.Visible = role.Text == "User";
+            var role = (DropDownList)GridView1.FooterRow.FindControl("RoleDrp");
+            var assigned = (DropDownList)GridView1.FooterRow.FindControl("AssignDrp");
+            assigned.Visible = role.Text == "User";
         }
         protected void btnReset_OnClick(object sender, EventArgs e)
         {
@@ -177,8 +194,8 @@ namespace SE
 
                 var newMember = Membership.GetUser(username.Text);
                 if (newMember == null) return;
-                string ErrorMsg = "";
-                if (password.Text != String.Empty && Member.ValidatePassword(password.Text, ref ErrorMsg))
+                var errorMsg = "";
+                if (password.Text != String.Empty && Member.ValidatePassword(password.Text, ref errorMsg))
                 {
                     newMember.ChangePassword(newMember.ResetPassword(), password.Text);
                 }
@@ -197,9 +214,10 @@ namespace SE
                 BindUserAccounts();
                 ScriptManager.RegisterStartupScript(this, GetType(), "script", "successToast();", true);
             }
-            catch (Exception e1)
+            catch (MembershipCreateUserException e1)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "script", "errorToast("+e1.InnerException+");", true);
+                var error = e1.Message;
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("errorToast('{0}');", error), true);
             }
 
         }
@@ -226,31 +244,31 @@ namespace SE
             switch (e.Row.RowType)
             {
                 case DataControlRowType.Footer:
-                {
-                    var assigned = (DropDownList) e.Row.FindControl("AssignDrp");
-                    assigned.DataSource = Member.GetAllSupervisors();
-                    assigned.DataBind();
-                    var unassigned = new ListItem("Unassigned","Unassigned");
-                    assigned.Items.Add(unassigned);
-                }
+                    {
+                        var assigned = (DropDownList)e.Row.FindControl("AssignDrp");
+                        assigned.DataSource = Member.GetAllSupervisors();
+                        assigned.DataBind();
+                        var unassigned = new ListItem("Unassigned", "Unassigned");
+                        assigned.Items.Add(unassigned);
+                    }
                     break;
                 case DataControlRowType.DataRow:
-                {
-                    if ((e.Row.RowState & DataControlRowState.Edit) <= 0) return;
-                    var assigned = (DropDownList) e.Row.FindControl("AssignDrp");
-                    assigned.DataSource = Member.GetAllSupervisors();
-                    assigned.DataBind();
-                    assigned.SelectedValue = _lbl.Text;
-                    var unassigned = new ListItem("Unassigned", "Unassigned");
-                    assigned.Items.Add(unassigned);
-                }
+                    {
+                        if ((e.Row.RowState & DataControlRowState.Edit) <= 0) return;
+                        var assigned = (DropDownList)e.Row.FindControl("AssignDrp");
+                        assigned.DataSource = Member.GetAllSupervisors();
+                        assigned.DataBind();
+                        assigned.SelectedValue = _lbl.Text;
+                        var unassigned = new ListItem("Unassigned", "Unassigned");
+                        assigned.Items.Add(unassigned);
+                    }
                     break;
             }
         }
 
         protected void userSearch_OnTextChanged(object sender, EventArgs e)
         {
-            DataTable dt = (DataTable)Session["DataSource"];
+            var dt = (DataTable)Session["DataSource"];
 
             dt.DefaultView.RowFilter = string.Format("UserName LIKE '%{0}%'",
                    userSearch.Text);

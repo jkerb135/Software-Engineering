@@ -225,14 +225,8 @@
                     </div>
             </asp:Panel>
             <asp:Panel ID="OtherInfo" runat="server">
-                    <div class="profileNav">
-                        <input type="button" class="requestCat btn btn-primary" value="Request Assigned Categories" style="width: 225px;"/>
-                        <input type="button" class="requestTask btn btn-primary" value="Request Assigned Tasks" style="width: 225px;"/>
-                    </div>
-
-                    <div class="dataTables" style="padding-left: 20px;">
-                        <div id="requestCat" style="display: none; min-height:450px;">
-                            <div class="col-xs-10">
+                        <div id="requestCat" style="min-height:450px;">
+                            <div class="col-xs-12">
 
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
@@ -241,10 +235,10 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="RequestCatGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" OnRowCommand="RequestCatGrid_RowCommand1" AutoGenerateColumns="false"  OnRowDataBound="RequestCatGrid_RowDataBound">
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataKeyNames="CategoryName" ID="RequestCatGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="RequestCatGrid_RowCommand1" AutoGenerateColumns="false"  OnRowDataBound="RequestCatGrid_RowDataBound">
                                                 <Columns>
                                                     <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
-                                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="36%" DataFormatString=" {0:d} " HtmlEncode="false" />
+                                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Time" ItemStyle-Width="36%" />
                                                     <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
                                                         <HeaderTemplate>Request Category</HeaderTemplate>
                                                         <ItemTemplate>
@@ -253,7 +247,6 @@
                                                     </asp:TemplateField>
                                                 </Columns>
                                             </asp:GridView>
-                                            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
                                         </div>
                                     </div>
                                     <div class="panel-footer">
@@ -264,35 +257,6 @@
 
                             </div>
                         </div>
-                        <div id="requestTask" style="display: none;min-height:450px;">
-                            <div class="col-xs-10">
-                                <div class="panel panel-primary ">
-                                    <div class="panel-heading">
-                                        <i class="fa fa-users fa-fw"></i>
-                                        <asp:Label ID="Label9" runat="server" Text="Request A Task"></asp:Label>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="RequestTaskGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="true" OnRowCommand="RequestTaskGrid_RowCommand" AutoGenerateColumns="false" OnRowDataBound="RequestTaskGrid_RowDataBound">
-                                                <Columns>
-                                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
-                                                    <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="36%" />
-                                                    <asp:TemplateField ItemStyle-Width="28%">
-                                                        <HeaderTemplate>Request Tasks</HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <asp:Button ID="RequestTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Request" CommandArgument='<%# Eval("TaskID") + ";" + Eval("CategoryName") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                            <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
-                                        </div>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <p class="text-warning">NOTE: Requesting a task has to be approved by the assigned supervisor</p>
-                                    </div>
-                                </div>
-                            </div>
             </asp:Panel>
             </div>
 

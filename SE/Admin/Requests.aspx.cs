@@ -27,12 +27,6 @@ namespace SE.Admin
                 RequestSource.SelectCommand =
                     "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
                     _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
-            if (_membershipUser != null)
-                TaskSource.SelectCommand =
-                    "Select b.TaskID,b.TaskName,a.Requester, a.Date From RequestedTasks a inner join Tasks b on a.TaskID = b.TaskID Where a.CreatedBy = '" +
-                    _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
-            requests.DataBind();
-            TaskGrid.DataBind();
         }
 
         /// <summary>
@@ -46,9 +40,9 @@ namespace SE.Admin
             requestUpdatePanel.Update();
             var args = e.CommandArgument.ToString().Split(';');
             var categoryId = args[0];
-            if (categoryId == null) throw new ArgumentNullException("categoryId");
+            if (categoryId == null) throw new ArgumentNullException("sender");
             var requestingUser = args[1];
-            if (requestingUser == null) throw new ArgumentNullException("requestingUser");
+            if (requestingUser == null) throw new ArgumentNullException("sender");
             string queryString, queryString2, catName = "";
             if (e.CommandName == "AcceptRequest")
             {

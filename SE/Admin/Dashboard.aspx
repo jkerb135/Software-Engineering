@@ -7,6 +7,10 @@
         function blink() {
             $('#userManagement').fadeTo(100, 0.1).fadeTo(200, 1.0);
         }
+        function newUserToast() {
+            toastr.options.closeButton = true;
+            toastr.success('New User Created');
+        }
         function successToast() {
             toastr.options.closeButton = true;
             toastr.success('Users Information was successfully updated');
