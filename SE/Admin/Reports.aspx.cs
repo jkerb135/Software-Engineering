@@ -91,7 +91,7 @@ namespace SE
 
             const string queryString = "SELECT AssignedUser FROM MemberAssignments";
             const string queryString2 = "SELECT COUNT(*) FROM CompletedTasks WHERE AssignedUser=@assigneduser";
-            const string queryString3 = "SELECT COUNT(*) FROM Tasks WHERE AssignedUser=@assigneduser";
+            const string queryString3 = "SELECT COUNT(*) FROM TaskAssignments WHERE AssignedUser=@assigneduser";
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -147,14 +147,15 @@ namespace SE
             ReportTable.Columns.Add("Time Spent on Task");
             ReportTable.Columns.Add("Date Completed");
 
-            const string queryString = "SELECT TaskID FROM Tasks WHERE AssignedUser=@assigneduser";
+            const string queryString = "SELECT TaskID FROM TaskAssignments WHERE AssignedUser=@assigneduser";
             const string queryString2 = "SELECT TaskName FROM Tasks WHERE TaskID=@taskid";
             const string queryString3 = "SELECT COUNT(*) FROM CompletedMainSteps WHERE AssignedUser=@assigneduser AND TaskID=@taskid";
             const string queryString4 = "SELECT MainStepID FROM MainSteps WHERE TaskID=@taskid";
             const string queryString5 = "SELECT COUNT(*) FROM DetailedSteps WHERE MainStepID=@mainstepid";
             const string queryString6 = "SELECT TaskTime FROM Tasks WHERE TaskID=@taskid";
-            const string queryString7 = "SELECT TotalTime FROM CompletedTasks WHERE TaskID=@taskid AND AssignedUser=@assigneduser";
-            const string queryString8 = "SELECT DateTimeCompleted FROM CompletedTasks WHERE TaskID=@taskid AND AssignedUser=@assigneduser";
+            const string queryString7 = "SELECT TaskID FROM CompletedTasks WHERE AssignedUser=@assigneduser";
+            const string queryString8 = "SELECT TotalTime FROM CompletedTasks WHERE TaskID=@taskid AND AssignedUser=@assigneduser";
+            const string queryString9 = "SELECT DateTimeCompleted FROM CompletedTasks WHERE TaskID=@taskid AND AssignedUser=@assigneduser";
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -167,6 +168,7 @@ namespace SE
                 var cmd6 = new SqlCommand(queryString6, con);
                 var cmd7 = new SqlCommand(queryString7, con);
                 var cmd8 = new SqlCommand(queryString8, con);
+                var cmd9 = new SqlCommand(queryString9, con);
 
                 cmd.Parameters.AddWithValue("@assigneduser", user);
 
@@ -182,10 +184,12 @@ namespace SE
                 cmd6.Parameters.AddWithValue("@taskid", DBNull.Value);
 
                 cmd7.Parameters.AddWithValue("@assigneduser", user);
-                cmd7.Parameters.AddWithValue("@taskid", DBNull.Value);
 
                 cmd8.Parameters.AddWithValue("@assigneduser", user);
                 cmd8.Parameters.AddWithValue("@taskid", DBNull.Value);
+
+                cmd9.Parameters.AddWithValue("@assigneduser", user);
+                cmd9.Parameters.AddWithValue("@taskid", DBNull.Value);
 
                 con.Open();
 
@@ -193,7 +197,18 @@ namespace SE
 
                 while (dr.Read())
                 {
-                    AllTasks.Add(Convert.ToInt32(dr["TaskID"]));
+                    if (!AllTasks.Contains(Convert.ToInt32(dr["TaskID"])))
+                        AllTasks.Add(Convert.ToInt32(dr["TaskID"]));
+                }
+
+                dr.Close();
+
+                dr = cmd7.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    if (!AllTasks.Contains(Convert.ToInt32(dr["TaskID"])))
+                        AllTasks.Add(Convert.ToInt32(dr["TaskID"]));
                 }
 
                 dr.Close();
@@ -202,13 +217,13 @@ namespace SE
                 {
                     var row = ReportTable.NewRow();
 
-                    cmd2.Parameters["@taskid"].Value = cmd3.Parameters["@taskid"].Value = cmd4.Parameters["@taskid"].Value = cmd6.Parameters["@taskid"].Value = cmd7.Parameters["@taskid"].Value = cmd8.Parameters["@taskid"].Value = taskid;
+                    cmd2.Parameters["@taskid"].Value = cmd3.Parameters["@taskid"].Value = cmd4.Parameters["@taskid"].Value = cmd6.Parameters["@taskid"].Value = cmd8.Parameters["@taskid"].Value = cmd9.Parameters["@taskid"].Value = taskid;
                     cmd5.Parameters["@mainstepid"].Value = Convert.ToInt32(cmd4.ExecuteScalar());
 
-                    if (cmd7.ExecuteScalar() != null)
+                    if (cmd8.ExecuteScalar() != null)
                     {
-                        TotalTime = cmd7.ExecuteScalar().ToString();
-                        DateComplete = cmd8.ExecuteScalar().ToString();
+                        TotalTime = cmd8.ExecuteScalar().ToString();
+                        DateComplete = cmd9.ExecuteScalar().ToString();
                     }
                     else
                     {
@@ -219,7 +234,7 @@ namespace SE
                     row["Task Name"] = cmd2.ExecuteScalar();
                     row["Main Steps Complete"] = cmd3.ExecuteScalar().ToString();
                     row["Detailed Steps Used"] = cmd5.ExecuteScalar().ToString();
-                    row["Time Spent on Task"] = (TotalTime != null) ? TotalTime : cmd6.ExecuteScalar().ToString() + " Minutes";
+                    row["Time Spent on Task"] = (TotalTime != null) ? TotalTime + " Minutes" : cmd6.ExecuteScalar().ToString() + " Minutes";
                     row["Date Completed"] = (DateComplete != null) ? DateComplete : "In Progress";
 
                     ReportTable.Rows.Add(row);
