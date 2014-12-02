@@ -91,7 +91,7 @@ namespace SE
 
             const string queryString = "SELECT AssignedUser FROM MemberAssignments";
             const string queryString2 = "SELECT COUNT(*) FROM CompletedTasks WHERE AssignedUser=@assigneduser";
-            const string queryString3 = "SELECT COUNT(*) FROM Tasks WHERE AssignedUser=@assigneduser";
+            const string queryString3 = "SELECT COUNT(*) FROM TaskAssignments WHERE AssignedUser=@assigneduser";
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -147,7 +147,7 @@ namespace SE
             ReportTable.Columns.Add("Time Spent on Task");
             ReportTable.Columns.Add("Date Completed");
 
-            const string queryString = "SELECT TaskID FROM Tasks WHERE AssignedUser=@assigneduser";
+            const string queryString = "SELECT TaskID FROM TaskAssignments WHERE AssignedUser=@assigneduser";
             const string queryString2 = "SELECT TaskName FROM Tasks WHERE TaskID=@taskid";
             const string queryString3 = "SELECT COUNT(*) FROM CompletedMainSteps WHERE AssignedUser=@assigneduser AND TaskID=@taskid";
             const string queryString4 = "SELECT MainStepID FROM MainSteps WHERE TaskID=@taskid";
@@ -197,7 +197,8 @@ namespace SE
 
                 while (dr.Read())
                 {
-                    AllTasks.Add(Convert.ToInt32(dr["TaskID"]));
+                    if (!AllTasks.Contains(Convert.ToInt32(dr["TaskID"])))
+                        AllTasks.Add(Convert.ToInt32(dr["TaskID"]));
                 }
 
                 dr.Close();
