@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Drawing.Text;
 using System.Linq;
 using System.Data.SqlClient;
 using System.Data;
@@ -47,7 +46,7 @@ namespace SE.Classes
             dt.Columns.Add("RoleName", Type.GetType("System.String"));
             dt.Columns.Add("LastLoginDate", Type.GetType("System.String"));
             dt.Columns.Add("AssignedSupervisor", Type.GetType("System.String"));
-            dt.Columns.Add("IsLockedOut", Type.GetType("System.String"));
+            dt.Columns.Add("IsApproved", Type.GetType("System.String"));
 
             /* Here is the list of columns returned of the Membership.GetAllUsers() method
              * UserName, Email, PasswordQuestion, Comment, IsApproved
@@ -66,7 +65,7 @@ namespace SE.Classes
                 dr["LastLoginDate"] = mu.LastLoginDate;
                 dr["RoleName"] = userIsSupervisor ? "Supervisor" : "User";
                 dr["AssignedSupervisor"] = !userIsSupervisor ? UserAssignedTo(mu.UserName) : "";
-                dr["IsLockedOut"] = mu.IsApproved;
+                dr["IsApproved"] = mu.IsApproved;
 
                 dt.Rows.Add(dr);
             }
@@ -177,7 +176,7 @@ namespace SE.Classes
             const string queryString = "DELETE FROM CategoryAssignments " +
                                        "WHERE AssignedUser=@user";
 
-            const string queryString2 = "UPDATE Tasks " +
+            const string queryString2 = "UPDATE TasksAssignements " +
                                         "SET AssignedUser=NULL " +
                                         "WHERE AssignedUser=@user";
 
@@ -261,7 +260,7 @@ namespace SE.Classes
                 }
                 catch
                 {
-                    supervisor = "";
+                    supervisor = "Unassigned";
                 }
 
                 con.Close();
@@ -404,7 +403,7 @@ namespace SE.Classes
             foreach (var membership in activeUserCollection.Cast<MembershipUser>().Where(membership =>
             {
                 var membershipUser = Membership.GetUser();
-                return membershipUser != null && (Roles.IsUserInRole(membership.UserName, "Supervisor") && (membership.UserName.ToUpper() != membershipUser.UserName.ToUpper()));
+                return membershipUser != null && (Roles.IsUserInRole(membership.UserName, "Supervisor") && (!String.Equals(membership.UserName, membershipUser.UserName, StringComparison.CurrentCultureIgnoreCase)));
             }))
             {
                 row = userTable.NewRow();
@@ -462,6 +461,24 @@ namespace SE.Classes
 
             return supervisorUsers;
         }
+
+        public static DataTable GetAllSupervisors()
+        {
+            var dt = new DataTable();
+
+            var muc = Membership.GetAllUsers();
+
+            dt.Columns.Add("Username");
+            foreach (var mu in muc.Cast<MembershipUser>().Where(mu => !Roles.IsUserInRole(mu.UserName, "Manager")))
+            {
+                if (!Roles.IsUserInRole(mu.UserName, "Supervisor")) continue;
+                var row = dt.NewRow();
+                row["Username"] = mu.UserName;
+                dt.Rows.Add(row);
+            }
+
+            return dt;
+        } 
 
     }
 }

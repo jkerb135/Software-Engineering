@@ -109,7 +109,7 @@ namespace SE.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
-               var complete = _db.CompletedMainSteps.SingleOrDefault(u => u.AssignedUser == mainstep.AssignedUser && u.MainStepID == mainstep.MainStepID && u.MainStepName == mainstep.MainStepName && u.DateTimeComplete == mainstep.DateTimeComplete);
+               var complete = _db.CompletedMainSteps.FirstOrDefault(u => u.AssignedUser == mainstep.AssignedUser && u.MainStepID == mainstep.MainStepID && u.MainStepName == mainstep.MainStepName && u.DateTimeComplete == mainstep.DateTimeComplete);
             if (complete != null)
                 return Request.CreateResponse(HttpStatusCode.Conflict, "Completed Main Step already exists in database");
             mainstep.DateTimeComplete = DateTime.Now;
@@ -124,7 +124,7 @@ namespace SE.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
 
-            var complete = _db.CompletedTasks.SingleOrDefault(u => u.AssignedUser == task.AssignedUser && u.TaskID == task.TaskID && u.TaskName == task.TaskName && u.DateTimeCompleted == task.DateTimeCompleted);
+            var complete = _db.CompletedTasks.FirstOrDefault(u => u.AssignedUser == task.AssignedUser && u.TaskID == task.TaskID && u.TaskName == task.TaskName && u.DateTimeCompleted == task.DateTimeCompleted);
             if (complete != null)
                 return Request.CreateResponse(HttpStatusCode.Conflict, "Completed Task already exists in database");
             task.DateTimeCompleted = DateTime.Now;

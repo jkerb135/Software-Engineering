@@ -7,14 +7,15 @@ using System.Web.Http.Cors;
 namespace SE.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
-    public class UserCategories
-    {
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-        public string AssignedUser { get; set; }
-    }
+
     public class CategoryController : ApiController
     {
+        public class UserCategories
+        {
+            public int CategoryId { get; set; }
+            public string CategoryName { get; set; }
+            public string AssignedUser { get; set; }
+        }
         readonly ipawsTeamBEntities db = new ipawsTeamBEntities();
         /// <summary>
         /// Gets all categories from the database.

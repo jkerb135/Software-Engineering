@@ -145,7 +145,7 @@ namespace SE
                     Success += "User successfully reassigned.<br/>";
                 }
             }
-
+            
             // User password
             if (!String.IsNullOrEmpty(EditPassword.Text) &&
                 Member.ValidatePassword(EditPassword.Text, ref Error))
