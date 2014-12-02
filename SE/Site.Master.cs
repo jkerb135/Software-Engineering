@@ -9,17 +9,17 @@ namespace SE
 {
     public partial class Site : System.Web.UI.MasterPage
     {
-        public string getProfilePic { set; get; }
-        public string getOtherProfilePic { set; get; }
+        public string GetProfilePic { set; get; }
+        public string GetOtherProfilePic { set; get; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            getProfilePic = ResolveUrl("/Images/default.png");
+            GetProfilePic = ResolveUrl("/Images/default.png");
             if (IsPostBack) return;
-            var UserName = System.Web.HttpContext.Current.User.Identity.Name;
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
             var textInfo = new CultureInfo("en-US", false).TextInfo;
-            var formatUsername = textInfo.ToTitleCase(UserName);
+            var formatUsername = textInfo.ToTitleCase(userName);
             username.Text = " " + formatUsername + " ";
-            if (!Roles.IsUserInRole(UserName, "Manager"))
+            if (!Roles.IsUserInRole(userName, "Manager"))
             {
                 ReportsMenu.Visible = false;
             }
@@ -30,13 +30,13 @@ namespace SE
                 ProfilePic.Visible = false;
                 RequestsMenu.Visible = false;
             }
-            getPictureFromDb(UserName);
+            GetPictureFromDb(userName);
         }
 
         protected void LogoutButton_Click(object sender, EventArgs e)
         {
             var membershipUser = Membership.GetUser();
-            if (membershipUser.Comment != "Verified")
+            if (membershipUser != null && membershipUser.Comment != "Verified")
             {
                 membershipUser.Comment = null;
                 Membership.UpdateUser(membershipUser);
@@ -45,7 +45,7 @@ namespace SE
             FormsAuthentication.RedirectToLoginPage();
         }
 
-        protected void getPictureFromDb(string username)
+        protected void GetPictureFromDb(string username)
         {
             using (var db = new ipawsTeamBEntities())
             {
@@ -53,62 +53,52 @@ namespace SE
                 if (profile == null)
                 {
                     ProfilePicture.ImageUrl = ResolveUrl("/Images/default.png");
-                    getProfilePic = ResolveUrl("/Images/default.png");
+                    GetProfilePic = ResolveUrl("/Images/default.png");
                 }
                 else
                 {
                     ProfilePicture.ImageUrl = profile.Picture.ToString();
-                    getProfilePic = profile.Picture.ToString();
+                    GetProfilePic = profile.Picture.ToString();
                 }
             }
         }
-        public string getOtherPictureFromDb(string username)
+        public string GetOtherPictureFromDb(string username)
         {
             string url;
-            using (ipawsTeamBEntities db = new ipawsTeamBEntities())
+            using (var db = new ipawsTeamBEntities())
             {
                 var profile = db.Profiles.FirstOrDefault(find => find.Name == username);
-                if (profile == null)
-                {
-                    url = ResolveUrl("/Images/default.png");
-                }
-                else
-                {
-                    url = profile.Picture.ToString();
-                }
+                url = profile == null ? ResolveUrl("/Images/default.png") : profile.Picture.ToString();
             }
             return url;
         }
 
         protected void UploadFile_Click(object sender, EventArgs e)
         {
-            string userName = System.Web.HttpContext.Current.User.Identity.Name;
-            if (ProfileUpload.HasFile)
+            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+            if (!ProfileUpload.HasFile) return;
+            using (var db = new ipawsTeamBEntities())
             {
-                string Message = "";
-                using (ipawsTeamBEntities db = new ipawsTeamBEntities())
+                var exists = db.Profiles.FirstOrDefault(find => find.Name == userName);
+                var message = Methods.UploadFile(ProfileUpload, "Image");
+                if (exists != null)
                 {
-                    var exists = db.Profiles.FirstOrDefault(find => find.Name == userName);
-                    Message = Methods.UploadFile(ProfileUpload, "Image");
-                    if (exists != null)
-                    {
-                        exists.Picture = "~/Uploads/" + ProfileUpload.FileName;
-                    }
-                    else { 
-                        if (Message == "")
-                        {
-                            var newProfile = new Profile
-                            {
-                                Name = userName,
-                                Picture = "~/Uploads/" + ProfileUpload.FileName,
-                            };
-                            db.Profiles.Add(newProfile);
-                        }
-                    }
-                    db.SaveChanges();
+                    exists.Picture = "~/Uploads/" + ProfileUpload.FileName;
                 }
-                getPictureFromDb(userName);
+                else { 
+                    if (message == "")
+                    {
+                        var newProfile = new Profile
+                        {
+                            Name = userName,
+                            Picture = "~/Uploads/" + ProfileUpload.FileName,
+                        };
+                        db.Profiles.Add(newProfile);
+                    }
+                }
+                db.SaveChanges();
             }
+            GetPictureFromDb(userName);
         }
     }
 }
