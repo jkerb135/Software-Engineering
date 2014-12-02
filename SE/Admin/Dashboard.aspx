@@ -25,7 +25,7 @@
                     <ContentTemplate>
                         <div class="form-inline">
                         <div class="form-group">
-                                    Search By Username: <asp:TextBox runat="server" ID="userSearch" CssClass="form-control" stlye="width:30%"></asp:TextBox><asp:Button runat="server" ID="btnSearch" Text="Search" CssClass="btn btn-primary"/><asp:Button runat="server" ID="btnReset" Text="Reset" CssClass="btn btn-danger" OnClick="btnReset_OnClick"/>
+                                    Search By Username: <asp:TextBox runat="server" ID="userSearch" OnTextChanged="userSearch_OnTextChanged" CssClass="form-control" stlye="width:30%"></asp:TextBox><asp:Button runat="server" ID="btnSearch" Text="Search" CssClass="btn btn-primary"/><asp:Button runat="server" ID="btnReset" Text="Reset" CssClass="btn btn-danger" OnClick="btnReset_OnClick"/>
                         </div>
                         </div>        
                         <asp:GridView OnRowDataBound="GridView1_OnRowDataBound" OnRowCancelingEdit="GridView1_RowCancelingEdit" OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" AllowSorting="true" OnSorting="GridView1_Sorting" OnPageIndexChanging="GridView1_PageIndexChanging" GridLines="None" ShowFooter="True" CssClass="table table-striped" ID="GridView1" runat="server" AutoGenerateColumns="False" AllowPaging="True" PageSize="6">

@@ -21,7 +21,6 @@ namespace SE
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
-            Session["DataSource"] = Member.CustomGetAllUsers();
             BindUserAccounts();
             var textInfo = new CultureInfo("en-US",false).TextInfo;
 
@@ -93,11 +92,6 @@ namespace SE
 
         }
 
-        private static void BindSupervisors(BaseDataBoundControl drp)
-        {
-            drp.DataSource = Roles.GetUsersInRole("Supervisor");
-            drp.DataBind();
-        }
         private void BindUserAccounts()
         {
             if (Session["DataSource"] == null) return;
@@ -154,6 +148,7 @@ namespace SE
         protected void btnReset_OnClick(object sender, EventArgs e)
         {
             userSearch.Text = String.Empty;
+            BindUserAccounts();
         }
 
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -227,6 +222,13 @@ namespace SE
                 }
                     break;
             }
+        }
+
+        protected void userSearch_OnTextChanged(object sender, EventArgs e)
+        {
+            if (Session["DataSource"] as DataView == null) return;
+            GridView1.DataSource = (Session["DataSource"] as DataView).RowFilter = "UserName LIKE '%" + userSearch.Text + "%'";
+            GridView1.DataBind();
         }
     }
 }
