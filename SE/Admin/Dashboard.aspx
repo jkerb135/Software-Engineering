@@ -1,9 +1,19 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="SE.Dashboard" %>
 
 <asp:Content ID="PageHead" ContentPlaceHolderID="SiteHead" runat="server">
+    <link href="../Content/toastr.min.css" rel="stylesheet" />
+    <script src="../Scripts/toastr.min.js"></script>
     <script>
         function blink() {
             $('#userManagement').fadeTo(100, 0.1).fadeTo(200, 1.0);
+        }
+        function successToast() {
+            toastr.options.closeButton = true;
+            toastr.success('Users Information was successfully updated');
+        }
+        function errorToast(error) {
+            toastr.options.closeButton = true;
+            toastr.error('Password has to be 8 characters with 3 speicial characters');
         }
     </script>
 </asp:Content>

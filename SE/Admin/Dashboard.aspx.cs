@@ -21,9 +21,9 @@ namespace SE
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
-            BindUserAccounts();
             var textInfo = new CultureInfo("en-US",false).TextInfo;
-
+            Session["DataSource"] = Member.CustomGetAllUsers();
+            BindUserAccounts();
             var formatUsername = textInfo.ToTitleCase(_membershipUser.UserName);
             if (_membershipUser != null && Roles.IsUserInRole(_membershipUser.UserName, "Supervisor"))
             {
@@ -94,12 +94,12 @@ namespace SE
 
         private void BindUserAccounts()
         {
-            if (Session["DataSource"] == null) return;
-            GridView1.DataSource = Member.CustomGetAllUsers();
+            GridView1.DataSource = (DataTable)Session["DataSource"];
             GridView1.DataBind();
         }
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
+            GridView1.EditIndex = -1;
             GridView1.PageIndex = e.NewPageIndex;
             BindUserAccounts();
         }
@@ -148,35 +148,47 @@ namespace SE
         protected void btnReset_OnClick(object sender, EventArgs e)
         {
             userSearch.Text = String.Empty;
-            BindUserAccounts();
+            Session["DataSource"] = Member.CustomGetAllUsers();
+            GridView1.DataSource = Member.CustomGetAllUsers();
+            GridView1.DataBind();
         }
 
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            var username = (Label)GridView1.Rows[e.RowIndex].FindControl("UserLabel");
-            var password = (TextBox)GridView1.Rows[e.RowIndex].FindControl("PasswordTxt");
-            var email = (TextBox)GridView1.Rows[e.RowIndex].FindControl("EmailTxt");
-            var assigned = (DropDownList)GridView1.Rows[e.RowIndex].FindControl("AssignDrp");
-            var lockOut = (DropDownList)GridView1.Rows[e.RowIndex].FindControl("LockOutDrp");
+            try
+            {
+                var username = (Label)GridView1.Rows[e.RowIndex].FindControl("UserLabel");
+                var password = (TextBox)GridView1.Rows[e.RowIndex].FindControl("PasswordTxt");
+                var email = (TextBox)GridView1.Rows[e.RowIndex].FindControl("EmailTxt");
+                var assigned = (DropDownList)GridView1.Rows[e.RowIndex].FindControl("AssignDrp");
+                var lockOut = (DropDownList)GridView1.Rows[e.RowIndex].FindControl("LockOutDrp");
 
-            var newMember = Membership.GetUser(username.Text);
-            if (newMember == null) return;
-            if (password.Text != String.Empty)
-            {
-                newMember.ChangePassword(newMember.ResetPassword(), password.Text);
+                var newMember = Membership.GetUser(username.Text);
+                if (newMember == null) return;
+                string ErrorMsg = "";
+                if (password.Text != String.Empty && Member.ValidatePassword(password.Text, ref ErrorMsg))
+                {
+                    newMember.ChangePassword(newMember.ResetPassword(), password.Text);
+                }
+                if (email.Text != String.Empty || email.Text != newMember.Email)
+                {
+                    newMember.Email = email.Text;
+                }
+                newMember.IsApproved = Convert.ToBoolean(lockOut.SelectedValue);
+                if (assigned.Enabled && assigned.Visible && !String.Equals(Member.UserAssignedTo(username.Text).Trim(), assigned.SelectedValue.Trim()))
+                {
+                    Member.EditAssignToUser(username.Text, assigned.SelectedValue);
+                }
+                Membership.UpdateUser(newMember);
+                GridView1.EditIndex = -1;
+                Session["DataSource"] = Member.CustomGetAllUsers();
+                BindUserAccounts();
+                ScriptManager.RegisterStartupScript(this, GetType(), "script", "successToast();", true);
             }
-            if (email.Text != String.Empty || email.Text != newMember.Email)
+            catch (Exception e1)
             {
-                newMember.Email = email.Text;
+                ScriptManager.RegisterStartupScript(this, GetType(), "script", "errorToast("+e1.InnerException+");", true);
             }
-            newMember.IsApproved = Convert.ToBoolean(lockOut.SelectedValue);
-            if (assigned.Enabled && assigned.Visible && !String.Equals(Member.UserAssignedTo(username.Text).Trim(), assigned.SelectedValue.Trim()))
-            {
-                Member.EditAssignToUser(username.Text, assigned.SelectedValue);
-            }
-             Membership.UpdateUser(newMember);
-             GridView1.EditIndex = -1;
-            BindUserAccounts();
 
         }
 
@@ -226,8 +238,11 @@ namespace SE
 
         protected void userSearch_OnTextChanged(object sender, EventArgs e)
         {
-            if (Session["DataSource"] as DataView == null) return;
-            GridView1.DataSource = (Session["DataSource"] as DataView).RowFilter = "UserName LIKE '%" + userSearch.Text + "%'";
+            DataTable dt = (DataTable)Session["DataSource"];
+
+            dt.DefaultView.RowFilter = string.Format("UserName LIKE '%{0}%'",
+                   userSearch.Text);
+            GridView1.DataSource = dt;
             GridView1.DataBind();
         }
     }

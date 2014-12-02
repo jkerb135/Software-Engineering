@@ -495,9 +495,9 @@
     <Content Include="Admin\Dashboard.aspx" />
     <Content Include="Members\web.config" />
     <None Include="Properties\PublishProfiles\iPaws.pubxml" />
-    <Content Include="web.config">
+    <None Include="web.config">
       <SubType>Designer</SubType>
-    </Content>
+    </None>
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
