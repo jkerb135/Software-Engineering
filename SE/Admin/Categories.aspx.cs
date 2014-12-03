@@ -1725,5 +1725,12 @@ namespace SE
         {
             RefreshDetailedSteps();
         }
+        protected void HelpBtn_OnClick(object sender, EventArgs e)
+        {
+            lblModalTitle.Text = "Help!";
+            lblModalBody.Text =
+                "This page is used to add Categories, Tasks, Main Steps, and Detailed Steps with their respective tables. Each table (shown as a column) can be used to add, update, or deactivate/reactivate its contents. To get to detailed and main steps, you must first move from left to right selecting the root category, then moving down the tree (moving right across the screen) through tasks to find the desired step. Note the 'Move Up/Down' buttons which quickly allow you to re-order the selected step. You are also able to preview a task by clicking the 'Preview Task' button. This will open another tab which will allow you to view the selected task from a User's perspective.";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+        }
     }
 }

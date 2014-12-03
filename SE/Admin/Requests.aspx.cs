@@ -113,5 +113,12 @@ namespace SE.Admin
                 con.Close();
             }
         }
+        protected void HelpBtn_OnClick(object sender, EventArgs e)
+        {
+            lblModalTitle.Text = "Help!";
+            lblModalBody.Text =
+                "This page provides two simple tables which show both Category and Task Requests respectively. You can view the Name, Requesting User, and Date for each request that you have.";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+        }
     }
 }

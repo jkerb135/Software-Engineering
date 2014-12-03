@@ -11,7 +11,7 @@ namespace SE {
     
     
     public partial class Dashboard {
-        
+
         /// <summary>
         /// label control.
         /// </summary>
@@ -20,7 +20,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label label;
-        
+
         /// <summary>
         /// label2 control.
         /// </summary>
@@ -29,7 +29,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label label2;
-        
+
         /// <summary>
         /// managerState control.
         /// </summary>
@@ -38,7 +38,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField managerState;
-        
+
         /// <summary>
         /// DashboardView control.
         /// </summary>
@@ -47,7 +47,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.MultiView DashboardView;
-        
+
         /// <summary>
         /// Manager control.
         /// </summary>
@@ -56,7 +56,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View Manager;
-        
+
         /// <summary>
         /// UpdatePanel1 control.
         /// </summary>
@@ -65,7 +65,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
+
         /// <summary>
         /// userSearch control.
         /// </summary>
@@ -74,7 +74,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox userSearch;
-        
+
         /// <summary>
         /// btnSearch control.
         /// </summary>
@@ -83,7 +83,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSearch;
-        
+
         /// <summary>
         /// btnReset control.
         /// </summary>
@@ -92,7 +92,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnReset;
-        
+
         /// <summary>
         /// GridView1 control.
         /// </summary>
@@ -101,7 +101,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
-        
+
         /// <summary>
         /// SqlDataSource2 control.
         /// </summary>
@@ -110,7 +110,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource2;
-        
+
         /// <summary>
         /// Supervisor control.
         /// </summary>
@@ -119,7 +119,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View Supervisor;
-        
+
         /// <summary>
         /// activeUserList control.
         /// </summary>
@@ -128,7 +128,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView activeUserList;
-        
+
         /// <summary>
         /// newMembers control.
         /// </summary>
@@ -137,7 +137,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView newMembers;
-        
+
         /// <summary>
         /// signededIn control.
         /// </summary>
@@ -146,7 +146,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView signededIn;
-        
+
         /// <summary>
         /// upModal control.
         /// </summary>
@@ -155,7 +155,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.UpdatePanel upModal;
-        
+
         /// <summary>
         /// lblModalTitle control.
         /// </summary>
@@ -164,7 +164,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblModalTitle;
-        
+
         /// <summary>
         /// lblModalBody control.
         /// </summary>
@@ -173,7 +173,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblModalBody;
-        
+
         /// <summary>
         /// lblSincere control.
         /// </summary>
@@ -182,7 +182,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblSincere;
-        
+
         /// <summary>
         /// From control.
         /// </summary>
@@ -191,7 +191,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label From;
-        
+
         /// <summary>
         /// ShowAgain control.
         /// </summary>
@@ -200,7 +200,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox ShowAgain;
-        
+
         /// <summary>
         /// Label1 control.
         /// </summary>
@@ -209,7 +209,7 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label1;
-        
+
         /// <summary>
         /// SaveState control.
         /// </summary>

@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using SE.Classes;
 using System;
@@ -49,7 +50,6 @@ namespace SE
                 var user = Membership.GetUser();
                 if (user == null || !Roles.IsUserInRole(user.UserName, "Manager")) return;
                 DashboardView.ActiveViewIndex = (int)DashView.Manager;
-                GetAllUsers();
             }
         }
 
@@ -59,13 +59,6 @@ namespace SE
             if (_membershipUser == null) return;
             _membershipUser.Comment = "Verified";
             Membership.UpdateUser(_membershipUser);
-        }
-        protected void GetAllUsers()
-        {
-            /*allUsersSource.SelectCommand = "Select a.AssignedSupervisor, b.UserName, b.LastActivityDate, c.Email, c.IsApproved, c.IsLockedOut, e.RoleName from MemberAssignments a right outer join aspnet_Users b on a.AssignedUser = b.UserName inner join aspnet_Membership c on b.UserId = c.UserId inner join aspnet_UsersInRoles d on c.UserId = d.UserId inner join aspnet_Roles e on d.RoleId = e.RoleId";
-            allUsers.DataBind();
-            allUsers.UseAccessibleHeader = true;
-            allUsers.HeaderRow.TableSection = TableRowSection.TableHeader;*/
         }
         protected void GetActiveUsers()
         {
@@ -105,11 +98,22 @@ namespace SE
         }
         protected void GridView1_Sorting(object sender, GridViewSortEventArgs e)
         {
-            var dataTable = (DataTable)GridView1.DataSource;
-            if (dataTable == null) return;
-            var dataView = new DataView(dataTable) { Sort = e.SortExpression };
-            GridView1.DataSource = dataView;
+            var dataTable = (DataTable)Session["DataSource"];
+            dataTable.DefaultView.Sort = String.Format("{0} {1}", e.SortExpression, GetSortingDirection());
+            Session["DataSource"] = dataTable;
+            GridView1.DataSource = Session["DataSource"];
             GridView1.DataBind();
+        }
+        protected string GetSortingDirection()
+        {
+            if (ViewState["SortDirection"] == null)
+                ViewState["SortDirection"] = "ASC";
+            else if ((string) ViewState["SortDirection"] == "ASC")
+                ViewState["SortDirection"] = "DESC";
+            else
+                ViewState["SortDirection"] = "ASC";
+
+            return (string) ViewState["SortDirection"];
         }
         protected void NewInsert_Click(object sender, EventArgs e)
         {
@@ -123,15 +127,15 @@ namespace SE
             try
             {
                 if (!emailRegex.IsMatch(email.Text))
-                    throw new Exception("Email is not in the correct format");
+                    throw new EmailException("Email is not in the correct format");
                 Membership.CreateUser(username.Text, password.Text);
                 var newMember = Membership.GetUser(username.Text);
                 if (newMember != null)
                 {
                     if (newMember.ProviderUserKey != null)
-                        Roles.AddUserToRole(newMember.ProviderUserKey.ToString(), role.SelectedValue.ToLower());
+                        Roles.AddUserToRole(newMember.UserName, role.SelectedValue.ToLower());
                     newMember.Email = email.Text;
-                    newMember.IsApproved = Convert.ToBoolean(lockOut.SelectedIndex);
+                    newMember.IsApproved = Convert.ToBoolean(lockOut.SelectedValue);
                     if (assigned.Enabled && assigned.Visible)
                     {
                         Member.AssignToUser(username.Text, assigned.SelectedValue);
@@ -149,6 +153,12 @@ namespace SE
             catch (MembershipCreateUserException e1)
             {
                 var error = e1.Message;
+                if (error ==
+                    "The password supplied is invalid.  Passwords must conform to the password strength requirements configured for the default provider.")
+                {
+                    error = String.Empty;
+                    Member.ValidatePassword(password.Text, ref error);
+                }
                 ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
                     String.Format("errorToast('{0}');", error), true);
             }
@@ -159,7 +169,7 @@ namespace SE
                 ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
                     String.Format("errorToast('{0}');", error), true);
             }
-            catch(Exception e1)
+            catch(EmailException e1)
             {
                 var error = e1.Message;
                 ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
@@ -184,18 +194,20 @@ namespace SE
 
         protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
+            var username = (Label)GridView1.Rows[e.RowIndex].FindControl("UserLabel");
+            var password = (TextBox)GridView1.Rows[e.RowIndex].FindControl("PasswordTxt");
+            var email = (TextBox)GridView1.Rows[e.RowIndex].FindControl("EmailTxt");
+            var assigned = (DropDownList)GridView1.Rows[e.RowIndex].FindControl("AssignDrp");
+            var lockOut = (DropDownList)GridView1.Rows[e.RowIndex].FindControl("LockOutDrp");
+            var emailRegex = new Regex(@"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$");
             try
             {
-                var username = (Label)GridView1.Rows[e.RowIndex].FindControl("UserLabel");
-                var password = (TextBox)GridView1.Rows[e.RowIndex].FindControl("PasswordTxt");
-                var email = (TextBox)GridView1.Rows[e.RowIndex].FindControl("EmailTxt");
-                var assigned = (DropDownList)GridView1.Rows[e.RowIndex].FindControl("AssignDrp");
-                var lockOut = (DropDownList)GridView1.Rows[e.RowIndex].FindControl("LockOutDrp");
 
+                if (!emailRegex.IsMatch(email.Text))
+                    throw new EmailException("Email is not in the correct format");
                 var newMember = Membership.GetUser(username.Text);
                 if (newMember == null) return;
-                var errorMsg = "";
-                if (password.Text != String.Empty && Member.ValidatePassword(password.Text, ref errorMsg))
+                if (password.Text != String.Empty)
                 {
                     newMember.ChangePassword(newMember.ResetPassword(), password.Text);
                 }
@@ -204,7 +216,8 @@ namespace SE
                     newMember.Email = email.Text;
                 }
                 newMember.IsApproved = Convert.ToBoolean(lockOut.SelectedValue);
-                if (assigned.Enabled && assigned.Visible && !String.Equals(Member.UserAssignedTo(username.Text).Trim(), assigned.SelectedValue.Trim()))
+                if (assigned.Enabled && assigned.Visible &&
+                    !String.Equals(Member.UserAssignedTo(username.Text).Trim(), assigned.SelectedValue.Trim()))
                 {
                     Member.EditAssignToUser(username.Text, assigned.SelectedValue);
                 }
@@ -217,7 +230,27 @@ namespace SE
             catch (MembershipCreateUserException e1)
             {
                 var error = e1.Message;
-                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("errorToast('{0}');", error), true);
+                ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
+                    String.Format("errorToast('{0}');", error), true);
+            }
+            catch (EmailException e1)
+            {
+                var error = e1.Message;
+                ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
+                    String.Format("errorToast('{0}');", error), true);
+            }
+            catch (ArgumentException e1)
+            {
+                var error = "";
+                Member.ValidatePassword(password.Text, ref error);
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
+                    String.Format("errorToast('{0}');", error), true);
+            }
+            catch (Exception e1)
+            {
+                var error = e1.GetType();
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
+                    String.Format("errorToast('{0}');", error), true);
             }
 
         }
@@ -274,6 +307,53 @@ namespace SE
                    userSearch.Text);
             GridView1.DataSource = dt;
             GridView1.DataBind();
+        }
+
+        protected void GridView1_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            var username = (Label)GridView1.Rows[e.RowIndex].FindControl("UserLabel");
+            var deleteUser = Membership.GetUser(username.Text);
+            try
+            {
+                if (deleteUser != null) Membership.DeleteUser(deleteUser.UserName,true);
+            }
+            catch (Exception e1)
+            {
+                var error = e1.GetType();
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
+                    String.Format("errorToast('{0}');", error), true);
+            }
+            GridView1.DataSource = Member.CustomGetAllUsers();
+            GridView1.DataBind();
+        }
+
+        protected void HelpBtn_OnClick(object sender, EventArgs e)
+        {
+            var textInfo = new CultureInfo("en-US", false).TextInfo;
+            var formatUsername = textInfo.ToTitleCase(_membershipUser.UserName);
+            lblModalTitle.Text = "Welcome " + formatUsername + "!";
+            lblModalBody.Text =
+                "This is your portal to the interactive personal assistant web-app system (or just iPAWS for short). This first page is your Dashboard where you can see if you have any active users online, if you have any newly assigned users or what other supervisors are using the system. The Dashboard is just a staging ground to keep you up to date on what is going on. If you would like to create, update or delete a Category or task go to the Task Manager on the left hand menu. If you would like to view what users are assigned to what task or category or if you would like to update who is assigned to what go to User Assignment. If you would like to review requests from other supervisors go to the Supervisor Requests. Lastly if you would like to request or view reports go to the Reports. We hope you enjoy the web-app.";
+            lblSincere.Text = "Cheers,";
+            From.Text = "iPAWS Team B";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+        }
+    }
+
+    public class EmailException : Exception
+    {
+        public EmailException()
+        {
+        }
+
+        public EmailException(string message)
+            : base(message)
+        {
+        }
+
+        public EmailException(string message, Exception inner)
+            : base(message, inner)
+        {
         }
     }
 }

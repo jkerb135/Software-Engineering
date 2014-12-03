@@ -22,13 +22,18 @@ namespace SE
             if (!Roles.IsUserInRole(userName, "Manager"))
             {
                 ReportsMenu.Visible = false;
+                SupervisorHome.Visible = true;
+                ManagerHome.Visible = false;
             }
             else
             {
+                SupervisorHome.Visible = false;
+                ManagerHome.Visible = true;
                 CategoriesMenu.Visible = false;
                 Li1.Visible = false;
                 ProfilePic.Visible = false;
                 RequestsMenu.Visible = false;
+                
             }
             GetPictureFromDb(userName);
         }

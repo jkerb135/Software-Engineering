@@ -613,5 +613,12 @@ namespace SE.Admin
         {
             QueryCatRequestStatus();
         }
+        protected void HelpBtn_OnClick(object sender, EventArgs e)
+        {
+            lblModalTitle.Text = "Help!";
+            lblModalBody.Text =
+                "This page is used to view Categories, Tasks, and Users assigned to you by clicking the respective buttons. You can use each of the buttons to update the Categories, Tasks, and Users to assign or un-assign them from your control.";
+            ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+        }
     }
 }

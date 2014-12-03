@@ -265,8 +265,11 @@
                             <li style="margin: 20px 0px 0px 10px" id="ProfilePic" runat="server">
                                 <asp:Image ID="ProfilePicture" runat="server" Style="height: 200px; width: 225px" />
                             </li>
-                            <li style="margin-top: 20px">
+                            <li style="margin-top: 20px" runat="server" id="SupervisorHome">
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Dashboard</a>
+                            </li>
+                            <li style="margin-top: 20px" runat="server" id="ManagerHome">
+                                <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Account Management</a>
                             </li>
                             <li id="Li1" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>User Assignment</a>
