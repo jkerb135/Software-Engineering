@@ -94,7 +94,7 @@ namespace SE.Admin
             foreach (
                 var box in
                     AddUserGrid.Rows.Cast<GridViewRow>()
-                        .Select(row => (CheckBox) row.FindControl("catUsersChk"))
+                        .Select(row => (CheckBox)row.FindControl("catUsersChk"))
                         .Where(box => box != null))
             {
                 box.Checked = false;
@@ -109,7 +109,7 @@ namespace SE.Admin
                 {
                     foreach (GridViewRow row in AddUserGrid.Rows)
                     {
-                        var box = (CheckBox) row.FindControl("catUsersChk");
+                        var box = (CheckBox)row.FindControl("catUsersChk");
                         if (row.Cells[2].Text == "False")
                         {
                             box.Enabled = false;
@@ -173,9 +173,9 @@ namespace SE.Admin
                     var flag = false;
                     foreach (GridViewRow row in AddUserGrid.Rows)
                     {
-                        var box = (CheckBox) row.FindControl("catUsersChk");
+                        var box = (CheckBox)row.FindControl("catUsersChk");
                         cmd2.Parameters["@user"].Value = row.Cells[1].Text;
-                        var count = (Int32) cmd2.ExecuteScalar();
+                        var count = (Int32)cmd2.ExecuteScalar();
                         if (box != null && box.Checked && count == 0)
                         {
                             cmd.Parameters["@user"].Value = row.Cells[1].Text;
@@ -220,7 +220,7 @@ namespace SE.Admin
             UsersInTask.HeaderRow.TableSection = TableRowSection.TableHeader;
             TaskId = Convert.ToInt32(e.CommandArgument);
             foreach (
-                var box in from GridViewRow row in UsersInTask.Rows select (CheckBox) row.FindControl("UsersInTaskChk"))
+                var box in from GridViewRow row in UsersInTask.Rows select (CheckBox)row.FindControl("UsersInTaskChk"))
             {
                 box.Checked = false;
             }
@@ -237,7 +237,7 @@ namespace SE.Admin
                 {
                     foreach (GridViewRow row in UsersInTask.Rows)
                     {
-                        var box = (CheckBox) row.FindControl("UsersInTaskChk");
+                        var box = (CheckBox)row.FindControl("UsersInTaskChk");
                         if (row.Cells[2].Text == "False")
                         {
                             box.Enabled = false;
@@ -288,8 +288,8 @@ namespace SE.Admin
                 {
                     cmd4.Parameters["@user"].Value = row.Cells[1].Text;
                     cmd6.Parameters["@user"].Value = row.Cells[1].Text;
-                    var count = (Int32) cmd6.ExecuteScalar();
-                    var box = (CheckBox) row.FindControl("UsersInTaskChk");
+                    var count = (Int32)cmd6.ExecuteScalar();
+                    var box = (CheckBox)row.FindControl("UsersInTaskChk");
 
                     if (box != null && box.Checked && count == 0)
                     {
@@ -333,7 +333,7 @@ namespace SE.Admin
                 foreach (
                     var box in
                         from GridViewRow row in AllCategoriesGridView.Rows
-                        select (CheckBox) row.FindControl("AllCategoriesChk"))
+                        select (CheckBox)row.FindControl("AllCategoriesChk"))
                 {
                     box.Checked = false;
                 }
@@ -347,11 +347,11 @@ namespace SE.Admin
                     while (dr.Read())
                     {
                         foreach (var box in from GridViewRow row in AllCategoriesGridView.Rows
-                            let box = (CheckBox) row.FindControl("AllCategoriesChk")
-                            where
-                                row.Cells[1].Text == dr["CategoryName"].ToString() &&
-                                dr["AssignedUser"].ToString() == AssignedUsername
-                            select box)
+                                            let box = (CheckBox)row.FindControl("AllCategoriesChk")
+                                            where
+                                                row.Cells[1].Text == dr["CategoryName"].ToString() &&
+                                                dr["AssignedUser"].ToString() == AssignedUsername
+                                            select box)
                         {
                             box.Checked = true;
                         }
@@ -374,7 +374,7 @@ namespace SE.Admin
                 AddTasksGridView.HeaderRow.TableSection = TableRowSection.TableHeader;
                 foreach (
                     var box in
-                        from GridViewRow row in AddTasksGridView.Rows select (CheckBox) row.FindControl("AddTaskChk"))
+                        from GridViewRow row in AddTasksGridView.Rows select (CheckBox)row.FindControl("AddTaskChk"))
                 {
                     box.Checked = false;
                 }
@@ -388,11 +388,11 @@ namespace SE.Admin
                     while (dr.Read())
                     {
                         foreach (var box in from GridViewRow row in AddTasksGridView.Rows
-                            let box = (CheckBox) row.FindControl("AddTaskChk")
-                            where
-                                row.Cells[2].Text == dr["TaskName"].ToString() &&
-                                dr["AssignedUser"].ToString() == AssignedUsername
-                            select box)
+                                            let box = (CheckBox)row.FindControl("AddTaskChk")
+                                            where
+                                                row.Cells[2].Text == dr["TaskName"].ToString() &&
+                                                dr["AssignedUser"].ToString() == AssignedUsername
+                                            select box)
                         {
                             box.Checked = true;
                         }
@@ -444,20 +444,20 @@ namespace SE.Admin
                 var flag = false;
                 foreach (GridViewRow row in AllCategoriesGridView.Rows)
                 {
-                    var box = (CheckBox) row.FindControl("AllCategoriesChk");
+                    var box = (CheckBox)row.FindControl("AllCategoriesChk");
                     cmd.Parameters["@id"].Value = Category.GetCategoryId(row.Cells[1].Text);
                     cmd2.Parameters["@id"].Value = Category.GetCategoryId(row.Cells[1].Text);
                     cmd3.Parameters["@id"].Value = Category.GetCategoryId(row.Cells[1].Text);
                     cmd4.Parameters["@id"].Value = Category.GetCategoryId(row.Cells[1].Text);
                     cmd5.Parameters["@id"].Value = Category.GetCategoryId(row.Cells[1].Text);
-                    if (box != null && box.Checked && (Int32) cmd2.ExecuteScalar() == 0)
+                    if (box != null && box.Checked && (Int32)cmd2.ExecuteScalar() == 0)
                     {
                         lblModalBody.Text += "Added: " + AssignedUsername + " into " + row.Cells[1].Text + "<br/>";
                         cmd.ExecuteNonQuery();
                         cmd3.ExecuteNonQuery();
                         flag = true;
                     }
-                    else if (box != null && (!box.Checked && (Int32) cmd2.ExecuteScalar() == 1))
+                    else if (box != null && (!box.Checked && (Int32)cmd2.ExecuteScalar() == 1))
                     {
                         lblModalBody.Text += "Removed: " + AssignedUsername + " from " + row.Cells[1].Text + "<br/>";
                         cmd4.ExecuteNonQuery();
@@ -507,8 +507,8 @@ namespace SE.Admin
                     cmd2.Parameters["@id"].Value = Task.GetTaskId(row.Cells[2].Text);
                     cmd2.Parameters["@catID"].Value = Category.GetCategoryId(row.Cells[1].Text);
                     cmd3.Parameters["@id"].Value = Task.GetTaskId(row.Cells[2].Text);
-                    var count = (Int32) cmd3.ExecuteScalar();
-                    var box = (CheckBox) row.FindControl("AddTaskChk");
+                    var count = (Int32)cmd3.ExecuteScalar();
+                    var box = (CheckBox)row.FindControl("AddTaskChk");
                     if (box != null && box.Checked && count == 0)
                     {
                         lblModalBody.Text += "Added: " + AssignedUsername.ToString(CultureInfo.InvariantCulture) +
@@ -555,7 +555,7 @@ namespace SE.Admin
 
                 con.Open();
                 PendingRequest = false;
-                var count = (Int32) cmd2.ExecuteScalar();
+                var count = (Int32)cmd2.ExecuteScalar();
                 if (count == 0)
                 {
                     cmd.ExecuteNonQuery();
@@ -586,7 +586,7 @@ namespace SE.Admin
                     foreach (GridViewRow row in RequestCatGrid.Rows)
                     {
                         var approved = Convert.ToBoolean(dr["IsApproved"]);
-                        var request = (Button) row.FindControl("RequestCat");
+                        var request = (Button)row.FindControl("RequestCat");
                         if (approved &&
                             Convert.ToInt32(dr["CategoryID"]) ==
                             Category.GetCategoryIdBySupervisor(row.Cells[0].Text, _otherUser))

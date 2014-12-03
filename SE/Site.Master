@@ -34,6 +34,7 @@
                     $("#requests").append(code);
                 }
                 for (var i = 0; i < categories.length; i++) {
+                    $("#envelope").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
                     $('#messageCount').html(i + 1);
                     code = "<li><a href='<%=ResolveUrl("~/Admin/Requests.aspx") %>'><div><strong>" + categories[i].Requester + "</strong><span class='pull-right text-muted'><em>" + categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")) + "</em></span></div><div> Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.</div></a></li><li class='divider'></li>";
                     $("#requests").append(code);
