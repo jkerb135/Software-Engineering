@@ -190,6 +190,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>True</Private>
     </Reference>
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Categories.aspx" />
+    <Content Include="Admin\PreviewReport.aspx" />
     <Content Include="Admin\Profile.aspx" />
     <Content Include="Admin\Reports.aspx" />
     <Content Include="Admin\Requests.aspx" />
@@ -512,6 +514,13 @@
     </Compile>
     <Compile Include="Admin\Categories.aspx.designer.cs">
       <DependentUpon>Categories.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\PreviewReport.aspx.cs">
+      <DependentUpon>PreviewReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\PreviewReport.aspx.designer.cs">
+      <DependentUpon>PreviewReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>

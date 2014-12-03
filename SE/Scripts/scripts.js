@@ -37,3 +37,16 @@ $("body").on('change', '.detailed-step-image', function (evt) {
     $('.detailed-step-image-preview').empty();
     showPreview(evt.target.files, "image");
 });
+
+$(document).ready(function () {
+    $('body').on('click', '.print-report', function () {
+        var report = popupwindow("/SE/Admin/PreviewReport.aspx", "Preview Report", "800", "500");
+        report.print();
+    });
+});
+
+function popupwindow(url, title, w, h) {
+    var left = (screen.width / 2) - (w / 2);
+    var top = (screen.height / 2) - (h / 2);
+    return window.open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+}

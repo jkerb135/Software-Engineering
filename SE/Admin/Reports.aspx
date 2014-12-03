@@ -5,21 +5,6 @@
     <asp:UpdatePanel ID="ReportUpdatePanel" runat="server">
         <ContentTemplate>
             <h1 class="page-header">Reports</h1>
-            <asp:Panel ID="ReportOverviewPanel" runat="server">
-                <h2>Overview</h2>
-                <div class="table-responsive">
-                    <asp:GridView ID="ReportOverview" CssClass="report table table-bordered" runat="server" 
-                        OnRowDataBound = "OverviewRDB" OnSelectedIndexChanged = "OverviewSIC">
-                    </asp:GridView>
-                </div>
-            </asp:Panel>
-            <asp:Panel ID="ReportDetailsPanel" runat="server">
-                <h2 runat="server" id="ReportDetailsHeading"></h2>
-                <div class="table-responsive">
-                    <asp:GridView ID="ReportDetails" CssClass="report-details table table-bordered" runat="server"></asp:GridView>
-                    <asp:Label ID="ReportDetailsMessage" runat="server"></asp:Label>
-                </div>
-            </asp:Panel>
             <asp:Panel ID="ReportButtons" runat="server">
                 <div class="row">
                     <asp:LinkButton ID="GenerateReportButton" runat="server" OnClick="GenerateReportButton_Click">
@@ -68,7 +53,7 @@
                             </div>
                         </div>
                     </asp:LinkButton>
-                    <asp:LinkButton ID="PrintReportButton" runat="server" OnClick="PrintReportButton_Click">
+                    <asp:LinkButton ID="PrintReportButton" CssClass="print-report" runat="server">
                         <div class="col-xs-3 printReport btn">
                             <div class="panel panel-primary">
                                 <div class="panel-heading">
@@ -91,6 +76,39 @@
                             </div>
                         </div>
                     </asp:LinkButton>
+                </div>
+            </asp:Panel>
+            <asp:Panel ID="ReportOverviewPanel" runat="server">
+                <h2>Overview</h2>
+                <div class="table-responsive">
+                    <asp:GridView ID="ReportOverview" CssClass="report table table-bordered" runat="server" 
+                        OnRowDataBound = "OverviewRDB" OnSelectedIndexChanged = "OverviewSIC">
+                    </asp:GridView>
+                </div>
+            </asp:Panel>
+            <asp:Panel ID="ReportDetailsPanel" runat="server">
+                <h2 runat="server" id="ReportDetailsHeading"></h2>
+                <div class="table-responsive">
+                    <asp:GridView ID="ReportDetails" CssClass="report-details table table-bordered" runat="server"></asp:GridView>
+                    <asp:Label ID="ReportDetailsMessage" runat="server"></asp:Label>
+                </div>
+            </asp:Panel>
+            <asp:Panel ID="EmailReportForm" runat="server">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <div class="form-group">
+                            <asp:Label ID="FromEmailLabel" runat="server" Text="Sender Email Address:"></asp:Label>
+                            <asp:TextBox ID="FromEmail" CssClass="form-control" runat="server"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <asp:Label ID="ToEmailLabel" runat="server" Text="Receiver Email Address:"></asp:Label>
+                            <asp:TextBox ID="ToEmail" CssClass="form-control" runat="server"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <asp:Button ID="EmailFormButton" CssClass="btn btn-default right block" 
+                                runat="server" Text="Submit" OnClick="EmailFormButton_Click" />
+                        </div>
+                    </div>
                 </div>
             </asp:Panel>
         </ContentTemplate>

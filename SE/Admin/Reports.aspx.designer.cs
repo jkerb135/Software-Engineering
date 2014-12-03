@@ -22,6 +22,42 @@ namespace SE {
         protected global::System.Web.UI.UpdatePanel ReportUpdatePanel;
         
         /// <summary>
+        /// ReportButtons control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel ReportButtons;
+        
+        /// <summary>
+        /// GenerateReportButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton GenerateReportButton;
+        
+        /// <summary>
+        /// EmailReportButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton EmailReportButton;
+        
+        /// <summary>
+        /// PrintReportButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton PrintReportButton;
+        
+        /// <summary>
         /// ReportOverviewPanel control.
         /// </summary>
         /// <remarks>
@@ -76,39 +112,57 @@ namespace SE {
         protected global::System.Web.UI.WebControls.Label ReportDetailsMessage;
         
         /// <summary>
-        /// ReportButtons control.
+        /// EmailReportForm control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel ReportButtons;
+        protected global::System.Web.UI.WebControls.Panel EmailReportForm;
         
         /// <summary>
-        /// GenerateReportButton control.
+        /// FromEmailLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton GenerateReportButton;
+        protected global::System.Web.UI.WebControls.Label FromEmailLabel;
         
         /// <summary>
-        /// EmailReportButton control.
+        /// FromEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton EmailReportButton;
+        protected global::System.Web.UI.WebControls.TextBox FromEmail;
         
         /// <summary>
-        /// PrintReportButton control.
+        /// ToEmailLabel control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton PrintReportButton;
+        protected global::System.Web.UI.WebControls.Label ToEmailLabel;
+        
+        /// <summary>
+        /// ToEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox ToEmail;
+        
+        /// <summary>
+        /// EmailFormButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button EmailFormButton;
     }
 }
