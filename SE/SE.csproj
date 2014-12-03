@@ -266,6 +266,7 @@
     <Content Include="Scripts\jquery-1.11.0.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="UserControls\ReportPreview.ascx" />
     <EntityDeploy Include="Models\iPaws.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>iPaws.Designer.cs</LastGenOutput>
@@ -555,6 +556,9 @@
       <DependentUpon>SignalR.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="Admin\SignalR.aspx.designer.cs">
+      <DependentUpon>SignalR.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -720,11 +724,17 @@
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="UserControls\ReportPreview.ascx.cs">
+      <DependentUpon>ReportPreview.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\ReportPreview.ascx.designer.cs">
+      <DependentUpon>ReportPreview.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="Scripts\js\" />
-    <Folder Include="UserControls\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

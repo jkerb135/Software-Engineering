@@ -7,27 +7,36 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SE.Admin {
+namespace SE.UserControls {
     
     
-    public partial class PreviewReport {
+    public partial class ReportPreview {
         
         /// <summary>
-        /// TheForm control.
+        /// EmailContents control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm TheForm;
+        protected global::System.Web.UI.WebControls.Panel EmailContents;
         
         /// <summary>
-        /// ReportPreviewControl control.
+        /// EmailGrid control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::SE.UserControls.ReportPreview ReportPreviewControl;
+        protected global::System.Web.UI.WebControls.GridView EmailGrid;
+        
+        /// <summary>
+        /// UserDataSource control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource UserDataSource;
     }
 }

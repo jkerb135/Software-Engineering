@@ -7,6 +7,11 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Web.UI.WebControls;
 using SE.Classes;
+using System.Net;
+using System.Web.Security;
+using System.Text;
+using System.Web.UI;
+using System.IO;
 
 namespace SE
 {
@@ -21,6 +26,7 @@ namespace SE
         {
             if (!IsPostBack)
             {
+                PageHeader.InnerText = "Reports";
                 ReportOverviewPanel.Visible = false;
                 ReportDetailsPanel.Visible = false;
                 EmailReportForm.Visible = false;
@@ -31,6 +37,7 @@ namespace SE
         {
             if (!ReportOverviewPanel.Visible)
             {
+                PageHeader.InnerText = "Generate Report";
                 ReportOverviewPanel.Visible = true;
                 EmailReportForm.Visible = false;
                 ReportOverview.DataSource = Report.GenerateReport();
@@ -42,6 +49,7 @@ namespace SE
         {
             if (!EmailReportForm.Visible)
             {
+                PageHeader.InnerText = "Email Report";
                 EmailReportForm.Visible = true;
                 ReportOverviewPanel.Visible = false;
                 ReportDetailsPanel.Visible = false;
@@ -49,8 +57,27 @@ namespace SE
         }
 
         protected void EmailFormButton_Click(object sender, EventArgs e)
-        {
+        {   
+            StringBuilder sb = new StringBuilder();
+            StringWriter tw = new StringWriter(sb);
+            HtmlTextWriter hw = new HtmlTextWriter(tw);
+            ReportPreviewControl.RenderControl(hw);
+            var html = sb.ToString();
 
+            try 
+            {
+                ErrorMessage.Text = Methods.SendEmail(FromEmail.Text, ToEmail.Text, html);
+            }
+            catch(Exception ex){
+                ErrorMessage.Text = ex.Message;
+            }
+            finally
+            {
+                EmailReportForm.Visible = false;
+                ToEmail.Text = String.Empty;
+                FromEmail.Text = String.Empty;
+                SuccessMessage.Text = "Email has been successfully sent!";
+            }
         }
 
         protected void OverviewRDB(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
@@ -88,6 +115,12 @@ namespace SE
                     row.ToolTip = "Click to select this row.";
                 }
             }
+        }
+
+        //override the VerifyRenderingInServerForm() to verify the control
+        public override void VerifyRenderingInServerForm(Control control)
+        {
+            //Required to verify that the control is rendered properly on page
         }
     }
 }

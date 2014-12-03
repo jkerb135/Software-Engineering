@@ -1,11 +1,19 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" EnableEventValidation="false" CodeBehind="Reports.aspx.cs" Inherits="SE.Reports" %>
+<%@ Register TagPrefix="se" TagName="ReportPreview" Src="~/UserControls/ReportPreview.ascx" %>
 <asp:Content ID="PageHead" ContentPlaceHolderID="SiteHead" runat="server">
 </asp:Content>
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">
     <asp:UpdatePanel ID="ReportUpdatePanel" runat="server">
         <ContentTemplate>
-            <h1 class="page-header">Reports</h1>
+            <h1 ID="PageHeader" class="page-header" runat="server">Reports</h1>
             <asp:Panel ID="ReportButtons" runat="server">
+                <div class="success-messages">
+                    <asp:Label ID="SuccessMessage" runat="server"></asp:Label>
+                </div>
+                <div class="error-messages">
+                    <asp:Label ID="ErrorMessage" runat="server"></asp:Label>
+                    <asp:ValidationSummary ID="EmailSummary" ValidationGroup="EmailReportGroup" runat="server" />
+                </div>
                 <div class="row">
                     <asp:LinkButton ID="GenerateReportButton" runat="server" OnClick="GenerateReportButton_Click">
                         <div class="col-xs-3 generateReport btn">
@@ -98,18 +106,33 @@
                     <div class="col-xs-5">
                         <div class="form-group">
                             <asp:Label ID="FromEmailLabel" runat="server" Text="Sender Email Address:"></asp:Label>
+                            <asp:RequiredFieldValidator ID="FromEmailRequired" runat="server" ControlToValidate="FromEmail" 
+                                ErrorMessage="Sender email is required." ValidationGroup="EmailReportGroup">*</asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="FromEmailValid" runat="server" 
+                                ControlToValidate="FromEmail" ErrorMessage="Sender email address must be in a valid format" Display="None" 
+                                ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="EmailReportGroup">
+                            </asp:RegularExpressionValidator>
                             <asp:TextBox ID="FromEmail" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                         <div class="form-group">
                             <asp:Label ID="ToEmailLabel" runat="server" Text="Receiver Email Address:"></asp:Label>
+                            <asp:RequiredFieldValidator ID="ToEmailRequired" runat="server" ControlToValidate="ToEmail" 
+                                ErrorMessage="Receiver email is required." ValidationGroup="EmailReportGroup">*</asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
+                                ControlToValidate="ToEmail" ErrorMessage="Receiver email address must be in a valid format" Display="None" 
+                                ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="EmailReportGroup">
+                            </asp:RegularExpressionValidator>
                             <asp:TextBox ID="ToEmail" CssClass="form-control" runat="server"></asp:TextBox>
                         </div>
                         <div class="form-group">
-                            <asp:Button ID="EmailFormButton" CssClass="btn btn-default right block" 
+                            <asp:Button ID="EmailFormButton" CssClass="btn btn-default right block" ValidationGroup="EmailReportGroup" CausesValidation="true"
                                 runat="server" Text="Submit" OnClick="EmailFormButton_Click" />
                         </div>
                     </div>
                 </div>
+            </asp:Panel>
+            <asp:Panel ID="ReportControl" CssClass="hidden" runat="server">
+                <se:ReportPreview runat="server" ID="ReportPreviewControl"></se:ReportPreview>
             </asp:Panel>
         </ContentTemplate>
     </asp:UpdatePanel>
