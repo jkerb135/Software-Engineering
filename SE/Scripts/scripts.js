@@ -40,7 +40,11 @@ $("body").on('change', '.detailed-step-image', function (evt) {
 
 $(document).ready(function () {
     $('body').on('click', '.print-report', function () {
-        var report = popupwindow("/SE/Admin/PreviewReport.aspx", "Preview Report", "800", "500");
+        pathArray = window.location.href.split('/');
+        protocol = pathArray[0];
+        host = pathArray[2];
+        baseUrl = protocol + '//' + host;
+        var report = popupwindow(baseUrl + "/Admin/PreviewReport.aspx", "Preview Report", "800", "500");
         report.print();
     });
 });
