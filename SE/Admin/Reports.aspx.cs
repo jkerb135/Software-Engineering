@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Web.UI.WebControls;
+using SE.Classes;
 
 namespace SE
 {
@@ -22,6 +23,7 @@ namespace SE
             {
                 ReportOverviewPanel.Visible = false;
                 ReportDetailsPanel.Visible = false;
+                EmailReportForm.Visible = false;
             }
         }
 
@@ -30,6 +32,7 @@ namespace SE
             if (!ReportOverviewPanel.Visible)
             {
                 ReportOverviewPanel.Visible = true;
+                EmailReportForm.Visible = false;
                 ReportOverview.DataSource = Report.GenerateReport();
                 ReportOverview.DataBind();
             }
@@ -37,10 +40,15 @@ namespace SE
 
         protected void EmailReportButton_Click(object sender, EventArgs e)
         {
-            
+            if (!EmailReportForm.Visible)
+            {
+                EmailReportForm.Visible = true;
+                ReportOverviewPanel.Visible = false;
+                ReportDetailsPanel.Visible = false;
+            }
         }
 
-        protected void PrintReportButton_Click(object sender, EventArgs e)
+        protected void EmailFormButton_Click(object sender, EventArgs e)
         {
 
         }
