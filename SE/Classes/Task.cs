@@ -14,7 +14,6 @@ namespace SE.Classes
 
         public int TaskId { get; set; }
         public int CategoryId { get; set; }
-        public string AssignedUser { get; set; }
         public string TaskName { get; set; }
         public double TaskTime { get; set; }
         public string CreatedTime { get; set; }
@@ -81,7 +80,6 @@ namespace SE.Classes
         {
             TaskId = 0;
             CategoryId = 0;
-            AssignedUser = null;
             TaskName = String.Empty;
             TaskTime = 0;
             IsActive = true;
@@ -92,8 +90,8 @@ namespace SE.Classes
 
         public void CreateTask()
         {
-            const string queryString = "INSERT INTO Tasks (CategoryID, AssignedUser, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
-                                       "VALUES (@categoryid, @assigneduser, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
+            const string queryString = "INSERT INTO Tasks (CategoryID, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
+                                       "VALUES (@categoryid, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
 
             const string queryString2 = "SELECT MAX(TaskID) FROM Tasks";
           
@@ -104,8 +102,6 @@ namespace SE.Classes
                 var cmd2 = new SqlCommand(queryString2, con);
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryId);
-                if (AssignedUser != null){cmd.Parameters.AddWithValue("@assigneduser", AssignedUser);}
-                else {cmd.Parameters.AddWithValue("@assigneduser", DBNull.Value);}
                 cmd.Parameters.AddWithValue("@taskname", TaskName);
                 cmd.Parameters.AddWithValue("@tasktime", TaskTime);
                 cmd.Parameters.AddWithValue("@isactive", true);
@@ -127,10 +123,6 @@ namespace SE.Classes
             const string queryString = "UPDATE Tasks " +
                                        "SET CategoryID=@categoryid " +
                                        "WHERE TaskID=@taskid";
-    
-            const string queryString2 = "UPDATE Tasks " +
-                                        "SET AssignedUser=@assigneduser " +
-                                        "WHERE TaskID=@taskid";
 
             const string queryString3 = "UPDATE Tasks " +
                                         "SET TaskName=@taskname " +
@@ -140,14 +132,10 @@ namespace SE.Classes
                 Methods.GetConnectionString()))
             {
                 var cmd = new SqlCommand(queryString, con);
-                var cmd2 = new SqlCommand(queryString2, con);
                 var cmd3 = new SqlCommand(queryString3, con);
 
                 cmd.Parameters.AddWithValue("@taskid", TaskId);
                 cmd.Parameters.AddWithValue("@categoryid", CategoryId);
-
-                cmd2.Parameters.AddWithValue("@taskid", TaskId);
-                cmd2.Parameters.AddWithValue("@assigneduser", AssignedUser);
 
                 cmd3.Parameters.AddWithValue("@taskid", TaskId);
                 cmd3.Parameters.AddWithValue("@taskname", TaskName);
@@ -156,8 +144,6 @@ namespace SE.Classes
 
                 if (CategoryId != 0)
                     cmd.ExecuteScalar();
-                if (!String.IsNullOrEmpty(AssignedUser))
-                    cmd2.ExecuteScalar();
                 if (!String.IsNullOrEmpty(TaskName))
                     cmd3.ExecuteScalar();
 
@@ -298,7 +284,6 @@ namespace SE.Classes
 
             dt.Columns.Add("Task Name", Type.GetType("System.String"));
             dt.Columns.Add("Assigned Category", Type.GetType("System.String"));
-            dt.Columns.Add("Assigned User", Type.GetType("System.String"));
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -318,7 +303,6 @@ namespace SE.Classes
 
                     datarow["Task Name"] = "<a href='?taskpage=edittask&taskid=" + dr["TaskID"] + "'>" + dr["TaskName"] + "</a>";
                     datarow["Assigned Category"] = dr["CategoryName"];
-                    datarow["Assigned User"] = dr["AssignedUser"];
 
                     dt.Rows.Add(datarow);
                 }
@@ -422,7 +406,6 @@ namespace SE.Classes
             taskTable.Columns.Add("Task Name");
             taskTable.Columns.Add("Activity");
             taskTable.Columns.Add("Created");
-            taskTable.Columns.Add("Users In Task");
 
             const string queryString = "SELECT * FROM Tasks " +
                                        "WHERE CreatedBy=@assignedSupervisor";
@@ -451,7 +434,6 @@ namespace SE.Classes
                     }
                     DateTime created = Convert.ToDateTime(Convert.ToString(dr["CreatedTime"]));
                     newRow["Created"] = created.ToShortDateString();
-                    newRow["Users In Task"] = Convert.ToString(dr["AssignedUser"]);
                     taskTable.Rows.Add(newRow);
                 }
                 if (taskTable.Rows.Count == 0)
@@ -489,7 +471,6 @@ namespace SE.Classes
                 while (dr.Read())
                 {
                     task.TaskName = dr["TaskName"].ToString();
-                    task.AssignedUser = dr["AssignedUser"].ToString();
                 }
 
                 con.Close();
