@@ -38,6 +38,8 @@ namespace SE
             if (!ReportOverviewPanel.Visible)
             {
                 PageHeader.InnerText = "Generate Report";
+                SuccessMessage.Text = String.Empty;
+                ErrorMessage.Text = String.Empty;
                 ReportOverviewPanel.Visible = true;
                 EmailReportForm.Visible = false;
                 ReportOverview.DataSource = Report.GenerateReport();
@@ -50,6 +52,8 @@ namespace SE
             if (!EmailReportForm.Visible)
             {
                 PageHeader.InnerText = "Email Report";
+                SuccessMessage.Text = String.Empty;
+                ErrorMessage.Text = String.Empty;
                 EmailReportForm.Visible = true;
                 ReportOverviewPanel.Visible = false;
                 ReportDetailsPanel.Visible = false;
