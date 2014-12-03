@@ -30,6 +30,7 @@ namespace SE
                 ReportOverviewPanel.Visible = false;
                 ReportDetailsPanel.Visible = false;
                 EmailReportForm.Visible = false;
+                FromEmail.Text = "ipawsteamb@gmail.com";
             }
         }
 
@@ -78,8 +79,8 @@ namespace SE
             finally
             {
                 EmailReportForm.Visible = false;
+                FromEmail.Text = "ipawsteamb@gmail.com";
                 ToEmail.Text = String.Empty;
-                FromEmail.Text = String.Empty;
                 SuccessMessage.Text = "Email has been successfully sent!";
             }
         }
