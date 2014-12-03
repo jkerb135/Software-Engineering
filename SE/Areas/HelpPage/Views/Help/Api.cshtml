@@ -1,8 +1,9 @@
-@using System.Web.Http.Description
-@model SE.Areas.HelpPage.Models.HelpPageApiModel
+@using System.Web.Http
+@using SE.Areas.HelpPage.Models
+@model HelpPageApiModel
 
 @{
-    ApiDescription description = Model.ApiDescription;
+    var description = Model.ApiDescription;
     ViewBag.Title = description.HttpMethod.Method + " " + description.RelativePath;
 }
 

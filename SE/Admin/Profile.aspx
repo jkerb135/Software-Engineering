@@ -9,15 +9,15 @@
                 <div class="col-xs-12">
                     <h1 class="page-header"><asp:Label runat="server" ID="profileHeader">User Assignment</asp:Label></h1>
                 </div>
-                <asp:Panel ID="YourInfo" runat="server">
+            <asp:Panel ID="YourInfo" runat="server">
                     <div class="profileNav">
                         <input type="button" class="catButton btn btn-primary" value="View Assigned Categories" style="width: 200px;" />
                         <input type="button" class="taskButton btn btn-primary" value="View Assigned Tasks" style="width: 200px;" />
                         <input type="button" class="assignedUsers btn btn-primary" value="View Assigned Users" style="width: 200px;" />
                     </div>
 
-                    <div class="dataTables" style="z-index: 9999">
-                        <div id="catData" style="display: none; min-height: 450px;">
+                    <div class="dataTables" style="z-index:9999">
+                        <div id="catData" style="display:none; min-height:450px;">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">
@@ -26,7 +26,7 @@
                                         <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="max-height: 250px; overflow: auto;">
+                                        <div style="overflow: auto; max-height: 250px;">
                                             <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="catUsers" style="display: none; min-height: 450px;">
+                        <div id="catUsers" style="display: none;  min-height:450px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
@@ -56,7 +56,7 @@
                                         <asp:Label ID="catUserLabel" runat="server" Text=""></asp:Label>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="max-height: 250px; overflow: auto;">
+                                        <div style="overflow: auto; max-height: 250px;">
                                             <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-Width="5%">
@@ -76,7 +76,7 @@
                                 <asp:Button ID="AddUsersToCat" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddUsersToCat_Click" />
                             </div>
                         </div>
-                        <div id="taskData" style="display: none; min-height: 450px;">
+                        <div id="taskData" style="display: none;  min-height:450px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary ">
                                     <div class="panel-heading">
@@ -84,7 +84,7 @@
                                         <asp:Label ID="Label2" runat="server" Text=""></asp:Label>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="max-height: 250px; overflow: auto;">
+                                        <div style="overflow: auto; max-height: 250px;">
                                             <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="true" OnRowCommand="TaskGrid_RowCommand" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
@@ -103,7 +103,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="taskUsers" style="display: none; min-height: 450px;">
+                        <div id="taskUsers" style="display: none;  min-height:450px;">
                             <div class="col-xs-10">
 
                                 <div class="panel panel-primary">
@@ -112,7 +112,7 @@
                                         <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="max-height: 250px; overflow: auto;">
+                                        <div style="overflow: auto; max-height: 250px;">
                                             <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-Width="5%">
@@ -132,7 +132,7 @@
                                 <asp:Button ID="AssignToTask" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AssUsersToTask_Click" />
                             </div>
                         </div>
-                        <div id="userData" style="display: none; min-height: 450px;">
+                        <div id="userData" style="display: none;  min-height:450px;">
                             <div class="col-xs-10">
                                 <div class="panel panel-primary ">
                                     <div class="panel-heading">
@@ -140,7 +140,7 @@
                                         <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
                                     </div>
                                     <div class="panel-body">
-                                        <div style="max-height: 250px; overflow: auto;">
+                                        <div style="overflow: auto; max-height: 250px;">
                                             <asp:GridView ID="users" ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="assignedUsersSource" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="true" AllowSorting="true" AutoGenerateColumns="false" OnRowCommand="users_RowCommand">
                                                 <Columns>
                                                     <asp:BoundField DataField="AssignedUser" HeaderText="User" />
@@ -164,7 +164,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="panel" style="display: none; min-height: 250px;">
+                        <div id="panel" style="display: none;  min-height:250px;">
                             <asp:Panel runat="server" ID="categoryData" Visible="false">
                                 <div class="col-xs-10">
 
@@ -174,7 +174,7 @@
                                             <asp:Label ID="Label6" runat="server" Text=""></asp:Label>
                                         </div>
                                         <div class="panel-body">
-                                            <div style="max-height: 250px; overflow: auto;">
+                                            <div style="overflow: auto; max-height: 250px;">
                                                 <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories Created" DataSourceID="AllCategoriesSource" ID="AllCategoriesGridView" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
                                                     <Columns>
                                                         <asp:TemplateField ItemStyle-Width="5%">
@@ -202,7 +202,7 @@
                                             <asp:Label ID="Label5" runat="server" Text=""></asp:Label>
                                         </div>
                                         <div class="panel-body">
-                                            <div style="max-height: 250px; overflow: auto;">
+                                            <div style="overflow: auto; max-height: 250px;">
                                                 <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories Created" DataSourceID="AllTasksDataSource" ID="AddTasksGridView" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
                                                     <Columns>
                                                         <asp:TemplateField ItemStyle-Width="2%">
@@ -223,174 +223,166 @@
                             </asp:Panel>
                         </div>
                     </div>
-                </asp:Panel>
-                <asp:Panel ID="OtherInfo" runat="server">
-                    <div id="requestCat" style="min-height: 450px;">
-                        <div class="col-xs-12">
+            </asp:Panel>
+            <asp:Panel ID="OtherInfo" runat="server">
+                        <div id="requestCat" style="min-height:450px;">
+                            <div class="col-xs-12">
 
-                            <div class="panel panel-primary">
-                                <div class="panel-heading">
-                                    <i class="fa fa-users fa-fw"></i>
-                                    <asp:Label ID="Label7" runat="server" Text="Request A Category"></asp:Label>
-                                </div>
-                                <div class="panel-body">
-                                    <div style="max-height: 250px; overflow: auto;">
-                                        <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataKeyNames="CategoryName" ID="RequestCatGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="RequestCatGrid_RowCommand1" AutoGenerateColumns="false"  OnRowDataBound="RequestCatGrid_RowDataBound">
-                                            <Columns>
-                                                <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
-                                                <asp:BoundField DataField="CreatedTime" HeaderText="Created Time" ItemStyle-Width="36%" />
-                                                <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
-                                                    <HeaderTemplate>Request Category</HeaderTemplate>
-                                                    <ItemTemplate>
-                                                        <asp:Button ID="RequestCat" CssClass="btn btn-primary form-control requestCatBtn" runat="server" CausesValidation="false" CommandName="Request" Text="Request"  CommandArgument='<%# Eval("CategoryID") %>'/>
-                                                    </ItemTemplate>
-                                                </asp:TemplateField>
-                                            </Columns>
-                                        </asp:GridView>
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-users fa-fw"></i>
+                                        <asp:Label ID="Label7" runat="server" Text="Request A Category"></asp:Label>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div style="overflow: auto; max-height: 250px;">
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataKeyNames="CategoryName" ID="RequestCatGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="RequestCatGrid_RowCommand1" AutoGenerateColumns="false"  OnRowDataBound="RequestCatGrid_RowDataBound">
+                                                <Columns>
+                                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
+                                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Time" ItemStyle-Width="36%" />
+                                                    <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
+                                                        <HeaderTemplate>Request Category</HeaderTemplate>
+                                                        <ItemTemplate>
+                                                            <asp:Button ID="RequestCat" CssClass="btn btn-primary form-control requestCatBtn" runat="server" CausesValidation="false" CommandName="Request" Text="Request"  CommandArgument='<%# Eval("CategoryID") %>'/>
+                                                        </ItemTemplate>
+                                                    </asp:TemplateField>
+                                                </Columns>
+                                            </asp:GridView>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <asp:Label ID="error" runat="server"></asp:Label>
+                                        <p class="text-warning">NOTE: Requesting a Category transfers all the tasks that coorespond with the Category.</p>
                                     </div>
                                 </div>
-                                <div class="panel-footer">
-                                    <asp:Label ID="error" runat="server"></asp:Label>
-                                    <p class="text-warning">NOTE: Requesting a Category transfers all the tasks that coorespond with the Category.</p>
-                                </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div>
-                </asp:Panel>
+            </asp:Panel>
             </div>
 
         </ContentTemplate>
     </asp:UpdatePanel>
     <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
-                <ContentTemplate>
-                    <div class="modal-content" >
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title" style="color: white;"><asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h4>
-                        </div>
-                        <div class="modal-body"style="max-height: 350px; overflow-y: scroll;">
-                            <asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
-                        </div>
+    <div class="modal-dialog">
+        <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+            <ContentTemplate>
+                <div class="modal-content" >
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" style="color:white;"><asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h4>
                     </div>
-                </ContentTemplate>
-            </asp:UpdatePanel>
-        </div>
+                    <div class="modal-body"style="overflow-y:scroll; max-height:350px">
+                        <asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+                    </div>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
     </div>
+</div>
     <script type="text/javascript">
-        $(document).on("click", ".requestButton", function() {
-            console.log(localStorage.getItem("username").toString());
-            contact.server.contactFormSubmitted(localStorage.getItem("username").toString());
-        });
-        var openDiv;
-        var loading;
-        $(document).on("click", ".catButton", function(e) {
-            console.log($(openDiv).is(':animated'));
-            if ($(openDiv).is(':animated') == false) {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000, function() {
-                    $('#catData').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#catData');
-                    console.log($(openDiv).is(':animated'));
-                });
-            }
-        });
-        $(document).on("click", ".taskButton", function(e) {
-            if ($(openDiv).is(':animated') == false) {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000, function() {
-                    $('#taskData').show('slide', { direction: 'left' }, 1000);
-                });
-            }
-        });
-        $(document).on("click", ".assignedUsers", function(e) {
-            if ($(openDiv).is(':animated') == false) {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000, function() {
-                    $('#userData').show('slide', { direction: 'left' }, 1000);
-                });
-            }
-
-        });
-        $(document).on("click", ".requestCat", function(e) {
-            if ($(openDiv).attr('id') != 'requestCat') {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000, function() {
-                    $('#requestCat').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#requestCat');
-                });
-            }
-        });
-        $(document).on("click", ".requestTask", function(e) {
-            if ($(openDiv).attr('id') != 'requestTask') {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function() {
-                    $('#requestTask').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#requestTask');
-                });
-            }
-        });
-
+            $(document).on("click", ".requestButton", function () {
+                console.log(localStorage.getItem("username").toString());
+                contact.server.contactFormSubmitted(localStorage.getItem("username").toString());
+            });
+            var openDiv;
+            var loading;
+            $(document).on("click", ".catButton", function (e) {
+                console.log($(openDiv).is(':animated'));
+                if ($(openDiv).is(':animated') == false){ 
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000, function () {
+                        $('#catData').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#catData');
+                        console.log($(openDiv).is(':animated'));
+                    });
+                }
+            });
+            $(document).on("click", ".taskButton", function (e) {
+                    if ($(openDiv).is(':animated') == false) {
+                        $(openDiv).hide('slide', { direction: 'left' }, 1000,function(){
+                            $('#taskData').show('slide', { direction: 'left' }, 1000);
+                        });
+                    }
+            });
+            $(document).on("click", ".assignedUsers", function (e) {
+                if ($(openDiv).is(':animated') == false) {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000,function(){
+                            $('#userData').show('slide', { direction: 'left' }, 1000);                        
+                    });
+                }
+            
+            });
+            $(document).on("click", ".requestCat", function (e) {
+                if ($(openDiv).attr('id') != 'requestCat') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000,function(){
+                        $('#requestCat').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#requestCat');
+                    });
+                }
+            });
+            $(document).on("click", ".requestTask", function (e) {
+                if ($(openDiv).attr('id') != 'requestTask') {
+                    $(openDiv).hide('slide', { direction: 'left' }, 1000);
+                    $(openDiv).promise().done(function () {
+                        $('#requestTask').show('slide', { direction: 'left' }, 1000);
+                        openDiv = $('#requestTask');
+                    });
+                }
+            });
         function hideCats() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function() {
+            $(openDiv).promise().done(function () {
                 $('#catUsers').show('slide', { direction: 'left' }, 1000);
                 openDiv = $('#catUsers');
             });
         };
-
         function showCats() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function() {
+            $(openDiv).promise().done(function () {
                 $('#catData').show('slide', { direction: 'left' }, 1000);
                 openDiv = $('#catData');
             });
         };
-
         function hideTasks() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function() {
+            $(openDiv).promise().done(function () {
                 $('#taskUsers').show('slide', { direction: 'left' }, 1000);
                 openDiv = $('#taskUsers');
             });
         };
-
         function showTasks() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function() {
+            $(openDiv).promise().done(function () {
                 $('#taskData').show('slide', { direction: 'left' }, 1000);
                 openDiv = $('#taskData');
             });
         };
-
         function showUsers() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function() {
+            $(openDiv).promise().done(function () {
                 $('#userData').show('slide', { direction: 'left' }, 1000);
                 openDiv = $('#userData');
             });
         };
-
         function hideUsers() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function() {
+            $(openDiv).promise().done(function () {
                 $('#panel').show('slide', { direction: 'left' }, 1000);
                 openDiv = $('#panel');
             });
         };
-
         function requestCat() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function() {
+            $(openDiv).promise().done(function () {
                 $('#requestCat').show('slide', { direction: 'left' }, 1000);
                 openDiv = $('#requestCat');
             });
         };
-
         function requestTask() {
             $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function() {
+            $(openDiv).promise().done(function () {
                 $('#requestTask').show('slide', { direction: 'left' }, 1000);
                 openDiv = $('#requestTask');
             });

@@ -1,31 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SE.Classes;
+using System.Web.Security;
+using System.Data.SqlClient;
 
 namespace SE
 {
     /// <summary>
+    /// 
     /// </summary>
-    public partial class Categories : Page
+    public partial class Categories : System.Web.UI.Page
     {
-        private readonly string _userName = HttpContext.Current.User.Identity.Name;
-        private Category _cat = new Category();
-        private DetailedStep _detailedStep = new DetailedStep();
-        private MainStep _mainStep = new MainStep();
-        private Task _task = new Task();
         public int catIDX = 0;
-        public int deatIDX = 0;
-        public int mainIDX = 0;
         public int taskIDX = 0;
+        public int mainIDX = 0;
+        public int deatIDX = 0;
+        Category _cat = new Category();
+        readonly string _userName = System.Web.HttpContext.Current.User.Identity.Name;
+        Task _task = new Task();
+        MainStep _mainStep = new MainStep();
+        DetailedStep _detailedStep = new DetailedStep();
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -37,8 +38,8 @@ namespace SE
             ViewState.Add("DetailedStep", _detailedStep);
             ViewState.Add("CategoriesExist", false);
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -46,8 +47,7 @@ namespace SE
         {
             if (!IsPostBack)
             {
-                catFilter.Enabled =
-                    taskFilter.Enabled = mainFilter.Enabled = detailFilter.Enabled = PreviewTask.Enabled = false;
+                catFilter.Enabled = taskFilter.Enabled = mainFilter.Enabled = detailFilter.Enabled = PreviewTask.Enabled = false;
                 catDateSort.Text = "Date \u25B2";
                 taskDateSort.Text = "Date \u25B2";
                 mainStepSort.Text = "Date \u25B2";
@@ -90,24 +90,23 @@ namespace SE
             if (detailedStep.Items.Count == 0)
                 detailedStep.Attributes.Add("disabled", "true");
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void Page_PreRender(object sender, EventArgs e)
         {
         }
-
         /* Management CRUD Functionality */
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void EditCategoryButton_Click(object sender, EventArgs e)
         {
-            _cat = (Category) ViewState["Category"];
+            _cat = (Category)ViewState["Category"];
 
             switch (EditCategoryButton.Text)
             {
@@ -115,8 +114,7 @@ namespace SE
                     if (EditCategoryName.Text != String.Empty)
                     {
                         _cat.CategoryName = EditCategoryName.Text;
-                        _cat.CategoryAssignments =
-                            (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
+                        _cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
 
                         _cat.CreateCategory();
                         _cat.AssignUserCategories();
@@ -139,8 +137,7 @@ namespace SE
                     if (EditCategoryName.Text != String.Empty)
                     {
                         _cat.CategoryName = EditCategoryName.Text;
-                        _cat.CategoryAssignments =
-                            (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
+                        _cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
 
                         _cat.UpdateCategory();
                         _cat.ReAssignUserCategories();
@@ -160,19 +157,16 @@ namespace SE
                     header.Text = "Management Panel";
                     break;
             }
-            if (catList.Items.Count > 1)
-            {
-                catList.SelectedIndex = catIDX;
-            }
+            if (catList.Items.Count > 1) { catList.SelectedIndex = catIDX; }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void EditTaskButton_Click(object sender, EventArgs e)
         {
-            _task = (Task) ViewState["Task"];
+            _task = (Task)ViewState["Task"];
 
             switch (EditTaskButton.Text)
             {
@@ -181,8 +175,7 @@ namespace SE
                     {
                         _task.TaskName = EditTaskName.Text;
 
-                        _task.TaskAssignments =
-                            (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
+                        _task.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
 
                         _task.CreateTask();
                         _task.AssignUserTasks();
@@ -207,8 +200,7 @@ namespace SE
                         _task.TaskName = EditTaskName.Text;
                         header.Text = "Edit Task: " + _task.TaskName;
 
-                        _task.TaskAssignments =
-                            (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
+                        _task.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
 
                         _task.UpdateTask();
                         _task.ReAssignUserTasks();
@@ -229,21 +221,18 @@ namespace SE
                     break;
             }
             header.Text = "Management Panel";
-            if (taskList.Items.Count > 1)
-            {
-                taskList.SelectedIndex = taskIDX;
-            }
+            if (taskList.Items.Count > 1) { taskList.SelectedIndex = taskIDX; }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void EditMainStepButton_Click(object sender, EventArgs e)
         {
-            _mainStep = (MainStep) ViewState["MainStep"];
-            string message = "";
-            var btn = (Button) sender;
+            _mainStep = (MainStep)ViewState["MainStep"];
+            var message = "";
+            var btn = (Button)sender;
 
             ErrorMessage.Text = String.Empty;
 
@@ -323,21 +312,18 @@ namespace SE
                     }
                 }
             }
-            if (mainStep.Items.Count > 1)
-            {
-                mainStep.SelectedIndex = mainIDX;
-            }
+            if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = mainIDX; }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void EditDetailedStepButton_Click(object sender, EventArgs e)
         {
-            _detailedStep = (DetailedStep) ViewState["DetailedStep"];
-            string message = "";
-            var btn = (Button) sender;
+            _detailedStep = (DetailedStep)ViewState["DetailedStep"];
+            var message = "";
+            var btn = (Button)sender;
 
             ErrorMessage.Text = String.Empty;
 
@@ -401,13 +387,10 @@ namespace SE
                     }
                 }
             }
-            if (detailedStep.Items.Count > 1)
-            {
-                detailedStep.SelectedIndex = deatIDX;
-            }
+            if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = deatIDX; }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -424,8 +407,8 @@ namespace SE
 
             GenerateUserLists();
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -443,8 +426,8 @@ namespace SE
 
             GenerateUserLists();
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -457,9 +440,10 @@ namespace SE
             ManageDetailedStepPanel.Visible = false;
             MainStepButtonNew.Visible = true;
             header.Text = MainStepButton.Text = "Add New Main Step";
-        }
 
+        }
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -473,8 +457,8 @@ namespace SE
             EditDetailedStepButtonNew.Visible = true;
             header.Text = EditDetailedStepButton.Text = "Add New Detailed Step";
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -482,7 +466,7 @@ namespace SE
         {
             if (catList.SelectedItem.Text != "No Categories")
             {
-                _cat = (Category) ViewState["Category"];
+                _cat = (Category)ViewState["Category"];
                 _cat.CategoryId = Convert.ToInt32(catList.SelectedValue);
                 ViewState.Add("Category", _cat);
                 catFilter.Enabled = true;
@@ -500,8 +484,8 @@ namespace SE
                 ErrorMessage.Text = "Not a valid category.";
             }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -517,8 +501,8 @@ namespace SE
             header.Text = "Update Task: " + taskList.SelectedItem.Text;
             GenerateUserLists();
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -534,14 +518,12 @@ namespace SE
             MainStepText.Text = _mainStep.MainStepText;
 
             if (!String.IsNullOrEmpty(_mainStep.AudioFilename))
-                MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(_mainStep.AudioPath) +
-                                                 "'></audio>";
+                MainStepAudioCurrentLabel.Text = "<audio controls><source src='" + ResolveUrl(_mainStep.AudioPath) + "'></audio>";
             else
                 MainStepAudioCurrentLabel.Text = "";
 
             if (!String.IsNullOrEmpty(_mainStep.VideoFilename))
-                MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(_mainStep.VideoPath) +
-                                                 "'></video>";
+                MainStepVideoCurrentLabel.Text = "<video controls><source src='" + ResolveUrl(_mainStep.VideoPath) + "'></video>";
             else
                 MainStepVideoCurrentLabel.Text = "";
 
@@ -549,8 +531,8 @@ namespace SE
             MainStepButtonNew.Visible = false;
             header.Text = "Update Main Step: " + mainStep.SelectedItem.Text;
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -566,8 +548,7 @@ namespace SE
             DetailedStepText.Text = _detailedStep.DetailedStepText;
 
             if (!String.IsNullOrEmpty(_detailedStep.ImageFilename))
-                DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" +
-                                                     ResolveUrl(_detailedStep.ImagePath) + "'>";
+                DetailedStepImageCurrentLabel.Text = "<img class='image-preview' src='" + ResolveUrl(_detailedStep.ImagePath) + "'>";
             else
                 DetailedStepImageCurrentLabel.Text = "";
 
@@ -575,8 +556,8 @@ namespace SE
             EditDetailedStepButtonNew.Visible = false;
             header.Text = "Update Detailed Step: " + detailedStep.SelectedItem.Text;
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -601,14 +582,14 @@ namespace SE
             catList.SelectedValue = value;
             BindCategories(catList);
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void IsActiveTaskButton_Click(object sender, EventArgs e)
         {
-            _task = (Task) ViewState["Task"];
+            _task = (Task)ViewState["Task"];
 
             if (_task.IsActive)
             {
@@ -625,8 +606,8 @@ namespace SE
                 SuccessMessage.Text = "Task has been activated";
             }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -646,9 +627,10 @@ namespace SE
             {
                 mainStep.Items[0].Attributes.Add("disabled", "disabled");
             }
-        }
 
+        }
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -658,17 +640,15 @@ namespace SE
             _detailedStep.DeleteDetailedStep();
             RefreshDetailedSteps();
             SuccessMessage.Text = "detailed step successfully deleted.";
-            if (detailedStep.Items[0].Text ==
-                "No Detailed Steps in " +
-                mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
             {
                 detailedStep.Items[0].Attributes.Add("disabled", "disabled");
             }
         }
 
         /*Button Binding Events*/
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -688,6 +668,7 @@ namespace SE
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -701,9 +682,12 @@ namespace SE
                 control.Items.Add(control2.SelectedItem.Value);
                 control2.Items.Remove(control2.SelectedItem.Value);
             }
+
+
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -722,6 +706,7 @@ namespace SE
 
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -741,34 +726,19 @@ namespace SE
             DetailedStepName.Text = String.Empty;
             DetailedStepText.Text = String.Empty;
             DetailedStepImageCurrentLabel.Text = String.Empty;
-            if (catList.Items.Count == 1 && catList.Items[0].Text == "No Categories")
-            {
-                catList.Items[0].Attributes.Add("disabled", "disabled");
-            }
-            if (taskList.Items.Count == 1 && taskList.Items[0].Text == "No Tasks in " + catList.SelectedItem.Text)
-            {
-                taskList.Items[0].Attributes.Add("disabled", "disabled");
-            }
-            if (mainStep.Items.Count == 1 && mainStep.Items[0].Text == "No Main Steps in " + taskList.SelectedItem.Text)
-            {
-                mainStep.Items[0].Attributes.Add("disabled", "disabled");
-            }
-            if (detailedStep.Items.Count == 1 &&
-                detailedStep.Items[0].Text ==
-                "No Detailed Steps in " +
-                mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
-            {
-                detailedStep.Items[0].Attributes.Add("disabled", "disabled");
-            }
+            if (catList.Items.Count == 1 && catList.Items[0].Text == "No Categories") { catList.Items[0].Attributes.Add("disabled", "disabled"); }
+            if (taskList.Items.Count == 1 && taskList.Items[0].Text == "No Tasks in " + catList.SelectedItem.Text) { taskList.Items[0].Attributes.Add("disabled", "disabled"); }
+            if (mainStep.Items.Count == 1 && mainStep.Items[0].Text == "No Main Steps in " + taskList.SelectedItem.Text) { mainStep.Items[0].Attributes.Add("disabled", "disabled"); }
+            if (detailedStep.Items.Count == 1 && detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1)) { detailedStep.Items[0].Attributes.Add("disabled", "disabled"); }
             header.Text = "Management Panel";
-        }
 
+        }
         private void BindCategories(ListControl list)
         {
             CategoryListSource.Select(DataSourceSelectArguments.Empty);
             CategoryListSource.DataBind();
 
-            if ((bool) ViewState["CategoriesExist"])
+            if ((bool)ViewState["CategoriesExist"])
             {
                 list.Items.Clear();
                 list.DataSource = CategoryListSource;
@@ -784,7 +754,6 @@ namespace SE
                 list.Items[0].Attributes.Add("disabled", "disabled");
             }
         }
-
         private void GenerateUserLists()
         {
             ListBox control = EditTaskPanel.Visible ? AllUsersTask : AllUsers;
@@ -803,8 +772,7 @@ namespace SE
 
             if (EditCategoryButton.Text == "Update Category" && EditCategoryPanel.Visible)
             {
-                List<string> usersAssignedToSupervisorAssignedToCategory =
-                    Member.UsersAssignedToSupervisorAssignedToCategory(_userName, Convert.ToInt32(catList.SelectedValue));
+                List<string> usersAssignedToSupervisorAssignedToCategory = Member.UsersAssignedToSupervisorAssignedToCategory(_userName, Convert.ToInt32(catList.SelectedValue));
 
                 if (usersAssignedToSupervisorAssignedToCategory.Count > 0)
                 {
@@ -819,8 +787,7 @@ namespace SE
             }
             else if (EditTaskButton.Text == "Update Task" && EditTaskPanel.Visible)
             {
-                List<string> usersAssignedToSupervisorAssignedToTask =
-                    Task.UsersAssignedToSupervisorAssignedToTask(_userName, Convert.ToInt32(taskList.SelectedValue));
+                List<string> usersAssignedToSupervisorAssignedToTask = Task.UsersAssignedToSupervisorAssignedToTask(_userName, Convert.ToInt32(taskList.SelectedValue));
 
                 if (usersAssignedToSupervisorAssignedToTask.Count > 0)
                 {
@@ -834,8 +801,8 @@ namespace SE
                 }
             }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -870,11 +837,11 @@ namespace SE
                 mainStepSort.Attributes.Add("disabled", "true");
                 detailedSort.Attributes.Add("disabled", "true");
 
-                _cat = (Category) ViewState["Category"];
+                _cat = (Category)ViewState["Category"];
                 _cat.CategoryId = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
                 ViewState.Add("Category", _cat);
 
-                _task = (Task) ViewState["Task"];
+                _task = (Task)ViewState["Task"];
                 _task.CategoryId = Convert.ToInt32(Convert.ToInt32(catList.SelectedValue));
                 ViewState.Add("Task", _task);
 
@@ -904,6 +871,7 @@ namespace SE
 
                 taskList.Attributes.Remove("disabled");
                 AddNewTask.Attributes.Remove("disabled");
+
             }
             else
             {
@@ -914,10 +882,11 @@ namespace SE
                 taskList.Attributes.Add("disabled", "true");
                 mainStep.Attributes.Add("disabled", "true");
                 detailedStep.Attributes.Add("disabled", "true");
+
             }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -943,11 +912,11 @@ namespace SE
                 detailFilter.Enabled = false;
                 mainStepSort.Attributes.Remove("disabled");
                 detailedSort.Attributes.Add("disabled", "true");
-                _task = (Task) ViewState["Task"];
+                _task = (Task)ViewState["Task"];
                 _task.TaskId = Convert.ToInt32(Convert.ToInt32(taskList.SelectedValue));
                 ViewState.Add("Task", _task);
 
-                _mainStep = (MainStep) ViewState["MainStep"];
+                _mainStep = (MainStep)ViewState["MainStep"];
                 _mainStep.TaskId = Convert.ToInt32(Convert.ToInt32(taskList.SelectedValue));
                 ViewState.Add("MainStep", _mainStep);
 
@@ -985,8 +954,8 @@ namespace SE
                 UpdateTask.Visible = IsActiveTask.Visible = false;
             }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1002,20 +971,18 @@ namespace SE
             {
                 detailFilter.Enabled = true;
                 detailedSort.Attributes.Remove("disabled");
-                _mainStep = (MainStep) ViewState["MainStep"];
+                _mainStep = (MainStep)ViewState["MainStep"];
                 _mainStep.MainStepId = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
                 ViewState.Add("MainStep", _mainStep);
 
-                _detailedStep = (DetailedStep) ViewState["DetailedStep"];
+                _detailedStep = (DetailedStep)ViewState["DetailedStep"];
                 _detailedStep.MainStepId = Convert.ToInt32(Convert.ToInt32(mainStep.SelectedValue));
                 ViewState.Add("DetailedStep", _detailedStep);
 
                 detailedStep.Items.Clear();
                 RefreshDetailedSteps();
 
-                if (detailedStep.Items[0].Text ==
-                    "No Detailed Steps in " +
-                    mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
+                if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
                 {
                     detailedStep.Items[0].Attributes.Add("disabled", "disabled");
                     detailFilter.Enabled = false;
@@ -1043,8 +1010,8 @@ namespace SE
                 MainStepMoveDown.Attributes.Add("disabled", "true");
             }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1055,7 +1022,7 @@ namespace SE
             DeleteDetailedStep.Attributes.Remove("disabled");
             if (detailedStep.SelectedItem.Text != "No Detailed Steps")
             {
-                _detailedStep = (DetailedStep) ViewState["DetailedStep"];
+                _detailedStep = (DetailedStep)ViewState["DetailedStep"];
                 _detailedStep.DetailedStepId = Convert.ToInt32(Convert.ToInt32(detailedStep.SelectedValue));
                 ViewState.Add("DetailedStep", _detailedStep);
 
@@ -1077,15 +1044,12 @@ namespace SE
                 DetailedStepMoveDown.Attributes.Add("disabled", "true");
             }
         }
-
         /*Main Step Function*/
-
         private void RefreshTasks()
         {
-            _task = (Task) ViewState["Task"];
+            _task = (Task)ViewState["Task"];
             TaskListSource.SelectCommand = "SELECT * FROM [Tasks] WHERE ([CategoryID] = @CategoryID)";
-            TaskListSource.SelectParameters["CategoryID"].DefaultValue =
-                _task.CategoryId.ToString(CultureInfo.InvariantCulture);
+            TaskListSource.SelectParameters["CategoryID"].DefaultValue = _task.CategoryId.ToString(CultureInfo.InvariantCulture);
             taskList.Items.Clear();
             taskList.DataSource = TaskListSource;
             taskList.DataBind();
@@ -1093,10 +1057,9 @@ namespace SE
 
         private void RefreshMainSteps()
         {
-            _mainStep = (MainStep) ViewState["MainStep"];
+            _mainStep = (MainStep)ViewState["MainStep"];
             MainStepListSource.SelectCommand = "SELECT * FROM [MainSteps] WHERE ([TaskID] = @TaskID) ORDER BY ListOrder";
-            MainStepListSource.SelectParameters["TaskID"].DefaultValue =
-                _mainStep.TaskId.ToString(CultureInfo.InvariantCulture);
+            MainStepListSource.SelectParameters["TaskID"].DefaultValue = _mainStep.TaskId.ToString(CultureInfo.InvariantCulture);
             mainStep.Items.Clear();
             mainStep.DataSource = MainStepListSource;
             mainStep.DataBind();
@@ -1118,11 +1081,9 @@ namespace SE
 
         private void RefreshDetailedSteps()
         {
-            _detailedStep = (DetailedStep) ViewState["DetailedStep"];
-            DetailedStepListSource.SelectCommand =
-                "SELECT * FROM [DetailedSteps] WHERE ([MainStepID] = @MainStepID) ORDER BY ListOrder";
-            DetailedStepListSource.SelectParameters["MainStepID"].DefaultValue =
-                _detailedStep.MainStepId.ToString(CultureInfo.InvariantCulture);
+            _detailedStep = (DetailedStep)ViewState["DetailedStep"];
+            DetailedStepListSource.SelectCommand = "SELECT * FROM [DetailedSteps] WHERE ([MainStepID] = @MainStepID) ORDER BY ListOrder";
+            DetailedStepListSource.SelectParameters["MainStepID"].DefaultValue = _detailedStep.MainStepId.ToString(CultureInfo.InvariantCulture);
             detailedStep.Items.Clear();
             detailedStep.DataSource = DetailedStepListSource;
             detailedStep.DataBind();
@@ -1149,15 +1110,16 @@ namespace SE
 
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void MainStepMoveDown_Click(object sender, EventArgs e)
         {
-            string value = mainStep.SelectedValue;
+            var value = mainStep.SelectedValue;
             if (mainStep.SelectedValue != "" && mainStep.SelectedIndex != mainStep.Items.Count - 1)
             {
-                _mainStep = (MainStep) ViewState["MainStep"];
+                _mainStep = (MainStep)ViewState["MainStep"];
 
                 const string queryString = "SELECT ListOrder " +
                                            "FROM MainSteps " +
@@ -1195,7 +1157,7 @@ namespace SE
 
                     con.Open();
 
-                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    var firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1208,8 +1170,8 @@ namespace SE
 
                     con.Open();
 
-                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    var secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    var thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1229,24 +1191,23 @@ namespace SE
                 RefreshMainSteps();
             }
             mainStep.SelectedValue = value;
-            if (detailedStep.Items[0].Text ==
-                "No Detailed Steps in " +
-                mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
             {
                 detailedStep.Items[0].Attributes.Add("disabled", "disabled");
             }
-        }
 
+        }
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void MainStepMoveUp_Click(object sender, EventArgs e)
         {
-            string value = mainStep.SelectedValue;
+            var value = mainStep.SelectedValue;
             if (mainStep.SelectedValue != "" && mainStep.SelectedIndex != 0)
             {
-                _mainStep = (MainStep) ViewState["MainStep"];
+                _mainStep = (MainStep)ViewState["MainStep"];
 
                 const string queryString = "SELECT ListOrder " +
                                            "FROM MainSteps " +
@@ -1284,7 +1245,7 @@ namespace SE
 
                     con.Open();
 
-                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    var firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1297,8 +1258,8 @@ namespace SE
 
                     con.Open();
 
-                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    var secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    var thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1318,24 +1279,22 @@ namespace SE
                 RefreshMainSteps();
             }
             mainStep.SelectedValue = value;
-            if (detailedStep.Items[0].Text ==
-                "No Detailed Steps in " +
-                mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
             {
                 detailedStep.Items[0].Attributes.Add("disabled", "disabled");
             }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void DetailedStepMoveDown_Click(object sender, EventArgs e)
         {
-            string value = detailedStep.SelectedValue;
+            var value = detailedStep.SelectedValue;
             if (detailedStep.SelectedValue != "" && detailedStep.SelectedIndex != detailedStep.Items.Count - 1)
             {
-                _detailedStep = (DetailedStep) ViewState["DetailedStep"];
+                _detailedStep = (DetailedStep)ViewState["DetailedStep"];
 
                 const string queryString = "SELECT ListOrder " +
                                            "FROM DetailedSteps " +
@@ -1373,7 +1332,7 @@ namespace SE
 
                     con.Open();
 
-                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    var firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1386,8 +1345,8 @@ namespace SE
 
                     con.Open();
 
-                    int secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
-                    int thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
+                    var secondValue = (cmd2.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd2.ExecuteScalar()) : 0;
+                    var thirdValue = (cmd3.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd3.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1408,17 +1367,17 @@ namespace SE
             }
             detailedStep.SelectedValue = value;
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void DetailedStepMoveUp_Click(object sender, EventArgs e)
         {
-            string value = detailedStep.SelectedValue;
+            var value = detailedStep.SelectedValue;
             if (detailedStep.SelectedValue != "" && detailedStep.SelectedIndex != 0)
             {
-                _detailedStep = (DetailedStep) ViewState["DetailedStep"];
+                _detailedStep = (DetailedStep)ViewState["DetailedStep"];
 
                 const string queryString = "SELECT ListOrder " +
                                            "FROM DetailedSteps " +
@@ -1456,7 +1415,7 @@ namespace SE
 
                     con.Open();
 
-                    int firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                    var firstValue = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
                     con.Close();
 
@@ -1493,6 +1452,7 @@ namespace SE
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1509,22 +1469,17 @@ namespace SE
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void catDateSort_Click(object sender, EventArgs e)
         {
-            string queryString = "";
+            var queryString = "";
             switch (catDateSort.Text)
             {
-                case "Date \u25BC":
-                    catDateSort.Text = "Date \u25B2";
-                    queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime ASC";
-                    break;
-                case "Date \u25B2":
-                    catDateSort.Text = "Date \u25BC";
-                    queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime DESC";
-                    break;
+                case "Date \u25BC": catDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": catDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Categories WHERE CreatedBy=@supervisor ORDER BY CreatedTime DESC"; break;
             }
             catList.DataSource = null;
             catList.Items.Clear();
@@ -1540,14 +1495,14 @@ namespace SE
             {
                 var cmd = new SqlCommand(queryString, con);
 
-                MembershipUser membershipUser = Membership.GetUser();
+                var membershipUser = Membership.GetUser();
                 if (membershipUser != null)
                     cmd.Parameters.AddWithValue("@supervisor", membershipUser.UserName);
 
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -1567,25 +1522,18 @@ namespace SE
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void taskDateSort_Click(object sender, EventArgs e)
         {
             if (catList.SelectedIndex == -1) return;
-            string queryString = "";
+            var queryString = "";
             switch (taskDateSort.Text)
             {
-                case "Date \u25BC":
-                    taskDateSort.Text = "Date \u25B2";
-                    queryString =
-                        "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime ASC";
-                    break;
-                case "Date \u25B2":
-                    taskDateSort.Text = "Date \u25BC";
-                    queryString =
-                        "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime DESC";
-                    break;
+                case "Date \u25BC": taskDateSort.Text = "Date \u25B2"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": taskDateSort.Text = "Date \u25BC"; queryString = "SELECT * FROM Tasks WHERE CreatedBy=@supervisor AND CategoryID=@catID ORDER BY CreatedTime DESC"; break;
             }
             taskList.DataSource = null;
             taskList.Items.Clear();
@@ -1599,13 +1547,13 @@ namespace SE
             {
                 var cmd = new SqlCommand(queryString, con);
 
-                MembershipUser membershipUser = Membership.GetUser();
+                var membershipUser = Membership.GetUser();
                 if (membershipUser != null)
                     cmd.Parameters.AddWithValue("@supervisor", membershipUser.UserName);
                 cmd.Parameters.AddWithValue("@catID", catList.SelectedValue);
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -1623,25 +1571,19 @@ namespace SE
             taskList.DataSource = sort;
             taskList.DataBind();
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void mainStep_Sort(object sender, EventArgs e)
         {
             if (taskList.SelectedIndex == -1) return;
-            string queryString = "";
+            var queryString = "";
             switch (mainStepSort.Text)
             {
-                case "Date \u25BC":
-                    mainStepSort.Text = "Date \u25B2";
-                    queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime ASC";
-                    break;
-                case "Date \u25B2":
-                    mainStepSort.Text = "Date \u25BC";
-                    queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime DESC";
-                    break;
+                case "Date \u25BC": mainStepSort.Text = "Date \u25B2"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": mainStepSort.Text = "Date \u25BC"; queryString = "SELECT * FROM MainSteps WHERE TaskID=@id ORDER BY CreatedTime DESC"; break;
             }
             mainStep.DataSource = null;
             mainStep.Items.Clear();
@@ -1653,13 +1595,13 @@ namespace SE
             {
                 var cmd = new SqlCommand(queryString, con);
 
-                MembershipUser membershipUser = Membership.GetUser();
+                var membershipUser = Membership.GetUser();
                 if (membershipUser != null)
                     cmd.Parameters.AddWithValue("@supervisor", membershipUser.UserName);
                 cmd.Parameters.AddWithValue("@id", taskList.SelectedValue);
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -1678,7 +1620,7 @@ namespace SE
             mainStep.DataBind();
 
             //Display the step number
-            int i = 1;
+            var i = 1;
 
             foreach (ListItem ms in mainStep.Items)
             {
@@ -1686,25 +1628,19 @@ namespace SE
                 i++;
             }
         }
-
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         protected void detailedDateSort_Click(object sender, EventArgs e)
         {
             if (mainStep.SelectedIndex == -1) return;
-            string queryString = "";
+            var queryString = "";
             switch (detailedSort.Text)
             {
-                case "Date \u25BC":
-                    detailedSort.Text = "Date \u25B2";
-                    queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime ASC";
-                    break;
-                case "Date \u25B2":
-                    detailedSort.Text = "Date \u25BC";
-                    queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime DESC";
-                    break;
+                case "Date \u25BC": detailedSort.Text = "Date \u25B2"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime ASC"; break;
+                case "Date \u25B2": detailedSort.Text = "Date \u25BC"; queryString = "SELECT * FROM DetailedSteps WHERE MainStepID=@id ORDER BY CreatedTime DESC"; break;
             }
             detailedStep.DataSource = null;
             detailedStep.Items.Clear();
@@ -1714,7 +1650,7 @@ namespace SE
             {
                 var cmd = new SqlCommand(queryString, con);
 
-                MembershipUser membershipUser = Membership.GetUser();
+                var membershipUser = Membership.GetUser();
                 if (membershipUser != null)
                     cmd.Parameters.AddWithValue("@supervisor", membershipUser.UserName);
                 cmd.Parameters.AddWithValue("@id", mainStep.SelectedValue);
@@ -1722,7 +1658,7 @@ namespace SE
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
@@ -1741,7 +1677,7 @@ namespace SE
             detailedStep.DataBind();
 
             //Display the step number
-            int i = 1;
+            var i = 1;
 
             foreach (ListItem ds in detailedStep.Items)
             {
@@ -1751,6 +1687,7 @@ namespace SE
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1760,6 +1697,7 @@ namespace SE
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1769,6 +1707,7 @@ namespace SE
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -1778,6 +1717,7 @@ namespace SE
         }
 
         /// <summary>
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

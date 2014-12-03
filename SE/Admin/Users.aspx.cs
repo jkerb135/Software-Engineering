@@ -1,14 +1,21 @@
 ﻿using System;
-using System.Web.Security;
-using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Security;
 using SE.Classes;
 
 namespace SE
 {
-    public partial class Users : Page
+    public partial class Users : System.Web.UI.Page
     {
         private String SelectedUserName = String.Empty;
+      
+        private enum UserPage
+        {
+            NotSet = -1,
+            CreateUser = 0,
+            EditUser = 1,
+            ManageUsers = 2
+        }
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -19,29 +26,28 @@ namespace SE
         protected void Page_Load(object sender, EventArgs e)
         {
             // Show different content based on querystring
-
+            
             // Create user page
             if (!IsPostBack)
             {
                 if (Request.QueryString["userpage"] == "createuser")
                 {
-                    UsersMultiView.ActiveViewIndex = (int) UserPage.CreateUser;
+                    UsersMultiView.ActiveViewIndex = (int)UserPage.CreateUser;
                     AssignedToContainer.Visible = false;
                     BindSupervisors(AssignedTo);
                 }
 
-                    // Edit user page
+                // Edit user page
                 else if (Request.QueryString["userpage"] == "edituser" &&
-                         Membership.GetUser(SelectedUserName) != null &&
-                         !Roles.IsUserInRole(SelectedUserName, "Manager"))
+                    Membership.GetUser(SelectedUserName) != null && !Roles.IsUserInRole(SelectedUserName, "Manager"))
                 {
-                    UsersMultiView.ActiveViewIndex = (int) UserPage.EditUser;
+                    UsersMultiView.ActiveViewIndex = (int)UserPage.EditUser;
 
                     MembershipUser User = Membership.GetUser(SelectedUserName);
 
                     EditEmail.Text = User.Email;
 
-                    if (User.IsApproved)
+                    if(User.IsApproved)
                     {
                         EditActiveInactive.CssClass = "btn btn-danger clear block";
                         EditActiveInactive.Text = "Deactivate";
@@ -64,7 +70,7 @@ namespace SE
                     }
                 }
 
-                    // Manage user page
+                // Manage user page
                 else
                 {
                     ShowManageUserPage();
@@ -122,7 +128,7 @@ namespace SE
 
         protected void EditUserButton_Click(object sender, EventArgs e)
         {
-            MembershipUser User = Membership.GetUser(SelectedUserName);
+            var User = Membership.GetUser(SelectedUserName);
             string Error = "";
             string Success = "";
 
@@ -139,7 +145,7 @@ namespace SE
                     Success += "User successfully reassigned.<br/>";
                 }
             }
-
+            
             // User password
             if (!String.IsNullOrEmpty(EditPassword.Text) &&
                 Member.ValidatePassword(EditPassword.Text, ref Error))
@@ -177,13 +183,13 @@ namespace SE
             {
                 Member.RemoveAssignedUser(SelectedUserName);
             }
-            else
+            else 
             {
                 if (Member.SupervisorHasUsers(SelectedUserName))
                 {
                     Error = true;
                     EditErrorMessage.Text = "This account has users assigned to it. " +
-                                            "Please reassign them to another supervisor before deleting";
+                        "Please reassign them to another supervisor before deleting";
                 }
                 else
                 {
@@ -247,17 +253,10 @@ namespace SE
 
         private void ShowManageUserPage()
         {
-            UsersMultiView.ActiveViewIndex = (int) UserPage.ManageUsers;
+            UsersMultiView.ActiveViewIndex = (int)UserPage.ManageUsers;
             UserList.DataSource = Member.CustomGetAllUsers();
             UserList.DataBind();
         }
-
-        private enum UserPage
-        {
-            NotSet = -1,
-            CreateUser = 0,
-            EditUser = 1,
-            ManageUsers = 2
-        }
     }
 }
+

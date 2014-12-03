@@ -1,7 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SE.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.Security;
-using Newtonsoft.Json;
 
 namespace SE.Handlers
 {
@@ -16,7 +21,7 @@ namespace SE.Handlers
                 string username = context.Request.Form["username"];
                 string password = context.Request.Form["password"];
                 bool loginSuccess = false;
-
+                
                 MembershipUser user = Membership.GetUser(username);
 
                 if (user != null && !user.IsOnline)
@@ -26,7 +31,7 @@ namespace SE.Handlers
                     FormsAuthentication.SetAuthCookie(username, true);
 
                 // simulate Microsoft XSS protection
-                var wrapper = new {d = loginSuccess ? "sign in success" : "sign in failed"};
+                var wrapper = new { d = loginSuccess ? "sign in success" : "sign in failed" };
                 context.Response.Write(JsonConvert.SerializeObject(wrapper));
             }
 
@@ -46,14 +51,17 @@ namespace SE.Handlers
                 }
 
                 // simulate Microsoft XSS protection
-                var wrapper = new {d = logoutSuccess ? "logged out" : "not logged in"};
+                var wrapper = new { d = logoutSuccess ? "logged out" : "not logged in" };
                 context.Response.Write(JsonConvert.SerializeObject(wrapper));
             }
         }
 
         public bool IsReusable
         {
-            get { return false; }
+            get
+            {
+                return false;
+            }
         }
     }
 }

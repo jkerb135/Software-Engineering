@@ -1,63 +1,63 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>Front End Test Page</title>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    </head>
-    <body style="text-align: center">
-        <h2>This is a test page.</h2>
-        <br/><br/>
-        <h3>Login Form Test</h3>
-        <form id="loginForm">
-            <p>
-                <label>Username:</label>
-                <input id="username" name="username" type="text" />
-            </p>
-            <p>
-                <label>Password:</label>
-                <input id="password" name="password" type="password" />
-            </p>
-            <a href="#" id="submitLoginForm">Submit</a>
-            <a href="#" id="logoutButton">Logout</a>
-        </form>
-        <br/><hr/><br/>
-        <h3>Result</h3>
-        <div id="result"></div>
+<head>
+    <title>Front End Test Page</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body style="text-align:center">
+    <h2>This is a test page.</h2>
+    <br/><br/>
+    <h3>Login Form Test</h3>
+    <form id="loginForm">
+        <p>
+            <label>Username:</label>
+            <input id="username" name="username" type="text" />
+        </p>
+        <p>
+            <label>Password:</label>
+            <input id="password" name="password" type="password" />
+        </p>
+        <a href="#" id="submitLoginForm">Submit</a>
+        <a href="#" id="logoutButton">Logout</a>
+    </form>
+    <br/><hr/><br/>
+    <h3>Result</h3>
+    <div id="result"></div>
 
-        <script language="javascript" type="text/javascript">
-            $("#submitLoginForm").click(function(e) {
-                e.stopPropagation();
-                $("#result").empty();
-                $.ajax({
-                    type: "POST",
-                    url: "handlers/users.ashx",
-                    data: { action: 'login', username: $("#username").val(), password: $("#password").val() },
-                    dataType: "json",
-                    success: function(response) {
-                        $("#result").append(response.d);
-                    },
-                    error: function(response) {
-                        $("#result").append("error");
-                    }
-                });
+    <script language="javascript" type="text/javascript">
+        $("#submitLoginForm").click(function (e) {
+            e.stopPropagation();
+            $("#result").empty();
+            $.ajax({
+                type: "POST",
+                url: "handlers/users.ashx",
+                data: { action: 'login', username: $("#username").val(), password: $("#password").val() },
+                dataType: "json",
+                success: function (response) {
+                    $("#result").append(response.d);
+                },
+                error: function (response) {
+                    $("#result").append("error");
+                }
             });
+        });
 
-            $("#logoutButton").click(function(e) {
-                e.stopPropagation();
-                $("#result").empty();
-                $.ajax({
-                    type: "POST",
-                    url: "handlers/users.ashx",
-                    data: { action: 'logout', username: $("#username").val() },
-                    dataType: "json",
-                    success: function(response) {
-                        $("#result").append(response.d);
-                    },
-                    error: function(response) {
-                        $("#result").append("error");
-                    }
-                });
+        $("#logoutButton").click(function (e) {
+            e.stopPropagation();
+            $("#result").empty();
+            $.ajax({
+                type: "POST",
+                url: "handlers/users.ashx",
+                data: { action: 'logout', username: $("#username").val() },
+                dataType: "json",
+                success: function (response) {
+                    $("#result").append(response.d);
+                },
+                error: function (response) {
+                    $("#result").append("error");
+                }
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
 </html>

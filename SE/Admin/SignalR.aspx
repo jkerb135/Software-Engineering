@@ -9,12 +9,11 @@
     <script src="/Scripts/ui/jquery.ui.resizable.js"></script>
     <script>
 
-
-    
+        
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
-    <div id="divContainer">
+   <div id="divContainer">
 
         <div id="divChat" class="chatRoom">
             <div class="content">

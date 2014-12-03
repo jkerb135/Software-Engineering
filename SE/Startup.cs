@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNet.SignalR;
-using Microsoft.Owin;
+﻿using Microsoft.Owin;
 using Owin;
-using SE;
+using Microsoft.AspNet.SignalR;
 
-[assembly: OwinStartup(typeof (Startup))]
+[assembly: OwinStartup(typeof(SE.Startup))]
 
 namespace SE
 {
-    [assembly: OwinStartup(typeof (Startup))]
+    [assembly: OwinStartup(typeof(SE.Startup))]
     public class Startup
     {
         public void Configuration(IAppBuilder app)

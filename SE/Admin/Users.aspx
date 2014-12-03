@@ -26,9 +26,9 @@
                             <div class="form-group">
                                 <asp:Label ID="UserRoleLabel" runat="server" Text="User Role"></asp:Label>
                                 <asp:RequiredFieldValidator ID="UserRoleRequired" runat="server" ControlToValidate="UserRole" 
-                                                            ErrorMessage="User Role is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                                    ErrorMessage="User Role is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
                                 <asp:DropDownList ID="UserRole" CssClass="form-control" runat="server" 
-                                                  AutoPostBack="true" onselectedindexchanged="UserRole_SelectedIndexChanged">
+                                    AutoPostBack="true" onselectedindexchanged="UserRole_SelectedIndexChanged">
                                     <asp:ListItem></asp:ListItem>
                                     <asp:ListItem>Supervisor</asp:ListItem>
                                     <asp:ListItem>User</asp:ListItem>
@@ -43,37 +43,37 @@
                     <div class="form-group">
                         <asp:Label ID="UserNameLabel" runat="server" Text="Username"></asp:Label>
                         <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" 
-                                                    ErrorMessage="Username is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                            ErrorMessage="Username is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
                         <asp:TextBox ID="UserName" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
                     <div class="form-group">
                         <asp:Label ID="PasswordLabel" runat="server" Text="Password"></asp:Label>
                         <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" 
-                                                    ErrorMessage="Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                            ErrorMessage="Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
                         <asp:CompareValidator ID="PasswordCompare" ControlToValidate="Password" Display="None"
-                                              ControlToCompare="ConfirmPassword" runat="server" ErrorMessage="Passwords must match." 
-                                              ValidationGroup="CreateUserWizard"></asp:CompareValidator>
+                            ControlToCompare="ConfirmPassword" runat="server" ErrorMessage="Passwords must match." 
+                            ValidationGroup="CreateUserWizard"></asp:CompareValidator>
                         <asp:TextBox ID="Password" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
                     </div>
                     <div class="form-group">
                         <asp:Label ID="ConfirmPasswordLabel" runat="server" Text="Confirm Password"></asp:Label>
                         <asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" 
-                                                    ErrorMessage="Confirm Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                            ErrorMessage="Confirm Password is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
                         <asp:TextBox ID="ConfirmPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
                     </div>
                     <div class="form-group">
                         <asp:Label ID="EmailLabel" runat="server" Text="Email"></asp:Label>
                         <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email" 
-                                                    ErrorMessage="Email is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
+                            ErrorMessage="Email is required." ValidationGroup="CreateUserWizard">*</asp:RequiredFieldValidator>
                         <asp:RegularExpressionValidator ID="EmailValid" runat="server" 
-                                                        ControlToValidate="Email" ErrorMessage="E-mail address must be in a valid format" Display="None" 
-                                                        ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="CreateUserWizard">
+                            ControlToValidate="Email" ErrorMessage="E-mail address must be in a valid format" Display="None" 
+                            ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="CreateUserWizard">
                         </asp:RegularExpressionValidator>
                         <asp:TextBox ID="Email" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
                     <asp:Button ID="CreateUserButton" CssClass="btn btn-default right" runat="server" 
-                                ValidationGroup="CreateUserWizard" CausesValidation="true" Text="Submit" 
-                                onclick="CreateUserButton_Click" />
+                        ValidationGroup="CreateUserWizard" CausesValidation="true" Text="Submit" 
+                        onclick="CreateUserButton_Click" />
                 </div>
             </div>
         </asp:View>
@@ -101,16 +101,16 @@
                     <div class="form-group">
                         <asp:Label ID="EditEmailLabel" runat="server" Text="Email"></asp:Label>
                         <asp:RegularExpressionValidator ID="EditEmailValid" runat="server" 
-                                                        ControlToValidate="EditEmail" ErrorMessage="E-mail address must be in a valid format" Display="None" 
-                                                        ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="EditUser">
+                            ControlToValidate="EditEmail" ErrorMessage="E-mail address must be in a valid format" Display="None" 
+                            ValidationExpression="^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$" ValidationGroup="EditUser">
                         </asp:RegularExpressionValidator>
                         <asp:TextBox ID="EditEmail" CssClass="form-control" runat="server"></asp:TextBox>
                     </div>
                     <div class="form-group">
                         <asp:Label ID="EditPasswordLabel" runat="server" Text="Password"></asp:Label>
                         <asp:CompareValidator ID="EditPasswordCompare" ControlToValidate="EditPassword" Display="None"
-                                              ControlToCompare="EditConfirmPassword" runat="server" ErrorMessage="Passwords must match." 
-                                              ValidationGroup="EditUser"></asp:CompareValidator>
+                            ControlToCompare="EditConfirmPassword" runat="server" ErrorMessage="Passwords must match." 
+                            ValidationGroup="EditUser"></asp:CompareValidator>
                         <asp:TextBox ID="EditPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
                     </div>
                     <div class="form-group">
@@ -118,9 +118,9 @@
                         <asp:TextBox ID="EditConfirmPassword" CssClass="form-control" runat="server" TextMode="Password"></asp:TextBox>
                     </div>
                     <asp:Button ID="EditUserButton" CssClass="btn btn-default right" runat="server" 
-                                ValidationGroup="EditUser" CausesValidation="true" Text="Submit" onclick="EditUserButton_Click" />                      
+                        ValidationGroup="EditUser" CausesValidation="true" Text="Submit" onclick="EditUserButton_Click" />                      
                     <asp:Button ID="DeleteUserButton" CssClass="btn btn-danger btn-lg clear block" runat="server" Text="Delete User" Visible="false"
-                                onclick="DeleteUserButton_Click" OnClientClick=" return confirm('Are you sure you want to delete this user?'); " />
+                        onclick="DeleteUserButton_Click" OnClientClick="return confirm('Are you sure you want to delete this user?');" />
                     <asp:Button ID="EditActiveInactive" runat="server" OnClick="EditActiveInactive_Click" />
                 </div>
             </div>

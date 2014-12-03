@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Web.Security;
-using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Security;
 
 namespace SE
 {
-    public partial class Default : Page
+    public partial class Default : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-        }
 
+        }
         protected void MainLogin_LoggedIn(object sender, EventArgs e)
         {
-            var controlLogin = (Login) sender;
-            MembershipUser user = Membership.GetUser(controlLogin.UserName);
+            var controlLogin = (Login)sender;
+            var user = Membership.GetUser(controlLogin.UserName);
             if (user == null) throw new ArgumentNullException("sender");
 
             Session["UserName"] = user.UserName;

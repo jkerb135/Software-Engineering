@@ -1,5 +1,9 @@
+@using System.Collections.Generic
+@using System.Collections.ObjectModel
+@using System.Web.Http.Description
+@using System.Threading
 @using SE.Areas.HelpPage.ModelDescriptions
-@model IList<SE.Areas.HelpPage.ModelDescriptions.ParameterDescription>
+@model IList<ParameterDescription>
 
 @if (Model.Count > 0)
 {
@@ -17,12 +21,12 @@
                         <p>@parameter.Documentation</p>
                     </td>
                     <td class="parameter-type">
-                        @Html.DisplayFor(m => modelDescription.ModelType, "ModelDescriptionLink", new {modelDescription})
+                        @Html.DisplayFor(m => modelDescription.ModelType, "ModelDescriptionLink", new { modelDescription = modelDescription })
                     </td>
                     <td class="parameter-annotations">
                         @if (parameter.Annotations.Count > 0)
                         {
-                            foreach (ParameterAnnotation annotation in parameter.Annotations)
+                            foreach (var annotation in parameter.Annotations)
                             {
                                 <p>@annotation.Documentation</p>
                             }
@@ -41,3 +45,4 @@ else
 {
     <p>None.</p>
 }
+

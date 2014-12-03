@@ -16,7 +16,6 @@ namespace SE.Classes
         public string ImageFilename { get; set; }
         public string ImagePath { get; set; }
         public string CreatedTime { get; set; }
-
         #endregion
 
         #region Constructors
@@ -40,9 +39,8 @@ namespace SE.Classes
                                        "FROM DetailedSteps " +
                                        "WHERE MainStepID=@mainstepid";
 
-            const string queryString2 =
-                "INSERT INTO DetailedSteps (MainStepID, DetailedStepName, DetailedStepText, ImageFilename, ImagePath, CreatedTime, ListOrder) " +
-                "VALUES (@mainstepid, @detailedstepname, @detailedsteptext, @imagefilename, @imagepath, @createdtime, @listorder)";
+            const string queryString2 = "INSERT INTO DetailedSteps (MainStepID, DetailedStepName, DetailedStepText, ImageFilename, ImagePath, CreatedTime, ListOrder) " +
+                                        "VALUES (@mainstepid, @detailedstepname, @detailedsteptext, @imagefilename, @imagepath, @createdtime, @listorder)";
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -55,7 +53,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                int maxNumber = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
+                var maxNumber = (cmd.ExecuteScalar() != DBNull.Value) ? Convert.ToInt32(cmd.ExecuteScalar()) : 0;
 
 
                 con.Close();
@@ -66,15 +64,15 @@ namespace SE.Classes
 
                 if (DetailedStepText != null)
                     cmd2.Parameters.AddWithValue("@detailedsteptext", DetailedStepText);
-                else
+                else 
                     cmd2.Parameters.AddWithValue("@detailedsteptext", DBNull.Value);
 
-                if (ImagePath != null)
-                {
+                if (ImagePath != null) 
+                { 
                     cmd2.Parameters.AddWithValue("@imagefilename", ImageFilename);
-                    cmd2.Parameters.AddWithValue("@imagepath", ImagePath);
+                    cmd2.Parameters.AddWithValue("@imagepath", ImagePath); 
                 }
-                else
+                else 
                 {
                     cmd2.Parameters.AddWithValue("@imagefilename", DBNull.Value);
                     cmd2.Parameters.AddWithValue("@imagepath", DBNull.Value);
@@ -187,7 +185,7 @@ namespace SE.Classes
 
                 con.Open();
 
-                SqlDataReader dr = cmd.ExecuteReader();
+                var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {

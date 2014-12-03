@@ -19,7 +19,6 @@ namespace SE.Classes
         public string VideoFilename { get; set; }
         public string VideoPath { get; set; }
         public string CreatedTime { get; set; }
-
         #endregion
 
         #region Constructors
@@ -46,9 +45,8 @@ namespace SE.Classes
                                        "FROM MainSteps " +
                                        "WHERE TaskID=@taskid";
 
-            const string queryString2 =
-                "INSERT INTO MainSteps (TaskID, MainStepName, MainStepText, AudioFileName, AudioPath, VideoFilename, VideoPath, CreatedTime, ListOrder) " +
-                "VALUES (@taskid, @mainstepname, @mainsteptext, @audiofilename, @audiopath, @videofilename, @videopath, @createdtime, @listorder)";
+            const string queryString2 = "INSERT INTO MainSteps (TaskID, MainStepName, MainStepText, AudioFileName, AudioPath, VideoFilename, VideoPath, CreatedTime, ListOrder) " +
+                                        "VALUES (@taskid, @mainstepname, @mainsteptext, @audiofilename, @audiopath, @videofilename, @videopath, @createdtime, @listorder)";
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))
@@ -74,31 +72,31 @@ namespace SE.Classes
                 else
                     cmd2.Parameters.AddWithValue("@mainsteptext", DBNull.Value);
 
-                if (AudioPath != null)
-                {
-                    cmd2.Parameters.AddWithValue("@audiofilename", AudioFilename);
-                    cmd2.Parameters.AddWithValue("@audiopath", AudioPath);
+                if (AudioPath != null) 
+                { 
+                    cmd2.Parameters.AddWithValue("@audiofilename", AudioFilename); 
+                    cmd2.Parameters.AddWithValue("@audiopath", AudioPath); 
                 }
-                else
-                {
-                    cmd2.Parameters.AddWithValue("@audiofilename", DBNull.Value);
-                    cmd2.Parameters.AddWithValue("@audiopath", DBNull.Value);
+                else 
+                { 
+                    cmd2.Parameters.AddWithValue("@audiofilename", DBNull.Value); 
+                    cmd2.Parameters.AddWithValue("@audiopath", DBNull.Value); 
                 }
 
-                if (VideoPath != null)
-                {
-                    cmd2.Parameters.AddWithValue("@videofilename", VideoFilename);
-                    cmd2.Parameters.AddWithValue("@videopath", VideoPath);
+                if (VideoPath != null) 
+                { 
+                    cmd2.Parameters.AddWithValue("@videofilename", VideoFilename); 
+                    cmd2.Parameters.AddWithValue("@videopath", VideoPath); 
                 }
-                else
-                {
-                    cmd2.Parameters.AddWithValue("@videofilename", DBNull.Value);
+                else 
+                { 
+                    cmd2.Parameters.AddWithValue("@videofilename", DBNull.Value); 
                     cmd2.Parameters.AddWithValue("@videopath", DBNull.Value);
                 }
 
                 cmd2.Parameters.AddWithValue("@createdtime", DateTime.Now);
 
-                cmd2.Parameters.AddWithValue("@listorder", maxNumber + 1);
+                cmd2.Parameters.AddWithValue("@listorder", maxNumber+1);
 
                 con.Open();
 
@@ -185,6 +183,7 @@ namespace SE.Classes
 
         public void CompleteMainStep()
         {
+
         }
 
         public List<MainStep> GetMainSteps(int taskId)
@@ -196,6 +195,7 @@ namespace SE.Classes
 
         public void AddTimeToMainStep(double minutes)
         {
+
         }
 
         public int GetNumberOfMainStepsComplete(int taskId, string username)

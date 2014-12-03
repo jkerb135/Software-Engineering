@@ -43,54 +43,54 @@ if ($.fn.dataTable.Api) {
                     btnClass = '';
 
                     switch (button) {
-                    case 'ellipsis':
-                        btnDisplay = '&hellip;';
-                        btnClass = 'disabled';
-                        break;
+                        case 'ellipsis':
+                            btnDisplay = '&hellip;';
+                            btnClass = 'disabled';
+                            break;
 
-                    case 'first':
-                        btnDisplay = lang.sFirst;
-                        btnClass = button + (page > 0 ?
-                            '' : ' disabled');
-                        break;
+                        case 'first':
+                            btnDisplay = lang.sFirst;
+                            btnClass = button + (page > 0 ?
+                                '' : ' disabled');
+                            break;
 
-                    case 'previous':
-                        btnDisplay = lang.sPrevious;
-                        btnClass = button + (page > 0 ?
-                            '' : ' disabled');
-                        break;
+                        case 'previous':
+                            btnDisplay = lang.sPrevious;
+                            btnClass = button + (page > 0 ?
+                                '' : ' disabled');
+                            break;
 
-                    case 'next':
-                        btnDisplay = lang.sNext;
-                        btnClass = button + (page < pages - 1 ?
-                            '' : ' disabled');
-                        break;
+                        case 'next':
+                            btnDisplay = lang.sNext;
+                            btnClass = button + (page < pages - 1 ?
+                                '' : ' disabled');
+                            break;
 
-                    case 'last':
-                        btnDisplay = lang.sLast;
-                        btnClass = button + (page < pages - 1 ?
-                            '' : ' disabled');
-                        break;
+                        case 'last':
+                            btnDisplay = lang.sLast;
+                            btnClass = button + (page < pages - 1 ?
+                                '' : ' disabled');
+                            break;
 
-                    default:
-                        btnDisplay = button + 1;
-                        btnClass = page === button ?
-                            'active' : '';
-                        break;
+                        default:
+                            btnDisplay = button + 1;
+                            btnClass = page === button ?
+                                'active' : '';
+                            break;
                     }
 
                     if (btnDisplay) {
                         node = $('<li>', {
-                                'class': classes.sPageButton + ' ' + btnClass,
-                                'aria-controls': settings.sTableId,
-                                'tabindex': settings.iTabIndex,
-                                'id': idx === 0 && typeof button === 'string' ? settings.sTableId + '_' + button : null
-                            })
+                            'class': classes.sPageButton + ' ' + btnClass,
+                            'aria-controls': settings.sTableId,
+                            'tabindex': settings.iTabIndex,
+                            'id': idx === 0 && typeof button === 'string' ? settings.sTableId + '_' + button : null
+                        })
                             .append($('<a>', {
                                     'href': '#'
                                 })
                                 .html(btnDisplay)
-                            )
+                        )
                             .appendTo(container);
 
                         settings.oApi._fnBindAction(
@@ -107,7 +107,7 @@ if ($.fn.dataTable.Api) {
             $(host).empty().html('<ul class="pagination"/>').children('ul'),
             buttons
         );
-    };
+    }
 } else {
     // Integration for 1.9-
     $.fn.dataTable.defaults.sPaginationType = 'bootstrap';
