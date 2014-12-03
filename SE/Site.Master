@@ -282,16 +282,7 @@
                                 <a href="<%=ResolveUrl("~/Admin/Requests.aspx") %>"><i class="fa fa-user fa-fw"></i>Supervisor Requests</a>
                             </li>
                             <li id="ReportsMenu" runat="server">
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level">
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Reports.aspx") %>">View Reports</a>
-                                    </li>
-                                    <li>
-                                        <a href="<%=ResolveUrl("~/Admin/Reports.aspx?reportpage=printreports") %>">Print Reports</a>
-                                    </li>
-                                </ul>
-                                <!-- /.nav-second-level -->
+                                <a href="<%=ResolveUrl("~/Admin/Reports.aspx") %>"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>
                             </li>
                         </ul>
                     </div>
