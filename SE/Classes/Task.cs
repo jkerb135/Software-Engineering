@@ -279,8 +279,8 @@ namespace SE.Classes
             var ds = new DataSet();
             DataTable dt = ds.Tables.Add("Tasks");
 
-            dt.Columns.Add("Task Name", Type.GetType("System.String"));
-            dt.Columns.Add("Assigned Category", Type.GetType("System.String"));
+            dt.Columns.Add("Task Name");
+            dt.Columns.Add("Assigned Category");
 
             using (var con = new SqlConnection(
                 Methods.GetConnectionString()))

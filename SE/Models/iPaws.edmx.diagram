@@ -4,51 +4,50 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="dc90853fd9c84c27bce9fc27870a938f" Name="Diagram1" ZoomLevel="71">
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Applications" Width="1.5" PointX="1.3874323653930016" PointY="30.897601812564581" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Membership" Width="1.5" PointX="1.5136122393950875" PointY="3.3470834509223155" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Paths" Width="1.5" PointX="0.93056823915362741" PointY="1.0456551467281092" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_PersonalizationAllUsers" Width="1.5" PointX="10.36294471210006" PointY="22.963939483726367" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_PersonalizationPerUser" Width="1.5" PointX="9.7030514393481653" PointY="27.648625967860514" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Profile" Width="1.5" PointX="10.370608487339041" PointY="19.191480153795091" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Roles" Width="1.5" PointX="0.49384998366881627" PointY="14.346394828682017" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_SchemaVersions" Width="1.5" PointX="9.3774334049678565" PointY="30.016231580644956" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Users" Width="1.5" PointX="6.0833203839526142" PointY="7.8234102315378422" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_WebEvent_Events" Width="1.5" PointX="8.328637493927328" PointY="20.598376775439071" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.Category" Width="1.5" PointX="6.2228055066535273" PointY="15.357239417432453" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.CategoryAssignment" Width="1.5" PointX="8.8402441259660964" PointY="18.744090938355814" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.CompletedMainStep" Width="1.5" PointX="4.9213928025781142" PointY="25.917176646141883" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.CompletedTask" Width="1.5" PointX="2.9164030509611605" PointY="21.582702602065496" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.DetailedStep" Width="1.5" PointX="1.2488548295799897" PointY="28.186613304627414" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.MainStep" Width="1.5" PointX="5.4122671715041006" PointY="6.1622324912632971" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.MemberAssignment" Width="1.5" PointX="9.9922612858900148" PointY="17.057864524916681" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.Profile" Width="1.5" PointX="5.36593958240279" PointY="7.5290456151259342" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.RequestedCategory" Width="1.5" PointX="5.0382538610316132" PointY="14.0457630371888" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.RequestedTask" Width="1.5" PointX="5.7740009826486931" PointY="18.030718275360165" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.TaskAssignment" Width="1.5" PointX="2.2625827408687131" PointY="26.153290537257348" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.Task" Width="1.5" PointX="5.1071551112025766" PointY="1.2851229017996801" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.User" Width="1.5" PointX="3.2163583464996695" PointY="10.600805168319868" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Me__Appli__60B24907" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pa__Appli__5BED93EA" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Ro__Appli__5CE1B823" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Us__Appli__5AF96FB1" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Me__UserI__61A66D40" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__5DD5DC5C" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__629A9179" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pe__UserI__5ECA0095" />
-        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pr__UserI__5FBE24CE" />
+      <Diagram DiagramId="dc90853fd9c84c27bce9fc27870a938f" Name="Diagram1" ZoomLevel="93">
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Applications" Width="1.5" PointX="0.75" PointY="7.875" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Membership" Width="1.5" PointX="3" PointY="6.5" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Paths" Width="1.5" PointX="3" PointY="15.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_PersonalizationAllUsers" Width="1.5" PointX="5.25" PointY="19.125" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_PersonalizationPerUser" Width="1.5" PointX="7.5" PointY="12.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Profile" Width="1.5" PointX="7.5" PointY="9.375" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Roles" Width="1.5" PointX="3" PointY="12.625" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_SchemaVersions" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Users" Width="1.5" PointX="5.25" PointY="9.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_WebEvent_Events" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.Category" Width="1.5" PointX="9.75" PointY="6.625" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.CompletedMainStep" Width="1.5" PointX="16.5" PointY="5" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.CompletedTask" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.DetailedStep" Width="1.5" PointX="16.5" PointY="8.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.MainStep" Width="1.5" PointX="14.25" PointY="8.25" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.MemberAssignment" Width="1.5" PointX="14.25" PointY="4.5" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.Profile" Width="1.5" PointX="5.75" PointY="4.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.Task" Width="1.5" PointX="12" PointY="5.125" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.User" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.CategoryAssignment" Width="1.5" PointX="12" PointY="9" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.RequestedCategory" Width="1.5" PointX="12" PointY="11.625" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.RequestedTask" Width="1.5" PointX="8.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.TaskAssignment" Width="1.5" PointX="7.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.UserTaskRequest" Width="1.5" PointX="10.75" PointY="0.75" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Me__Appli__0E6E26BF" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pa__Appli__09A971A2" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Ro__Appli__0A9D95DB" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Us__Appli__08B54D69" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Me__UserI__0F624AF8" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__0B91BA14" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__10566F31" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pe__UserI__0C85DE4D" />
+        <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pr__UserI__0D7A0286" />
         <AssociationConnector Association="ipawsTeamBModel.FK_CategoryAssignments_Categories" />
         <AssociationConnector Association="ipawsTeamBModel.FK_RequestedCategories_Categories" />
         <AssociationConnector Association="ipawsTeamBModel.FK_Tasks_Categories" />
-        <AssociationConnector Association="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments" />
         <AssociationConnector Association="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps" />
         <AssociationConnector Association="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments" />
         <AssociationConnector Association="ipawsTeamBModel.FK_CompletedMainSteps_Tasks" />
         <AssociationConnector Association="ipawsTeamBModel.FK_DetailedSteps_MainSteps" />
         <AssociationConnector Association="ipawsTeamBModel.FK_MainSteps_Tasks" />
+        <AssociationConnector Association="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments" />
         <AssociationConnector Association="ipawsTeamBModel.aspnet_UsersInRoles" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.UserTaskRequest" Width="1.5" PointX="1.2447810122951777" PointY="28.734254641800305" />
-        <AssociationConnector Association="ipawsTeamBModel.FK_UserTaskRequests_UserTaskRequests" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

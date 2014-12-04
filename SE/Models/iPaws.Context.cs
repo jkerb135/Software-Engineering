@@ -36,18 +36,18 @@ namespace SE.Models
         public DbSet<aspnet_Users> aspnet_Users { get; set; }
         public DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<CategoryAssignment> CategoryAssignments { get; set; }
         public DbSet<CompletedMainStep> CompletedMainSteps { get; set; }
         public DbSet<CompletedTask> CompletedTasks { get; set; }
         public DbSet<DetailedStep> DetailedSteps { get; set; }
         public DbSet<MainStep> MainSteps { get; set; }
         public DbSet<MemberAssignment> MemberAssignments { get; set; }
         public DbSet<Profile> Profiles { get; set; }
+        public DbSet<Task> Tasks { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<CategoryAssignment> CategoryAssignments { get; set; }
         public DbSet<RequestedCategory> RequestedCategories { get; set; }
         public DbSet<RequestedTask> RequestedTasks { get; set; }
         public DbSet<TaskAssignment> TaskAssignments { get; set; }
-        public DbSet<Task> Tasks { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<UserTaskRequest> UserTaskRequests { get; set; }
     }
 }

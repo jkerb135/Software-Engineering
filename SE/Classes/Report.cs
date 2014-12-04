@@ -8,7 +8,7 @@ namespace SE.Classes
     {
         #region Properties
 
-        public int ReportID { get; set; }
+        public int ReportId { get; set; }
 
         #endregion
 
@@ -16,20 +16,20 @@ namespace SE.Classes
 
         public Report()
         {
-            this.ReportID = 0;
+            ReportId = 0;
         }
 
         #endregion
 
         public static DataSet GenerateReport()
         {
-            var ReportDataSet = new DataSet();
-            var ReportTable = ReportDataSet.Tables.Add("Overview");
-            var AllUsers = new List<string>();
+            var reportDataSet = new DataSet();
+            var reportTable = reportDataSet.Tables.Add("Overview");
+            var allUsers = new List<string>();
 
-            ReportTable.Columns.Add("User");
-            ReportTable.Columns.Add("Tasks Complete");
-            ReportTable.Columns.Add("Tasks Incomplete");
+            reportTable.Columns.Add("User");
+            reportTable.Columns.Add("Tasks Complete");
+            reportTable.Columns.Add("Tasks Incomplete");
 
             const string queryString = "SELECT AssignedUser FROM MemberAssignments";
             const string queryString2 = "SELECT COUNT(*) FROM CompletedTasks WHERE AssignedUser=@assigneduser";
@@ -51,39 +51,39 @@ namespace SE.Classes
 
                 while (dr.Read())
                 {
-                    AllUsers.Add(dr["AssignedUser"].ToString());
+                    allUsers.Add(dr["AssignedUser"].ToString());
                 }
 
                 dr.Close();
 
-                foreach (string user in AllUsers)
+                foreach (var user in allUsers)
                 {
-                    var row = ReportTable.NewRow();
+                    var row = reportTable.NewRow();
                     cmd2.Parameters["@assigneduser"].Value = cmd3.Parameters["@assigneduser"].Value = user;
 
                     row["User"] = user;
                     row["Tasks Complete"] = Convert.ToInt32(cmd2.ExecuteScalar());
                     row["Tasks Incomplete"] = Convert.ToInt32(cmd3.ExecuteScalar());
 
-                    ReportTable.Rows.Add(row);
+                    reportTable.Rows.Add(row);
                 }
 
                 con.Close();
             }
 
-            return ReportDataSet;
+            return reportDataSet;
         }
 
         public static DataSet GenerateDetailedReport(string user)
         {
-            var ReportDataSet = new DataSet();
-            var ReportTable = ReportDataSet.Tables.Add("Detailed");
+            var reportDataSet = new DataSet();
+            var reportTable = reportDataSet.Tables.Add("Detailed");
 
-            ReportTable.Columns.Add("Task Name");
-            ReportTable.Columns.Add("Main Steps Complete");
-            ReportTable.Columns.Add("Detailed Steps Used");
-            ReportTable.Columns.Add("Time Spent on Task");
-            ReportTable.Columns.Add("Date Completed");
+            reportTable.Columns.Add("Task Name");
+            reportTable.Columns.Add("Main Steps Complete");
+            reportTable.Columns.Add("Detailed Steps Used");
+            reportTable.Columns.Add("Time Spent on Task");
+            reportTable.Columns.Add("Date Completed");
 
             const string queryString = "SELECT * FROM Tasks " +
                                         "INNER JOIN TaskAssignments ON Tasks.TaskID = TaskAssignments.TaskID " +
@@ -116,15 +116,15 @@ namespace SE.Classes
                 var dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-                    var row = ReportTable.NewRow();
+                    var row = reportTable.NewRow();
                     cmd3.Parameters["@taskid"].Value = Convert.ToInt32(dr["TaskID"]);
 
                     row["Task Name"] = dr["TaskName"].ToString();
                     row["Main Steps Complete"] = cmd3.ExecuteScalar().ToString();
                     row["Detailed Steps Used"] = dr["DetailedStepsUsed"].ToString();
-                    row["Time Spent on Task"] = dr["TaskTime"].ToString() + " minutes";
+                    row["Time Spent on Task"] = dr["TaskTime"] + " minutes";
                     row["Date Completed"] = "In Progress";
-                    ReportTable.Rows.Add(row);
+                    reportTable.Rows.Add(row);
                 }
                 dr.Close();
 
@@ -132,22 +132,22 @@ namespace SE.Classes
                 dr = cmd2.ExecuteReader();
                 while (dr.Read())
                 {
-                    var row = ReportTable.NewRow();
+                    var row = reportTable.NewRow();
                     cmd3.Parameters["@taskid"].Value = Convert.ToInt32(dr["TaskID"]);
 
                     row["Task Name"] = dr["TaskName"].ToString();
                     row["Main Steps Complete"] = cmd3.ExecuteScalar().ToString();
                     row["Detailed Steps Used"] = dr["TotalDetailedStepsUsed"].ToString();
-                    row["Time Spent on Task"] = dr["TotalTime"].ToString() + " minutes";
+                    row["Time Spent on Task"] = dr["TotalTime"] + " minutes";
                     row["Date Completed"] = dr["DateTimeCompleted"].ToString();
-                    ReportTable.Rows.Add(row);
+                    reportTable.Rows.Add(row);
                 }
                 dr.Close();
 
                 con.Close();
             }
 
-            return ReportDataSet;
+            return reportDataSet;
         }
     }
 }

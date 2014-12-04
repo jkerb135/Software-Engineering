@@ -1,4 +1,4 @@
-<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="SE.Dashboard" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="SE.Admin.Dashboard" %>
 
 <asp:Content ID="PageHead" ContentPlaceHolderID="SiteHead" runat="server">
     <link href="../Content/toastr.min.css" rel="stylesheet" />

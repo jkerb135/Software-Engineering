@@ -22,37 +22,40 @@ namespace SE.Controllers
         /// </summary>
         public IEnumerable<CatTasks> GetAllTasks()
         {
-            return from task in _db.Tasks
-                   join cat in _db.Categories on task.CategoryID equals cat.CategoryID
-                   join assigned in _db.TaskAssignments on task.TaskID equals assigned.TaskID into user
-                   from b in user.DefaultIfEmpty()
-                   select new CatTasks
-                   {
-                       CategoryId = cat.CategoryID,
-                       CategoryName = cat.CategoryName,
-                       TaskId = task.TaskID,
-                       TaskName = task.TaskName,
-                       AssignedUser = b.AssignedUser
-                   };
+            return
+                _db.Tasks.Join(_db.Categories, task => task.CategoryID, cat => cat.CategoryID,
+                    (task, cat) => new {task, cat})
+                    .GroupJoin(_db.TaskAssignments, @t => @t.task.TaskID, assigned => assigned.TaskID,
+                        (@t, user) => new {@t, user})
+                    .SelectMany(@t => @t.user.DefaultIfEmpty(), (@t, b) => new CatTasks
+                    {
+                        CategoryId = @t.@t.cat.CategoryID,
+                        CategoryName = @t.@t.cat.CategoryName,
+                        TaskId = @t.@t.task.TaskID,
+                        TaskName = @t.@t.task.TaskName,
+                        AssignedUser = b.AssignedUser
+                    });
         }
         /// <summary>
         /// Gets all tasks from the database pertaining to a category id.
         /// </summary>
        public IEnumerable<CatTasks> GetTaskByCategoryId(int id)
         {
-            return from task in _db.Tasks
-                   join cat in _db.Categories on task.CategoryID equals cat.CategoryID
-                   join assigned in _db.TaskAssignments on task.TaskID equals assigned.TaskID into user
-                   from b in user.DefaultIfEmpty()
-                   where cat.CategoryID == id
-                   select new CatTasks
-                   {
-                       CategoryId = cat.CategoryID,
-                       CategoryName = cat.CategoryName,
-                       TaskId = task.TaskID,
-                       TaskName = task.TaskName,
-                       AssignedUser = b.AssignedUser
-                   };
+            return
+                _db.Tasks.Join(_db.Categories, task => task.CategoryID, cat => cat.CategoryID,
+                    (task, cat) => new {task, cat})
+                    .GroupJoin(_db.TaskAssignments, @t => @t.task.TaskID, assigned => assigned.TaskID,
+                        (@t, user) => new {@t, user})
+                    .SelectMany(@t => @t.user.DefaultIfEmpty(), (@t, b) => new {@t, b})
+                    .Where(@t => @t.@t.@t.cat.CategoryID == id)
+                    .Select(@t => new CatTasks
+                    {
+                        CategoryId = @t.@t.@t.cat.CategoryID,
+                        CategoryName = @t.@t.@t.cat.CategoryName,
+                        TaskId = @t.@t.@t.task.TaskID,
+                        TaskName = @t.@t.@t.task.TaskName,
+                        AssignedUser = @t.b.AssignedUser
+                    });
         }
        /// <summary>
        /// Gets all detailed steps from the database pertaining to a category id and username.

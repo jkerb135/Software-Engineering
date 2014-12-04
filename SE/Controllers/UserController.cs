@@ -1,4 +1,5 @@
-﻿using SE.Models;
+﻿using System.Runtime.InteropServices.ComTypes;
+using SE.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using System.Web.Security;
 
 namespace SE.Controllers
 {
@@ -37,6 +37,15 @@ namespace SE.Controllers
             public string TaskName { get; set; }
             public string AssignedUser { get; set; }
 
+        }
+
+        public class Request
+        {
+            public string AssignedSupervisor { get; set; }
+            public string User { get; set; }
+            public string TaskName { get; set; }
+            public string TaskDesc { get; set; }
+            public DateTime CompleteBy { get; set; }
         }
         public class SendUser
         { 
@@ -78,15 +87,16 @@ namespace SE.Controllers
         /// <returns></returns>
         public IEnumerable<Category> GetCategoriesByUser(string id)
         {
-            return from assignment in _db.CategoryAssignments
-                   join cat in _db.Categories on assignment.CategoryID equals cat.CategoryID
-                   where assignment.AssignedUser == id
-                   select new Category
-                   {
-                       CategoryId = cat.CategoryID,
-                       CategoryName = cat.CategoryName,
-                       AssignedUser = assignment.AssignedUser
-                   };
+            return
+                _db.CategoryAssignments.Join(_db.Categories, assignment => assignment.CategoryID, cat => cat.CategoryID,
+                    (assignment, cat) => new {assignment, cat})
+                    .Where(@t => @t.assignment.AssignedUser == id)
+                    .Select(@t => new Category
+                    {
+                        CategoryId = @t.cat.CategoryID,
+                        CategoryName = @t.cat.CategoryName,
+                        AssignedUser = @t.assignment.AssignedUser
+                    });
         }
         /// <summary>
         /// Gets tasks assigned to user by username
@@ -95,18 +105,20 @@ namespace SE.Controllers
         /// <returns></returns>
         public IEnumerable<Task> GetTasksByUser(string id)
         {
-            return from task in _db.Tasks
-                   join cat in _db.Categories on task.CategoryID equals cat.CategoryID
-                   join assigned in _db.TaskAssignments on task.TaskID equals assigned.TaskID
-                   where assigned.AssignedUser == id
-                   select new Task
-                   {
-                       CategoryId = cat.CategoryID,
-                       CategoryName = cat.CategoryName,
-                       TaskId = task.TaskID,
-                       TaskName = task.TaskName,
-                       AssignedUser = assigned.AssignedUser
-                   };
+            return
+                _db.Tasks.Join(_db.Categories, task => task.CategoryID, cat => cat.CategoryID,
+                    (task, cat) => new {task, cat})
+                    .Join(_db.TaskAssignments, @t => @t.task.TaskID, assigned => assigned.TaskID,
+                        (@t, assigned) => new {@t, assigned})
+                    .Where(@t => @t.assigned.AssignedUser == id)
+                    .Select(@t => new Task
+                    {
+                        CategoryId = @t.@t.cat.CategoryID,
+                        CategoryName = @t.@t.cat.CategoryName,
+                        TaskId = @t.@t.task.TaskID,
+                        TaskName = @t.@t.task.TaskName,
+                        AssignedUser = @t.assigned.AssignedUser
+                    });
         }
         [HttpPost]
         public HttpResponseMessage PostMainStepCompleted([FromBody]CompletedMainStep mainstep)
@@ -139,30 +151,44 @@ namespace SE.Controllers
             _db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Completed Task added to database");
         }
-        public HttpResponseMessage PostLoggedInIP([FromBody] SendUser user)
+        public HttpResponseMessage PostLoggedInIp([FromBody] SendUser user)
         {
             if (!ModelState.IsValid)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
             var getUser = _db.MemberAssignments.SingleOrDefault(x => x.AssignedUser == user.Username);
-            getUser.UsersIp = user.IpAddress;
-            getUser.IsUserLoggedIn = user.SignedIn;
+            if (getUser != null)
+            {
+                getUser.UsersIp = user.IpAddress;
+                getUser.IsUserLoggedIn = user.SignedIn;
+            }
             _db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "User Updated");
         }
-        public HttpResponseMessage RequestTask([FromBody] UserTaskRequest user)
+        public IEnumerable<Request> GetAllRequests()
+        {
+            return (_db.MemberAssignments.Join(_db.UserTaskRequests, mem => mem.AssignedUser, req => req.UserName,
+                (mem, req) =>
+                    new Request
+                    {
+                        AssignedSupervisor = mem.AssignedSupervisor,
+                        User = req.UserName,
+                        TaskName = req.TaskName,
+                        TaskDesc = req.TaskDescription,
+                        CompleteBy = req.DateCompleted
+                    }));
+        }
+        public HttpResponseMessage RequestTask([FromBody] UserTaskRequest userRequest)
         {
             if (!ModelState.IsValid)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
-            var exists = _db.UserTaskRequests.FirstOrDefault(x => x.UserName == user.UserName && x.TaskName == user.TaskName);
+            var exists = _db.UserTaskRequests.FirstOrDefault(x => x.UserName == userRequest.UserName && x.TaskName == userRequest.TaskName);
             if (exists != null)
                 return Request.CreateResponse(HttpStatusCode.Conflict, "You have requested a task by that name");
-            exists.TaskName = user.TaskName;
-            exists.TaskDescription = user.TaskDescription;
-            exists.DateComplete = user.DateComplete;
+            _db.UserTaskRequests.Add(userRequest);
             _db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Task Requested");
         }

@@ -1,21 +1,14 @@
-﻿using SE.Classes;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System;
 using System.Drawing;
-using System.Web.UI.WebControls;
-using SE.Classes;
-using System.Net;
-using System.Web.Security;
+using System.IO;
 using System.Text;
 using System.Web.UI;
-using System.IO;
+using System.Web.UI.WebControls;
+using SE.Classes;
 
-namespace SE
+namespace SE.Admin
 {
-    public partial class Reports : System.Web.UI.Page
+    public partial class Reports : Page
     {
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -24,48 +17,42 @@ namespace SE
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                PageHeader.InnerText = "Reports";
-                ReportOverviewPanel.Visible = false;
-                ReportDetailsPanel.Visible = false;
-                EmailReportForm.Visible = false;
-                FromEmail.Text = "ipawsteamb@gmail.com";
-            }
+            if (IsPostBack) return;
+            PageHeader.InnerText = "Reports";
+            ReportOverviewPanel.Visible = false;
+            ReportDetailsPanel.Visible = false;
+            EmailReportForm.Visible = false;
+            FromEmail.Text = "ipawsteamb@gmail.com";
         }
 
         protected void GenerateReportButton_Click(object sender, EventArgs e)
         {
-            if (!ReportOverviewPanel.Visible)
-            {
-                PageHeader.InnerText = "Generate Report";
-                SuccessMessage.Text = String.Empty;
-                ErrorMessage.Text = String.Empty;
-                ReportOverviewPanel.Visible = true;
-                EmailReportForm.Visible = false;
-                ReportOverview.DataSource = Report.GenerateReport();
-                ReportOverview.DataBind();
-            }
+            if (ReportOverviewPanel.Visible) return;
+            PageHeader.InnerText = "Generate Report";
+            SuccessMessage.Text = String.Empty;
+            ErrorMessage.Text = String.Empty;
+            ReportOverviewPanel.Visible = true;
+            EmailReportForm.Visible = false;
+            ReportOverview.DataSource = Report.GenerateReport();
+            ReportOverview.DataBind();
         }
 
         protected void EmailReportButton_Click(object sender, EventArgs e)
         {
-            if (!EmailReportForm.Visible)
-            {
-                PageHeader.InnerText = "Email Report";
-                SuccessMessage.Text = String.Empty;
-                ErrorMessage.Text = String.Empty;
-                EmailReportForm.Visible = true;
-                ReportOverviewPanel.Visible = false;
-                ReportDetailsPanel.Visible = false;
-            }
+            if (EmailReportForm.Visible) return;
+            PageHeader.InnerText = "Email Report";
+            SuccessMessage.Text = String.Empty;
+            ErrorMessage.Text = String.Empty;
+            EmailReportForm.Visible = true;
+            ReportOverviewPanel.Visible = false;
+            ReportDetailsPanel.Visible = false;
         }
 
         protected void EmailFormButton_Click(object sender, EventArgs e)
         {   
-            StringBuilder sb = new StringBuilder();
-            StringWriter tw = new StringWriter(sb);
-            HtmlTextWriter hw = new HtmlTextWriter(tw);
+            var sb = new StringBuilder();
+            var tw = new StringWriter(sb);
+            var hw = new HtmlTextWriter(tw);
             ReportPreviewControl.RenderControl(hw);
             var html = sb.ToString();
 
@@ -85,16 +72,14 @@ namespace SE
             }
         }
 
-        protected void OverviewRDB(object sender, System.Web.UI.WebControls.GridViewRowEventArgs e)
+        protected void OverviewRdb(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(ReportOverview, "Select$" + e.Row.RowIndex);
-                e.Row.ToolTip = "Click to select this row.";
-            }
+            if (e.Row.RowType != DataControlRowType.DataRow) return;
+            e.Row.Attributes["onclick"] = Page.ClientScript.GetPostBackClientHyperlink(ReportOverview, "Select$" + e.Row.RowIndex);
+            e.Row.ToolTip = "Click to select this row.";
         }
 
-        protected void OverviewSIC(object sender, EventArgs e)
+        protected void OverviewSic(object sender, EventArgs e)
         {
             if (!ReportDetailsPanel.Visible)
             {
@@ -106,7 +91,7 @@ namespace SE
             {
                 if (row.RowIndex == ReportOverview.SelectedIndex)
                 {
-                    string user = row.Cells[0].Text;
+                    var user = row.Cells[0].Text;
                     row.BackColor = ColorTranslator.FromHtml("#A1DCF2");
                     row.ToolTip = string.Empty;
                     ReportDetailsHeading.InnerHtml = String.Empty;

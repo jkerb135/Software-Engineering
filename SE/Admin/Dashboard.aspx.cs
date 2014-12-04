@@ -1,24 +1,24 @@
-using System.Globalization;
-using System.Linq;
-using System.Text.RegularExpressions;
-using SE.Classes;
 using System;
+using System.Data;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
+using SE.Classes;
 
-namespace SE
+namespace SE.Admin
 {
-    public partial class Dashboard : System.Web.UI.Page
+    public partial class Dashboard : Page
     {
         private static Label _lbl;
         private readonly MembershipUser _membershipUser = Membership.GetUser();
-        private String _selectedUserName = String.Empty;
+
         private enum DashView
         {
             Supervisor = 1, Manager = 0
         }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
@@ -87,7 +87,7 @@ namespace SE
 
         private void BindUserAccounts()
         {
-            GridView1.DataSource = (DataTable)Session["DataSource"];
+            GridView1.DataSource = Session["DataSource"];
             GridView1.DataBind();
         }
         protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -239,7 +239,7 @@ namespace SE
                 ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
                     String.Format("errorToast('{0}');", error), true);
             }
-            catch (ArgumentException e1)
+            catch (ArgumentException)
             {
                 var error = "";
                 Member.ValidatePassword(password.Text, ref error);

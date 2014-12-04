@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SE {
+namespace SE.Admin {
     
     
     public partial class Reports {

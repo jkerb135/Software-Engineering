@@ -17,7 +17,7 @@ namespace SE.Models
         public int CategoryID { get; set; }
         public int TaskID { get; set; }
         public string AssignedUser { get; set; }
-        public Nullable<double> TaskTime { get; set; }
-        public Nullable<int> DetailedStepsUsed { get; set; }
+        public double TaskTime { get; set; }
+        public int DetailedStepsUsed { get; set; }
     }
 }

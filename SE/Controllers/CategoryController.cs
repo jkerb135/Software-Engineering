@@ -23,15 +23,15 @@ namespace SE.Controllers
         /// <returns>All categories in database</returns>
         public IEnumerable<UserCategories> GetAllCategories()
         {
-            return from cat in db.Categories
-                   join assignment in db.CategoryAssignments on cat.CategoryID equals assignment.CategoryID into user
-                   from b in user.DefaultIfEmpty()
-                   select new UserCategories
-                   {
-                       CategoryId = cat.CategoryID,
-                       CategoryName = cat.CategoryName,
-                       AssignedUser = b.AssignedUser
-                   };
+            return
+                db.Categories.GroupJoin(db.CategoryAssignments, cat => cat.CategoryID,
+                    assignment => assignment.CategoryID, (cat, user) => new {cat, user})
+                    .SelectMany(@t => @t.user.DefaultIfEmpty(), (@t, b) => new UserCategories
+                    {
+                        CategoryId = @t.cat.CategoryID,
+                        CategoryName = @t.cat.CategoryName,
+                        AssignedUser = b.AssignedUser
+                    });
         }
     }
 }

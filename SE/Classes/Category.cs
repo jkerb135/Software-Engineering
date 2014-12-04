@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common.CommandTrees.ExpressionBuilder;
 using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Security.Policy;
 using System.Web.Security;
-using HtmlAgilityPack;
-using Microsoft.Ajax.Utilities;
-using SE.Models;
 
 namespace SE.Classes
 {
     [Serializable]
-    public partial class Category
+    public class Category
     {
         #region Properties
 

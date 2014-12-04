@@ -61,8 +61,8 @@ namespace SE.Hubs
                         @t.c.CategoryName,
                         Requester = @t.r.RequestingUser, @t.r.Date,
                     });
-            if (yourNotifications == null) throw new ArgumentNullException("yourNotifications");
-            Clients.Client(toUser.ConnectionID).yourCategoryRequests(yourNotifications.ToArray());
+            if (yourNotifications == null) throw new ArgumentNullException("userName");
+            if (toUser != null) Clients.Client(toUser.ConnectionID).yourCategoryRequests(yourNotifications.ToArray());
         }
     }
 

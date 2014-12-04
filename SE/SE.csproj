@@ -206,8 +206,6 @@
     <Content Include="Admin\Profile.aspx" />
     <Content Include="Admin\Reports.aspx" />
     <Content Include="Admin\Requests.aspx" />
-    <Content Include="Admin\Users.aspx" />
-    <Content Include="Admin\SignalR.aspx" />
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="example.html" />
@@ -545,17 +543,6 @@
       <DependentUpon>Requests.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\RouteEventArgs.cs" />
-    <Compile Include="Admin\Users.aspx.cs">
-      <DependentUpon>Users.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Admin\Users.aspx.designer.cs">
-      <DependentUpon>Users.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Admin\SignalR.aspx.cs">
-      <DependentUpon>SignalR.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

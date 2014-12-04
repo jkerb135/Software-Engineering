@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Linq;
-using System.Net;
 using System.Net.Mail;
 using System.Web.UI.WebControls;
 
@@ -78,12 +77,12 @@ namespace SE.Classes
             return message;
         }
 
-        public static string SendEmail(string Sender, string Receiver, string Body)
+        public static string SendEmail(string sender, string receiver, string body)
         {
-            SmtpClient mailClient = new SmtpClient();
-            string Error = "";
+            var mailClient = new SmtpClient();
+            var error = "";
             //This object stores the authentication values      
-            System.Net.NetworkCredential basicCredential =
+            var basicCredential =
                 new System.Net.NetworkCredential("ipawsteamb@gmail.com", "holymoneychildren");
             mailClient.Host = "smtp.gmail.com";
             mailClient.Port = 587;
@@ -93,14 +92,14 @@ namespace SE.Classes
             mailClient.Credentials = basicCredential;
 
 
-            MailMessage message = new MailMessage();
+            var message = new MailMessage();
 
-            MailAddress fromAddress = new MailAddress(Sender, "Backend Team B");
+            var fromAddress = new MailAddress(sender, "Backend Team B");
             
             message.From = fromAddress;   
-            message.To.Add(Receiver);
+            message.To.Add(receiver);
             message.IsBodyHtml = true;
-            message.Body = Body;
+            message.Body = body;
 
             try
             {
@@ -108,10 +107,10 @@ namespace SE.Classes
             }
             catch (Exception ex)
             {
-                Error = ex.Message;
+                error = ex.Message;
             }
 
-            return Error;
+            return error;
         }
     }
 }

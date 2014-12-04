@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SE.Classes;
-using System.Web.Security;
-using System.Data.SqlClient;
 
 namespace SE
 {
     /// <summary>
     /// 
     /// </summary>
-    public partial class Categories : System.Web.UI.Page
+    public partial class Categories : Page
     {
-        public int catIDX = 0;
-        public int taskIDX = 0;
-        public int mainIDX = 0;
-        public int deatIDX = 0;
+        public int CatIdx = 0;
+        public int TaskIdx = 0;
+        public int MainIdx = 0;
+        public int DeatIdx = 0;
         Category _cat = new Category();
         readonly string _userName = System.Web.HttpContext.Current.User.Identity.Name;
         Task _task = new Task();
@@ -157,7 +157,7 @@ namespace SE
                     header.Text = "Management Panel";
                     break;
             }
-            if (catList.Items.Count > 1) { catList.SelectedIndex = catIDX; }
+            if (catList.Items.Count > 1) { catList.SelectedIndex = CatIdx; }
         }
         /// <summary>
         /// 
@@ -221,7 +221,7 @@ namespace SE
                     break;
             }
             header.Text = "Management Panel";
-            if (taskList.Items.Count > 1) { taskList.SelectedIndex = taskIDX; }
+            if (taskList.Items.Count > 1) { taskList.SelectedIndex = TaskIdx; }
         }
         /// <summary>
         /// 
@@ -312,7 +312,7 @@ namespace SE
                     }
                 }
             }
-            if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = mainIDX; }
+            if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = MainIdx; }
         }
         /// <summary>
         /// 
@@ -387,7 +387,7 @@ namespace SE
                     }
                 }
             }
-            if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = deatIDX; }
+            if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = DeatIdx; }
         }
         /// <summary>
         /// 
@@ -809,7 +809,7 @@ namespace SE
         protected void QueryTasks(object sender, EventArgs e)
         {
             PreviewTask.Enabled = false;
-            catIDX = catList.SelectedIndex;
+            CatIdx = catList.SelectedIndex;
             taskDateSort.Text = "Date \u25B2";
             UpdateCategory.Attributes.Remove("disabled");
             DeleteCategory.Attributes.Remove("disabled");
@@ -892,7 +892,7 @@ namespace SE
         /// <param name="e"></param>
         protected void QueryMainStep(object sender, EventArgs e)
         {
-            taskIDX = taskList.SelectedIndex;
+            TaskIdx = taskList.SelectedIndex;
             PreviewTask.Enabled = true;
             taskIDValue.Value = taskList.SelectedValue;
             mainStepSort.Text = "Date \u25B2";
@@ -961,7 +961,7 @@ namespace SE
         /// <param name="e"></param>
         protected void QueryDetailedStep(object sender, EventArgs e)
         {
-            mainIDX = mainStep.SelectedIndex;
+            MainIdx = mainStep.SelectedIndex;
             UpdateMainStep.Attributes.Remove("disabled");
             DeleteMainStep.Attributes.Remove("disabled");
             UpdateDetailedStep.Attributes.Add("disabled", "true");
@@ -1017,7 +1017,7 @@ namespace SE
         /// <param name="e"></param>
         protected void DetailButtons(object sender, EventArgs e)
         {
-            deatIDX = detailedStep.SelectedIndex;
+            DeatIdx = detailedStep.SelectedIndex;
             UpdateDetailedStep.Attributes.Remove("disabled");
             DeleteDetailedStep.Attributes.Remove("disabled");
             if (detailedStep.SelectedItem.Text != "No Detailed Steps")

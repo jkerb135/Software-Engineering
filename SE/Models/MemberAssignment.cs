@@ -16,16 +16,16 @@ namespace SE.Models
     {
         public MemberAssignment()
         {
-            this.CategoryAssignments = new HashSet<CategoryAssignment>();
             this.CompletedMainSteps = new HashSet<CompletedMainStep>();
+            this.CategoryAssignments = new HashSet<CategoryAssignment>();
         }
     
         public string AssignedUser { get; set; }
         public string AssignedSupervisor { get; set; }
-        public bool IsUserLoggedIn { get; set; }
         public string UsersIp { get; set; }
+        public bool IsUserLoggedIn { get; set; }
     
-        public virtual ICollection<CategoryAssignment> CategoryAssignments { get; set; }
         public virtual ICollection<CompletedMainStep> CompletedMainSteps { get; set; }
+        public virtual ICollection<CategoryAssignment> CategoryAssignments { get; set; }
     }
 }

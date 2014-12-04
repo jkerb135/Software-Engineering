@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" EnableEventValidation="false" CodeBehind="Reports.aspx.cs" Inherits="SE.Reports" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" EnableEventValidation="false" CodeBehind="Reports.aspx.cs" Inherits="SE.Admin.Reports" %>
 <%@ Register TagPrefix="se" TagName="ReportPreview" Src="~/UserControls/ReportPreview.ascx" %>
 <asp:Content ID="PageHead" ContentPlaceHolderID="SiteHead" runat="server">
 </asp:Content>
@@ -90,7 +90,7 @@
                 <h2>Overview</h2>
                 <div class="table-responsive">
                     <asp:GridView ID="ReportOverview" CssClass="report table table-bordered" runat="server" 
-                        OnRowDataBound = "OverviewRDB" OnSelectedIndexChanged = "OverviewSIC">
+                        OnRowDataBound = "OverviewRdb" OnSelectedIndexChanged = "OverviewSic">
                     </asp:GridView>
                 </div>
             </asp:Panel>

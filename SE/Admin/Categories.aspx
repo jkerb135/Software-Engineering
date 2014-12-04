@@ -210,7 +210,7 @@
                                             <asp:Button ID="AddNewCategoryButton" runat="server" CssClass="btn-sm btn-success form-control" Text="Add" OnClick="AddNewCategory_Click" />
                                         </div>
                                         <div class="col-xs-4 reset">
-                                            <asp:Button ID="UpdateCategory" runat="server" CssClass="btn btn-primary form-control" Text="Update" OnClick="UpdateCategory_Click " />
+                                            <asp:Button ID="UpdateCategory" runat="server" CssClass="btn btn-primary form-control" Text="Update" OnClick="UpdateCategory_Click" />
                                         </div>
                                         <div class="col-xs-4 reset">
                                             <asp:Button ID="DeleteCategory" runat="server" CssClass="btn btn-danger form-control" Text="Deactivate" OnClick="DeleteCategoryButton_Click" />
