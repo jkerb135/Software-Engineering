@@ -7,6 +7,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Http.Filters;
+using System.Web.Http.Controllers;
 
 namespace SE.Controllers
 {
@@ -39,7 +41,7 @@ namespace SE.Controllers
 
         }
 
-        public class Request
+        public class UserRequest
         {
             public string AssignedSupervisor { get; set; }
             public string User { get; set; }
@@ -166,11 +168,11 @@ namespace SE.Controllers
             _db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "User Updated");
         }
-        public IEnumerable<Request> GetAllRequests()
+        public IEnumerable<UserRequest> GetAllRequests()
         {
             return (_db.MemberAssignments.Join(_db.UserTaskRequests, mem => mem.AssignedUser, req => req.UserName,
                 (mem, req) =>
-                    new Request
+                    new UserRequest
                     {
                         AssignedSupervisor = mem.AssignedSupervisor,
                         User = req.UserName,
@@ -193,5 +195,16 @@ namespace SE.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, "Task Requested");
         }
 
+    }
+    public class ValidateModelStateAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(HttpActionContext actionContext)
+        {
+            if (!actionContext.ModelState.IsValid)
+            {
+                actionContext.Response = actionContext.Request.CreateErrorResponse(
+       HttpStatusCode.BadRequest, actionContext.ModelState);
+            }
+        }
     }
 }
