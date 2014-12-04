@@ -3721,7 +3721,7 @@ GO
 CREATE TABLE [dbo].[MemberAssignments](
 	[AssignedUser] [varchar](255) NOT NULL,
 	[AssignedSupervisor] [varchar](255) NULL,
-	[IsUserLoggedInt] [bit] NOT NULL,
+	[IsUserLoggedIn] [bit] NOT NULL,
 	[UsersIp] [char](15) NOT NULL,
  CONSTRAINT [PK_MemberAssignments] PRIMARY KEY CLUSTERED 
 (
@@ -4189,12 +4189,12 @@ INSERT [dbo].[MainSteps] ([MainStepID], [TaskID], [MainStepName], [MainStepText]
 INSERT [dbo].[MainSteps] ([MainStepID], [TaskID], [MainStepName], [MainStepText], [MainStepTime], [AudioFilename], [AudioPath], [VideoFilename], [VideoPath], [CreatedTime], [ListOrder]) VALUES (36, 49, N'Set cups', N'Tells where to place cups.', NULL, N'Piano Music.wav', N'~/Uploads/Piano Music.wav', N'Lego.mp4', N'~/Uploads/Lego.mp4', CAST(0x0000A3F1009A96CB AS DateTime), 5)
 INSERT [dbo].[MainSteps] ([MainStepID], [TaskID], [MainStepName], [MainStepText], [MainStepTime], [AudioFilename], [AudioPath], [VideoFilename], [VideoPath], [CreatedTime], [ListOrder]) VALUES (37, 49, N'Set placemats', N'This step tells how to set placemats on the table', NULL, NULL, NULL, N'movie.mp4', N'~/Uploads/movie.mp4', CAST(0x0000A3F1009ACCF0 AS DateTime), 4)
 SET IDENTITY_INSERT [dbo].[MainSteps] OFF
-INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedInt], [UsersIp]) VALUES (N'Bryan Robson', N'presSup', 0, N'000.000.0.0    ')
-INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedInt], [UsersIp]) VALUES (N'Emre', N'Dave Mackey', 0, N'000.000.0.0    ')
-INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedInt], [UsersIp]) VALUES (N'New USer Create', N'Chris Appleton', 0, N'000.000.0.0    ')
-INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedInt], [UsersIp]) VALUES (N'Rob Shaw', N'jobble', 0, N'000.000.0.0    ')
-INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedInt], [UsersIp]) VALUES (N'Tina Pelle', N'Dave Mackey', 0, N'000.000.0.0    ')
-INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedInt], [UsersIp]) VALUES (N'User', N'Chris Appleton', 0, N'000.000.0.0    ')
+INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedIn], [UsersIp]) VALUES (N'Bryan Robson', N'presSup', 0, N'000.000.0.0    ')
+INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedIn], [UsersIp]) VALUES (N'Emre', N'Dave Mackey', 0, N'000.000.0.0    ')
+INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedIn], [UsersIp]) VALUES (N'New USer Create', N'Chris Appleton', 0, N'000.000.0.0    ')
+INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedIn], [UsersIp]) VALUES (N'Rob Shaw', N'jobble', 0, N'000.000.0.0    ')
+INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedIn], [UsersIp]) VALUES (N'Tina Pelle', N'Dave Mackey', 0, N'000.000.0.0    ')
+INSERT [dbo].[MemberAssignments] ([AssignedUser], [AssignedSupervisor], [IsUserLoggedIn], [UsersIp]) VALUES (N'User', N'Chris Appleton', 0, N'000.000.0.0    ')
 SET IDENTITY_INSERT [dbo].[Profile] ON 
 
 INSERT [dbo].[Profile] ([Id], [Name], [Picture]) VALUES (1, N'Dave Mackey', N'~/Uploads/kutztown-university-spotlight-tmb-original.png')
@@ -4360,7 +4360,7 @@ ALTER TABLE [dbo].[DetailedSteps] ADD  CONSTRAINT [DF_DetailedSteps_ListOrder]  
 GO
 ALTER TABLE [dbo].[MainSteps] ADD  CONSTRAINT [DF_MainSteps_ListOrder]  DEFAULT ((0)) FOR [ListOrder]
 GO
-ALTER TABLE [dbo].[MemberAssignments] ADD  CONSTRAINT [DF_MemberAssignments_IsUserLoggedInt]  DEFAULT ((0)) FOR [IsUserLoggedInt]
+ALTER TABLE [dbo].[MemberAssignments] ADD  CONSTRAINT [DF_MemberAssignments_IsUserLoggedIn]  DEFAULT ((0)) FOR [IsUserLoggedIn]
 GO
 ALTER TABLE [dbo].[MemberAssignments] ADD  CONSTRAINT [DF_MemberAssignments_UsersIp]  DEFAULT ('000.000.0.0') FOR [UsersIp]
 GO
