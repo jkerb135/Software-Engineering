@@ -17,9 +17,7 @@ namespace SE.Models
         public int CategoryID { get; set; }
         public int TaskID { get; set; }
         public string AssignedUser { get; set; }
-    
-        public virtual Category Category { get; set; }
-        public virtual MemberAssignment MemberAssignment { get; set; }
-        public virtual Task Task { get; set; }
+        public Nullable<double> TaskTime { get; set; }
+        public Nullable<int> DetailedStepsUsed { get; set; }
     }
 }

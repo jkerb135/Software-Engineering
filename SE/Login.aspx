@@ -38,12 +38,11 @@
         <div class="container centered">
             <div class="row">
                 <div class="col-xs-4 col-xs-offset-4 ">
+                                                                                        <div class="col-xs-12  col-centered">
+                    <img src="Images/logo.png" width="300"/>
+                </div>
                     <asp:Login ID="MainLogin" OnLoggedIn="MainLogin_LoggedIn" runat="server">
                         <LayoutTemplate>
-                                                                <div class="col-xs-8">
-                    <img src="Images/logo.png" />
-                </div>
-                            <br />
                             <div class="login-panel panel panel-login ">
                                 <div class="panel-heading" style="text-align:center">
                                     <h3 class="panel-title">Please Sign In</h3>

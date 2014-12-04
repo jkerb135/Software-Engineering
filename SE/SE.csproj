@@ -689,6 +689,9 @@
     <Compile Include="Models\RequestedCategory.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RequestedTask.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Task.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
@@ -696,6 +699,9 @@
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserTaskRequest.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="PreviewTask.aspx.cs">

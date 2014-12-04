@@ -18,16 +18,14 @@ namespace SE.Models
         {
             this.CategoryAssignments = new HashSet<CategoryAssignment>();
             this.CompletedMainSteps = new HashSet<CompletedMainStep>();
-            this.TaskAssignments = new HashSet<TaskAssignment>();
-            this.Tasks = new HashSet<Task>();
         }
     
         public string AssignedUser { get; set; }
         public string AssignedSupervisor { get; set; }
+        public bool IsUserLoggedIn { get; set; }
+        public string UsersIp { get; set; }
     
         public virtual ICollection<CategoryAssignment> CategoryAssignments { get; set; }
         public virtual ICollection<CompletedMainStep> CompletedMainSteps { get; set; }
-        public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
-        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

@@ -18,14 +18,11 @@ namespace SE.Models
         {
             this.CompletedMainSteps = new HashSet<CompletedMainStep>();
             this.MainSteps = new HashSet<MainStep>();
-            this.TaskAssignments = new HashSet<TaskAssignment>();
         }
     
         public int TaskID { get; set; }
         public int CategoryID { get; set; }
-        public string AssignedUser { get; set; }
         public string TaskName { get; set; }
-        public Nullable<double> TaskTime { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedTime { get; set; }
         public string CreatedBy { get; set; }
@@ -33,7 +30,5 @@ namespace SE.Models
         public virtual Category Category { get; set; }
         public virtual ICollection<CompletedMainStep> CompletedMainSteps { get; set; }
         public virtual ICollection<MainStep> MainSteps { get; set; }
-        public virtual MemberAssignment MemberAssignment { get; set; }
-        public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
     }
 }

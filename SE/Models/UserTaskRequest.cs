@@ -12,14 +12,15 @@ namespace SE.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CompletedTask
+    public partial class UserTaskRequest
     {
-        public int TaskID { get; set; }
+        public int ID { get; set; }
         public string TaskName { get; set; }
-        public string AssignedUser { get; set; }
-        public System.DateTime DateTimeCompleted { get; set; }
-        public double TotalTime { get; set; }
-        public int TotalDetailedStepsUsed { get; set; }
-        public int id { get; set; }
+        public string TaskDescription { get; set; }
+        public System.DateTime DateComplete { get; set; }
+        public string UserName { get; set; }
+    
+        public virtual UserTaskRequest UserTaskRequests1 { get; set; }
+        public virtual UserTaskRequest UserTaskRequest1 { get; set; }
     }
 }

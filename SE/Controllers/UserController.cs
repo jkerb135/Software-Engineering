@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Security;
 
 namespace SE.Controllers
 {
@@ -36,6 +37,12 @@ namespace SE.Controllers
             public string TaskName { get; set; }
             public string AssignedUser { get; set; }
 
+        }
+        public class SendUser
+        { 
+            public string Username { get; set; }
+            public string IpAddress { get; set; }
+            public bool SignedIn {get;set;}
         }
         public class Completed
         {
@@ -131,6 +138,33 @@ namespace SE.Controllers
             _db.CompletedTasks.Add(task);
             _db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Completed Task added to database");
+        }
+        public HttpResponseMessage PostLoggedInIP([FromBody] SendUser user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            var getUser = _db.MemberAssignments.SingleOrDefault(x => x.AssignedUser == user.Username);
+            getUser.UsersIp = user.IpAddress;
+            getUser.IsUserLoggedIn = user.SignedIn;
+            _db.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.OK, "User Updated");
+        }
+        public HttpResponseMessage RequestTask([FromBody] UserTaskRequest user)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest);
+            }
+            var exists = _db.UserTaskRequests.FirstOrDefault(x => x.UserName == user.UserName && x.TaskName == user.TaskName);
+            if (exists != null)
+                return Request.CreateResponse(HttpStatusCode.Conflict, "You have requested a task by that name");
+            exists.TaskName = user.TaskName;
+            exists.TaskDescription = user.TaskDescription;
+            exists.DateComplete = user.DateComplete;
+            _db.SaveChanges();
+            return Request.CreateResponse(HttpStatusCode.OK, "Task Requested");
         }
 
     }

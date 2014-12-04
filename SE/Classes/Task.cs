@@ -15,7 +15,6 @@ namespace SE.Classes
         public int TaskId { get; set; }
         public int CategoryId { get; set; }
         public string TaskName { get; set; }
-        public double TaskTime { get; set; }
         public string CreatedTime { get; set; }
         public List<string> TaskAssignments { get; set; }
         public bool IsActive
@@ -81,7 +80,6 @@ namespace SE.Classes
             TaskId = 0;
             CategoryId = 0;
             TaskName = String.Empty;
-            TaskTime = 0;
             IsActive = true;
             TaskAssignments = null;
         }
@@ -90,8 +88,8 @@ namespace SE.Classes
 
         public void CreateTask()
         {
-            const string queryString = "INSERT INTO Tasks (CategoryID, TaskName, TaskTime, IsActive, CreatedTime, CreatedBy) " +
-                                       "VALUES (@categoryid, @taskname, @tasktime, @isactive, @createdtime, @createdby)";
+            const string queryString = "INSERT INTO Tasks (CategoryID, TaskName, IsActive, CreatedTime, CreatedBy) " +
+                                       "VALUES (@categoryid, @taskname, @isactive, @createdtime, @createdby)";
 
             const string queryString2 = "SELECT MAX(TaskID) FROM Tasks";
           
@@ -103,7 +101,6 @@ namespace SE.Classes
 
                 cmd.Parameters.AddWithValue("@categoryid", CategoryId);
                 cmd.Parameters.AddWithValue("@taskname", TaskName);
-                cmd.Parameters.AddWithValue("@tasktime", TaskTime);
                 cmd.Parameters.AddWithValue("@isactive", true);
                 cmd.Parameters.AddWithValue("@createdtime", DateTime.Now);
                 cmd.Parameters.AddWithValue("@createdby", 

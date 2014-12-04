@@ -37,7 +37,7 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
                                                     <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="36%" DataFormatString=" {0:d} " HtmlEncode="false" />
@@ -67,7 +67,7 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" AutoGenerateColumns="false">
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-Width="5%">
                                                         <ItemTemplate>
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="true" OnRowCommand="TaskGrid_RowCommand" AutoGenerateColumns="false">
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="TaskGrid_RowCommand" AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
                                                     <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="36%" />
@@ -123,7 +123,7 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="True" AutoGenerateColumns="false">
+                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-hover table-striped" GridLines="None" runat="server"  AutoGenerateColumns="false">
                                                 <Columns>
                                                     <asp:TemplateField ItemStyle-Width="5%">
                                                         <ItemTemplate>
@@ -151,7 +151,7 @@
                                     </div>
                                     <div class="panel-body">
                                         <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ID="users" ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="assignedUsersSource" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowPaging="true" AllowSorting="true" AutoGenerateColumns="false" OnRowCommand="users_RowCommand">
+                                            <asp:GridView ID="users" ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="assignedUsersSource" CssClass="table table-hover table-striped" GridLines="None" runat="server"  AllowSorting="true" AutoGenerateColumns="false" OnRowCommand="users_RowCommand">
                                                 <Columns>
                                                     <asp:BoundField DataField="AssignedUser" HeaderText="User" />
                                                     <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">

@@ -42,10 +42,12 @@ namespace SE.Models
         public DbSet<DetailedStep> DetailedSteps { get; set; }
         public DbSet<MainStep> MainSteps { get; set; }
         public DbSet<MemberAssignment> MemberAssignments { get; set; }
+        public DbSet<Profile> Profiles { get; set; }
         public DbSet<RequestedCategory> RequestedCategories { get; set; }
+        public DbSet<RequestedTask> RequestedTasks { get; set; }
         public DbSet<TaskAssignment> TaskAssignments { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Profile> Profiles { get; set; }
+        public DbSet<UserTaskRequest> UserTaskRequests { get; set; }
     }
 }

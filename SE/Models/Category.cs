@@ -17,7 +17,6 @@ namespace SE.Models
         public Category()
         {
             this.RequestedCategories = new HashSet<RequestedCategory>();
-            this.TaskAssignments = new HashSet<TaskAssignment>();
             this.Tasks = new HashSet<Task>();
         }
     
@@ -29,7 +28,6 @@ namespace SE.Models
     
         public virtual CategoryAssignment CategoryAssignment { get; set; }
         public virtual ICollection<RequestedCategory> RequestedCategories { get; set; }
-        public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
     }
 }

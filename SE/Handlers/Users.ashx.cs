@@ -14,7 +14,7 @@ namespace SE.Handlers
     {
         public void ProcessRequest(HttpContext context)
         {
-            context.Response.ContentType = "text/plain";
+            context.Response.ContentType = "text/html";
 
             if (context.Request.Form["action"] == "login")
             {
