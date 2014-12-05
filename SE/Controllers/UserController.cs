@@ -68,6 +68,13 @@ namespace SE.Controllers
             public DateTime DateTimeComplete { get; set; }
             public float TotalTime { get; set; }
         }
+        public class CompleteStep
+        {
+            public string MainStepName { get; set; }
+            public string AssignedUser { get; set; }
+            public DateTime DateTimeComplete { get; set; }
+            public double TotalTime { get; set; }
+        }
         /// <summary>
         /// Gets all users in the database
         /// </summary>
@@ -120,11 +127,14 @@ namespace SE.Controllers
                     .Select(@t => new Task
                     {
                         CategoryId = @t.@t.cat.CategoryID,
-                        CategoryName = @t.@t.cat.CategoryName,
                         TaskId = @t.@t.task.TaskID,
                         TaskName = @t.@t.task.TaskName,
                         AssignedUser = @t.assigned.AssignedUser
                     });
+        }
+        public IEnumerable<CompleteStep> GetAllCompletedSteps()
+        {
+            return _db.CompletedMainSteps.Select(@t => new CompleteStep(){ AssignedUser = @t.AssignedUser, DateTimeComplete = @t.DateTimeComplete, MainStepName = @t.MainStepName, TotalTime = @t.TotalTime}); 
         }
         [HttpPost]
         public HttpResponseMessage PostMainStepCompleted([FromBody]CompletedMainStep mainstep)
@@ -142,6 +152,10 @@ namespace SE.Controllers
             _db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Completed Main Step added to database");
         }
+        public IEnumerable<CompletedTask> GetAllCompletedTasks()
+        {
+            return _db.CompletedTasks.AsEnumerable<CompletedTask>();
+        }
         public HttpResponseMessage PostTaskCompleted([FromBody]CompletedTask task)
         {
             if (!ModelState.IsValid)
@@ -154,7 +168,7 @@ namespace SE.Controllers
                 return Request.CreateResponse(HttpStatusCode.Conflict, "Completed Task already exists in database");
             task.DateTimeCompleted = DateTime.Now;
             _db.CompletedTasks.Add(task);
-            _db.SaveChanges();
+            SaveChanges(_db);
             return Request.CreateResponse(HttpStatusCode.OK, "Completed Task added to database");
         }
         public HttpResponseMessage PostLoggedInIp([FromBody]SendUser user)
