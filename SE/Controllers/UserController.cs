@@ -9,10 +9,14 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Filters;
 using System.Web.Http.Controllers;
+using System.Data.Entity.Validation;
+using System.Data.Entity;
+using System.Text;
 
 namespace SE.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [ValidateModelState]
     public class UserController : ApiController
     {
         public new class User
@@ -153,19 +157,19 @@ namespace SE.Controllers
             _db.SaveChanges();
             return Request.CreateResponse(HttpStatusCode.OK, "Completed Task added to database");
         }
-        public HttpResponseMessage PostLoggedInIp([FromBody] SendUser user)
+        public HttpResponseMessage PostLoggedInIp([FromBody]SendUser user)
         {
             if (!ModelState.IsValid)
             {
                 return Request.CreateResponse(HttpStatusCode.BadRequest);
             }
-            var getUser = _db.MemberAssignments.SingleOrDefault(x => x.AssignedUser == user.Username);
-            if (getUser != null)
-            {
-                getUser.UsersIp = user.IpAddress;
-                getUser.IsUserLoggedIn = user.SignedIn;
-            }
-            _db.SaveChanges();
+                var getUser = _db.MemberAssignments.SingleOrDefault(x => x.AssignedUser == user.Username);
+                if (getUser != null)
+                {
+                    getUser.UsersIp = user.IpAddress;
+                    getUser.IsUserLoggedIn = user.SignedIn;
+                }
+                SaveChanges(_db);
             return Request.CreateResponse(HttpStatusCode.OK, "User Updated");
         }
         public IEnumerable<UserRequest> GetAllRequests()
@@ -191,8 +195,34 @@ namespace SE.Controllers
             if (exists != null)
                 return Request.CreateResponse(HttpStatusCode.Conflict, "You have requested a task by that name");
             _db.UserTaskRequests.Add(userRequest);
-            _db.SaveChanges();
+            SaveChanges(_db);
             return Request.CreateResponse(HttpStatusCode.OK, "Task Requested");
+        }
+        private void SaveChanges(DbContext context)
+        {
+            try
+            {
+                context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+
+                foreach (var failure in ex.EntityValidationErrors)
+                {
+                    sb.AppendFormat("{0} failed validation\n", failure.Entry.Entity.GetType());
+                    foreach (var error in failure.ValidationErrors)
+                    {
+                        sb.AppendFormat("- {0} : {1}", error.PropertyName, error.ErrorMessage);
+                        sb.AppendLine();
+                    }
+                }
+
+                throw new DbEntityValidationException(
+                    "Entity Validation Failed - errors follow:\n" +
+                    sb.ToString(), ex
+                ); // Add the original exception as the innerException
+            }
         }
 
     }

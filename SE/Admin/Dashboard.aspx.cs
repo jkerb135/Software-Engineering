@@ -22,6 +22,7 @@ namespace SE.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
+            SqlDataSource2.SelectParameters.Add("@AssignedSupervisor", _membershipUser.UserName);
             var textInfo = new CultureInfo("en-US", false).TextInfo;
             Session["DataSource"] = Member.CustomGetAllUsers();
             BindUserAccounts();
@@ -41,7 +42,6 @@ namespace SE.Admin
                     upModal.Update();
                 }
                 DashboardView.ActiveViewIndex = (int)DashView.Supervisor;
-                GetActiveUsers();
                 GetRecentUsers();
                 GetActiveSupervisor();
             }
@@ -59,14 +59,6 @@ namespace SE.Admin
             if (_membershipUser == null) return;
             _membershipUser.Comment = "Verified";
             Membership.UpdateUser(_membershipUser);
-        }
-        protected void GetActiveUsers()
-        {
-            activeUserList.DataSource = Member.CustomGetActiveUsers();
-            activeUserList.DataBind();
-            activeUserList.UseAccessibleHeader = true;
-            activeUserList.HeaderRow.TableSection = TableRowSection.TableHeader;
-
         }
         protected void GetRecentUsers()
         {

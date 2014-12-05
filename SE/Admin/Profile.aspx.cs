@@ -566,6 +566,7 @@ namespace SE.Admin
                 con.Close();
                 QueryCatRequestStatus();
             }
+            profile.Update();
         }
 
         [WebMethod]

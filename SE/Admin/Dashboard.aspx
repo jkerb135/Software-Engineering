@@ -192,11 +192,12 @@
                        
                                 </div>
                                 <div class="panel-body">
-                                    <asp:GridView ID="activeUserList" CssClass="table table-bordered table-striped" runat="server" AllowPaging="False" AutoGenerateColumns="false" ShowHeader="false" GridLines="None">
+                                    <asp:GridView ID="activeUserList" DataSourceID="SqlDataSource1" EmptyDataText="No Users Logged In" CssClass="table table-bordered table-striped" runat="server" AutoGenerateColumns="False" ShowHeader="False" GridLines="None">
                                         <Columns>
-                                            <asp:BoundField DataField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundField>
+                                            <asp:BoundField DataField="AssignedUser" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundField>
                                         </Columns>
                                     </asp:GridView>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -269,4 +270,10 @@
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ipawsTeamBConnectionString %>" SelectCommand="SELECT [AssignedUser] FROM [MemberAssignments] WHERE (([AssignedSupervisor] = @AssignedSupervisor) AND ([IsUserLoggedIn] = @IsUserLoggedIn))">
+        <SelectParameters>
+            <asp:Parameter Name="AssignedSupervisor" Type="String" />
+            <asp:Parameter DefaultValue="true" Name="IsUserLoggedIn" Type="Boolean" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 </asp:Content>

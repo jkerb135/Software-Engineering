@@ -4,13 +4,150 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ipawsTeamBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ipawsTeamBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="ipawsTeamBModelStoreContainer">
+          <EntitySet Name="aspnet_Applications" EntityType="ipawsTeamBModel.Store.aspnet_Applications" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Membership" EntityType="ipawsTeamBModel.Store.aspnet_Membership" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Paths" EntityType="ipawsTeamBModel.Store.aspnet_Paths" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_PersonalizationAllUsers" EntityType="ipawsTeamBModel.Store.aspnet_PersonalizationAllUsers" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_PersonalizationPerUser" EntityType="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Profile" EntityType="ipawsTeamBModel.Store.aspnet_Profile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Roles" EntityType="ipawsTeamBModel.Store.aspnet_Roles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_SchemaVersions" EntityType="ipawsTeamBModel.Store.aspnet_SchemaVersions" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_Users" EntityType="ipawsTeamBModel.Store.aspnet_Users" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_UsersInRoles" EntityType="ipawsTeamBModel.Store.aspnet_UsersInRoles" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="aspnet_WebEvent_Events" EntityType="ipawsTeamBModel.Store.aspnet_WebEvent_Events" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Categories" EntityType="ipawsTeamBModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CategoryAssignments" EntityType="ipawsTeamBModel.Store.CategoryAssignments" store:Type="Tables" store:Schema="dbo" store:Name="CategoryAssignments">
+            <DefiningQuery>SELECT 
+      [CategoryAssignments].[AssignedUser] AS [AssignedUser], 
+      [CategoryAssignments].[CategoryID] AS [CategoryID]
+      FROM [dbo].[CategoryAssignments] AS [CategoryAssignments]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="CompletedMainSteps" EntityType="ipawsTeamBModel.Store.CompletedMainSteps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="CompletedTasks" EntityType="ipawsTeamBModel.Store.CompletedTasks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="DetailedSteps" EntityType="ipawsTeamBModel.Store.DetailedSteps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MainSteps" EntityType="ipawsTeamBModel.Store.MainSteps" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="MemberAssignments" EntityType="ipawsTeamBModel.Store.MemberAssignments" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Profile" EntityType="ipawsTeamBModel.Store.Profile" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RequestedCategories" EntityType="ipawsTeamBModel.Store.RequestedCategories" store:Type="Tables" store:Schema="dbo" store:Name="RequestedCategories">
+            <DefiningQuery>SELECT 
+      [RequestedCategories].[CategoryID] AS [CategoryID], 
+      [RequestedCategories].[IsApproved] AS [IsApproved], 
+      [RequestedCategories].[RequestingUser] AS [RequestingUser], 
+      [RequestedCategories].[CreatedBy] AS [CreatedBy], 
+      [RequestedCategories].[Date] AS [Date]
+      FROM [dbo].[RequestedCategories] AS [RequestedCategories]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="RequestedTasks" EntityType="ipawsTeamBModel.Store.RequestedTasks" store:Type="Tables" store:Schema="dbo" store:Name="RequestedTasks">
+            <DefiningQuery>SELECT 
+      [RequestedTasks].[CategoryID] AS [CategoryID], 
+      [RequestedTasks].[TaskID] AS [TaskID], 
+      [RequestedTasks].[Requester] AS [Requester], 
+      [RequestedTasks].[Date] AS [Date], 
+      [RequestedTasks].[IsApproved] AS [IsApproved], 
+      [RequestedTasks].[CreatedBy] AS [CreatedBy]
+      FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TaskAssignments" EntityType="ipawsTeamBModel.Store.TaskAssignments" store:Type="Tables" store:Schema="dbo" store:Name="TaskAssignments">
+            <DefiningQuery>SELECT 
+      [TaskAssignments].[CategoryID] AS [CategoryID], 
+      [TaskAssignments].[TaskID] AS [TaskID], 
+      [TaskAssignments].[AssignedUser] AS [AssignedUser], 
+      [TaskAssignments].[TaskTime] AS [TaskTime], 
+      [TaskAssignments].[DetailedStepsUsed] AS [DetailedStepsUsed]
+      FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Tasks" EntityType="ipawsTeamBModel.Store.Tasks" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="User" EntityType="ipawsTeamBModel.Store.User" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserTaskRequest" EntityType="ipawsTeamBModel.Store.UserTaskRequest" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__aspnet_Me__Appli__60B24907" Association="ipawsTeamBModel.Store.FK__aspnet_Me__Appli__60B24907">
+            <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
+            <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Me__UserI__61A66D40" Association="ipawsTeamBModel.Store.FK__aspnet_Me__UserI__61A66D40">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pa__Appli__5BED93EA" Association="ipawsTeamBModel.Store.FK__aspnet_Pa__Appli__5BED93EA">
+            <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
+            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pe__PathI__5DD5DC5C" Association="ipawsTeamBModel.Store.FK__aspnet_Pe__PathI__5DD5DC5C">
+            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+            <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pe__PathI__629A9179" Association="ipawsTeamBModel.Store.FK__aspnet_Pe__PathI__629A9179">
+            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+            <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pe__UserI__5ECA0095" Association="ipawsTeamBModel.Store.FK__aspnet_Pe__UserI__5ECA0095">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pr__UserI__5FBE24CE" Association="ipawsTeamBModel.Store.FK__aspnet_Pr__UserI__5FBE24CE">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Ro__Appli__5CE1B823" Association="ipawsTeamBModel.Store.FK__aspnet_Ro__Appli__5CE1B823">
+            <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
+            <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Us__Appli__5AF96FB1" Association="ipawsTeamBModel.Store.FK__aspnet_Us__Appli__5AF96FB1">
+            <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Us__RoleI__638EB5B2" Association="ipawsTeamBModel.Store.FK__aspnet_Us__RoleI__638EB5B2">
+            <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
+            <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Us__UserI__6482D9EB" Association="ipawsTeamBModel.Store.FK__aspnet_Us__UserI__6482D9EB">
+            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
+            <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryAssignments_Categories" Association="ipawsTeamBModel.Store.FK_CategoryAssignments_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CategoryAssignments_MemberAssignments" Association="ipawsTeamBModel.Store.FK_CategoryAssignments_MemberAssignments">
+            <End Role="MemberAssignments" EntitySet="MemberAssignments" />
+            <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompletedMainSteps_MainSteps" Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_MainSteps">
+            <End Role="MainSteps" EntitySet="MainSteps" />
+            <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompletedMainSteps_MemberAssignments" Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_MemberAssignments">
+            <End Role="MemberAssignments" EntitySet="MemberAssignments" />
+            <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CompletedMainSteps_Tasks" Association="ipawsTeamBModel.Store.FK_CompletedMainSteps_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetailedSteps_MainSteps" Association="ipawsTeamBModel.Store.FK_DetailedSteps_MainSteps">
+            <End Role="MainSteps" EntitySet="MainSteps" />
+            <End Role="DetailedSteps" EntitySet="DetailedSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MainSteps_Tasks" Association="ipawsTeamBModel.Store.FK_MainSteps_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="MainSteps" EntitySet="MainSteps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestedCategories_Categories" Association="ipawsTeamBModel.Store.FK_RequestedCategories_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="RequestedCategories" EntitySet="RequestedCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Categories" Association="ipawsTeamBModel.Store.FK_Tasks_Categories">
+            <End Role="Categories" EntitySet="Categories" />
+            <End Role="Tasks" EntitySet="Tasks" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
           </Key>
-          <Property Name="ApplicationName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="LoweredApplicationName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="ApplicationName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LoweredApplicationName" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
@@ -20,9 +157,9 @@
           </Key>
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" Nullable="false" MaxLength="128" />
           <Property Name="PasswordFormat" Type="int" Nullable="false" />
-          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordSalt" Type="nvarchar" Nullable="false" MaxLength="128" />
           <Property Name="MobilePIN" Type="nvarchar" MaxLength="16" />
           <Property Name="Email" Type="nvarchar" MaxLength="256" />
           <Property Name="LoweredEmail" Type="nvarchar" MaxLength="256" />
@@ -46,8 +183,8 @@
           </Key>
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PathId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Path" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="LoweredPath" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Path" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LoweredPath" Type="nvarchar" Nullable="false" MaxLength="256" />
         </EntityType>
         <EntityType Name="aspnet_PersonalizationAllUsers">
           <Key>
@@ -83,8 +220,8 @@
           </Key>
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="RoleId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="LoweredRoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LoweredRoleName" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="Description" Type="nvarchar" MaxLength="256" />
         </EntityType>
         <EntityType Name="aspnet_SchemaVersions">
@@ -92,8 +229,8 @@
             <PropertyRef Name="Feature" />
             <PropertyRef Name="CompatibleSchemaVersion" />
           </Key>
-          <Property Name="Feature" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="CompatibleSchemaVersion" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Feature" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="CompatibleSchemaVersion" Type="nvarchar" Nullable="false" MaxLength="128" />
           <Property Name="IsCurrentVersion" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="aspnet_Users">
@@ -102,8 +239,8 @@
           </Key>
           <Property Name="ApplicationId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="LoweredUserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="LoweredUserName" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="MobileAlias" Type="nvarchar" MaxLength="16" />
           <Property Name="IsAnonymous" Type="bit" Nullable="false" />
           <Property Name="LastActivityDate" Type="datetime" Nullable="false" />
@@ -120,18 +257,18 @@
           <Key>
             <PropertyRef Name="EventId" />
           </Key>
-          <Property Name="EventId" Type="char" MaxLength="32" Nullable="false" />
+          <Property Name="EventId" Type="char" Nullable="false" MaxLength="32" />
           <Property Name="EventTimeUtc" Type="datetime" Nullable="false" />
           <Property Name="EventTime" Type="datetime" Nullable="false" />
-          <Property Name="EventType" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="EventSequence" Type="decimal" Precision="19" Scale="0" Nullable="false" />
-          <Property Name="EventOccurrence" Type="decimal" Precision="19" Scale="0" Nullable="false" />
+          <Property Name="EventType" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="EventSequence" Type="decimal" Nullable="false" Precision="19" />
+          <Property Name="EventOccurrence" Type="decimal" Nullable="false" Precision="19" />
           <Property Name="EventCode" Type="int" Nullable="false" />
           <Property Name="EventDetailCode" Type="int" Nullable="false" />
           <Property Name="Message" Type="nvarchar" MaxLength="1024" />
           <Property Name="ApplicationPath" Type="nvarchar" MaxLength="256" />
           <Property Name="ApplicationVirtualPath" Type="nvarchar" MaxLength="256" />
-          <Property Name="MachineName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="MachineName" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="RequestUrl" Type="nvarchar" MaxLength="1024" />
           <Property Name="ExceptionType" Type="nvarchar" MaxLength="256" />
           <Property Name="Details" Type="ntext" />
@@ -140,14 +277,15 @@
           <Key>
             <PropertyRef Name="CategoryID" />
           </Key>
-          <Property Name="CategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="CategoryName" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CategoryID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ipawsTeamB.dbo.CategoryAssignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+      warning 6002: The table/view 'ipawsTeamB.dbo.CategoryAssignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
         <EntityType Name="CategoryAssignments">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -161,31 +299,31 @@ warning 6002: The table/view 'ipawsTeamB.dbo.CategoryAssignments' does not have 
           </Key>
           <Property Name="MainStepID" Type="int" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
-          <Property Name="MainStepName" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="AssignedUser" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="MainStepName" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="AssignedUser" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="DateTimeComplete" Type="datetime" Nullable="false" />
           <Property Name="TotalTime" Type="float" Nullable="false" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="CompletedTasks">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="TaskID" Type="int" Nullable="false" />
-          <Property Name="TaskName" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="AssignedUser" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TaskName" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="AssignedUser" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="DateTimeCompleted" Type="datetime" Nullable="false" />
           <Property Name="TotalTime" Type="float" Nullable="false" />
           <Property Name="TotalDetailedStepsUsed" Type="int" Nullable="false" />
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="DetailedSteps">
           <Key>
             <PropertyRef Name="DetailedStepID" />
           </Key>
-          <Property Name="DetailedStepID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DetailedStepID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="MainStepID" Type="int" Nullable="false" />
-          <Property Name="DetailedStepName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="DetailedStepName" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="DetailedStepText" Type="varchar" MaxLength="255" />
           <Property Name="ImageFilename" Type="varchar" MaxLength="255" />
           <Property Name="ImagePath" Type="varchar" MaxLength="255" />
@@ -196,9 +334,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.CategoryAssignments' does not have 
           <Key>
             <PropertyRef Name="MainStepID" />
           </Key>
-          <Property Name="MainStepID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MainStepID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="TaskID" Type="int" Nullable="false" />
-          <Property Name="MainStepName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="MainStepName" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="MainStepText" Type="varchar" MaxLength="255" />
           <Property Name="MainStepTime" Type="float" />
           <Property Name="AudioFilename" Type="varchar" MaxLength="255" />
@@ -212,21 +350,22 @@ warning 6002: The table/view 'ipawsTeamB.dbo.CategoryAssignments' does not have 
           <Key>
             <PropertyRef Name="AssignedUser" />
           </Key>
-          <Property Name="AssignedUser" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="AssignedUser" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="AssignedSupervisor" Type="varchar" MaxLength="255" />
           <Property Name="IsUserLoggedIn" Type="bit" Nullable="false" />
-          <Property Name="UsersIp" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="UsersIp" Type="char" Nullable="false" MaxLength="15" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
             <PropertyRef Name="Name" />
           </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
-          <Property Name="Picture" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="250" />
+          <Property Name="Picture" Type="nvarchar" Nullable="false" MaxLength="250" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ipawsTeamB.dbo.RequestedCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+      warning 6002: The table/view 'ipawsTeamB.dbo.RequestedCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
         <EntityType Name="RequestedCategories">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -235,12 +374,13 @@ warning 6002: The table/view 'ipawsTeamB.dbo.RequestedCategories' does not have 
           </Key>
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="IsApproved" Type="bit" Nullable="false" />
-          <Property Name="RequestingUser" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="RequestingUser" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="256" />
           <Property Name="Date" Type="datetime" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ipawsTeamB.dbo.RequestedTasks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+      warning 6002: The table/view 'ipawsTeamB.dbo.RequestedTasks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
         <EntityType Name="RequestedTasks">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -252,13 +392,14 @@ warning 6002: The table/view 'ipawsTeamB.dbo.RequestedTasks' does not have a pri
           </Key>
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="TaskID" Type="int" Nullable="false" />
-          <Property Name="Requester" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Requester" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="IsApproved" Type="bit" Nullable="false" />
-          <Property Name="CreatedBy" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" Nullable="false" MaxLength="256" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ipawsTeamB.dbo.TaskAssignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+      warning 6002: The table/view 'ipawsTeamB.dbo.TaskAssignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
         <EntityType Name="TaskAssignments">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -276,41 +417,35 @@ warning 6002: The table/view 'ipawsTeamB.dbo.TaskAssignments' does not have a pr
           <Key>
             <PropertyRef Name="TaskID" />
           </Key>
-          <Property Name="TaskID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaskID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
-          <Property Name="TaskName" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="TaskName" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
-          <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="UserName" />
           </Key>
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="ConnectionID" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="ConnectionID" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="Connected" Type="bit" Nullable="false" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="UserTaskRequest">
           <Key>
             <PropertyRef Name="ID" />
-            <PropertyRef Name="TaskName" />
-            <PropertyRef Name="TaskDescription" />
-            <PropertyRef Name="DateCompleted" />
-            <PropertyRef Name="UserName" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
-          <Property Name="TaskName" Type="nvarchar" MaxLength="256" Nullable="false" />
-          <Property Name="TaskDescription" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="TaskDescription" Type="nvarchar" Nullable="false" MaxLength="256" />
           <Property Name="DateCompleted" Type="datetime" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" Nullable="false" MaxLength="256" />
         </EntityType>
-        <Association Name="FK__aspnet_Me__Appli__0E6E26BF">
-          <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
-          <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="*" />
+        <Association Name="FK__aspnet_Me__Appli__60B24907">
+          <End Role="aspnet_Applications" Type="ipawsTeamBModel.Store.aspnet_Applications" Multiplicity="1" />
+          <End Role="aspnet_Membership" Type="ipawsTeamBModel.Store.aspnet_Membership" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Applications">
               <PropertyRef Name="ApplicationId" />
@@ -320,9 +455,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Me__UserI__0F624AF8">
-          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
-          <End Role="aspnet_Membership" Type="Self.aspnet_Membership" Multiplicity="0..1" />
+        <Association Name="FK__aspnet_Me__UserI__61A66D40">
+          <End Role="aspnet_Users" Type="ipawsTeamBModel.Store.aspnet_Users" Multiplicity="1" />
+          <End Role="aspnet_Membership" Type="ipawsTeamBModel.Store.aspnet_Membership" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Users">
               <PropertyRef Name="UserId" />
@@ -332,9 +467,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pa__Appli__09A971A2">
-          <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
-          <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="*" />
+        <Association Name="FK__aspnet_Pa__Appli__5BED93EA">
+          <End Role="aspnet_Applications" Type="ipawsTeamBModel.Store.aspnet_Applications" Multiplicity="1" />
+          <End Role="aspnet_Paths" Type="ipawsTeamBModel.Store.aspnet_Paths" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Applications">
               <PropertyRef Name="ApplicationId" />
@@ -344,9 +479,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pe__PathI__0B91BA14">
-          <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="0..1" />
-          <End Role="aspnet_PersonalizationPerUser" Type="Self.aspnet_PersonalizationPerUser" Multiplicity="*" />
+        <Association Name="FK__aspnet_Pe__PathI__5DD5DC5C">
+          <End Role="aspnet_Paths" Type="ipawsTeamBModel.Store.aspnet_Paths" Multiplicity="0..1" />
+          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Paths">
               <PropertyRef Name="PathId" />
@@ -356,9 +491,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pe__PathI__10566F31">
-          <End Role="aspnet_Paths" Type="Self.aspnet_Paths" Multiplicity="1" />
-          <End Role="aspnet_PersonalizationAllUsers" Type="Self.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
+        <Association Name="FK__aspnet_Pe__PathI__629A9179">
+          <End Role="aspnet_Paths" Type="ipawsTeamBModel.Store.aspnet_Paths" Multiplicity="1" />
+          <End Role="aspnet_PersonalizationAllUsers" Type="ipawsTeamBModel.Store.aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Paths">
               <PropertyRef Name="PathId" />
@@ -368,9 +503,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pe__UserI__0C85DE4D">
-          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="0..1" />
-          <End Role="aspnet_PersonalizationPerUser" Type="Self.aspnet_PersonalizationPerUser" Multiplicity="*" />
+        <Association Name="FK__aspnet_Pe__UserI__5ECA0095">
+          <End Role="aspnet_Users" Type="ipawsTeamBModel.Store.aspnet_Users" Multiplicity="0..1" />
+          <End Role="aspnet_PersonalizationPerUser" Type="ipawsTeamBModel.Store.aspnet_PersonalizationPerUser" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Users">
               <PropertyRef Name="UserId" />
@@ -380,9 +515,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Pr__UserI__0D7A0286">
-          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
-          <End Role="aspnet_Profile" Type="Self.aspnet_Profile" Multiplicity="0..1" />
+        <Association Name="FK__aspnet_Pr__UserI__5FBE24CE">
+          <End Role="aspnet_Users" Type="ipawsTeamBModel.Store.aspnet_Users" Multiplicity="1" />
+          <End Role="aspnet_Profile" Type="ipawsTeamBModel.Store.aspnet_Profile" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Users">
               <PropertyRef Name="UserId" />
@@ -392,9 +527,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Ro__Appli__0A9D95DB">
-          <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
-          <End Role="aspnet_Roles" Type="Self.aspnet_Roles" Multiplicity="*" />
+        <Association Name="FK__aspnet_Ro__Appli__5CE1B823">
+          <End Role="aspnet_Applications" Type="ipawsTeamBModel.Store.aspnet_Applications" Multiplicity="1" />
+          <End Role="aspnet_Roles" Type="ipawsTeamBModel.Store.aspnet_Roles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Applications">
               <PropertyRef Name="ApplicationId" />
@@ -404,9 +539,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Us__Appli__08B54D69">
-          <End Role="aspnet_Applications" Type="Self.aspnet_Applications" Multiplicity="1" />
-          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="*" />
+        <Association Name="FK__aspnet_Us__Appli__5AF96FB1">
+          <End Role="aspnet_Applications" Type="ipawsTeamBModel.Store.aspnet_Applications" Multiplicity="1" />
+          <End Role="aspnet_Users" Type="ipawsTeamBModel.Store.aspnet_Users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Applications">
               <PropertyRef Name="ApplicationId" />
@@ -416,9 +551,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Us__RoleI__114A936A">
-          <End Role="aspnet_Roles" Type="Self.aspnet_Roles" Multiplicity="1" />
-          <End Role="aspnet_UsersInRoles" Type="Self.aspnet_UsersInRoles" Multiplicity="*" />
+        <Association Name="FK__aspnet_Us__RoleI__638EB5B2">
+          <End Role="aspnet_Roles" Type="ipawsTeamBModel.Store.aspnet_Roles" Multiplicity="1" />
+          <End Role="aspnet_UsersInRoles" Type="ipawsTeamBModel.Store.aspnet_UsersInRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Roles">
               <PropertyRef Name="RoleId" />
@@ -428,9 +563,9 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Us__UserI__123EB7A3">
-          <End Role="aspnet_Users" Type="Self.aspnet_Users" Multiplicity="1" />
-          <End Role="aspnet_UsersInRoles" Type="Self.aspnet_UsersInRoles" Multiplicity="*" />
+        <Association Name="FK__aspnet_Us__UserI__6482D9EB">
+          <End Role="aspnet_Users" Type="ipawsTeamBModel.Store.aspnet_Users" Multiplicity="1" />
+          <End Role="aspnet_UsersInRoles" Type="ipawsTeamBModel.Store.aspnet_UsersInRoles" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="aspnet_Users">
               <PropertyRef Name="UserId" />
@@ -441,10 +576,10 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CategoryAssignments_Categories">
-          <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+          <End Role="Categories" Type="ipawsTeamBModel.Store.Categories" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="CategoryAssignments" Type="Self.CategoryAssignments" Multiplicity="0..1" />
+          <End Role="CategoryAssignments" Type="ipawsTeamBModel.Store.CategoryAssignments" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Categories">
               <PropertyRef Name="CategoryID" />
@@ -455,8 +590,8 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CategoryAssignments_MemberAssignments">
-          <End Role="MemberAssignments" Type="Self.MemberAssignments" Multiplicity="0..1" />
-          <End Role="CategoryAssignments" Type="Self.CategoryAssignments" Multiplicity="*" />
+          <End Role="MemberAssignments" Type="ipawsTeamBModel.Store.MemberAssignments" Multiplicity="0..1" />
+          <End Role="CategoryAssignments" Type="ipawsTeamBModel.Store.CategoryAssignments" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MemberAssignments">
               <PropertyRef Name="AssignedUser" />
@@ -467,10 +602,10 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CompletedMainSteps_MainSteps">
-          <End Role="MainSteps" Type="Self.MainSteps" Multiplicity="1">
+          <End Role="MainSteps" Type="ipawsTeamBModel.Store.MainSteps" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="CompletedMainSteps" Type="Self.CompletedMainSteps" Multiplicity="*" />
+          <End Role="CompletedMainSteps" Type="ipawsTeamBModel.Store.CompletedMainSteps" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MainSteps">
               <PropertyRef Name="MainStepID" />
@@ -481,8 +616,8 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CompletedMainSteps_MemberAssignments">
-          <End Role="MemberAssignments" Type="Self.MemberAssignments" Multiplicity="1" />
-          <End Role="CompletedMainSteps" Type="Self.CompletedMainSteps" Multiplicity="*" />
+          <End Role="MemberAssignments" Type="ipawsTeamBModel.Store.MemberAssignments" Multiplicity="1" />
+          <End Role="CompletedMainSteps" Type="ipawsTeamBModel.Store.CompletedMainSteps" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MemberAssignments">
               <PropertyRef Name="AssignedUser" />
@@ -493,8 +628,8 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CompletedMainSteps_Tasks">
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
-          <End Role="CompletedMainSteps" Type="Self.CompletedMainSteps" Multiplicity="*" />
+          <End Role="Tasks" Type="ipawsTeamBModel.Store.Tasks" Multiplicity="1" />
+          <End Role="CompletedMainSteps" Type="ipawsTeamBModel.Store.CompletedMainSteps" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tasks">
               <PropertyRef Name="TaskID" />
@@ -505,10 +640,10 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DetailedSteps_MainSteps">
-          <End Role="MainSteps" Type="Self.MainSteps" Multiplicity="1">
+          <End Role="MainSteps" Type="ipawsTeamBModel.Store.MainSteps" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="DetailedSteps" Type="Self.DetailedSteps" Multiplicity="*" />
+          <End Role="DetailedSteps" Type="ipawsTeamBModel.Store.DetailedSteps" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="MainSteps">
               <PropertyRef Name="MainStepID" />
@@ -519,10 +654,10 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_MainSteps_Tasks">
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1">
+          <End Role="Tasks" Type="ipawsTeamBModel.Store.Tasks" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="MainSteps" Type="Self.MainSteps" Multiplicity="*" />
+          <End Role="MainSteps" Type="ipawsTeamBModel.Store.MainSteps" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tasks">
               <PropertyRef Name="TaskID" />
@@ -533,8 +668,8 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RequestedCategories_Categories">
-          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
-          <End Role="RequestedCategories" Type="Self.RequestedCategories" Multiplicity="*" />
+          <End Role="Categories" Type="ipawsTeamBModel.Store.Categories" Multiplicity="1" />
+          <End Role="RequestedCategories" Type="ipawsTeamBModel.Store.RequestedCategories" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
               <PropertyRef Name="CategoryID" />
@@ -545,10 +680,10 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tasks_Categories">
-          <End Role="Categories" Type="Self.Categories" Multiplicity="1">
+          <End Role="Categories" Type="ipawsTeamBModel.Store.Categories" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <End Role="Tasks" Type="ipawsTeamBModel.Store.Tasks" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
               <PropertyRef Name="CategoryID" />
@@ -558,151 +693,6 @@ warning 6002: The table/view 'ipawsTeamB.dbo.UserTaskRequest' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ipawsTeamBModelStoreContainer">
-          <EntitySet Name="aspnet_Applications" EntityType="Self.aspnet_Applications" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_Membership" EntityType="Self.aspnet_Membership" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_Paths" EntityType="Self.aspnet_Paths" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_PersonalizationAllUsers" EntityType="Self.aspnet_PersonalizationAllUsers" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_PersonalizationPerUser" EntityType="Self.aspnet_PersonalizationPerUser" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_Profile" EntityType="Self.aspnet_Profile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_Roles" EntityType="Self.aspnet_Roles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_SchemaVersions" EntityType="Self.aspnet_SchemaVersions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="aspnet_WebEvent_Events" EntityType="Self.aspnet_WebEvent_Events" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CompletedMainSteps" EntityType="Self.CompletedMainSteps" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CompletedTasks" EntityType="Self.CompletedTasks" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DetailedSteps" EntityType="Self.DetailedSteps" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MainSteps" EntityType="Self.MainSteps" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MemberAssignments" EntityType="Self.MemberAssignments" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CategoryAssignments" EntityType="Self.CategoryAssignments" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[CategoryAssignments].[AssignedUser] AS [AssignedUser], 
-[CategoryAssignments].[CategoryID] AS [CategoryID]
-FROM [dbo].[CategoryAssignments] AS [CategoryAssignments]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="RequestedCategories" EntityType="Self.RequestedCategories" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[RequestedCategories].[CategoryID] AS [CategoryID], 
-[RequestedCategories].[IsApproved] AS [IsApproved], 
-[RequestedCategories].[RequestingUser] AS [RequestingUser], 
-[RequestedCategories].[CreatedBy] AS [CreatedBy], 
-[RequestedCategories].[Date] AS [Date]
-FROM [dbo].[RequestedCategories] AS [RequestedCategories]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="RequestedTasks" EntityType="Self.RequestedTasks" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[RequestedTasks].[CategoryID] AS [CategoryID], 
-[RequestedTasks].[TaskID] AS [TaskID], 
-[RequestedTasks].[Requester] AS [Requester], 
-[RequestedTasks].[Date] AS [Date], 
-[RequestedTasks].[IsApproved] AS [IsApproved], 
-[RequestedTasks].[CreatedBy] AS [CreatedBy]
-FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="TaskAssignments" EntityType="Self.TaskAssignments" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[TaskAssignments].[CategoryID] AS [CategoryID], 
-[TaskAssignments].[TaskID] AS [TaskID], 
-[TaskAssignments].[AssignedUser] AS [AssignedUser], 
-[TaskAssignments].[TaskTime] AS [TaskTime], 
-[TaskAssignments].[DetailedStepsUsed] AS [DetailedStepsUsed]
-FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="UserTaskRequest" EntityType="Self.UserTaskRequest" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[UserTaskRequest].[ID] AS [ID], 
-[UserTaskRequest].[TaskName] AS [TaskName], 
-[UserTaskRequest].[TaskDescription] AS [TaskDescription], 
-[UserTaskRequest].[DateCompleted] AS [DateCompleted], 
-[UserTaskRequest].[UserName] AS [UserName]
-FROM [dbo].[UserTaskRequest] AS [UserTaskRequest]</DefiningQuery>
-          </EntitySet>
-          <AssociationSet Name="FK__aspnet_Me__Appli__0E6E26BF" Association="Self.FK__aspnet_Me__Appli__0E6E26BF">
-            <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
-            <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Me__UserI__0F624AF8" Association="Self.FK__aspnet_Me__UserI__0F624AF8">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pa__Appli__09A971A2" Association="Self.FK__aspnet_Pa__Appli__09A971A2">
-            <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
-            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__0B91BA14" Association="Self.FK__aspnet_Pe__PathI__0B91BA14">
-            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
-            <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__10566F31" Association="Self.FK__aspnet_Pe__PathI__10566F31">
-            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
-            <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__UserI__0C85DE4D" Association="Self.FK__aspnet_Pe__UserI__0C85DE4D">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pr__UserI__0D7A0286" Association="Self.FK__aspnet_Pr__UserI__0D7A0286">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Ro__Appli__0A9D95DB" Association="Self.FK__aspnet_Ro__Appli__0A9D95DB">
-            <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
-            <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__Appli__08B54D69" Association="Self.FK__aspnet_Us__Appli__08B54D69">
-            <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__RoleI__114A936A" Association="Self.FK__aspnet_Us__RoleI__114A936A">
-            <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
-            <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__UserI__123EB7A3" Association="Self.FK__aspnet_Us__UserI__123EB7A3">
-            <End Role="aspnet_Users" EntitySet="aspnet_Users" />
-            <End Role="aspnet_UsersInRoles" EntitySet="aspnet_UsersInRoles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CategoryAssignments_Categories" Association="Self.FK_CategoryAssignments_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CategoryAssignments_MemberAssignments" Association="Self.FK_CategoryAssignments_MemberAssignments">
-            <End Role="MemberAssignments" EntitySet="MemberAssignments" />
-            <End Role="CategoryAssignments" EntitySet="CategoryAssignments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CompletedMainSteps_MainSteps" Association="Self.FK_CompletedMainSteps_MainSteps">
-            <End Role="MainSteps" EntitySet="MainSteps" />
-            <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CompletedMainSteps_MemberAssignments" Association="Self.FK_CompletedMainSteps_MemberAssignments">
-            <End Role="MemberAssignments" EntitySet="MemberAssignments" />
-            <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CompletedMainSteps_Tasks" Association="Self.FK_CompletedMainSteps_Tasks">
-            <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetailedSteps_MainSteps" Association="Self.FK_DetailedSteps_MainSteps">
-            <End Role="MainSteps" EntitySet="MainSteps" />
-            <End Role="DetailedSteps" EntitySet="DetailedSteps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_MainSteps_Tasks" Association="Self.FK_MainSteps_Tasks">
-            <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="MainSteps" EntitySet="MainSteps" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RequestedCategories_Categories" Association="Self.FK_RequestedCategories_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="RequestedCategories" EntitySet="RequestedCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Categories" Association="Self.FK_Tasks_Categories">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -731,7 +721,6 @@ FROM [dbo].[UserTaskRequest] AS [UserTaskRequest]</DefiningQuery>
           <EntitySet Name="RequestedCategories" EntityType="ipawsTeamBModel.RequestedCategory" />
           <EntitySet Name="RequestedTasks" EntityType="ipawsTeamBModel.RequestedTask" />
           <EntitySet Name="TaskAssignments" EntityType="ipawsTeamBModel.TaskAssignment" />
-          <EntitySet Name="UserTaskRequests" EntityType="ipawsTeamBModel.UserTaskRequest" />
           <AssociationSet Name="FK__aspnet_Me__Appli__0E6E26BF" Association="ipawsTeamBModel.FK__aspnet_Me__Appli__0E6E26BF">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
@@ -808,6 +797,7 @@ FROM [dbo].[UserTaskRequest] AS [UserTaskRequest]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <EntitySet Name="UserTaskRequests" EntityType="ipawsTeamBModel.UserTaskRequest" />
         </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -1118,20 +1108,6 @@ FROM [dbo].[UserTaskRequest] AS [UserTaskRequest]</DefiningQuery>
           <Property Name="TaskTime" Type="Double" Nullable="false" />
           <Property Name="DetailedStepsUsed" Type="Int32" Nullable="false" />
         </EntityType>
-        <EntityType Name="UserTaskRequest">
-          <Key>
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="TaskName" />
-            <PropertyRef Name="TaskDescription" />
-            <PropertyRef Name="DateCompleted" />
-            <PropertyRef Name="UserName" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="TaskDescription" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="DateCompleted" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-        </EntityType>
         <Association Name="FK__aspnet_Me__Appli__0E6E26BF">
           <End Type="ipawsTeamBModel.aspnet_Applications" Role="aspnet_Applications" Multiplicity="1" />
           <End Type="ipawsTeamBModel.aspnet_Membership" Role="aspnet_Membership" Multiplicity="*" />
@@ -1362,6 +1338,16 @@ FROM [dbo].[UserTaskRequest] AS [UserTaskRequest]</DefiningQuery>
           <End Type="ipawsTeamBModel.aspnet_Roles" Role="aspnet_Roles" Multiplicity="*" />
           <End Type="ipawsTeamBModel.aspnet_Users" Role="aspnet_Users" Multiplicity="*" />
         </Association>
+        <EntityType Name="UserTaskRequest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="TaskDescription" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="DateTime" Name="DateCompleted" Nullable="false" Precision="3" />
+          <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1651,6 +1637,14 @@ FROM [dbo].[UserTaskRequest] AS [UserTaskRequest]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="aspnet_UsersInRoles" TypeName="ipawsTeamBModel.aspnet_UsersInRoles" StoreEntitySet="aspnet_UsersInRoles">
+            <EndProperty Name="aspnet_Users">
+              <ScalarProperty Name="UserId" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="aspnet_Roles">
+              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
           <EntitySetMapping Name="UserTaskRequests">
             <EntityTypeMapping TypeName="ipawsTeamBModel.UserTaskRequest">
               <MappingFragment StoreEntitySet="UserTaskRequest">
@@ -1662,14 +1656,6 @@ FROM [dbo].[UserTaskRequest] AS [UserTaskRequest]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="aspnet_UsersInRoles" TypeName="ipawsTeamBModel.aspnet_UsersInRoles" StoreEntitySet="aspnet_UsersInRoles">
-            <EndProperty Name="aspnet_Users">
-              <ScalarProperty Name="UserId" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="aspnet_Roles">
-              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

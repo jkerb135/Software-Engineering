@@ -74,17 +74,19 @@ namespace SE.Admin
 
                 con.Close();
             }
-            using (var con = new SqlConnection(Methods.GetConnectionString()))
+            if (e.CommandName == "AcceptRequest")
             {
-                con.Open();
-                var queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values ('" +
-                                      catName + "','" + requestingUser + "','" + DateTime.Now + "','" + true + "')";
-                var cmd3 = new SqlCommand(queryString3, con);
-                cmd3.ExecuteNonQuery();
-                con.Close();
-            }
-
+                using (var con = new SqlConnection(Methods.GetConnectionString()))
+                {
+                    con.Open();
+                    var queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values ('" +
+                                          catName + "','" + requestingUser + "','" + DateTime.Now + "','" + true + "')";
+                    var cmd3 = new SqlCommand(queryString3, con);
+                    cmd3.ExecuteNonQuery();
+                    con.Close();
+                }
             AddTasks(catName, categoryId, requestingUser);
+            }
             RequestSource.SelectCommand =
                     "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
                     _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
@@ -104,7 +106,7 @@ namespace SE.Admin
             using (var con = new SqlConnection(Methods.GetConnectionString()))
             {
                 con.Open();
-                const string taskQuery = "Insert Into Tasks (CategoryID,TaskName,TaskTime,IsActive,CreatedTime,CreatedBy) Select @id, TaskName, TaskTime, IsActive, CreatedTime, @supervisor From Tasks Where CategoryID = @prevID";
+                const string taskQuery = "Insert Into Tasks (CategoryID,TaskName,IsActive,CreatedTime,CreatedBy) Select @id, TaskName, IsActive, CreatedTime, @supervisor From Tasks Where CategoryID = @prevID";
                 var cmd2 = new SqlCommand(taskQuery, con);
                 cmd2.Parameters.AddWithValue("@supervisor", requestingUser);
                 cmd2.Parameters.AddWithValue("@id", newCatId);
