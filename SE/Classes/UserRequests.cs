@@ -1,12 +1,20 @@
-﻿using System.Data;
+﻿/*
+Author			: Josh Kerbaugh
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: CategoryController.cs
+Purpose			: This is the main class file for viewing supervisors categories. This file keeps it from showing categories that have the same name information in them so supervisors cannot request categories they already have.
+*/
+using System.Data;
 using System.Linq;
 using SE.Models;
 namespace SE.Classes
 {
     public class UserRequests
     {
-        readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
-
         public static DataTable CategoriesNotOwned(string user, string otherUser)
         {
             var dt = new DataTable();

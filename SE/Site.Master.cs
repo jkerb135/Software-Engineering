@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+Author			: Josh Kerbaugh\Daniel Talley
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: Site.Master.cs
+Purpose			: This file declares and instantiates the look and feel of the site between the two views(Supervisor,Manager). It sets the general layout of each users GUI.
+*/
+
+using System;
 using System.Linq;
 using System.Web.Security;
 using SE.Models;

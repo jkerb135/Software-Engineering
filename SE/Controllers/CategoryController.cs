@@ -1,4 +1,14 @@
-﻿using SE.Models;
+﻿/*
+Author			: Josh Kerbaugh
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: CategoryController.cs
+Purpose			: This is the main class file for the WebAPI that pertains to Categories. It handles GET request for all Categories.
+*/
+using SE.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -16,7 +26,7 @@ namespace SE.Controllers
             public string CategoryName { get; set; }
             public string AssignedUser { get; set; }
         }
-        readonly ipawsTeamBEntities db = new ipawsTeamBEntities();
+        readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
         /// <summary>
         /// Gets all categories from the database.
         /// </summary>
@@ -24,7 +34,7 @@ namespace SE.Controllers
         public IEnumerable<UserCategories> GetAllCategories()
         {
             return
-                db.Categories.GroupJoin(db.CategoryAssignments, cat => cat.CategoryID,
+                _db.Categories.GroupJoin(_db.CategoryAssignments, cat => cat.CategoryID,
                     assignment => assignment.CategoryID, (cat, user) => new {cat, user})
                     .SelectMany(@t => @t.user.DefaultIfEmpty(), (@t, b) => new UserCategories
                     {

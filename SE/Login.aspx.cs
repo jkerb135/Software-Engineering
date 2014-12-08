@@ -1,4 +1,15 @@
-﻿using System;
+﻿/*
+Author			: Josh Kerbaugh\Daniel Talley
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: Login.aspx.cs
+Purpose			: This file uses form auth to login each supervisor and manager into the system.
+*/
+
+using System;
 using System.Web.UI.WebControls;
 using System.Web.Security;
 

@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+Author			: Josh Kerbaugh
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: UserActivityHub.cs
+Purpose			: This is the class file that handles realtime messaging for task requests between supervisor/supervisor and user/supervisor. 
+*/
+using System;
 using Microsoft.AspNet.SignalR;
 using SE.Models;
 using System.Linq;

@@ -1,4 +1,15 @@
-﻿using System.Runtime.InteropServices.ComTypes;
+﻿/*
+Author			: Josh Kerbaugh
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: UserController.cs
+Purpose			: This is the main class file for the WebAPI that pertains to a specific user. It returns all users, a user by name, a users categories, and a users tasks. This file also
+                  handles posting completed mainsteps and competed tasks, users logged in state and ipaddress, and their task requests. Also written is a SaveChanges(DbContext) function that outputs  
+                  any problems saving database changes in an inner exception I used this for debugging posting.
+*/
 using SE.Models;
 using System;
 using System.Collections.Generic;
@@ -44,7 +55,6 @@ namespace SE.Controllers
             public string AssignedUser { get; set; }
 
         }
-
         public class UserRequest
         {
             public string AssignedSupervisor { get; set; }
@@ -212,7 +222,7 @@ namespace SE.Controllers
             SaveChanges(_db);
             return Request.CreateResponse(HttpStatusCode.OK, "Task Requested");
         }
-        private void SaveChanges(DbContext context)
+        private static void SaveChanges(DbContext context)
         {
             try
             {
@@ -220,7 +230,7 @@ namespace SE.Controllers
             }
             catch (DbEntityValidationException ex)
             {
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
 
                 foreach (var failure in ex.EntityValidationErrors)
                 {
@@ -234,7 +244,7 @@ namespace SE.Controllers
 
                 throw new DbEntityValidationException(
                     "Entity Validation Failed - errors follow:\n" +
-                    sb.ToString(), ex
+                    sb, ex
                 ); // Add the original exception as the innerException
             }
         }

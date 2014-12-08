@@ -1,4 +1,14 @@
-﻿using System.Collections.Generic;
+﻿/*
+Author			: Josh Kerbaugh
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: MainStepController.cs
+Purpose			: This is the main class file for the WebAPI that pertains to mainsteps. It handles GET request for all mainsteps and all mainsteps by task id.
+*/
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using SE.Models;

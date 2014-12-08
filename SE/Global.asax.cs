@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+Author			: Josh Kerbaugh\Daniel Talley
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: Global.asax.cs
+Purpose			: This file contains code for application level and session level events raised by our WebAPI and HTTP modules.
+*/
+using System;
 using System.Web;
 using System.Web.Security;
 using System.Web.Http;

@@ -1,4 +1,14 @@
-﻿using SE.Models;
+﻿/*
+Author			: Josh Kerbaugh
+Creation Date	: 9/4/2014
+Date Finalized	: 12/6/2014
+Course			: CSC354 - Software Engineering
+Professor Name	: Dr. Tan
+Assignment # 	: Team B - iPAWS
+Filename		: TaskController.cs
+Purpose			: This is the main class file for the WebAPI that pertains to tasks. It handles GET request for all tasks and all tasks by category id.
+*/
+using SE.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
