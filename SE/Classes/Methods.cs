@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Configuration;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Net.Mail;
 using System.Web.UI.WebControls;
@@ -66,8 +69,17 @@ namespace SE.Classes
             if (!videoGood && !audioGood && !imageGood) return message;
             try
             {
-                file.PostedFile.SaveAs(path
-                                       + file.FileName);
+                if (fileType == "Image")
+                {
+                    var resize = new Bitmap(file.PostedFile.InputStream);
+                    var newImg = ResizeImage(resize, 225, 200);
+                    newImg.Save(path + file.FileName);
+                }
+                else
+                {
+                    file.PostedFile.SaveAs(path + file.FileName);
+                }
+
             }
             catch (Exception ex)
             {
@@ -111,6 +123,30 @@ namespace SE.Classes
             }
 
             return error;
+        }
+        public static Bitmap ResizeImage(Bitmap image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
         }
     }
 }

@@ -74,7 +74,9 @@ body {
         
     }
 }
-
+#side-menu ,.navbar {
+    background-color: #222;
+}
 .navbar-top-links li {
     display: inline-block;
 }

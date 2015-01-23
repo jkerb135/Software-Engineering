@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
     <asp:UpdatePanel runat="server" ID="profile" UpdateMode="Conditional">
-                <Triggers>
+        <Triggers>
             <asp:AsyncPostBackTrigger ControlID="HelpBtn" EventName="Click" />
         </Triggers>
         <ContentTemplate>
@@ -20,219 +20,226 @@
             </div>
             <div class="row">
                 <asp:Panel ID="YourInfo" runat="server">
-                    <div class="profileNav">
-                        <input type="button" class="catButton btn btn-primary" value="View Assigned Categories" style="width: 200px;" />
-                        <input type="button" class="taskButton btn btn-primary" value="View Assigned Tasks" style="width: 200px;" />
-                        <input type="button" class="assignedUsers btn btn-primary" value="View Assigned Users" style="width: 200px;" />
-                    </div>
+                    <div role="tabpanel">
+                        <div class="col-lg-2">
+                            <ul class="nav nav-pills nav-stacked" id="nav_tabs">
+                                <li role="presentation" class="active"><a href="#cats">View Categories</a></li>
+                                <li role="presentation"><a href="#taskpane">View Tasks</a></li>
+                                <li role="presentation"><a href="#userpane">View Users</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane fade in active" id="cats">
+                                <div id="catData">
+                                    <div class="col-xs-10">
 
-                    <div class="dataTables" style="z-index: 9999">
-                        <div id="catData" style="display: none; min-height: 450px;">
-                            <div class="col-xs-10">
-
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <i class="fa fa-users fa-fw"></i>
-                                        <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
-                                                <Columns>
-                                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
-                                                    <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="36%" DataFormatString=" {0:d} " HtmlEncode="false" />
-                                                    <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
-                                                        <HeaderTemplate>Update Users In Category</HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <asp:Button ID="AddUsers" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Update" CommandArgument='<%# Eval("CategoryID") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                            <asp:SqlDataSource ID="CategorySource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
-                                        </div>
-                                    </div>
-                                    <div class="panel-footer">
-                                        <p class="text-warning">NOTE: Adding a User to a category assigns them all tasks under that category.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="catUsers" style="display: none; min-height: 450px;">
-                            <div class="col-xs-10">
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <i class="fa fa-users fa-fw"></i>
-                                        <asp:Label ID="catUserLabel" runat="server" Text=""></asp:Label>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
-                                                <Columns>
-                                                    <asp:TemplateField ItemStyle-Width="5%">
-                                                        <ItemTemplate>
-                                                            <asp:CheckBox ID="catUsersChk" runat="server" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:BoundField DataField="UserName" HeaderText="Username" ItemStyle-Width="36%" />
-                                                    <asp:BoundField DataField="IsApproved" HeaderText="User Status" ItemStyle-Width="36%" />
-                                                    <asp:BoundField DataField="LastActivityDate" HeaderText="Latest Activity" ItemStyle-Width="36%" />
-                                                </Columns>
-                                            </asp:GridView>
-                                            <asp:SqlDataSource ID="UsersInCategory" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
-                                        </div>
-                                    </div>
-                                </div>
-                                <asp:Button ID="AddUsersToCat" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddUsersToCat_Click" />
-                            </div>
-                        </div>
-                        <div id="taskData" style="display: none; min-height: 450px;">
-                            <div class="col-xs-10">
-                                <div class="panel panel-primary ">
-                                    <div class="panel-heading">
-                                        <i class="fa fa-users fa-fw"></i>
-                                        <asp:Label ID="Label2" runat="server" Text=""></asp:Label>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="TaskGrid_RowCommand" AutoGenerateColumns="false">
-                                                <Columns>
-                                                    <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
-                                                    <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="36%" />
-                                                    <asp:TemplateField ItemStyle-Width="28%">
-                                                        <HeaderTemplate>Update Users In Tasks</HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <asp:Button ID="AddUsersToTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Update" CommandArgument='<%# Eval("TaskID") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                            <asp:SqlDataSource ID="TaskSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="taskUsers" style="display: none; min-height: 450px;">
-                            <div class="col-xs-10">
-
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <i class="fa fa-users fa-fw"></i>
-                                        <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-hover table-striped" GridLines="None" runat="server"  AutoGenerateColumns="false">
-                                                <Columns>
-                                                    <asp:TemplateField ItemStyle-Width="5%">
-                                                        <ItemTemplate>
-                                                            <asp:CheckBox ID="UsersInTaskChk" runat="server" />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:BoundField DataField="UserName" HeaderText="Username" ItemStyle-Width="36%" />
-                                                    <asp:BoundField DataField="IsApproved" HeaderText="User Status" ItemStyle-Width="36%" />
-                                                    <asp:BoundField DataField="LastActivityDate" HeaderText="Latest Activity" ItemStyle-Width="36%" />
-                                                </Columns>
-                                            </asp:GridView>
-                                            <asp:SqlDataSource ID="addUserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
-                                        </div>
-                                    </div>
-                                </div>
-                                <asp:Button ID="AssignToTask" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AssUsersToTask_Click" />
-                            </div>
-                        </div>
-                        <div id="userData" style="display: none; min-height: 450px;">
-                            <div class="col-xs-10">
-                                <div class="panel panel-primary ">
-                                    <div class="panel-heading">
-                                        <i class="fa fa-users fa-fw"></i>
-                                        <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div style="overflow: auto; max-height: 250px;">
-                                            <asp:GridView ID="users" ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="assignedUsersSource" CssClass="table table-hover table-striped" GridLines="None" runat="server"  AllowSorting="true" AutoGenerateColumns="false" OnRowCommand="users_RowCommand">
-                                                <Columns>
-                                                    <asp:BoundField DataField="AssignedUser" HeaderText="User" />
-                                                    <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">
-                                                        <HeaderTemplate>Categories</HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <asp:Button ID="AddUserToCategories" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddCategories" Text="Update" CommandArgument='<%# Eval("AssignedUser") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">
-                                                        <HeaderTemplate>Tasks</HeaderTemplate>
-                                                        <ItemTemplate>
-                                                            <asp:Button ID="AddUsersToTasks" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddTasks" Text="Update" CommandArgument='<%# Eval("AssignedUser") %>' />
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </asp:GridView>
-                                            <asp:SqlDataSource ID="assignedUsersSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div id="panel" style="display: none; min-height: 250px;">
-                            <asp:Panel runat="server" ID="categoryData" Visible="false">
-                                <div class="col-xs-10">
-
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">
-                                            <i class="fa fa-users fa-fw"></i>
-                                            <asp:Label ID="Label6" runat="server" Text=""></asp:Label>
-                                        </div>
-                                        <div class="panel-body">
-                                            <div style="overflow: auto; max-height: 250px;">
-                                                <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories Created" DataSourceID="AllCategoriesSource" ID="AllCategoriesGridView" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
-                                                    <Columns>
-                                                        <asp:TemplateField ItemStyle-Width="5%">
-                                                            <ItemTemplate>
-                                                                <asp:CheckBox ID="AllCategoriesChk" runat="server" />
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
-                                                        <asp:BoundField DataField="CategoryName" HeaderText="Category Name" />
-                                                    </Columns>
-                                                </asp:GridView>
-                                                <asp:SqlDataSource ID="AllCategoriesSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <i class="fa fa-users fa-fw"></i>
+                                                <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div style="overflow: auto; max-height: 250px;">
+                                                    <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories are assigned" DataSourceID="CategorySource" DataKeyNames="CategoryName" ID="categories" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="GridView1_RowCommand" AutoGenerateColumns="false">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
+                                                            <asp:BoundField DataField="CreatedTime" HeaderText="Created Date" ItemStyle-Width="36%" DataFormatString=" {0:d} " HtmlEncode="false" />
+                                                            <asp:TemplateField ItemStyle-Width="28%" ItemStyle-CssClass="center">
+                                                                <HeaderTemplate>Update Users In Category</HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <asp:Button ID="AddUsers" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Update" CommandArgument='<%# Eval("CategoryID") %>' />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                    <asp:SqlDataSource ID="CategorySource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer">
+                                                <p class="text-warning">NOTE: Adding a User to a category assigns them all tasks under that category.</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <asp:Button ID="AddUserToCategoriesBtn" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddCategoriesToUserBtn_Click" />
                                 </div>
-                            </asp:Panel>
-
-                            <asp:Panel runat="server" ID="userTasks" Visible="false">
-                                <div class="col-xs-10">
-
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">
-                                            <i class="fa fa-users fa-fw"></i>
-                                            <asp:Label ID="Label5" runat="server" Text=""></asp:Label>
+                                <div id="catUsers" style="display: none; min-height: 450px;">
+                                    <div class="col-xs-10">
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <i class="fa fa-users fa-fw"></i>
+                                                <asp:Label ID="catUserLabel" runat="server" Text=""></asp:Label>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div style="overflow: auto; max-height: 250px;">
+                                                    <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="UsersInCategory" ID="AddUserGrid" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
+                                                        <Columns>
+                                                            <asp:TemplateField ItemStyle-Width="5%">
+                                                                <ItemTemplate>
+                                                                    <asp:CheckBox ID="catUsersChk" runat="server" />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:BoundField DataField="UserName" HeaderText="Username" ItemStyle-Width="36%" />
+                                                            <asp:BoundField DataField="IsApproved" HeaderText="User Status" ItemStyle-Width="36%" />
+                                                            <asp:BoundField DataField="LastActivityDate" HeaderText="Latest Activity" ItemStyle-Width="36%" />
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                    <asp:SqlDataSource ID="UsersInCategory" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="panel-body">
-                                            <div style="overflow: auto; max-height: 250px;">
-                                                <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories Created" DataSourceID="AllTasksDataSource" ID="AddTasksGridView" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
-                                                    <Columns>
-                                                        <asp:TemplateField ItemStyle-Width="2%">
-                                                            <ItemTemplate>
-                                                                <asp:CheckBox ID="AddTaskChk" runat="server" />
-                                                            </ItemTemplate>
-                                                        </asp:TemplateField>
-                                                        <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="42%" />
-                                                        <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="42%" />
-                                                    </Columns>
-                                                </asp:GridView>
-                                                <asp:SqlDataSource ID="AllTasksDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                        <asp:Button ID="AddUsersToCat" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddUsersToCat_Click" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="taskpane">
+                                <div id="taskData">
+                                    <div class="col-xs-10">
+                                        <div class="panel panel-primary ">
+                                            <div class="panel-heading">
+                                                <i class="fa fa-users fa-fw"></i>
+                                                <asp:Label ID="Label2" runat="server" Text=""></asp:Label>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div style="overflow: auto; max-height: 250px;">
+                                                    <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Tasks Are Created" DataSourceID="TaskSource" DataKeyNames="TaskName" ID="tasks" CssClass="table table-hover table-striped" GridLines="None" runat="server" OnRowCommand="TaskGrid_RowCommand" AutoGenerateColumns="false">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="36%" />
+                                                            <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="36%" />
+                                                            <asp:TemplateField ItemStyle-Width="28%">
+                                                                <HeaderTemplate>Update Users In Tasks</HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <asp:Button ID="AddUsersToTask" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddUsers" Text="Update" CommandArgument='<%# Eval("TaskID") %>' />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                    <asp:SqlDataSource ID="TaskSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <asp:Button ID="Button1" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="Button1_Click" />
                                 </div>
-                            </asp:Panel>
+                                <div id="taskUsers" style="display: none; min-height: 450px;">
+                                    <div class="col-xs-10">
+
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <i class="fa fa-users fa-fw"></i>
+                                                <asp:Label ID="Label4" runat="server" Text=""></asp:Label>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div style="overflow: auto; max-height: 250px;">
+                                                    <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="addUserDataSource" ID="UsersInTask" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
+                                                        <Columns>
+                                                            <asp:TemplateField ItemStyle-Width="5%">
+                                                                <ItemTemplate>
+                                                                    <asp:CheckBox ID="UsersInTaskChk" runat="server" />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:BoundField DataField="UserName" HeaderText="Username" ItemStyle-Width="36%" />
+                                                            <asp:BoundField DataField="IsApproved" HeaderText="User Status" ItemStyle-Width="36%" />
+                                                            <asp:BoundField DataField="LastActivityDate" HeaderText="Latest Activity" ItemStyle-Width="36%" />
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                    <asp:SqlDataSource ID="addUserDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <asp:Button ID="AssignToTask" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AssUsersToTask_Click" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane fade" id="userpane">
+                                <div id="userData">
+                                    <div class="col-xs-10">
+                                        <div class="panel panel-primary ">
+                                            <div class="panel-heading">
+                                                <i class="fa fa-users fa-fw"></i>
+                                                <asp:Label ID="Label3" runat="server" Text=""></asp:Label>
+                                            </div>
+                                            <div class="panel-body">
+                                                <div style="overflow: auto; max-height: 250px;">
+                                                    <asp:GridView ID="users" ShowHeaderWhenEmpty="true" EmptyDataText="No Assigned Users" DataSourceID="assignedUsersSource" CssClass="table table-hover table-striped" GridLines="None" runat="server" AllowSorting="true" AutoGenerateColumns="false" OnRowCommand="users_RowCommand">
+                                                        <Columns>
+                                                            <asp:BoundField DataField="AssignedUser" HeaderText="User" />
+                                                            <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">
+                                                                <HeaderTemplate>Categories</HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <asp:Button ID="AddUserToCategories" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddCategories" Text="Update" CommandArgument='<%# Eval("AssignedUser") %>' />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                            <asp:TemplateField ItemStyle-Width="100px" ItemStyle-CssClass="center">
+                                                                <HeaderTemplate>Tasks</HeaderTemplate>
+                                                                <ItemTemplate>
+                                                                    <asp:Button ID="AddUsersToTasks" CssClass="btn btn-primary form-control" runat="server" CausesValidation="false" CommandName="AddTasks" Text="Update" CommandArgument='<%# Eval("AssignedUser") %>' />
+                                                                </ItemTemplate>
+                                                            </asp:TemplateField>
+                                                        </Columns>
+                                                    </asp:GridView>
+                                                    <asp:SqlDataSource ID="assignedUsersSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <div id="categoryData" style="display:none">
+                                        <div class="col-xs-10">
+
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <i class="fa fa-users fa-fw"></i>
+                                                    <asp:Label ID="Label6" runat="server" Text=""></asp:Label>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div style="overflow: auto; max-height: 250px;">
+                                                        <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Categories Created" DataSourceID="AllCategoriesSource" ID="AllCategoriesGridView" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
+                                                            <Columns>
+                                                                <asp:TemplateField ItemStyle-Width="5%">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="AllCategoriesChk" runat="server" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:BoundField DataField="CategoryName" HeaderText="Category Name" />
+                                                            </Columns>
+                                                        </asp:GridView>
+                                                        <asp:SqlDataSource ID="AllCategoriesSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <asp:Button ID="AddUserToCategoriesBtn" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddCategoriesToUserBtn_Click" />
+                                        </div>
+                                    </div>
+
+                                    <div id="tasksData" style="display:none">
+                                        <div class="col-xs-10">
+
+                                            <div class="panel panel-primary">
+                                                <div class="panel-heading">
+                                                    <i class="fa fa-users fa-fw"></i>
+                                                    <asp:Label ID="Label5" runat="server" Text=""></asp:Label>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <div style="overflow: auto; max-height: 250px;">
+                                                        <asp:GridView ShowHeaderWhenEmpty="true" EmptyDataText="No Tasks Created" DataSourceID="AllTasksDataSource" ID="AddTasksGridView" CssClass="table table-hover table-striped" GridLines="None" runat="server" AutoGenerateColumns="false">
+                                                            <Columns>
+                                                                <asp:TemplateField ItemStyle-Width="2%">
+                                                                    <ItemTemplate>
+                                                                        <asp:CheckBox ID="AddTaskChk" runat="server" />
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:BoundField DataField="CategoryName" HeaderText="Category Name" ItemStyle-Width="42%" />
+                                                                <asp:BoundField DataField="TaskName" HeaderText="Task Name" ItemStyle-Width="42%" />
+                                                            </Columns>
+                                                        </asp:GridView>
+                                                        <asp:SqlDataSource ID="AllTasksDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:LocalSqlServer %>"></asp:SqlDataSource>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <asp:Button ID="Button1" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="Button1_Click" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
                 </asp:Panel>
                 <asp:Panel ID="OtherInfo" runat="server">
                     <div id="requestCat" style="min-height: 450px;">
@@ -271,133 +278,70 @@
             </div>
 
 
-    <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
-                <ContentTemplate>
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 class="modal-title" style="color: white;">
-                                <asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h4>
-                        </div>
-                        <div class="modal-body" style="overflow-y: scroll; max-height: 350px">
-                            <asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label>
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
-                        </div>
-                    </div>
-                </ContentTemplate>
-            </asp:UpdatePanel>
-        </div>
-    </div>
-                    </ContentTemplate>
+            <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <asp:UpdatePanel ID="upModal" runat="server" ChildrenAsTriggers="false" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" style="color: white;">
+                                        <asp:Label ID="lblModalTitle" runat="server" Text=""></asp:Label></h4>
+                                </div>
+                                <div class="modal-body" style="overflow-y: scroll; max-height: 350px">
+                                    <asp:Label ID="lblModalBody" runat="server" Text=""></asp:Label>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">Ok</button>
+                                </div>
+                            </div>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+            </div>
+        </ContentTemplate>
     </asp:UpdatePanel>
     <script type="text/javascript">
-        $(document).on("click", ".requestButton", function () {
-            console.log(localStorage.getItem("username").toString());
-            contact.server.contactFormSubmitted(localStorage.getItem("username").toString());
-        });
-        var openDiv;
-        var loading;
-        $(document).on("click", ".catButton", function (e) {
-            console.log($(openDiv).is(':animated'));
-            if ($(openDiv).is(':animated') == false) {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000, function () {
-                    $('#catData').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#catData');
-                    console.log($(openDiv).is(':animated'));
-                });
-            }
-        });
-        $(document).on("click", ".taskButton", function (e) {
-            if ($(openDiv).is(':animated') == false) {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000, function () {
-                    $('#taskData').show('slide', { direction: 'left' }, 1000);
-                });
-            }
-        });
-        $(document).on("click", ".assignedUsers", function (e) {
-            if ($(openDiv).is(':animated') == false) {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000, function () {
-                    $('#userData').show('slide', { direction: 'left' }, 1000);
-                });
+        $(document).on("click", "#nav_tabs a", function (e) {
+            e.preventDefault();
+            var tab = document.getElementById(this.href.replace(document.URL + "#", ""));
+            $(this).tab('show');
+            if (tab.id !== "userpane") {
+                var main_panel = tab.firstElementChild;
+                var secondary_panel = tab.lastElementChild;
+                console.log(secondary_panel);
+                main_panel.style.display = "";
+                secondary_panel.style.display = "none";
+            } else {
+                tab.childNodes[1].style.display = "";
+                tab.childNodes[3].style.display = "none";
+                tab.childNodes[5].style.display = "none";
             }
 
         });
-        $(document).on("click", ".requestCat", function (e) {
-            if ($(openDiv).attr('id') != 'requestCat') {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000, function () {
-                    $('#requestCat').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#requestCat');
-                });
-            }
+        $(document).on("click", "input[value='Update']", function (e) {
+                e.preventDefault();
+                var parent = $(this).parents("div.active")[0];
+                var main_panel = parent.firstElementChild;
+                var secondary_panel = parent.lastElementChild;
+
+                if (parent.id !== "userpane") {
+                    $(main_panel).fadeOut("slow", function() {
+                        $(secondary_panel).fadeIn("slow");
+                    });
+                } else {
+                    var panel = $(this).parents("div.active")[0];
+                    var secondary;
+                    console.log(this.id.indexOf("AddUserToCategories") >= 0);
+                    if (this.id.indexOf("AddUserToCategories") >= 0) {
+                        secondary = panel.childNodes[3];
+                    } else {
+                        secondary = panel.lastElementChild;
+                    }
+                    $(panel.firstElementChild).fadeOut("slow",function() {
+                        $(secondary).fadeIn("slow");
+                    });
+                }
         });
-        $(document).on("click", ".requestTask", function (e) {
-            if ($(openDiv).attr('id') != 'requestTask') {
-                $(openDiv).hide('slide', { direction: 'left' }, 1000);
-                $(openDiv).promise().done(function () {
-                    $('#requestTask').show('slide', { direction: 'left' }, 1000);
-                    openDiv = $('#requestTask');
-                });
-            }
-        });
-        function hideCats() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#catUsers').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#catUsers');
-            });
-        };
-        function showCats() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#catData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#catData');
-            });
-        };
-        function hideTasks() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#taskUsers').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#taskUsers');
-            });
-        };
-        function showTasks() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#taskData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#taskData');
-            });
-        };
-        function showUsers() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#userData').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#userData');
-            });
-        };
-        function hideUsers() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#panel').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#panel');
-            });
-        };
-        function requestCat() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#requestCat').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#requestCat');
-            });
-        };
-        function requestTask() {
-            $(openDiv).hide('slide', { direction: 'left' }, 1000);
-            $(openDiv).promise().done(function () {
-                $('#requestTask').show('slide', { direction: 'left' }, 1000);
-                openDiv = $('#requestTask');
-            });
-        };
     </script>
 </asp:Content>

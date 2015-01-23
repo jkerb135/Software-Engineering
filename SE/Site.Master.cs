@@ -10,15 +10,17 @@ Purpose			: This file declares and instantiates the look and feel of the site be
 */
 
 using System;
-using System.Linq;
-using System.Web.Security;
-using SE.Models;
-using SE.Classes;
 using System.Globalization;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using SE.Classes;
+using SE.Models;
 
 namespace SE
 {
-    public partial class Site : System.Web.UI.MasterPage
+    public partial class Site : MasterPage
     {
         public string GetProfilePic { set; get; }
         public string GetOtherProfilePic { set; get; }
@@ -26,7 +28,7 @@ namespace SE
         {
             GetProfilePic = ResolveUrl("/Images/default.png");
             if (IsPostBack) return;
-            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+            var userName = HttpContext.Current.User.Identity.Name;
             var textInfo = new CultureInfo("en-US", false).TextInfo;
             var formatUsername = textInfo.ToTitleCase(userName);
             username.Text = " " + formatUsername + " ";
@@ -73,8 +75,8 @@ namespace SE
                 }
                 else
                 {
-                    ProfilePicture.ImageUrl = profile.Picture.ToString();
-                    GetProfilePic = profile.Picture.ToString();
+                    ProfilePicture.ImageUrl = profile.Picture;
+                    GetProfilePic = profile.Picture;
                 }
             }
         }
@@ -84,14 +86,14 @@ namespace SE
             using (var db = new ipawsTeamBEntities())
             {
                 var profile = db.Profiles.FirstOrDefault(find => find.Name == username);
-                url = profile == null ? ResolveUrl("/Images/default.png") : profile.Picture.ToString();
+                url = profile == null ? ResolveUrl("/Images/default.png") : profile.Picture;
             }
             return url;
         }
 
         protected void UploadFile_Click(object sender, EventArgs e)
         {
-            var userName = System.Web.HttpContext.Current.User.Identity.Name;
+            var userName = HttpContext.Current.User.Identity.Name;
             if (!ProfileUpload.HasFile) return;
             using (var db = new ipawsTeamBEntities())
             {
@@ -116,5 +118,6 @@ namespace SE
             }
             GetPictureFromDb(userName);
         }
+        
     }
 }

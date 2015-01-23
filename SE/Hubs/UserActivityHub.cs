@@ -74,6 +74,23 @@ namespace SE.Hubs
             if (yourNotifications == null) throw new ArgumentNullException("userName");
             if (toUser != null) Clients.Client(toUser.ConnectionID).yourCategoryRequests(yourNotifications.ToArray());
         }
+         public void GetTaskRequests(string userName)
+        {
+            var toUser = _db.Users.FirstOrDefault(find => find.UserName == userName.ToLower());
+             var taskRequests =
+                 _db.UserTaskRequests.Join(_db.MemberAssignments, request => request.UserName, user => user.AssignedUser,
+                     (request, user) => new {request, user})
+                     .Where(@t => @t.user.AssignedSupervisor == userName)
+                     .Select(@t => new
+                     {
+                         @t.request.UserName,
+                         @t.request.TaskName,
+                         @t.request.TaskDescription,
+                         @t.request.DateCompleted,
+                     });
+             if (taskRequests == null) throw new ArgumentNullException("userName");
+             if (toUser != null) Clients.Client(toUser.ConnectionID).yourTaskRequests(taskRequests.ToArray());
+        }
     }
 
 }

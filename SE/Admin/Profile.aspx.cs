@@ -128,7 +128,7 @@ namespace SE.Admin
                 con.Close();
             }
 
-            ScriptManager.RegisterStartupScript(this, GetType(), "script", "hideCats();", true);
+            ScriptManager.RegisterStartupScript(this, GetType(), "script", "hide();", true);
         }
 
         protected void AddUsersToCat_Click(object sender, EventArgs e)
@@ -166,28 +166,22 @@ namespace SE.Admin
                     cmd6.Parameters.AddWithValue("@id", CategoryId);
 
                     con.Open();
-                    lblModalTitle.Text = "Request is Successful";
-                    lblModalBody.Text = String.Empty;
                     var flag = false;
                     foreach (GridViewRow row in AddUserGrid.Rows)
                     {
-                        var box = (CheckBox)row.FindControl("catUsersChk");
+                        var box = (CheckBox) row.FindControl("catUsersChk");
                         cmd2.Parameters["@user"].Value = row.Cells[1].Text;
-                        var count = (Int32)cmd2.ExecuteScalar();
+                        var count = (Int32) cmd2.ExecuteScalar();
                         if (box != null && box.Checked && count == 0)
                         {
                             cmd.Parameters["@user"].Value = row.Cells[1].Text;
                             cmd5.Parameters["@user"].Value = row.Cells[1].Text;
                             cmd.ExecuteNonQuery();
                             cmd5.ExecuteNonQuery();
-                            lblModalBody.Text += "Added: " + row.Cells[1].Text + " into " +
-                                                 Category.GetCategoryName(CategoryId) + "<br/>";
                             flag = true;
                         }
                         else if (box != null && (!box.Checked && count == 1))
                         {
-                            lblModalBody.Text += "Removed: " + row.Cells[1].Text + " from " +
-                                                 Category.GetCategoryName(CategoryId) + "<br/>";
                             cmd3.Parameters["@user"].Value = row.Cells[1].Text;
                             cmd3.ExecuteNonQuery();
                             cmd6.ExecuteNonQuery();
@@ -195,20 +189,15 @@ namespace SE.Admin
                         }
                     }
                     con.Close();
-                    if (flag)
-                    {
-                        ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();",
-                            true);
-                        upModal.Update();
-                    }
+                    if (!flag) return;
+                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();",
+                        true);
                 }
 
-                ScriptManager.RegisterStartupScript(this, GetType(), "script", "showCats();", true);
             }
-            catch (Exception ex)
+            catch (Exception e1)
             {
-                lblModalTitle.Text = "Error Processing Request";
-                lblModalBody.Text = ex.ToString();
+                // ignored
             }
         }
 
@@ -254,7 +243,6 @@ namespace SE.Admin
 
                 con.Close();
             }
-            ScriptManager.RegisterStartupScript(this, GetType(), "script", "hideTasks();", true);
         }
 
         protected void AssUsersToTask_Click(object sender, EventArgs e)
@@ -279,8 +267,6 @@ namespace SE.Admin
                 cmd6.Parameters.AddWithValue("@user", DBNull.Value);
 
                 con.Open();
-                lblModalTitle.Text = "Request is Successful";
-                lblModalBody.Text = String.Empty;
                 var flag = false;
                 foreach (GridViewRow row in UsersInTask.Rows)
                 {
@@ -291,27 +277,19 @@ namespace SE.Admin
 
                     if (box != null && box.Checked && count == 0)
                     {
-                        lblModalBody.Text += "Added: " + row.Cells[1].Text + " into " + Task.GetTaskName(TaskId) +
-                                             "<br/>";
                         cmd5.Parameters["@user"].Value = row.Cells[1].Text;
                         cmd5.ExecuteNonQuery();
                         flag = true;
                     }
                     else if (box != null && (!box.Checked && count == 1))
                     {
-                        lblModalBody.Text += "Removed: " + row.Cells[1].Text + " from " + Task.GetTaskName(TaskId) +
-                                             "<br/>";
                         cmd4.ExecuteNonQuery();
                         flag = true;
                     }
                 }
                 con.Close();
-                if (flag)
-                {
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
-                ScriptManager.RegisterStartupScript(this, GetType(), "script", "showTasks();", true);
+                if (!flag) return;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
             }
         }
 
@@ -321,8 +299,6 @@ namespace SE.Admin
             if (e.CommandName == "AddCategories")
             {
                 Label6.Text = "Manage " + e.CommandArgument + " Categories";
-                categoryData.Visible = true;
-                userTasks.Visible = false;
                 AllCategoriesSource.SelectCommand = "SELECT CategoryName FROM Categories WHERE CreatedBy= '" + _user +
                                                     "'";
                 AllCategoriesGridView.DataBind();
@@ -362,8 +338,6 @@ namespace SE.Admin
             else
             {
                 Label5.Text = "Manage " + e.CommandArgument + " Tasks";
-                categoryData.Visible = false;
-                userTasks.Visible = true;
                 AllTasksDataSource.SelectCommand =
                     "Select * From Tasks Inner Join Categories on Tasks.CategoryID = Categories.CategoryID Where Tasks.CreatedBy = '" +
                     _user + "'";
@@ -399,7 +373,6 @@ namespace SE.Admin
                     con.Close();
                 }
             }
-            ScriptManager.RegisterStartupScript(this, GetType(), "script", "hideUsers();", true);
         }
 
         protected void AddCategoriesToUserBtn_Click(object sender, EventArgs e)
@@ -437,8 +410,6 @@ namespace SE.Admin
 
 
                 con.Open();
-                lblModalTitle.Text = "Request is Successful";
-                lblModalBody.Text = String.Empty;
                 var flag = false;
                 foreach (GridViewRow row in AllCategoriesGridView.Rows)
                 {
@@ -450,14 +421,12 @@ namespace SE.Admin
                     cmd5.Parameters["@id"].Value = Category.GetCategoryId(row.Cells[1].Text);
                     if (box != null && box.Checked && (Int32)cmd2.ExecuteScalar() == 0)
                     {
-                        lblModalBody.Text += "Added: " + AssignedUsername + " into " + row.Cells[1].Text + "<br/>";
                         cmd.ExecuteNonQuery();
                         cmd3.ExecuteNonQuery();
                         flag = true;
                     }
                     else if (box != null && (!box.Checked && (Int32)cmd2.ExecuteScalar() == 1))
                     {
-                        lblModalBody.Text += "Removed: " + AssignedUsername + " from " + row.Cells[1].Text + "<br/>";
                         cmd4.ExecuteNonQuery();
                         cmd5.ExecuteNonQuery();
                         flag = true;
@@ -466,12 +435,10 @@ namespace SE.Admin
                 if (flag)
                 {
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
                 }
 
                 con.Close();
             }
-            ScriptManager.RegisterStartupScript(this, GetType(), "script", "showUsers();", true);
         }
 
         protected void Button1_Click(object sender, EventArgs e)
@@ -496,8 +463,6 @@ namespace SE.Admin
                 cmd3.Parameters.AddWithValue("@user", AssignedUsername);
 
                 con.Open();
-                lblModalTitle.Text = "Request is Successful";
-                lblModalBody.Text = String.Empty;
                 var flag = false;
                 foreach (GridViewRow row in AddTasksGridView.Rows)
                 {
@@ -509,26 +474,19 @@ namespace SE.Admin
                     var box = (CheckBox)row.FindControl("AddTaskChk");
                     if (box != null && box.Checked && count == 0)
                     {
-                        lblModalBody.Text += "Added: " + AssignedUsername.ToString(CultureInfo.InvariantCulture) +
-                                             " into " + row.Cells[2].Text + "<br/>";
                         cmd2.ExecuteNonQuery();
                         flag = true;
                     }
                     else if (box != null && (!box.Checked && count == 1))
                     {
-                        lblModalBody.Text += "Removed: " + AssignedUsername + " from " + row.Cells[2].Text + "<br/>";
                         cmd.ExecuteNonQuery();
                         flag = true;
                     }
                 }
                 con.Close();
-                if (flag)
-                {
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
-                    upModal.Update();
-                }
+                if (!flag) return;
+                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
             }
-            ScriptManager.RegisterStartupScript(this, GetType(), "script", "showUsers();", true);
         }
 
         protected void RequestCatGrid_RowCommand1(object sender, GridViewCommandEventArgs e)

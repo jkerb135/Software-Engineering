@@ -202,15 +202,6 @@ namespace SE.Admin {
         protected global::System.Web.UI.WebControls.SqlDataSource assignedUsersSource;
         
         /// <summary>
-        /// categoryData control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel categoryData;
-        
-        /// <summary>
         /// Label6 control.
         /// </summary>
         /// <remarks>
@@ -245,15 +236,6 @@ namespace SE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddUserToCategoriesBtn;
-        
-        /// <summary>
-        /// userTasks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel userTasks;
         
         /// <summary>
         /// Label5 control.

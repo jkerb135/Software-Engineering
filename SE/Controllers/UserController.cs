@@ -26,7 +26,7 @@ using System.Text;
 
 namespace SE.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [EnableCors(origins: "http://bill.kutztown.edu", headers: "*", methods: "*")]
     [ValidateModelState]
     public class UserController : ApiController
     {
