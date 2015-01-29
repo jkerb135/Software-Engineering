@@ -2,7 +2,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" ng-app="iPaws">
 <head runat="server">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,191 +15,15 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" href="/StyleSheets/JQueryUI/themes/base/jquery.ui.all.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.11/angular.min.js"></script>
+    
+    <!-- Toast Notifications -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet"/>
 
     <!-- Signal R Client -->
     <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
     <script src="<%=ResolveUrl("signalr/hubs") %>"></script>
-
-
-
-    <!-- Realtime Notification System -->
-    <script type="text/javascript">
-        var contact = $.connection.userActivityHub;
-        $(function () {
-
-            $.connection.hub.start().done(function () {
-                contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
-                contact.server.getTaskRequests('<%=Membership.GetUser().UserName%>');
-            });
-            contact.client.yourTaskRequests = function (tasks) {
-                var messageCount = document.getElementById("messageCount2");
-                var requests = document.getElementById("task_request");
-
-                document.getElementById("task_request").innerHTML = "";
-                if (tasks.length === 0) {
-                    document.getElementById("tasks").style.color = "#428bca";
-                    document.getElementById("tsk_down").style.color = "#428bca";
-                    document.getElementById("messageCount2").style.color = "#428bca";
-
-                    messageCount.innerHTML = 0;
-                    var li = document.createElement("li");
-
-                    var a = document.createElement("a");
-
-                    var div = document.createElement("div");
-
-                    var strong = document.createElement("strong");
-                    strong.innerHTML = "Tasks";
-
-                    var span = document.createElement("span");
-                    span.className = "pull-right text-muted";
-                    span.InnerHtML = "<em></em>";
-
-                    var div2 = document.createElement("div");
-                    div2.innerHTML = "No New Requests";
-
-
-                    div.appendChild(strong);
-                    div.appendChild(span);
-                    a.appendChild(div);
-                    a.appendChild(div2);
-                    li.appendChild(a);
-
-                    requests.appendChild(li);
-                }
-                for (var i = 0; len = tasks.length, i < len; i++) {
-                    var tsk = document.getElementById("tasks");
-                    var crt = document.getElementById("tsk_down");
-
-                    messageCount.style.color = "yellow";
-                    tsk.style.color = "yellow";
-                    crt.style.color = "yellow";
-
-                    $(tsk).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-                    $(crt).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-
-                    messageCount.innerHTML = i + 1;
-                    var li = document.createElement("li");
-
-                    var a = document.createElement("a");
-                    a.href = '<%=ResolveUrl("~/Admin/Requests.aspx") %>';
-
-                    var div = document.createElement("div");
-
-                    var strong = document.createElement("strong");
-                    strong.innerHTML = tasks[i].UserName;
-
-                    var span = document.createElement("span");
-                    span.className = "pull-right text-muted";
-                    span.InnerHtML = "<em>" + tasks[i].DateCompleted.substr(0, tasks[i].DateCompleted.lastIndexOf("T")) + "</em>";
-
-                    var div2 = document.createElement("div");
-                    div2.innerHTML = "Has requested for you to create a task named " + tasks[i].TaskName + ". The tasks is described as " + tasks[i].TaskDescription;
-
-
-                    div.appendChild(strong);
-                    div.appendChild(span);
-                    a.appendChild(div);
-                    a.appendChild(div2);
-                    li.appendChild(a);
-
-                    requests.appendChild(li);
-                }
-            };
-            contact.client.yourCategoryRequests = function (categories) {
-                var messageCount = document.getElementById("messageCount");
-                var requests = document.getElementById("requests");
-
-                document.getElementById("requests").innerHTML = "";
-
-                if (categories.length === 0) {
-                    document.getElementById("envelope").style.color = "#428bca";
-                    document.getElementById("msg_down").style.color = "#428bca";
-                    document.getElementById("messageCount").style.color = "#428bca";
-
-                    messageCount.innerHTML = 0;
-                    var li = document.createElement("li");
-
-                    var a = document.createElement("a");
-
-                    var div = document.createElement("div");
-
-                    var strong = document.createElement("strong");
-                    strong.innerHTML = "Messages";
-
-                    var span = document.createElement("span");
-                    span.className = "pull-right text-muted";
-                    span.InnerHtML = "<em></em>";
-
-                    var div2 = document.createElement("div");
-                    div2.innerHTML = "No New Requests";
-
-
-                    div.appendChild(strong);
-                    div.appendChild(span);
-                    a.appendChild(div);
-                    a.appendChild(div2);
-                    li.appendChild(a);
-
-                    requests.appendChild(li);
-                }
-                for (var i = 0; len = categories.length, i < len; i++) {
-                    var tsk = document.getElementById("envelope");
-                    var crt = document.getElementById("msg_down");
-
-                    messageCount.style.color = "yellow";
-                    tsk.style.color = "yellow";
-                    crt.style.color = "yellow";
-
-                    $(tsk).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-                    $(crt).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-
-                    messageCount.innerHTML = i + 1;
-                    var li = document.createElement("li");
-
-                    var a = document.createElement("a");
-                    a.href = '<%=ResolveUrl("~/Admin/Requests.aspx") %>';
-
-                    var div = document.createElement("div");
-
-                    var strong = document.createElement("strong");
-                    strong.innerHTML = categories[i].Requester;
-
-                    var span = document.createElement("span");
-                    span.className = "pull-right text-muted";
-                    span.InnerHtML = "<em>"+categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T"))+"</em>";
-
-                    var div2 = document.createElement("div");
-                    div2.innerHTML = "Has requested permission to use " + categories[i].CategoryName + " and all tasks under that category.";
-
-
-                    div.appendChild(strong);
-                    div.appendChild(span);
-                    a.appendChild(div);
-                    a.appendChild(div2);
-                    li.appendChild(a);
-
-                    requests.appendChild(li);
-                }
-            };
-            setInterval(function() {
-                 contact.server.getCategoryNotifications('<%=Membership.GetUser().UserName%>');
-                 contact.server.getTaskRequests('<%=Membership.GetUser().UserName%>');
-            }, 1500);
-        });
-
-
-        $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {
-            $.connection.hub.stop();
-        });
-        $(document).on('click', '#ProfilePicture', function () {
-            $("#ProfileUpload").click();
-            return false;
-        });
-        $(document).on('change', '#<%=ProfileUpload.ClientID%>', function () {
-            $(document).find('#<%=UploadFile.ClientID%>').click();
-        });
-    </script>
 
     <!-- Bootstrap Core -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css">
@@ -222,7 +46,6 @@
 
     <!-- SE CSS -->
     <link href="<%=ResolveUrl("~/StyleSheets/style.css") %>" rel="stylesheet" type="text/css" />
-    <link href="<%=ResolveUrl("~/Content/toastr.css") %>" rel="stylesheet" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -231,9 +54,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="<%=ResolveUrl("~/Scripts/toastr.js") %>"></script>
+    
+    <script >
+        //Global for logged in user
+        localStorage.setItem("currUser",'<%=Membership.GetUser().UserName%>');
+    </script>
+
     <asp:ContentPlaceHolder ID="SiteHead" runat="server"></asp:ContentPlaceHolder>
 </head>
-<body>
+<body ng-controller="masterController">
     <form id="masterForm" enctype="multipart/form-data" runat="server">
         <asp:ScriptManager ID="ScriptManage" runat="server">
         </asp:ScriptManager>
@@ -262,7 +91,18 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="messageCount"></span>
                             <i class="fa fa-envelope fa-fw" id="envelope"></i><i class="fa fa-caret-down" id="msg_down"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-messages" id="requests" style="max-height: 450px; overflow-y: scroll;">
+                        <ul class="dropdown-menu dropdown-messages" style="max-height: 450px; overflow-y: scroll;">
+                            <li ng-repeat="category in categories" >
+                            <a href={{category.url}}>
+                                <div>
+                                    <strong>{{category.user}}</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>{{category.date}}</em>
+                                    </span>
+                                </div>
+                                <div>{{category.message}}</div>
+                            </a>
+                        </li>
                         </ul>
                         <!-- /.dropdown-messages -->
                     </li>
@@ -271,7 +111,18 @@
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="messageCount2"></span>
                             <i class="fa fa-tasks fa-fw" id="tasks"></i><i class="fa fa-caret-down"  id="tsk_down"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-tasks" id="task_request" style="max-height: 450px; overflow-y: scroll;">
+                        <ul class="dropdown-menu dropdown-tasks" style="max-height: 450px; overflow-y: scroll;">
+                            <li ng-repeat="task in tasks" >
+                            <a href={{task.url}}>
+                                <div>
+                                    <strong>{{task.user}}</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>{{task.date}}</em>
+                                    </span>
+                                </div>
+                                <div>{{task.message}}</div>
+                            </a>
+                        </li>
                         </ul>
                         <!-- /.dropdown-tasks -->
                     </li>
@@ -347,4 +198,17 @@
         </div>
     </form>
 </body>
+    <script src="<%=ResolveUrl("~/Scripts/MasterController.js") %>"></script>
+    <script>
+        $(document).on('click', '#<%=LogoutButton.ClientID%>', function () {
+            $.connection.hub.stop();
+        });
+        $(document).on('click', '#ProfilePicture', function () {
+            $("#ProfileUpload").click();
+            return false;
+        });
+        $(document).on('change', '#<%=ProfileUpload.ClientID%>', function () {
+            $(document).find('#<%=UploadFile.ClientID%>').click();
+        });
+    </script>
 </html>

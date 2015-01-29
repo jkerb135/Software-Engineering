@@ -46,20 +46,24 @@ namespace SE.Admin
             string queryString, queryString2, catName = "";
             if (e.CommandName == "AcceptRequest")
             {
-                queryString = "Update RequestedCategories SET IsApproved= '" + true + "' WHERE RequestingUser = '" +
-                              requestingUser + "' and CategoryID = '" + categoryId + "'";
-                queryString2 = "Select * From Categories Where CategoryID = '" + categoryId + "'";
+                queryString = "Update RequestedCategories SET IsApproved= @bool WHERE RequestingUser = @user and CategoryID = @catId";
+                queryString2 = "Select * From Categories Where CategoryID = @catId";
             }
             else
             {
-                queryString = "Delete From RequestedCategories WHERE RequestingUser = '" + requestingUser +
-                              "' and CategoryID = '" + categoryId + "'";
+                queryString = "Delete From RequestedCategories WHERE RequestingUser = @user and CategoryID = @catId";
                 queryString2 = "";
             }
             using (var con = new SqlConnection(Methods.GetConnectionString()))
             {
                 var cmd = new SqlCommand(queryString, con);
+                cmd.Parameters.AddWithValue("@bool", true);
+                cmd.Parameters.AddWithValue("@user", requestingUser);
+                cmd.Parameters.AddWithValue("@catId", categoryId);
+
                 var cmd2 = new SqlCommand(queryString2, con);
+                cmd2.Parameters.AddWithValue("@catId", categoryId);
+
                 con.Open();
                 cmd.ExecuteScalar();
                 if (queryString2 != "")
@@ -79,13 +83,29 @@ namespace SE.Admin
                 using (var con = new SqlConnection(Methods.GetConnectionString()))
                 {
                     con.Open();
-                    var queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values ('" +
-                                          catName + "','" + requestingUser + "','" + DateTime.Now + "','" + true + "')";
+                    const string queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values (@catName,@requestingUser,@dateTime,@bool)";
+                    
                     var cmd3 = new SqlCommand(queryString3, con);
+
+                    cmd3.Parameters.AddWithValue("@catName", catName);
+                    cmd3.Parameters.AddWithValue("@requestingUser", requestingUser);
+                    cmd3.Parameters.AddWithValue("@dateTime", DateTime.Now);
+                    cmd3.Parameters.AddWithValue("@bool", true);
+                    
                     cmd3.ExecuteNonQuery();
                     con.Close();
                 }
-            AddTasks(catName, categoryId, requestingUser);
+                AddTasks(catName, categoryId, requestingUser);
+
+                var message = _membershipUser + " has accepted your request for " + catName;
+                ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
+                    String.Format("evaluateRequest('{0}');", message), true);
+            }
+            else
+            {
+                var message = _membershipUser + " has accepted your request for " + catName;
+                ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
+                    String.Format("evaluateRequest('{0}');", message), true);
             }
             RequestSource.SelectCommand =
                     "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +

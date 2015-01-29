@@ -491,7 +491,6 @@ namespace SE.Admin
 
         protected void RequestCatGrid_RowCommand1(object sender, GridViewCommandEventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, GetType(), "script", "requestCat();", true);
             const string queryString =
                 "Insert Into RequestedCategories (CategoryID, IsApproved, RequestingUser,CreatedBy,Date) Values (@id, @bool, @user,@owner,@date)";
             const string queryString2 =
@@ -525,6 +524,7 @@ namespace SE.Admin
                 QueryCatRequestStatus();
             }
             profile.Update();
+            ScriptManager.RegisterStartupScript(this, GetType(), "script", "sendRequest()", true);
         }
 
         [WebMethod]

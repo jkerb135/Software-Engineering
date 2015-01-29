@@ -206,6 +206,7 @@
     <Content Include="Admin\Profile.aspx" />
     <Content Include="Admin\Reports.aspx" />
     <Content Include="Admin\Requests.aspx" />
+    <Content Include="Admin\Test.aspx" />
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="example.html" />
@@ -257,6 +258,7 @@
     <Content Include="Scripts\jquery-1.11.0.js" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
+    <Content Include="Scripts\MasterController.js" />
     <Content Include="UserControls\ReportPreview.ascx" />
     <EntityDeploy Include="Models\iPaws.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -536,10 +538,16 @@
       <DependentUpon>Requests.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\RouteEventArgs.cs" />
+    <Compile Include="Admin\Test.aspx.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Test.aspx.designer.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs" />
     <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />

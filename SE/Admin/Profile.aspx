@@ -1,6 +1,20 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="SE.Admin.Profile" EnableEventValidation="false" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="SiteHead" runat="server">
+    <script>
+        var urlParams;
+        (window.onpopstate = function () {
+            var match,
+                pl = /\+/g,  // Regex for replacing addition symbol with a space
+                search = /([^&=]+)=?([^&]*)/g,
+                decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                query = window.location.search.substring(1);
+
+            urlParams = {};
+            while ((match = search.exec(query)))
+                urlParams[decode(match[1])] = decode(match[2]);
+        })();
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="SiteBody" runat="server">
     <asp:UpdatePanel runat="server" ID="profile" UpdateMode="Conditional">
@@ -320,28 +334,28 @@
 
         });
         $(document).on("click", "input[value='Update']", function (e) {
-                e.preventDefault();
-                var parent = $(this).parents("div.active")[0];
-                var main_panel = parent.firstElementChild;
-                var secondary_panel = parent.lastElementChild;
+            e.preventDefault();
+            var parent = $(this).parents("div.active")[0];
+            var main_panel = parent.firstElementChild;
+            var secondary_panel = parent.lastElementChild;
 
-                if (parent.id !== "userpane") {
-                    $(main_panel).fadeOut("slow", function() {
-                        $(secondary_panel).fadeIn("slow");
-                    });
+            if (parent.id !== "userpane") {
+                $(main_panel).fadeOut("slow", function() {
+                    $(secondary_panel).fadeIn("slow");
+                });
+            } else {
+                var panel = $(this).parents("div.active")[0];
+                var secondary;
+                console.log(this.id.indexOf("AddUserToCategories") >= 0);
+                if (this.id.indexOf("AddUserToCategories") >= 0) {
+                    secondary = panel.childNodes[3];
                 } else {
-                    var panel = $(this).parents("div.active")[0];
-                    var secondary;
-                    console.log(this.id.indexOf("AddUserToCategories") >= 0);
-                    if (this.id.indexOf("AddUserToCategories") >= 0) {
-                        secondary = panel.childNodes[3];
-                    } else {
-                        secondary = panel.lastElementChild;
-                    }
-                    $(panel.firstElementChild).fadeOut("slow",function() {
-                        $(secondary).fadeIn("slow");
-                    });
+                    secondary = panel.lastElementChild;
                 }
+                $(panel.firstElementChild).fadeOut("slow",function() {
+                    $(secondary).fadeIn("slow");
+                });
+            }
         });
     </script>
 </asp:Content>

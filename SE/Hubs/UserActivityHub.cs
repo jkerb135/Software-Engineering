@@ -74,6 +74,8 @@ namespace SE.Hubs
             if (yourNotifications == null) throw new ArgumentNullException("userName");
             if (toUser != null) Clients.Client(toUser.ConnectionID).yourCategoryRequests(yourNotifications.ToArray());
         }
+
+
          public void GetTaskRequests(string userName)
         {
             var toUser = _db.Users.FirstOrDefault(find => find.UserName == userName.ToLower());
@@ -91,6 +93,12 @@ namespace SE.Hubs
              if (taskRequests == null) throw new ArgumentNullException("userName");
              if (toUser != null) Clients.Client(toUser.ConnectionID).yourTaskRequests(taskRequests.ToArray());
         }
+
+         public void SendMessage(string userName,string message)
+         {
+             var toUser = _db.Users.FirstOrDefault(find => find.UserName == userName.ToLower());
+             if (toUser != null) Clients.Client(toUser.ConnectionID).recieve(message);
+         }
     }
 
 }

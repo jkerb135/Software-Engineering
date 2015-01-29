@@ -40,12 +40,12 @@
                                 <asp:TemplateField ItemStyle-Width="13%" ItemStyle-CssClass="center">
                                     <HeaderTemplate></HeaderTemplate>
                                     <ItemTemplate>
-                                        <asp:Button ID="AcceptRequest" CssClass="btn btn-success form-control" runat="server" CausesValidation="false" CommandName="AcceptRequest" Text="Accept" CommandArgument='<%# Eval("CategoryID") + ";" + Eval("RequestingUser") %>' />
+                                        <asp:Button ID="AcceptRequest" CssClass="btn btn-success form-control accept" runat="server" CausesValidation="false" CommandName="AcceptRequest" Text="Accept" CommandArgument='<%# Eval("CategoryID") + ";" + Eval("RequestingUser") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField ItemStyle-Width="13%" ItemStyle-CssClass="center">
                                     <ItemTemplate>
-                                        <asp:Button ID="RejectRequest" CssClass="btn btn-danger form-control" runat="server" CausesValidation="false" CommandName="RejectRequest" Text="Reject" CommandArgument='<%# Eval("CategoryID") + ";" + Eval("RequestingUser") %>' />
+                                        <asp:Button ID="RejectRequest" CssClass="btn btn-danger form-control decline" runat="server" CausesValidation="false" CommandName="RejectRequest" Text="Reject" CommandArgument='<%# Eval("CategoryID") + ";" + Eval("RequestingUser") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             </Columns>
