@@ -94,10 +94,10 @@ namespace SE.Hubs
              if (toUser != null) Clients.Client(toUser.ConnectionID).yourTaskRequests(taskRequests.ToArray());
         }
 
-         public void SendMessage(string userName,string message)
+         public void SendMessage(string userName,string message,string type)
          {
              var toUser = _db.Users.FirstOrDefault(find => find.UserName == userName.ToLower());
-             if (toUser != null) Clients.Client(toUser.ConnectionID).recieve(message);
+             if (toUser != null) Clients.Client(toUser.ConnectionID).recieve(message,type);
          }
     }
 

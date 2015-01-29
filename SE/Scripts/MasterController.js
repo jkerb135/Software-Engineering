@@ -6,12 +6,13 @@ function sendRequest() {
     toastr.options.closeButton = true;
     toastr.success("Your request has been sent");
     contact.server.getCategoryNotifications(urlParams["userName"]);
-    contact.server.sendMessage(urlParams["userName"], localStorage.getItem("currUser") + " has requested to use a category of yours.");
+    contact.server.sendMessage(urlParams["userName"], localStorage.getItem("currUser") + " has requested to use a category of yours.","info");
 }
 
-function evaluateRequest(eval) {
-    console.log(eval);
-    contact.server.sendMessage(urlParams["userName"], localStorage.getItem("currUser") + eval);
+function evaluateRequests(eval, username, type) {
+    alert('this is the type: ' + type)
+    contact.server.sendMessage(username, localStorage.getItem("currUser") + eval, type);
+    contact.server.getCategoryNotifications(localStorage.getItem("currUser"));
 }
 
 ipawsApp.controller('masterController', function ($scope) {
@@ -24,10 +25,10 @@ ipawsApp.controller('masterController', function ($scope) {
         contact.server.getTaskRequests(localStorage.getItem("currUser"));
     });
 
-    contact.client.recieve = function (message) {
-        console.log(message);
+    contact.client.recieve = function (message,type) {
         toastr.options.closeButton = true;
-        toastr.info(message);
+        alert(type);
+        toastr[type](message);
     };
 
     contact.client.yourTaskRequests = function (tasks) {

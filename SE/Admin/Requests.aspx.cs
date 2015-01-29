@@ -47,7 +47,7 @@ namespace SE.Admin
             if (e.CommandName == "AcceptRequest")
             {
                 queryString = "Update RequestedCategories SET IsApproved= @bool WHERE RequestingUser = @user and CategoryID = @catId";
-                queryString2 = "Select * From Categories Where CategoryID = @catId";
+                queryString2 = "Select CategoryName From Categories Where CategoryID = @catId";
             }
             else
             {
@@ -99,13 +99,13 @@ namespace SE.Admin
 
                 var message = _membershipUser + " has accepted your request for " + catName;
                 ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
-                    String.Format("evaluateRequest('{0}');", message), true);
+                    String.Format("evaluateRequests('{0}'{1}'{2}'{3}'{4}');", message, ",", requestingUser, ",", "success"), true);
             }
             else
             {
-                var message = _membershipUser + " has accepted your request for " + catName;
+                var message = _membershipUser + " has rejected your request for " + catName;
                 ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
-                    String.Format("evaluateRequest('{0}');", message), true);
+                    String.Format("evaluateRequests('{0}'{1}'{2}'{3}'{4}');", message, ",", requestingUser, ",", "error"), true);
             }
             RequestSource.SelectCommand =
                     "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +

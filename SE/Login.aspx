@@ -11,19 +11,17 @@
     <title>iPaws Login</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="<%=ResolveUrl("~/StyleSheets/bootstrap.min.css") %>" rel="stylesheet">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-    <!-- MetisMenu CSS -->
-    <link href="<%=ResolveUrl("~/StyleSheets/plugins/metisMenu/metisMenu.min.css") %>" rel="stylesheet">
-
-    <!-- Custom CSS -->
-    <link href="<%=ResolveUrl("~/StyleSheets/sb-admin-2.css") %>" rel="stylesheet">
-
-    <!-- Custom Fonts -->
-    <link href="<%=ResolveUrl("~/FontAwesome/css/font-awesome.min.css") %>" rel="stylesheet" type="text/css">
-
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.0/css/bootstrap.min.css">
     <!-- SE CSS -->
     <link href="<%=ResolveUrl("~/StyleSheets/style.css") %>" rel="stylesheet" type="text/css" />
+
+        <!-- Custom CSS -->
+    <link href="<%=ResolveUrl("~/StyleSheets/sb-admin-2.css") %>" rel="stylesheet">
+
+
+    
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -77,21 +75,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- jQuery Version 1.11.0 -->
-        <script src="<%=ResolveUrl("~/Scripts/jquery-1.11.0.js") %>"></script>
-
-        <!-- Bootstrap Core JavaScript -->
-        <script src="<%=ResolveUrl("~/Scripts/bootstrap.min.js") %>"></script>
-
-        <!-- Metis Menu Plugin JavaScript -->
-        <script src="<%=ResolveUrl("~/Scripts/plugins/metisMenu/metisMenu.min.js") %>"></script>
-
-        <!-- Custom Theme JavaScript -->
-        <script src="<%=ResolveUrl("~/Scripts/sb-admin-2.js") %>"></script>
-
-        <!-- SE JavaScript -->
-        <script src="<%=ResolveUrl("~/Scripts/scripts.js") %>"></script>
     </form>
 </body>
 </html>
