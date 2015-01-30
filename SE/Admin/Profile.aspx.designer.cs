@@ -49,6 +49,15 @@ namespace SE.Admin {
         protected global::System.Web.UI.WebControls.Panel YourInfo;
         
         /// <summary>
+        /// catData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl catData;
+        
+        /// <summary>
         /// Label1 control.
         /// </summary>
         /// <remarks>
@@ -74,6 +83,15 @@ namespace SE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource CategorySource;
+        
+        /// <summary>
+        /// catUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl catUsers;
         
         /// <summary>
         /// catUserLabel control.
@@ -112,6 +130,15 @@ namespace SE.Admin {
         protected global::System.Web.UI.WebControls.Button AddUsersToCat;
         
         /// <summary>
+        /// taskData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl taskData;
+        
+        /// <summary>
         /// Label2 control.
         /// </summary>
         /// <remarks>
@@ -137,6 +164,15 @@ namespace SE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource TaskSource;
+        
+        /// <summary>
+        /// taskUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl taskUsers;
         
         /// <summary>
         /// Label4 control.
@@ -175,6 +211,15 @@ namespace SE.Admin {
         protected global::System.Web.UI.WebControls.Button AssignToTask;
         
         /// <summary>
+        /// userData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl userData;
+        
+        /// <summary>
         /// Label3 control.
         /// </summary>
         /// <remarks>
@@ -200,6 +245,15 @@ namespace SE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource assignedUsersSource;
+        
+        /// <summary>
+        /// categoryData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl categoryData;
         
         /// <summary>
         /// Label6 control.
@@ -236,6 +290,15 @@ namespace SE.Admin {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddUserToCategoriesBtn;
+        
+        /// <summary>
+        /// tasksData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl tasksData;
         
         /// <summary>
         /// Label5 control.

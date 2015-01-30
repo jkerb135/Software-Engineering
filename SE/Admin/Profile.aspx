@@ -44,7 +44,9 @@
                         </div>
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane fade in active" id="cats">
-                                <div id="catData">
+                                                                <asp:UpdatePanel runat="server">
+                                    <ContentTemplate>
+                                <div id="catData" runat="server">
                                     <div class="col-xs-10">
 
                                         <div class="panel panel-primary">
@@ -75,7 +77,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="catUsers" style="display: none; min-height: 450px;">
+                                <div id="catUsers" runat="server" style="display: none; min-height: 450px;">
                                     <div class="col-xs-10">
                                         <div class="panel panel-primary">
                                             <div class="panel-heading">
@@ -103,9 +105,12 @@
                                         <asp:Button ID="AddUsersToCat" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AddUsersToCat_Click" />
                                     </div>
                                 </div>
+                                        </ContentTemplate></asp:UpdatePanel>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="taskpane">
-                                <div id="taskData">
+                                                                <asp:UpdatePanel runat="server">
+                                    <ContentTemplate>
+                                <div id="taskData" runat="server">
                                     <div class="col-xs-10">
                                         <div class="panel panel-primary ">
                                             <div class="panel-heading">
@@ -132,7 +137,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="taskUsers" style="display: none; min-height: 450px;">
+                                <div id="taskUsers" runat="server" style="display: none; min-height: 450px;">
                                     <div class="col-xs-10">
 
                                         <div class="panel panel-primary">
@@ -161,9 +166,12 @@
                                         <asp:Button ID="AssignToTask" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="AssUsersToTask_Click" />
                                     </div>
                                 </div>
+                                        </ContentTemplate></asp:UpdatePanel>
                             </div>
                             <div role="tabpanel" class="tab-pane fade" id="userpane">
-                                <div id="userData">
+                                <asp:UpdatePanel runat="server">
+                                    <ContentTemplate>
+                                <div id="userData" runat="server">
                                     <div class="col-xs-10">
                                         <div class="panel panel-primary ">
                                             <div class="panel-heading">
@@ -195,7 +203,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div id="categoryData" style="display:none">
+                                    <div id="categoryData" runat="server" style="display:none">
                                         <div class="col-xs-10">
 
                                             <div class="panel panel-primary">
@@ -223,7 +231,7 @@
                                         </div>
                                     </div>
 
-                                    <div id="tasksData" style="display:none">
+                                    <div id="tasksData" runat="server" style="display:none">
                                         <div class="col-xs-10">
 
                                             <div class="panel panel-primary">
@@ -251,6 +259,8 @@
                                             <asp:Button ID="Button1" runat="server" CssClass="btn btn-success" Text="Add Selected Users" OnClick="Button1_Click" />
                                         </div>
                                     </div>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                 </div>
                             </div>
                         </div>
@@ -321,41 +331,16 @@
             var tab = document.getElementById(this.href.replace(document.URL + "#", ""));
             $(this).tab('show');
             if (tab.id !== "userpane") {
-                var main_panel = tab.firstElementChild;
-                var secondary_panel = tab.lastElementChild;
-                console.log(secondary_panel);
-                main_panel.style.display = "";
-                secondary_panel.style.display = "none";
+                var mainPanel = tab.firstElementChild;
+                mainPanel.firstElementChild.style.display = "";
+                mainPanel.lastElementChild.style.display = "none";
             } else {
-                tab.childNodes[1].style.display = "";
-                tab.childNodes[3].style.display = "none";
-                tab.childNodes[5].style.display = "none";
+                var children = tab.childNodes[1].childNodes;
+                children[1].style.display = "";
+                children[3].style.display = "none";
+                children[5].style.display = "none";
             }
 
-        });
-        $(document).on("click", "input[value='Update']", function (e) {
-            e.preventDefault();
-            var parent = $(this).parents("div.active")[0];
-            var main_panel = parent.firstElementChild;
-            var secondary_panel = parent.lastElementChild;
-
-            if (parent.id !== "userpane") {
-                $(main_panel).fadeOut("slow", function() {
-                    $(secondary_panel).fadeIn("slow");
-                });
-            } else {
-                var panel = $(this).parents("div.active")[0];
-                var secondary;
-                console.log(this.id.indexOf("AddUserToCategories") >= 0);
-                if (this.id.indexOf("AddUserToCategories") >= 0) {
-                    secondary = panel.childNodes[3];
-                } else {
-                    secondary = panel.lastElementChild;
-                }
-                $(panel.firstElementChild).fadeOut("slow",function() {
-                    $(secondary).fadeIn("slow");
-                });
-            }
         });
     </script>
 </asp:Content>

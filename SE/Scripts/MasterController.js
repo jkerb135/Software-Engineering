@@ -2,6 +2,12 @@
 var contact = $.connection.userActivityHub;
 
 
+function showNotification(message, type) {
+    console.log(message, type);
+    toastr.options.closeButton = true;
+    toastr[type](message);
+}
+
 function sendRequest() {
     toastr.options.closeButton = true;
     toastr.success("Your request has been sent");
@@ -27,7 +33,6 @@ ipawsApp.controller('masterController', function ($scope) {
 
     contact.client.recieve = function (message,type) {
         toastr.options.closeButton = true;
-        alert(type);
         toastr[type](message);
     };
 

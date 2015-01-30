@@ -22,11 +22,14 @@ using System.Web.Http.Filters;
 using System.Web.Http.Controllers;
 using System.Data.Entity.Validation;
 using System.Data.Entity;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Web.Http.ModelBinding;
+using Microsoft.Ajax.Utilities;
 
 namespace SE.Controllers
 {
-    [EnableCors(origins: "http://bill.kutztown.edu", headers: "*", methods: "*")]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [ValidateModelState]
     public class UserController : ApiController
     {
@@ -39,13 +42,23 @@ namespace SE.Controllers
             public DateTime LastActivityDate { get; set; }
             public string Password { get; set; }
         }
-        public class Category
+        public class NewTask
         {
-            public int CategoryId { get; set; }
-            public string CategoryName { get; set; }
-            public string AssignedUser { get; set; }
+            public int TaskId { get; set; }
+            public string TaskName { get; set; }
+            public ICollection<TaskAssignment> Assignments { get; set; }
 
         }
+
+        public class NewCategory
+        {
+            public string CategoryName { get; set; }
+            public string AssignedUser { get; set; }
+            public int CategoryId { get; set; }
+            public virtual ICollection<NewTask> Task { get; set; }
+            public ICollection<CategoryAssignment> Assignments { get; set; } 
+        }
+
         public class Task
         {
             public int CategoryId { get; set; }
@@ -103,6 +116,7 @@ namespace SE.Controllers
         {
             return _db.aspnet_Users.Where(x => x.UserId == id).Select(tl => new User { ApplicationId = tl.ApplicationId, UserId = tl.UserId, UserName = tl.UserName, IsAnonymous = tl.IsAnonymous, LastActivityDate = tl.LastActivityDate, Password = tl.aspnet_Membership.Password }).AsEnumerable();
         }
+
         /// <summary>
         /// Gets categories assigned to user by username
         /// </summary>
@@ -110,17 +124,12 @@ namespace SE.Controllers
         /// <returns></returns>
         public IEnumerable<Category> GetCategoriesByUser(string id)
         {
-            return
-                _db.CategoryAssignments.Join(_db.Categories, assignment => assignment.CategoryID, cat => cat.CategoryID,
-                    (assignment, cat) => new {assignment, cat})
-                    .Where(@t => @t.assignment.AssignedUser == id)
-                    .Select(@t => new Category
-                    {
-                        CategoryId = @t.cat.CategoryID,
-                        CategoryName = @t.cat.CategoryName,
-                        AssignedUser = @t.assignment.AssignedUser
-                    });
+            return from a in _db.Categories
+                join b in _db.CategoryAssignments on a.CategoryID equals b.CategoryID
+                where b.AssignedUser == id
+                select new Category();
         }
+
         /// <summary>
         /// Gets tasks assigned to user by username
         /// </summary>
@@ -137,6 +146,7 @@ namespace SE.Controllers
                     .Select(@t => new Task
                     {
                         CategoryId = @t.@t.cat.CategoryID,
+                        CategoryName = @t.@t.cat.CategoryName,
                         TaskId = @t.@t.task.TaskID,
                         TaskName = @t.@t.task.TaskName,
                         AssignedUser = @t.assigned.AssignedUser
@@ -164,7 +174,7 @@ namespace SE.Controllers
         }
         public IEnumerable<CompletedTask> GetAllCompletedTasks()
         {
-            return _db.CompletedTasks.AsEnumerable<CompletedTask>();
+            return _db.CompletedTasks.AsEnumerable();
         }
         public HttpResponseMessage PostTaskCompleted([FromBody]CompletedTask task)
         {

@@ -12,15 +12,13 @@ namespace SE.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RequestedCategory
+    public partial class RefreshToken
     {
-        public int CategoryID { get; set; }
-        public bool IsApproved { get; set; }
-        public string RequestingUser { get; set; }
-        public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public int id { get; set; }
-    
-        public virtual Category Category { get; set; }
+        public string Id { get; set; }
+        public string Subject { get; set; }
+        public string ClientId { get; set; }
+        public System.DateTime IssuedUtc { get; set; }
+        public System.DateTime ExpiresUtc { get; set; }
+        public string ProtectedTicket { get; set; }
     }
 }

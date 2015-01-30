@@ -35,7 +35,6 @@ namespace SE.Admin
                 OtherInfo.Visible = false;
             }
             if (IsPostBack) return;
-            //categories.Attributes.Add("style", "word-break:break-all;word-wrap:break-word");
             Label1.Text = " Categories";
             Label2.Text = " Tasks";
             Label3.Text = " Users";
@@ -127,8 +126,8 @@ namespace SE.Admin
 
                 con.Close();
             }
-
-            ScriptManager.RegisterStartupScript(this, GetType(), "script", "hide();", true);
+            catData.Style.Add("display", "none");
+            catUsers.Style.Add("display", "");
         }
 
         protected void AddUsersToCat_Click(object sender, EventArgs e)
@@ -169,9 +168,9 @@ namespace SE.Admin
                     var flag = false;
                     foreach (GridViewRow row in AddUserGrid.Rows)
                     {
-                        var box = (CheckBox) row.FindControl("catUsersChk");
+                        var box = (CheckBox)row.FindControl("catUsersChk");
                         cmd2.Parameters["@user"].Value = row.Cells[1].Text;
-                        var count = (Int32) cmd2.ExecuteScalar();
+                        var count = (Int32)cmd2.ExecuteScalar();
                         if (box != null && box.Checked && count == 0)
                         {
                             cmd.Parameters["@user"].Value = row.Cells[1].Text;
@@ -189,9 +188,13 @@ namespace SE.Admin
                         }
                     }
                     con.Close();
-                    if (!flag) return;
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();",
-                        true);
+                    if (!flag)
+                    {
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", "No records have changed!", ",", "info"), true);
+                    }
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", "Updated Successfully!", ",", "success"), true);
+                    catUsers.Style.Add("display", "none");
+                    catData.Style.Add("display", "");
                 }
 
             }
@@ -243,6 +246,8 @@ namespace SE.Admin
 
                 con.Close();
             }
+            taskData.Style.Add("display", "none");
+            taskUsers.Style.Add("display", "");
         }
 
         protected void AssUsersToTask_Click(object sender, EventArgs e)
@@ -268,6 +273,7 @@ namespace SE.Admin
 
                 con.Open();
                 var flag = false;
+                var changed = false;
                 foreach (GridViewRow row in UsersInTask.Rows)
                 {
                     cmd4.Parameters["@user"].Value = row.Cells[1].Text;
@@ -279,28 +285,33 @@ namespace SE.Admin
                     {
                         cmd5.Parameters["@user"].Value = row.Cells[1].Text;
                         cmd5.ExecuteNonQuery();
-                        flag = true;
+                        changed = flag = true;
                     }
                     else if (box != null && (!box.Checked && count == 1))
                     {
                         cmd4.ExecuteNonQuery();
-                        flag = true;
                     }
                 }
                 con.Close();
-                if (!flag) return;
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                if (!flag)
+                {
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", "No records have changed!", ",", "info"), true);
+                }
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", "Updated Successfully!", ",", "success"), true);
+                taskUsers.Style.Add("display", "none");
+                taskData.Style.Add("display", "");
             }
         }
 
         protected void users_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             AssignedUsername = Convert.ToString(e.CommandArgument);
+
             if (e.CommandName == "AddCategories")
             {
                 Label6.Text = "Manage " + e.CommandArgument + " Categories";
-                AllCategoriesSource.SelectCommand = "SELECT CategoryName FROM Categories WHERE CreatedBy= '" + _user +
-                                                    "'";
+
+                AllCategoriesSource.SelectCommand = "SELECT CategoryName FROM Categories WHERE CreatedBy= '" + _user + "'";
                 AllCategoriesGridView.DataBind();
                 AllCategoriesGridView.UseAccessibleHeader = true;
                 AllCategoriesGridView.HeaderRow.TableSection = TableRowSection.TableHeader;
@@ -333,6 +344,9 @@ namespace SE.Admin
 
                     con.Close();
                 }
+                userData.Style.Add("display", "none");
+                tasksData.Style.Add("display", "none");
+                categoryData.Style.Add("display", "");
 
             }
             else
@@ -372,6 +386,9 @@ namespace SE.Admin
 
                     con.Close();
                 }
+                userData.Style.Add("display", "none");
+                categoryData.Style.Add("display", "none");
+                tasksData.Style.Add("display", "");
             }
         }
 
@@ -432,10 +449,14 @@ namespace SE.Admin
                         flag = true;
                     }
                 }
-                if (flag)
+                if (!flag)
                 {
-                    ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", "No records have changed!", ",", "info"), true);
                 }
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", "Updated Successfully!", ",", "success"), true);
+                userData.Style.Add("display", "");
+                categoryData.Style.Add("display", "none");
+                tasksData.Style.Add("display", "none");
 
                 con.Close();
             }
@@ -484,8 +505,14 @@ namespace SE.Admin
                     }
                 }
                 con.Close();
-                if (!flag) return;
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+                if (!flag)
+                {
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", "No records have changed!", ",", "info"), true);
+                }
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", "Updated Successfully!", ",", "success"), true);
+                userData.Style.Add("display", "");
+                categoryData.Style.Add("display", "none");
+                tasksData.Style.Add("display", "none");
             }
         }
 
@@ -527,7 +554,6 @@ namespace SE.Admin
             ScriptManager.RegisterStartupScript(this, GetType(), "script", "sendRequest()", true);
         }
 
-        [WebMethod]
         public void QueryCatRequestStatus()
         {
             const string queryString =
@@ -570,6 +596,7 @@ namespace SE.Admin
         {
             QueryCatRequestStatus();
         }
+
         protected void HelpBtn_OnClick(object sender, EventArgs e)
         {
             lblModalTitle.Text = "Help!";

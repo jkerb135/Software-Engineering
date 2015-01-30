@@ -12,15 +12,12 @@ namespace SE.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RequestedCategory
+    public partial class AspNetUserLogin
     {
-        public int CategoryID { get; set; }
-        public bool IsApproved { get; set; }
-        public string RequestingUser { get; set; }
-        public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public int id { get; set; }
+        public string LoginProvider { get; set; }
+        public string ProviderKey { get; set; }
+        public string UserId { get; set; }
     
-        public virtual Category Category { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -120,7 +120,8 @@ namespace SE
                         _cat.AssignUserCategories();
                         BindCategories(catList);
 
-                        SuccessMessage.Text = "New category successfully added.";
+                        const string message = "New category successfully added.";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "success"), true);
 
                         EditCategoryName.Text = String.Empty;
 
@@ -129,7 +130,8 @@ namespace SE
                     }
                     else
                     {
-                        ErrorMessage.Text = "Error creating new category";
+                        const string message = "Error Creating New Category";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "error"), true);
                     }
                     header.Text = "Management Panel";
                     break;
@@ -143,7 +145,8 @@ namespace SE
                         _cat.ReAssignUserCategories();
                         BindCategories(catList);
 
-                        SuccessMessage.Text = "Category successfully updated.";
+                        const string message = "Category successfully updated.";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "success"), true);
 
                         EditCategoryName.Text = String.Empty;
 
@@ -152,7 +155,9 @@ namespace SE
                     }
                     else
                     {
-                        ErrorMessage.Text = "Error Updating Category";
+                        const string message = "Error Updating Category.";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "error"), true);
+
                     }
                     header.Text = "Management Panel";
                     break;
@@ -180,7 +185,8 @@ namespace SE
                         _task.CreateTask();
                         _task.AssignUserTasks();
 
-                        SuccessMessage.Text = "New task successfully added.";
+                        const string message = "New Task Added";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "success"), true);
 
                         EditTaskName.Text = String.Empty;
 
@@ -191,7 +197,8 @@ namespace SE
                     }
                     else
                     {
-                        ErrorMessage.Text = "Error creating new task";
+                        const string message = "Error Creating Task.";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "error"), true);
                     }
                     break;
                 case "Update Task":
@@ -205,7 +212,8 @@ namespace SE
                         _task.UpdateTask();
                         _task.ReAssignUserTasks();
 
-                        SuccessMessage.Text = "Task successfully updated.";
+                        const string message = "Task Updated.";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "success"), true);
 
                         EditTaskName.Text = String.Empty;
 
@@ -216,7 +224,8 @@ namespace SE
                     }
                     else
                     {
-                        ErrorMessage.Text = "Error Updating Task";
+                        const string message = "Error Updating Task.";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "error"), true);
                     }
                     break;
             }
@@ -273,11 +282,12 @@ namespace SE
                     if (message == "")
                     {
                         _mainStep.CreateMainStep();
-                        SuccessMessage.Text = "New main step successfully added.";
+                        const string succ = "Main Step Added";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", succ, ",", "success"), true);
                     }
                     else
                     {
-                        ErrorMessage.Text = message;
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "error"), true);
                     }
                 }
                 if (MainStepButton.Text == "Update Main Step")
@@ -285,11 +295,12 @@ namespace SE
                     if (message == "")
                     {
                         _mainStep.UpdateMainStep();
-                        SuccessMessage.Text = "Main step successfully updated.";
+                        const string succ = "Updated Main Step.";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", succ, ",", "success"), true);
                     }
                     else
                     {
-                        ErrorMessage.Text = message;
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "error"), true);
                     }
                 }
 
@@ -349,11 +360,12 @@ namespace SE
                     if (message == "")
                     {
                         _detailedStep.CreateDetailedStep();
-                        SuccessMessage.Text = "New detailed step successfully added.";
+                        const string succ = "Detailed Step Added";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", succ, ",", "success"), true);
                     }
                     else
                     {
-                        ErrorMessage.Text = message;
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "error"), true);
                     }
                 }
                 if (EditDetailedStepButton.Text == "Update Detailed Step")
@@ -361,11 +373,12 @@ namespace SE
                     if (message == "")
                     {
                         _detailedStep.UpdateDetailedStep();
-                        SuccessMessage.Text = "detailed step successfully updated.";
+                        const string succ = "Updated Detailed Step.";
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", succ, ",", "success"), true);
                     }
                     else
                     {
-                        ErrorMessage.Text = message;
+                        ScriptManager.RegisterStartupScript(this, typeof(string), "Registering", String.Format("showNotification('{0}'{1}'{2}');", message, ",", "error"), true);
                     }
                 }
 
@@ -1077,6 +1090,10 @@ namespace SE
             var li = new ListItem {Text = "No Main Steps in " + taskList.SelectedItem.Text};
             mainStep.Items.Add(li);
             mainFilter.Enabled = false;
+            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
+            {
+                detailedStep.Items[0].Attributes.Add("disabled", "disabled");
+            }
         }
 
         private void RefreshDetailedSteps()

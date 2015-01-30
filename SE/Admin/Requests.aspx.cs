@@ -6,6 +6,8 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using SE.Classes;
 using SE.Models;
+using Category = SE.Models.Category;
+using Task = SE.Models.Task;
 
 namespace SE.Admin
 {
@@ -15,6 +17,7 @@ namespace SE.Admin
     public partial class Requests : Page
     {
         readonly MembershipUser _membershipUser = Membership.GetUser();
+        static readonly ipawsTeamBEntities _db = new ipawsTeamBEntities(); 
         /// <summary>
         /// 
         /// </summary>
@@ -44,68 +47,48 @@ namespace SE.Admin
             var requestingUser = args[1];
             if (requestingUser == null) throw new ArgumentNullException("sender");
             string queryString, queryString2, catName = "";
+            var catId = Convert.ToInt32(categoryId);
             if (e.CommandName == "AcceptRequest")
             {
-                queryString = "Update RequestedCategories SET IsApproved= @bool WHERE RequestingUser = @user and CategoryID = @catId";
-                queryString2 = "Select CategoryName From Categories Where CategoryID = @catId";
-            }
-            else
-            {
-                queryString = "Delete From RequestedCategories WHERE RequestingUser = @user and CategoryID = @catId";
-                queryString2 = "";
-            }
-            using (var con = new SqlConnection(Methods.GetConnectionString()))
-            {
-                var cmd = new SqlCommand(queryString, con);
-                cmd.Parameters.AddWithValue("@bool", true);
-                cmd.Parameters.AddWithValue("@user", requestingUser);
-                cmd.Parameters.AddWithValue("@catId", categoryId);
+                var update =
+                    _db.RequestedCategories.Select(x => x).FirstOrDefault(x => x.RequestingUser == requestingUser && x.CategoryID == catId);
 
-                var cmd2 = new SqlCommand(queryString2, con);
-                cmd2.Parameters.AddWithValue("@catId", categoryId);
+                if (update != null) update.IsApproved = true;
 
-                con.Open();
-                cmd.ExecuteScalar();
-                if (queryString2 != "")
+                _db.SaveChanges();
+
+                catName = _db.Categories.Where(x => x.CategoryID == catId).Select(x => x.CategoryName).FirstOrDefault();
+
+                var obj = new Category
                 {
-                    var dr = cmd2.ExecuteReader();
+                    CategoryName = catName,
+                    CreatedBy = requestingUser,
+                    CreatedTime = DateTime.Now,
+                    IsActive = true
+                };
 
-                    while (dr.Read())
-                    {
-                        catName = dr["CategoryName"].ToString();
-                    }
-                }
+                _db.Categories.Add(obj);
+                _db.SaveChanges();
 
-                con.Close();
-            }
-            if (e.CommandName == "AcceptRequest")
-            {
-                using (var con = new SqlConnection(Methods.GetConnectionString()))
-                {
-                    con.Open();
-                    const string queryString3 = "Insert Into Categories (CategoryName,CreatedBy,CreatedTime,IsActive) Values (@catName,@requestingUser,@dateTime,@bool)";
-                    
-                    var cmd3 = new SqlCommand(queryString3, con);
-
-                    cmd3.Parameters.AddWithValue("@catName", catName);
-                    cmd3.Parameters.AddWithValue("@requestingUser", requestingUser);
-                    cmd3.Parameters.AddWithValue("@dateTime", DateTime.Now);
-                    cmd3.Parameters.AddWithValue("@bool", true);
-                    
-                    cmd3.ExecuteNonQuery();
-                    con.Close();
-                }
-                AddTasks(catName, categoryId, requestingUser);
+                AddTasks(catName, catId, requestingUser);
 
                 var message = _membershipUser + " has accepted your request for " + catName;
-                ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
                     String.Format("evaluateRequests('{0}'{1}'{2}'{3}'{4}');", message, ",", requestingUser, ",", "success"), true);
             }
-            else
+            else if (e.CommandName == "RejectRequest")
             {
+                var delete =
+                    _db.RequestedCategories.Select(x => x).FirstOrDefault(x => x.RequestingUser == requestingUser && x.CategoryID == Convert.ToInt32(categoryId));
+
+
+                _db.RequestedCategories.Remove(delete);
+                _db.SaveChanges();
+
                 var message = _membershipUser + " has rejected your request for " + catName;
-                ScriptManager.RegisterStartupScript(this, typeof (string), "Registering",
+                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
                     String.Format("evaluateRequests('{0}'{1}'{2}'{3}'{4}');", message, ",", requestingUser, ",", "error"), true);
+
             }
             RequestSource.SelectCommand =
                     "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
@@ -119,10 +102,11 @@ namespace SE.Admin
         /// <param name="catName"></param>
         /// <param name="previousId"></param>
         /// <param name="requestingUser"></param>
-        private static void AddTasks(string catName, string previousId, string requestingUser)
+        private static void AddTasks(string catName, int previousId, string requestingUser)
         {
-            var db = new ipawsTeamBEntities();
-            var newCatId = db.Categories.Where(find => find.CategoryName == catName && find.CreatedBy == requestingUser).Select(r => r.CategoryID).FirstOrDefault();
+            
+            var newCatId = _db.Categories.Where(find => find.CategoryName == catName && find.CreatedBy == requestingUser).Select(r => r.CategoryID).FirstOrDefault();
+
             using (var con = new SqlConnection(Methods.GetConnectionString()))
             {
                 con.Open();

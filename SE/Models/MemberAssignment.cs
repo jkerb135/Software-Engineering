@@ -22,8 +22,8 @@ namespace SE.Models
     
         public string AssignedUser { get; set; }
         public string AssignedSupervisor { get; set; }
-        public string UsersIp { get; set; }
         public bool IsUserLoggedIn { get; set; }
+        public string UsersIp { get; set; }
     
         public virtual ICollection<CompletedMainStep> CompletedMainSteps { get; set; }
         public virtual ICollection<CategoryAssignment> CategoryAssignments { get; set; }

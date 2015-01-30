@@ -25,6 +25,7 @@ namespace SE.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public DbSet<aspnet_Applications> aspnet_Applications { get; set; }
         public DbSet<aspnet_Membership> aspnet_Membership { get; set; }
         public DbSet<aspnet_Paths> aspnet_Paths { get; set; }
@@ -35,19 +36,25 @@ namespace SE.Models
         public DbSet<aspnet_SchemaVersions> aspnet_SchemaVersions { get; set; }
         public DbSet<aspnet_Users> aspnet_Users { get; set; }
         public DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
+        public DbSet<AspNetRole> AspNetRoles { get; set; }
+        public DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public DbSet<AspNetUser> AspNetUsers { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Client> Clients { get; set; }
         public DbSet<CompletedMainStep> CompletedMainSteps { get; set; }
         public DbSet<CompletedTask> CompletedTasks { get; set; }
         public DbSet<DetailedStep> DetailedSteps { get; set; }
         public DbSet<MainStep> MainSteps { get; set; }
         public DbSet<MemberAssignment> MemberAssignments { get; set; }
         public DbSet<Profile> Profiles { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<RequestedCategory> RequestedCategories { get; set; }
         public DbSet<Task> Tasks { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<UserTaskRequest> UserTaskRequests { get; set; }
         public DbSet<CategoryAssignment> CategoryAssignments { get; set; }
-        public DbSet<RequestedCategory> RequestedCategories { get; set; }
         public DbSet<RequestedTask> RequestedTasks { get; set; }
         public DbSet<TaskAssignment> TaskAssignments { get; set; }
-        public DbSet<UserTaskRequest> UserTaskRequests { get; set; }
     }
 }

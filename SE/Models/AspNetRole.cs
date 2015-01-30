@@ -12,15 +12,16 @@ namespace SE.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class RequestedCategory
+    public partial class AspNetRole
     {
-        public int CategoryID { get; set; }
-        public bool IsApproved { get; set; }
-        public string RequestingUser { get; set; }
-        public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public int id { get; set; }
+        public AspNetRole()
+        {
+            this.AspNetUsers = new HashSet<AspNetUser>();
+        }
     
-        public virtual Category Category { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<AspNetUser> AspNetUsers { get; set; }
     }
 }

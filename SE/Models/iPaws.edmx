@@ -4,7 +4,17 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ipawsTeamBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ipawsTeamBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
         <EntityType Name="aspnet_Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -136,6 +146,57 @@
           <Property Name="ExceptionType" Type="nvarchar" MaxLength="256" />
           <Property Name="Details" Type="ntext" />
         </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -154,6 +215,18 @@ warning 6002: The table/view 'ipawsTeamB.dbo.CategoryAssignments' does not have 
           </Key>
           <Property Name="AssignedUser" Type="varchar" MaxLength="255" />
           <Property Name="CategoryID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Secret" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="ApplicationType" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="RefreshTokenLifeTime" Type="int" Nullable="false" />
+          <Property Name="AllowedOrigin" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="CompletedMainSteps">
           <Key>
@@ -225,19 +298,27 @@ warning 6002: The table/view 'ipawsTeamB.dbo.CategoryAssignments' does not have 
           <Property Name="Name" Type="nvarchar" MaxLength="250" Nullable="false" />
           <Property Name="Picture" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'ipawsTeamB.dbo.RequestedCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="RefreshTokens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ClientId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IssuedUtc" Type="datetime" Nullable="false" />
+          <Property Name="ExpiresUtc" Type="datetime" Nullable="false" />
+          <Property Name="ProtectedTicket" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="RequestedCategories">
           <Key>
-            <PropertyRef Name="CategoryID" />
-            <PropertyRef Name="IsApproved" />
-            <PropertyRef Name="RequestingUser" />
+            <PropertyRef Name="id" />
           </Key>
           <Property Name="CategoryID" Type="int" Nullable="false" />
           <Property Name="IsApproved" Type="bit" Nullable="false" />
           <Property Name="RequestingUser" Type="nvarchar" MaxLength="256" Nullable="false" />
           <Property Name="CreatedBy" Type="nvarchar" MaxLength="256" />
           <Property Name="Date" Type="datetime" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ipawsTeamB.dbo.RequestedTasks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -498,6 +579,62 @@ warning 6002: The table/view 'ipawsTeamB.dbo.TaskAssignments' does not have a pr
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DetailedSteps_MainSteps">
           <End Role="MainSteps" Type="Self.MainSteps" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -553,6 +690,7 @@ warning 6002: The table/view 'ipawsTeamB.dbo.TaskAssignments' does not have a pr
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ipawsTeamBModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Applications" EntityType="Self.aspnet_Applications" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Membership" EntityType="Self.aspnet_Membership" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_Paths" EntityType="Self.aspnet_Paths" Schema="dbo" store:Type="Tables" />
@@ -564,13 +702,21 @@ warning 6002: The table/view 'ipawsTeamB.dbo.TaskAssignments' does not have a pr
           <EntitySet Name="aspnet_Users" EntityType="Self.aspnet_Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_UsersInRoles" EntityType="Self.aspnet_UsersInRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="aspnet_WebEvent_Events" EntityType="Self.aspnet_WebEvent_Events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompletedMainSteps" EntityType="Self.CompletedMainSteps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompletedTasks" EntityType="Self.CompletedTasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetailedSteps" EntityType="Self.DetailedSteps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MainSteps" EntityType="Self.MainSteps" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberAssignments" EntityType="Self.MemberAssignments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Profile" EntityType="Self.Profile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RefreshTokens" EntityType="Self.RefreshTokens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestedCategories" EntityType="Self.RequestedCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTaskRequest" EntityType="Self.UserTaskRequest" Schema="dbo" store:Type="Tables" />
@@ -579,15 +725,6 @@ warning 6002: The table/view 'ipawsTeamB.dbo.TaskAssignments' does not have a pr
 [CategoryAssignments].[AssignedUser] AS [AssignedUser], 
 [CategoryAssignments].[CategoryID] AS [CategoryID]
 FROM [dbo].[CategoryAssignments] AS [CategoryAssignments]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="RequestedCategories" EntityType="Self.RequestedCategories" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[RequestedCategories].[CategoryID] AS [CategoryID], 
-[RequestedCategories].[IsApproved] AS [IsApproved], 
-[RequestedCategories].[RequestingUser] AS [RequestingUser], 
-[RequestedCategories].[CreatedBy] AS [CreatedBy], 
-[RequestedCategories].[Date] AS [Date]
-FROM [dbo].[RequestedCategories] AS [RequestedCategories]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="RequestedTasks" EntityType="Self.RequestedTasks" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -672,6 +809,22 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
             <End Role="Tasks" EntitySet="Tasks" />
             <End Role="CompletedMainSteps" EntitySet="CompletedMainSteps" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
           <AssociationSet Name="FK_DetailedSteps_MainSteps" Association="Self.FK_DetailedSteps_MainSteps">
             <End Role="MainSteps" EntitySet="MainSteps" />
             <End Role="DetailedSteps" EntitySet="DetailedSteps" />
@@ -694,6 +847,7 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
     <edmx:ConceptualModels>
       <Schema Namespace="ipawsTeamBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ipawsTeamBEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="ipawsTeamBModel.C__MigrationHistory" />
           <EntitySet Name="aspnet_Applications" EntityType="ipawsTeamBModel.aspnet_Applications" />
           <EntitySet Name="aspnet_Membership" EntityType="ipawsTeamBModel.aspnet_Membership" />
           <EntitySet Name="aspnet_Paths" EntityType="ipawsTeamBModel.aspnet_Paths" />
@@ -704,20 +858,27 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <EntitySet Name="aspnet_SchemaVersions" EntityType="ipawsTeamBModel.aspnet_SchemaVersions" />
           <EntitySet Name="aspnet_Users" EntityType="ipawsTeamBModel.aspnet_Users" />
           <EntitySet Name="aspnet_WebEvent_Events" EntityType="ipawsTeamBModel.aspnet_WebEvent_Events" />
+          <EntitySet Name="AspNetRoles" EntityType="ipawsTeamBModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="ipawsTeamBModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="ipawsTeamBModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="ipawsTeamBModel.AspNetUser" />
           <EntitySet Name="Categories" EntityType="ipawsTeamBModel.Category" />
+          <EntitySet Name="Clients" EntityType="ipawsTeamBModel.Client" />
           <EntitySet Name="CompletedMainSteps" EntityType="ipawsTeamBModel.CompletedMainStep" />
           <EntitySet Name="CompletedTasks" EntityType="ipawsTeamBModel.CompletedTask" />
           <EntitySet Name="DetailedSteps" EntityType="ipawsTeamBModel.DetailedStep" />
           <EntitySet Name="MainSteps" EntityType="ipawsTeamBModel.MainStep" />
           <EntitySet Name="MemberAssignments" EntityType="ipawsTeamBModel.MemberAssignment" />
           <EntitySet Name="Profiles" EntityType="ipawsTeamBModel.Profile" />
+          <EntitySet Name="RefreshTokens" EntityType="ipawsTeamBModel.RefreshToken" />
+          <EntitySet Name="RequestedCategories" EntityType="ipawsTeamBModel.RequestedCategory" />
           <EntitySet Name="Tasks" EntityType="ipawsTeamBModel.Task" />
           <EntitySet Name="Users" EntityType="ipawsTeamBModel.User" />
+          <EntitySet Name="UserTaskRequests" EntityType="ipawsTeamBModel.UserTaskRequest" />
           <EntitySet Name="CategoryAssignments" EntityType="ipawsTeamBModel.CategoryAssignment" />
-          <EntitySet Name="RequestedCategories" EntityType="ipawsTeamBModel.RequestedCategory" />
           <EntitySet Name="RequestedTasks" EntityType="ipawsTeamBModel.RequestedTask" />
           <EntitySet Name="TaskAssignments" EntityType="ipawsTeamBModel.TaskAssignment" />
-          <AssociationSet Name="FK__aspnet_Me__Appli__0E6E26BF" Association="ipawsTeamBModel.FK__aspnet_Me__Appli__0E6E26BF">
+          <AssociationSet Name="FK__aspnet_Me__Appli__07C12930" Association="ipawsTeamBModel.FK__aspnet_Me__Appli__07C12930">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
           </AssociationSet>
@@ -725,25 +886,25 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Ro__Appli__0A9D95DB" Association="ipawsTeamBModel.FK__aspnet_Ro__Appli__0A9D95DB">
+          <AssociationSet Name="FK__aspnet_Ro__Appli__0E6E26BF" Association="ipawsTeamBModel.FK__aspnet_Ro__Appli__0E6E26BF">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Us__Appli__08B54D69" Association="ipawsTeamBModel.FK__aspnet_Us__Appli__08B54D69">
+          <AssociationSet Name="FK__aspnet_Us__Appli__0F624AF8" Association="ipawsTeamBModel.FK__aspnet_Us__Appli__0F624AF8">
             <End Role="aspnet_Applications" EntitySet="aspnet_Applications" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Me__UserI__0F624AF8" Association="ipawsTeamBModel.FK__aspnet_Me__UserI__0F624AF8">
+          <AssociationSet Name="FK__aspnet_Me__UserI__08B54D69" Association="ipawsTeamBModel.FK__aspnet_Me__UserI__08B54D69">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Membership" EntitySet="aspnet_Membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK__aspnet_Pe__PathI__0A9D95DB" Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__0A9D95DB">
+            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
+            <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
           </AssociationSet>
           <AssociationSet Name="FK__aspnet_Pe__PathI__0B91BA14" Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__0B91BA14">
             <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
             <End Role="aspnet_PersonalizationPerUser" EntitySet="aspnet_PersonalizationPerUser" />
-          </AssociationSet>
-          <AssociationSet Name="FK__aspnet_Pe__PathI__10566F31" Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__10566F31">
-            <End Role="aspnet_Paths" EntitySet="aspnet_Paths" />
-            <End Role="aspnet_PersonalizationAllUsers" EntitySet="aspnet_PersonalizationAllUsers" />
           </AssociationSet>
           <AssociationSet Name="FK__aspnet_Pe__UserI__0C85DE4D" Association="ipawsTeamBModel.FK__aspnet_Pe__UserI__0C85DE4D">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
@@ -752,6 +913,14 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <AssociationSet Name="FK__aspnet_Pr__UserI__0D7A0286" Association="ipawsTeamBModel.FK__aspnet_Pr__UserI__0D7A0286">
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="ipawsTeamBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="ipawsTeamBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
           </AssociationSet>
           <AssociationSet Name="FK_CategoryAssignments_Categories" Association="ipawsTeamBModel.FK_CategoryAssignments_Categories">
             <End Role="Category" EntitySet="Categories" />
@@ -793,8 +962,21 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
-          <EntitySet Name="UserTaskRequests" EntityType="ipawsTeamBModel.UserTaskRequest" />
+          <AssociationSet Name="AspNetUserRoles" Association="ipawsTeamBModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="aspnet_Applications">
           <Key>
             <PropertyRef Name="ApplicationId" />
@@ -803,10 +985,10 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="LoweredApplicationName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="ApplicationId" Type="Guid" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="aspnet_Membership" Relationship="ipawsTeamBModel.FK__aspnet_Me__Appli__0E6E26BF" FromRole="aspnet_Applications" ToRole="aspnet_Membership" />
+          <NavigationProperty Name="aspnet_Membership" Relationship="ipawsTeamBModel.FK__aspnet_Me__Appli__07C12930" FromRole="aspnet_Applications" ToRole="aspnet_Membership" />
           <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pa__Appli__09A971A2" FromRole="aspnet_Applications" ToRole="aspnet_Paths" />
-          <NavigationProperty Name="aspnet_Roles" Relationship="ipawsTeamBModel.FK__aspnet_Ro__Appli__0A9D95DB" FromRole="aspnet_Applications" ToRole="aspnet_Roles" />
-          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Us__Appli__08B54D69" FromRole="aspnet_Applications" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Roles" Relationship="ipawsTeamBModel.FK__aspnet_Ro__Appli__0E6E26BF" FromRole="aspnet_Applications" ToRole="aspnet_Roles" />
+          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Us__Appli__0F624AF8" FromRole="aspnet_Applications" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Membership">
           <Key>
@@ -833,8 +1015,8 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="FailedPasswordAnswerAttemptCount" Type="Int32" Nullable="false" />
           <Property Name="FailedPasswordAnswerAttemptWindowStart" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Me__Appli__0E6E26BF" FromRole="aspnet_Membership" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Me__UserI__0F624AF8" FromRole="aspnet_Membership" ToRole="aspnet_Users" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Me__Appli__07C12930" FromRole="aspnet_Membership" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.FK__aspnet_Me__UserI__08B54D69" FromRole="aspnet_Membership" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_Paths">
           <Key>
@@ -845,8 +1027,8 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="Path" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="LoweredPath" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Pa__Appli__09A971A2" FromRole="aspnet_Paths" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_PersonalizationAllUsers" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__0A9D95DB" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationAllUsers" />
           <NavigationProperty Name="aspnet_PersonalizationPerUser" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__0B91BA14" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationPerUser" />
-          <NavigationProperty Name="aspnet_PersonalizationAllUsers" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__10566F31" FromRole="aspnet_Paths" ToRole="aspnet_PersonalizationAllUsers" />
         </EntityType>
         <EntityType Name="aspnet_PersonalizationAllUsers">
           <Key>
@@ -855,7 +1037,7 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="PathId" Type="Guid" Nullable="false" />
           <Property Name="PageSettings" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
           <Property Name="LastUpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__10566F31" FromRole="aspnet_PersonalizationAllUsers" ToRole="aspnet_Paths" />
+          <NavigationProperty Name="aspnet_Paths" Relationship="ipawsTeamBModel.FK__aspnet_Pe__PathI__0A9D95DB" FromRole="aspnet_PersonalizationAllUsers" ToRole="aspnet_Paths" />
         </EntityType>
         <EntityType Name="aspnet_PersonalizationPerUser">
           <Key>
@@ -889,7 +1071,7 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="LoweredRoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Ro__Appli__0A9D95DB" FromRole="aspnet_Roles" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Ro__Appli__0E6E26BF" FromRole="aspnet_Roles" ToRole="aspnet_Applications" />
           <NavigationProperty Name="aspnet_Users" Relationship="ipawsTeamBModel.aspnet_UsersInRoles" FromRole="aspnet_Roles" ToRole="aspnet_Users" />
         </EntityType>
         <EntityType Name="aspnet_SchemaVersions">
@@ -912,8 +1094,8 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="MobileAlias" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
           <Property Name="IsAnonymous" Type="Boolean" Nullable="false" />
           <Property Name="LastActivityDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Us__Appli__08B54D69" FromRole="aspnet_Users" ToRole="aspnet_Applications" />
-          <NavigationProperty Name="aspnet_Membership" Relationship="ipawsTeamBModel.FK__aspnet_Me__UserI__0F624AF8" FromRole="aspnet_Users" ToRole="aspnet_Membership" />
+          <NavigationProperty Name="aspnet_Applications" Relationship="ipawsTeamBModel.FK__aspnet_Us__Appli__0F624AF8" FromRole="aspnet_Users" ToRole="aspnet_Applications" />
+          <NavigationProperty Name="aspnet_Membership" Relationship="ipawsTeamBModel.FK__aspnet_Me__UserI__08B54D69" FromRole="aspnet_Users" ToRole="aspnet_Membership" />
           <NavigationProperty Name="aspnet_PersonalizationPerUser" Relationship="ipawsTeamBModel.FK__aspnet_Pe__UserI__0C85DE4D" FromRole="aspnet_Users" ToRole="aspnet_PersonalizationPerUser" />
           <NavigationProperty Name="aspnet_Profile" Relationship="ipawsTeamBModel.FK__aspnet_Pr__UserI__0D7A0286" FromRole="aspnet_Users" ToRole="aspnet_Profile" />
           <NavigationProperty Name="aspnet_Roles" Relationship="ipawsTeamBModel.aspnet_UsersInRoles" FromRole="aspnet_Users" ToRole="aspnet_Roles" />
@@ -938,6 +1120,55 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="ExceptionType" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="ipawsTeamBModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="ipawsTeamBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="ipawsTeamBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="ipawsTeamBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="ipawsTeamBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="AspNetRoles" Relationship="ipawsTeamBModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+        </EntityType>
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -950,6 +1181,18 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <NavigationProperty Name="CategoryAssignment" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="Category" ToRole="CategoryAssignment" />
           <NavigationProperty Name="RequestedCategories" Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories" FromRole="Category" ToRole="RequestedCategory" />
           <NavigationProperty Name="Tasks" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Category" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Secret" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ApplicationType" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="RefreshTokenLifeTime" Type="Int32" Nullable="false" />
+          <Property Name="AllowedOrigin" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="CompletedMainStep">
           <Key>
@@ -1017,10 +1260,10 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           </Key>
           <Property Name="AssignedUser" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="AssignedSupervisor" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="IsUserLoggedIn" Type="Boolean" Nullable="false" />
           <Property Name="UsersIp" Type="String" Nullable="false" MaxLength="15" FixedLength="true" Unicode="false" />
           <NavigationProperty Name="CompletedMainSteps" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments" FromRole="MemberAssignment" ToRole="CompletedMainStep" />
           <NavigationProperty Name="CategoryAssignments" Relationship="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments" FromRole="MemberAssignment" ToRole="CategoryAssignment" />
-          <Property Name="IsUserLoggedIn" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Profile">
           <Key>
@@ -1029,6 +1272,29 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Picture" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RefreshToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Subject" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ClientId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IssuedUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiresUtc" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ProtectedTicket" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RequestedCategory">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="RequestingUser" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedBy" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories" FromRole="RequestedCategory" ToRole="Category" />
         </EntityType>
         <EntityType Name="Task">
           <Key>
@@ -1053,6 +1319,16 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="Connected" Type="Boolean" Nullable="false" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
+        <EntityType Name="UserTaskRequest">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="TaskDescription" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="DateCompleted" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="CategoryAssignment">
           <Key>
             <PropertyRef Name="CategoryID" />
@@ -1061,19 +1337,6 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="CategoryAssignment" ToRole="Category" />
           <NavigationProperty Name="MemberAssignment" Relationship="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments" FromRole="CategoryAssignment" ToRole="MemberAssignment" />
-        </EntityType>
-        <EntityType Name="RequestedCategory">
-          <Key>
-            <PropertyRef Name="CategoryID" />
-            <PropertyRef Name="IsApproved" />
-            <PropertyRef Name="RequestingUser" />
-          </Key>
-          <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
-          <Property Name="RequestingUser" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="CreatedBy" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories" FromRole="RequestedCategory" ToRole="Category" />
         </EntityType>
         <EntityType Name="RequestedTask">
           <Key>
@@ -1104,7 +1367,7 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <Property Name="TaskTime" Type="Double" Nullable="false" />
           <Property Name="DetailedStepsUsed" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="FK__aspnet_Me__Appli__0E6E26BF">
+        <Association Name="FK__aspnet_Me__Appli__07C12930">
           <End Type="ipawsTeamBModel.aspnet_Applications" Role="aspnet_Applications" Multiplicity="1" />
           <End Type="ipawsTeamBModel.aspnet_Membership" Role="aspnet_Membership" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1128,7 +1391,7 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Ro__Appli__0A9D95DB">
+        <Association Name="FK__aspnet_Ro__Appli__0E6E26BF">
           <End Type="ipawsTeamBModel.aspnet_Applications" Role="aspnet_Applications" Multiplicity="1" />
           <End Type="ipawsTeamBModel.aspnet_Roles" Role="aspnet_Roles" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1140,7 +1403,7 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Us__Appli__08B54D69">
+        <Association Name="FK__aspnet_Us__Appli__0F624AF8">
           <End Type="ipawsTeamBModel.aspnet_Applications" Role="aspnet_Applications" Multiplicity="1" />
           <End Type="ipawsTeamBModel.aspnet_Users" Role="aspnet_Users" Multiplicity="*" />
           <ReferentialConstraint>
@@ -1152,7 +1415,7 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__aspnet_Me__UserI__0F624AF8">
+        <Association Name="FK__aspnet_Me__UserI__08B54D69">
           <End Type="ipawsTeamBModel.aspnet_Users" Role="aspnet_Users" Multiplicity="1" />
           <End Type="ipawsTeamBModel.aspnet_Membership" Role="aspnet_Membership" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -1164,6 +1427,18 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__aspnet_Pe__PathI__0A9D95DB">
+          <End Type="ipawsTeamBModel.aspnet_Paths" Role="aspnet_Paths" Multiplicity="1" />
+          <End Type="ipawsTeamBModel.aspnet_PersonalizationAllUsers" Role="aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="aspnet_Paths">
+              <PropertyRef Name="PathId" />
+            </Principal>
+            <Dependent Role="aspnet_PersonalizationAllUsers">
+              <PropertyRef Name="PathId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__aspnet_Pe__PathI__0B91BA14">
           <End Type="ipawsTeamBModel.aspnet_Paths" Role="aspnet_Paths" Multiplicity="0..1" />
           <End Type="ipawsTeamBModel.aspnet_PersonalizationPerUser" Role="aspnet_PersonalizationPerUser" Multiplicity="*" />
@@ -1172,18 +1447,6 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
               <PropertyRef Name="PathId" />
             </Principal>
             <Dependent Role="aspnet_PersonalizationPerUser">
-              <PropertyRef Name="PathId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__aspnet_Pe__PathI__10566F31">
-          <End Type="ipawsTeamBModel.aspnet_Paths" Role="aspnet_Paths" Multiplicity="1" />
-          <End Type="ipawsTeamBModel.aspnet_PersonalizationAllUsers" Role="aspnet_PersonalizationAllUsers" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="aspnet_Paths">
-              <PropertyRef Name="PathId" />
-            </Principal>
-            <Dependent Role="aspnet_PersonalizationAllUsers">
               <PropertyRef Name="PathId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1208,6 +1471,34 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="aspnet_Profile">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="ipawsTeamBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ipawsTeamBModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="ipawsTeamBModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ipawsTeamBModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1334,22 +1625,26 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <End Type="ipawsTeamBModel.aspnet_Roles" Role="aspnet_Roles" Multiplicity="*" />
           <End Type="ipawsTeamBModel.aspnet_Users" Role="aspnet_Users" Multiplicity="*" />
         </Association>
-        <EntityType Name="UserTaskRequest">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="TaskName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="TaskDescription" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Type="DateTime" Name="DateCompleted" Nullable="false" Precision="3" />
-          <Property Type="String" Name="UserName" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-        </EntityType>
+        <Association Name="AspNetUserRoles">
+          <End Type="ipawsTeamBModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="ipawsTeamBModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ipawsTeamBModelStoreContainer" CdmEntityContainer="ipawsTeamBEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="aspnet_Applications">
             <EntityTypeMapping TypeName="ipawsTeamBModel.aspnet_Applications">
               <MappingFragment StoreEntitySet="aspnet_Applications">
@@ -1482,6 +1777,51 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="ipawsTeamBModel.Category">
               <MappingFragment StoreEntitySet="Categories">
@@ -1490,6 +1830,19 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="AllowedOrigin" ColumnName="AllowedOrigin" />
+                <ScalarProperty Name="RefreshTokenLifeTime" ColumnName="RefreshTokenLifeTime" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="ApplicationType" ColumnName="ApplicationType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Secret" ColumnName="Secret" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1553,8 +1906,8 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
           <EntitySetMapping Name="MemberAssignments">
             <EntityTypeMapping TypeName="ipawsTeamBModel.MemberAssignment">
               <MappingFragment StoreEntitySet="MemberAssignments">
-                <ScalarProperty Name="IsUserLoggedIn" ColumnName="IsUserLoggedIn" />
                 <ScalarProperty Name="UsersIp" ColumnName="UsersIp" />
+                <ScalarProperty Name="IsUserLoggedIn" ColumnName="IsUserLoggedIn" />
                 <ScalarProperty Name="AssignedSupervisor" ColumnName="AssignedSupervisor" />
                 <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
               </MappingFragment>
@@ -1566,6 +1919,30 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
                 <ScalarProperty Name="Picture" ColumnName="Picture" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RefreshTokens">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.RefreshToken">
+              <MappingFragment StoreEntitySet="RefreshTokens">
+                <ScalarProperty Name="ProtectedTicket" ColumnName="ProtectedTicket" />
+                <ScalarProperty Name="ExpiresUtc" ColumnName="ExpiresUtc" />
+                <ScalarProperty Name="IssuedUtc" ColumnName="IssuedUtc" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestedCategories">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.RequestedCategory">
+              <MappingFragment StoreEntitySet="RequestedCategories">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="RequestingUser" ColumnName="RequestingUser" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1591,22 +1968,22 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserTaskRequests">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.UserTaskRequest">
+              <MappingFragment StoreEntitySet="UserTaskRequest">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="DateCompleted" ColumnName="DateCompleted" />
+                <ScalarProperty Name="TaskDescription" ColumnName="TaskDescription" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CategoryAssignments">
             <EntityTypeMapping TypeName="ipawsTeamBModel.CategoryAssignment">
               <MappingFragment StoreEntitySet="CategoryAssignments">
                 <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
                 <ScalarProperty Name="AssignedUser" ColumnName="AssignedUser" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RequestedCategories">
-            <EntityTypeMapping TypeName="ipawsTeamBModel.RequestedCategory">
-              <MappingFragment StoreEntitySet="RequestedCategories">
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="RequestingUser" ColumnName="RequestingUser" />
-                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1641,17 +2018,14 @@ FROM [dbo].[TaskAssignments] AS [TaskAssignments]</DefiningQuery>
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="UserTaskRequests">
-            <EntityTypeMapping TypeName="ipawsTeamBModel.UserTaskRequest">
-              <MappingFragment StoreEntitySet="UserTaskRequest">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="DateCompleted" ColumnName="DateCompleted" />
-                <ScalarProperty Name="TaskDescription" ColumnName="TaskDescription" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="ipawsTeamBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -302,20 +302,6 @@
     <Content Include="Scripts\jquery.signalR-2.1.2.js" />
     <Content Include="Scripts\jquery.signalR-2.1.2.min.js" />
     <Content Include="Scripts\Manager.js" />
-    <Content Include="Scripts\plugins\dataTables\dataTables.bootstrap.js" />
-    <Content Include="Scripts\plugins\dataTables\jquery.dataTables.js" />
-    <Content Include="Scripts\plugins\flot\excanvas.min.js" />
-    <Content Include="Scripts\plugins\flot\flot-data.js" />
-    <Content Include="Scripts\plugins\flot\jquery.flot.js" />
-    <Content Include="Scripts\plugins\flot\jquery.flot.pie.js" />
-    <Content Include="Scripts\plugins\flot\jquery.flot.resize.js" />
-    <Content Include="Scripts\plugins\flot\jquery.flot.tooltip.min.js" />
-    <Content Include="Scripts\plugins\metisMenu\metisMenu.js" />
-    <Content Include="Scripts\plugins\metisMenu\metisMenu.min.js" />
-    <Content Include="Scripts\plugins\morris\morris-data.js" />
-    <Content Include="Scripts\plugins\morris\morris.js" />
-    <Content Include="Scripts\plugins\morris\morris.min.js" />
-    <Content Include="Scripts\plugins\morris\raphael.min.js" />
     <Content Include="Scripts\Preview\preview.js" />
     <Content Include="Scripts\sb-admin-2.js" />
     <Content Include="Scripts\scripts.js" />
@@ -597,6 +583,18 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\AspNetRole.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUser.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserClaim.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AspNetUserLogin.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\aspnet_Applications.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
@@ -633,10 +631,16 @@
     <Compile Include="Models\CategoryAssignment.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Client.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CompletedMainStep.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CompletedTask.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailedStep.cs">
@@ -664,6 +668,9 @@
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Profile.cs">
+      <DependentUpon>iPaws.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RefreshToken.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RequestedCategory.cs">
