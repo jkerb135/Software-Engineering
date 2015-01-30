@@ -113,6 +113,13 @@ namespace SE
                 case "Add New Category":
                     if (EditCategoryName.Text != String.Empty)
                     {
+                        taskList.Items.Clear();
+                        taskList.Attributes.Add("disabled","disabled");
+                        mainStep.Items.Clear();
+                        mainStep.Attributes.Add("disabled", "disabled");
+                        detailedStep.Items.Clear();
+                        detailedStep.Attributes.Add("disabled", "disabled");
+
                         _cat.CategoryName = EditCategoryName.Text;
                         _cat.CategoryAssignments = (from l in UsersInCategory.Items.Cast<ListItem>() select l.Value).ToList();
 
@@ -162,7 +169,6 @@ namespace SE
                     header.Text = "Management Panel";
                     break;
             }
-            if (catList.Items.Count > 1) { catList.SelectedIndex = CatIdx; }
         }
         /// <summary>
         /// 
@@ -178,6 +184,11 @@ namespace SE
                 case "Add New Task":
                     if (EditTaskName.Text != String.Empty)
                     {
+                        mainStep.Items.Clear();
+                        mainStep.Attributes.Add("disabled", "disabled");
+                        detailedStep.Items.Clear();
+                        detailedStep.Attributes.Add("disabled", "disabled");
+
                         _task.TaskName = EditTaskName.Text;
 
                         _task.TaskAssignments = (from l in UsersAssignedToTask.Items.Cast<ListItem>() select l.Value).ToList();
@@ -230,7 +241,6 @@ namespace SE
                     break;
             }
             header.Text = "Management Panel";
-            if (taskList.Items.Count > 1) { taskList.SelectedIndex = TaskIdx; }
         }
         /// <summary>
         /// 
@@ -247,6 +257,9 @@ namespace SE
 
             if (MainStepName.Text != String.Empty)
             {
+                detailedStep.Items.Clear();
+                detailedStep.Attributes.Add("disabled", "disabled");
+
                 _mainStep.MainStepName = MainStepName.Text;
                 _mainStep.MainStepText =
                     !String.IsNullOrEmpty(MainStepText.Text) ? MainStepText.Text : null;
@@ -323,7 +336,6 @@ namespace SE
                     }
                 }
             }
-            if (mainStep.Items.Count > 1) { mainStep.SelectedIndex = MainIdx; }
         }
         /// <summary>
         /// 
@@ -400,7 +412,6 @@ namespace SE
                     }
                 }
             }
-            if (detailedStep.Items.Count > 1) { detailedStep.SelectedIndex = DeatIdx; }
         }
         /// <summary>
         /// 
@@ -865,7 +876,7 @@ namespace SE
 
                 if (taskList.Items.Count == 0)
                 {
-                    var li = new ListItem {Text = "No Tasks in " + catList.SelectedItem.Text};
+                    var li = new ListItem { Text = "No Tasks in " + catList.SelectedItem.Text };
                     li.Attributes.Add("disabled", "disabled");
                     taskList.Items.Add(li);
                     taskFilter.Enabled = false;
@@ -1087,13 +1098,9 @@ namespace SE
             }
 
             if (mainStep.Items.Count != 0) return;
-            var li = new ListItem {Text = "No Main Steps in " + taskList.SelectedItem.Text};
+            var li = new ListItem { Text = "No Main Steps in " + taskList.SelectedItem.Text };
             mainStep.Items.Add(li);
             mainFilter.Enabled = false;
-            if (detailedStep.Items[0].Text == "No Detailed Steps in " + mainStep.SelectedItem.Text.Substring(mainStep.SelectedItem.Text.IndexOf(':') + 1))
-            {
-                detailedStep.Items[0].Attributes.Add("disabled", "disabled");
-            }
         }
 
         private void RefreshDetailedSteps()
