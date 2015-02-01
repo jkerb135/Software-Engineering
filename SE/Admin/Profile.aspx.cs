@@ -8,11 +8,13 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.Services;
+using SE.Models;
 using Category = SE.Classes.Category;
 using Task = SE.Classes.Task;
 
 namespace SE.Admin
 {
+
     public partial class Profile : Page
     {
         public static int CategoryId, TaskId;
@@ -20,7 +22,7 @@ namespace SE.Admin
         public static bool PendingRequest = false;
         private readonly string _user = Membership.GetUser().UserName;
         private readonly string _otherUser = HttpContext.Current.Request.QueryString["userName"];
-
+        static readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!String.Equals(_otherUser, _user, StringComparison.CurrentCultureIgnoreCase))
@@ -33,6 +35,7 @@ namespace SE.Admin
             {
                 YourInfo.Visible = true;
                 OtherInfo.Visible = false;
+                QueryCatRequestStatus();
             }
             if (IsPostBack) return;
             Label1.Text = " Categories";
@@ -548,47 +551,25 @@ namespace SE.Admin
                     error.CssClass = "text-danger";
                 }
                 con.Close();
-                QueryCatRequestStatus();
             }
             profile.Update();
             ScriptManager.RegisterStartupScript(this, GetType(), "script", "sendRequest()", true);
+            QueryCatRequestStatus();
         }
 
         public void QueryCatRequestStatus()
         {
-            const string queryString =
-                "Select IsApproved,CategoryID From RequestedCategories Where RequestingUser=@user";
-            using (var con = new SqlConnection(Methods.GetConnectionString()))
-            {
-                var cmd = new SqlCommand(queryString, con);
-                cmd.Parameters.AddWithValue("@user", _user);
-                con.Open();
-                var dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    foreach (GridViewRow row in RequestCatGrid.Rows)
-                    {
-                        var approved = Convert.ToBoolean(dr["IsApproved"]);
-                        var request = (Button)row.FindControl("RequestCat");
-                        if (approved &&
-                            Convert.ToInt32(dr["CategoryID"]) ==
-                            Category.GetCategoryIdBySupervisor(row.Cells[0].Text, _otherUser))
-                        {
-                            request.Text = "Approved";
-                            request.CssClass = "btn btn-success form-control";
-                            request.Enabled = false;
-                        }
-                        else if (!approved &&
-                                 Convert.ToInt32(dr["CategoryID"]) == Category.GetCategoryId(row.Cells[0].Text))
-                        {
-                            request.Text = "Pending";
-                            request.CssClass = "btn btn-warning form-control";
-                            request.Enabled = false;
-                        }
-                    }
-                }
+            var catStatus = _db.RequestedCategories.Where(x => x.RequestingUser == _user);
 
-                con.Close();
+            foreach (var status in catStatus)
+            {
+                foreach (var request in from GridViewRow row in RequestCatGrid.Rows let approved = Convert.ToBoolean(status.IsApproved) let request = (Button)row.FindControl("RequestCat") where !approved &&
+                                                                                                                                                                                                  Convert.ToInt32(status.CategoryID) ==                                                                                                                                                                        Category.GetCategoryIdBySupervisor(row.Cells[0].Text, _otherUser) select request)
+                {
+                    request.Text = "Pending";
+                    request.CssClass = "btn btn-warning form-control";
+                    request.Enabled = false;
+                }
             }
         }
 

@@ -21,17 +21,25 @@ function evaluateRequests(eval, username, type) {
     contact.server.getCategoryNotifications(localStorage.getItem("currUser"));
 }
 
-ipawsApp.controller('masterController', function ($scope) {
+ipawsApp.controller('masterController', function($scope) {
     $scope.categories = [];
     $scope.tasks = [];
 
 
-    $.connection.hub.start().done(function () {
+    $.connection.hub.start().done(function() {
         contact.server.getCategoryNotifications(localStorage.getItem("currUser"));
         contact.server.getTaskRequests(localStorage.getItem("currUser"));
     });
 
-    contact.client.recieve = function (message,type) {
+    contact.client.taskRequest = function (message) {
+        console.log('task request');
+        toastr.options.closeButton = true;
+        toastr['info'](message);
+        contact.server.getTaskRequests(localStorage.getItem("currUser"));
+    };
+
+    contact.client.recieve = function (message, type) {
+        console.log('here');
         toastr.options.closeButton = true;
         toastr[type](message);
     };
@@ -61,9 +69,6 @@ ipawsApp.controller('masterController', function ($scope) {
             messageCount.style.color = "yellow";
             tsk.style.color = "yellow";
             crt.style.color = "yellow";
-
-            $(tsk).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-            $(crt).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
 
             messageCount.innerHTML = i + 1;
 
@@ -102,9 +107,6 @@ ipawsApp.controller('masterController', function ($scope) {
             messageCount.style.color = "yellow";
             tsk.style.color = "yellow";
             crt.style.color = "yellow";
-
-            $(tsk).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
-            $(crt).fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
 
             messageCount.innerHTML = i + 1;
 

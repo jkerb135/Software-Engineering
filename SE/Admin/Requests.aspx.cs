@@ -79,7 +79,7 @@ namespace SE.Admin
             else if (e.CommandName == "RejectRequest")
             {
                 var delete =
-                    _db.RequestedCategories.Select(x => x).FirstOrDefault(x => x.RequestingUser == requestingUser && x.CategoryID == Convert.ToInt32(categoryId));
+                    _db.RequestedCategories.Select(x => x).FirstOrDefault(x => x.CategoryID == catId && x.RequestingUser == requestingUser);
 
 
                 _db.RequestedCategories.Remove(delete);

@@ -29,8 +29,9 @@ using Microsoft.Ajax.Utilities;
 
 namespace SE.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+
     [ValidateModelState]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UserController : ApiController
     {
         public new class User
@@ -98,6 +99,7 @@ namespace SE.Controllers
             public DateTime DateTimeComplete { get; set; }
             public double TotalTime { get; set; }
         }
+
         /// <summary>
         /// Gets all users in the database
         /// </summary>

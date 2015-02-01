@@ -12,10 +12,11 @@ using System;
 using Microsoft.AspNet.SignalR;
 using SE.Models;
 using System.Linq;
+using System.Web.Http.Cors;
 
 namespace SE.Hubs
 {
-    
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
      public class UserActivityHub : Hub
     {
          readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
@@ -92,6 +93,13 @@ namespace SE.Hubs
                      });
              if (taskRequests == null) throw new ArgumentNullException("userName");
              if (toUser != null) Clients.Client(toUser.ConnectionID).yourTaskRequests(taskRequests.ToArray());
+        }
+
+        public void SendTaskRequest(string user, string message)
+        {
+            var supervisor = _db.MemberAssignments.FirstOrDefault(x => x.AssignedUser == user);
+            var toUser = _db.Users.FirstOrDefault(find => find.UserName == supervisor.AssignedSupervisor.ToLower());
+            if (toUser != null) Clients.Client(toUser.ConnectionID).taskRequest(message);
         }
 
          public void SendMessage(string userName,string message,string type)
