@@ -734,7 +734,6 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
           <EntitySet Name="RequestedCategories" EntityType="ipawsTeamBModel.RequestedCategory" />
           <EntitySet Name="TaskAssignments" EntityType="ipawsTeamBModel.TaskAssignment" />
           <EntitySet Name="Tasks" EntityType="ipawsTeamBModel.Task" />
-          <EntitySet Name="Users" EntityType="ipawsTeamBModel.User" />
           <EntitySet Name="UserTaskRequests" EntityType="ipawsTeamBModel.UserTaskRequest" />
           <EntitySet Name="CategoryAssignments" EntityType="ipawsTeamBModel.CategoryAssignment" />
           <EntitySet Name="RequestedTasks" EntityType="ipawsTeamBModel.RequestedTask" />
@@ -818,6 +817,7 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
             <End Role="aspnet_Roles" EntitySet="aspnet_Roles" />
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
+          <EntitySet Name="Users" EntityType="ipawsTeamBModel.User" />
         </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -1116,15 +1116,6 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
           <NavigationProperty Name="Tasks1" Relationship="ipawsTeamBModel.FK_Tasks_Tasks" FromRole="Task" ToRole="Task1" />
           <NavigationProperty Name="Task1" Relationship="ipawsTeamBModel.FK_Tasks_Tasks" FromRole="Task1" ToRole="Task" />
         </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserName" />
-          </Key>
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="ConnectionID" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="Connected" Type="Boolean" Nullable="false" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-        </EntityType>
         <EntityType Name="UserTaskRequest">
           <Key>
             <PropertyRef Name="ID" />
@@ -1402,6 +1393,15 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
           <End Type="ipawsTeamBModel.aspnet_Roles" Role="aspnet_Roles" Multiplicity="*" />
           <End Type="ipawsTeamBModel.aspnet_Users" Role="aspnet_Users" Multiplicity="*" />
         </Association>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserName" />
+          </Key>
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="ConnectionID" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Connected" Type="Boolean" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1688,16 +1688,6 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="ipawsTeamBModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Connected" ColumnName="Connected" />
-                <ScalarProperty Name="ConnectionID" ColumnName="ConnectionID" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserTaskRequests">
             <EntityTypeMapping TypeName="ipawsTeamBModel.UserTaskRequest">
               <MappingFragment StoreEntitySet="UserTaskRequest">
@@ -1737,6 +1727,16 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
               <ScalarProperty Name="RoleId" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Connected" ColumnName="Connected" />
+                <ScalarProperty Name="ConnectionID" ColumnName="ConnectionID" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

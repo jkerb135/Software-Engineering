@@ -199,12 +199,9 @@
             </nav>
 
             <!-- Page Content -->
-
-
             <div id="page-wrapper">
                 <asp:ContentPlaceHolder ID="SiteBody" runat="server"></asp:ContentPlaceHolder>
             </div>
-
             <!-- /#page-wrapper -->
         </div>
         <!-- /#wrapper -->
@@ -214,6 +211,7 @@
             <asp:FileUpload ID="ProfileUpload" accept="Image/*" runat="server" />
             <asp:Button ID="UploadFile" runat="server" Text="Button" OnClick="UploadFile_Click" />
         </div>
+
     </form>
 </body>
 <script src="<%=ResolveUrl("~/Scripts/MasterController.js") %>"></script>

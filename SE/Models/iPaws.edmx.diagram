@@ -27,7 +27,6 @@
         <EntityTypeShape EntityType="ipawsTeamBModel.RequestedCategory" Width="1.5" PointX="3" PointY="11.625" />
         <EntityTypeShape EntityType="ipawsTeamBModel.TaskAssignment" Width="1.5" PointX="0.75" PointY="14.75" />
         <EntityTypeShape EntityType="ipawsTeamBModel.Task" Width="1.5" PointX="3" PointY="4.875" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.User" Width="1.5" PointX="13.75" PointY="3.75" />
         <EntityTypeShape EntityType="ipawsTeamBModel.UserTaskRequest" Width="1.5" PointX="2.75" PointY="14.75" />
         <EntityTypeShape EntityType="ipawsTeamBModel.CategoryAssignment" Width="1.5" PointX="3" PointY="2.125" />
         <EntityTypeShape EntityType="ipawsTeamBModel.RequestedTask" Width="1.5" PointX="15.75" PointY="0.75" />
@@ -51,6 +50,7 @@
         <AssociationConnector Association="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments" />
         <AssociationConnector Association="ipawsTeamBModel.FK_Tasks_Tasks" />
         <AssociationConnector Association="ipawsTeamBModel.aspnet_UsersInRoles" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.User" Width="1.5" PointX="14.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

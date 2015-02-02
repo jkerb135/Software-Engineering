@@ -190,9 +190,9 @@
                        
                                 </div>
                                 <div class="panel-body">
-                                    <asp:GridView ID="activeUserList" DataSourceID="SqlDataSource1" EmptyDataText="No Users Logged In" CssClass="table table-bordered table-striped" runat="server" AutoGenerateColumns="False" ShowHeader="False" GridLines="None">
+                                    <asp:GridView ID="activeUserList" EmptyDataText="No Users Logged In" CssClass="table table-bordered table-striped" runat="server" AutoGenerateColumns="False" ShowHeader="False" GridLines="None">
                                         <Columns>
-                                            <asp:BoundField DataField="AssignedUser" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundField>
+                                            <asp:BoundField DataField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundField>
                                         </Columns>
                                     </asp:GridView>
                                     

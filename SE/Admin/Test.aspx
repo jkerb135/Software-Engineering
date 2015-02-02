@@ -12,29 +12,28 @@
     <link rel="stylesheet" href="/StyleSheets/JQueryUI/themes/base/jquery.ui.all.css">
 
     <!-- Signal R Client -->
-    <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.1.2.js") %>"></script>
+    <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.2..js") %>"></script>
     <script src="<%=ResolveUrl("~/signalr/hubs") %>"></script>
     <script>
         $(function () {
             var contact = $.connection.userActivityHub;
-            $.connection.hub.start().done(function () {
-                $('#Button1').click(function () {
-                    contact.server.sendMessage('Dave Mackey',"hello");
-                });
-            });
-
+            $.connection.hub.start().done();
+ 
             contact.client.recieve = function (message) {
                 alert(message);
             }
         });
-
+        function sendMessage() {
+            alert('here');
+            contact.server.sendMessage('Dave Mackey', "hello", "Hello");
+        }
     </script>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
         Hello <%=Membership.GetUser().UserName%>
-        <input id="Button1" type="button" value="button" />
+        <input id="Button1" type="button" value="button" onclick="sendMessage()"/>
 
     </div>
     </form>

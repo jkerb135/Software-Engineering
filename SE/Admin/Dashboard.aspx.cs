@@ -1,11 +1,13 @@
 using System;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using SE.Classes;
+using SE.Models;
 
 namespace SE.Admin
 {
@@ -13,6 +15,7 @@ namespace SE.Admin
     {
         private static Label _lbl;
         private readonly MembershipUser _membershipUser = Membership.GetUser();
+        private readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
 
         private enum DashView
         {
@@ -44,6 +47,7 @@ namespace SE.Admin
                 DashboardView.ActiveViewIndex = (int)DashView.Supervisor;
                 GetRecentUsers();
                 GetActiveSupervisor();
+                GetActiveUsers();
             }
             else
             {
@@ -60,6 +64,20 @@ namespace SE.Admin
             _membershipUser.Comment = "Verified";
             Membership.UpdateUser(_membershipUser);
         }
+
+        protected void GetActiveUsers()
+        {
+            var users = (_db.Users.Join(_db.MemberAssignments, user => user.UserName, memb => memb.AssignedUser,
+                (user, memb) => new {user, memb})
+                .Where(@t => @t.memb.AssignedSupervisor == _membershipUser.UserName && @t.user.Connected)
+                .Select(@t => new
+                {
+                    @t.user.UserName
+                })).ToList();
+            activeUserList.DataSource = users;
+            activeUserList.DataBind();
+        }
+
         protected void GetRecentUsers()
         {
             newMembers.DataSource = Member.CustomRecentlyAssigned();
@@ -76,7 +94,7 @@ namespace SE.Admin
             signededIn.HeaderRow.TableSection = TableRowSection.TableHeader;
 
         }
-
+        
         private void BindUserAccounts()
         {
             GridView1.DataSource = Session["DataSource"];

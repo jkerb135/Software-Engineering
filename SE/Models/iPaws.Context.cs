@@ -47,9 +47,9 @@ namespace SE.Models
         public DbSet<RequestedCategory> RequestedCategories { get; set; }
         public DbSet<TaskAssignment> TaskAssignments { get; set; }
         public DbSet<Task> Tasks { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<UserTaskRequest> UserTaskRequests { get; set; }
         public DbSet<CategoryAssignment> CategoryAssignments { get; set; }
         public DbSet<RequestedTask> RequestedTasks { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

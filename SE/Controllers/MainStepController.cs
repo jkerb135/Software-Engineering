@@ -8,11 +8,12 @@ Assignment # 	: Team B - iPAWS
 Filename		: MainStepController.cs
 Purpose			: This is the main class file for the WebAPI that pertains to mainsteps. It handles GET request for all mainsteps and all mainsteps by task id.
 */
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
-using SE.Models;
 using System.Web.Http.Cors;
+using SE.Models;
 
 namespace SE.Controllers
 {
@@ -26,7 +27,8 @@ namespace SE.Controllers
         public string AudioPath { get; set; }
         public string VideoPath { get; set; }
     }
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+
+    [EnableCors("*", "*", "*")]
     public class MainStepController : ApiController
     {
         readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();

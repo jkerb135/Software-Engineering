@@ -45,16 +45,21 @@ ipawsApp.controller('masterController', function($scope) {
     });
 
     contact.client.taskRequest = function (message) {
-        console.log('task request');
+        console.log(message);
         toastr.options.closeButton = true;
         toastr['info'](message);
         contact.server.getTaskRequests(localStorage.getItem("currUser"));
     };
 
     contact.client.recieve = function (message, type) {
-        console.log('here');
         toastr.options.closeButton = true;
         toastr[type](message);
+    };
+
+    contact.client.refresh = function (data, message) {
+        console.log(data);
+        toastr.options.closeButton = true;
+        toastr["success"](message);
     };
 
     contact.client.yourTaskRequests = function (tasks) {
