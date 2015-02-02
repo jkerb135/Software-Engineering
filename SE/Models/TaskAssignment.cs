@@ -19,5 +19,6 @@ namespace SE.Models
         public string AssignedUser { get; set; }
         public double TaskTime { get; set; }
         public int DetailedStepsUsed { get; set; }
+        public int id { get; set; }
     }
 }

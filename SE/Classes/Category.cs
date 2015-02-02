@@ -302,7 +302,6 @@ namespace SE.Classes
             var categories = assignedCategories.Tables.Add("Users");
             categories.Columns.Add("Category Name");
             categories.Columns.Add("Activity");
-            //categories.Columns.Add("Created Date");
             categories.Columns.Add("Users In Category");
             categories.Columns.Add("Assign Users");
 
@@ -324,8 +323,6 @@ namespace SE.Classes
                 {
                     var row = categories.NewRow();
                     row["Category Name"] = dr["CategoryName"].ToString();
-                    //row["IsActive"] = dr["CategoryName"].ToString();
-                    //row["Created Date"] = dr["CreatedTime"].ToString();
                     var membershipUser = Membership.GetUser();
                     if (membershipUser != null)
                         foreach (var item in Member.UsersAssignedToSupervisorAssignedToCategory(membershipUser.ToString(), Convert.ToInt32(dr["CategoryId"])))

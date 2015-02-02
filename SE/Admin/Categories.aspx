@@ -6,7 +6,7 @@
             console.log('clicked');
             var taskId = $(".taskValue").val();
             //var url = "http://localhost:6288/PreviewTask.aspx?taskId=" + taskId;
-            var url = "http://ipawsteamb.csweb.kutztown.edu/PreviewTask.aspx?taskId=" + taskId;
+            var url = "http://acad.kutztown.edu/~jkerb135/FrontEnd/?taskId=" + taskId + "#dotask";
             window.open(url);
         }
     </script>

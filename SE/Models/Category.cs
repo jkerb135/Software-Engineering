@@ -7,8 +7,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using SE.Controllers;
-
 namespace SE.Models
 {
     using System;
@@ -30,6 +28,6 @@ namespace SE.Models
     
         public virtual CategoryAssignment CategoryAssignment { get; set; }
         public virtual ICollection<RequestedCategory> RequestedCategories { get; set; }
-        public virtual HashSet<Task> Tasks { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
     }
 }

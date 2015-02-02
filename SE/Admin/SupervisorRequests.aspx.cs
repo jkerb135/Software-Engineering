@@ -26,10 +26,15 @@ namespace SE.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
             if (IsPostBack) return;
-            if (_membershipUser != null)
-                RequestSource.SelectCommand =
-                    "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
-                    _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
+            if (_membershipUser == null) return;
+            Session["DataSource"] = Member.GetSupervisorRequests(_membershipUser.UserName);
+            BindRequests();
+        }
+
+        private void BindRequests()
+        {
+            requests.DataSource = Session["DataSource"];
+            requests.DataBind();
         }
 
         /// <summary>
@@ -41,15 +46,16 @@ namespace SE.Admin
         protected void users_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             requestUpdatePanel.Update();
-            var args = e.CommandArgument.ToString().Split(';');
-            var categoryId = args[0];
-            if (categoryId == null) throw new ArgumentNullException("sender");
-            var requestingUser = args[1];
-            if (requestingUser == null) throw new ArgumentNullException("sender");
-            string queryString, queryString2, catName = "";
-            var catId = Convert.ToInt32(categoryId);
             if (e.CommandName == "AcceptRequest")
             {
+                var args = e.CommandArgument.ToString().Split(';');
+                var categoryId = args[0];
+                if (categoryId == null) throw new ArgumentNullException("sender");
+                var requestingUser = args[1];
+                if (requestingUser == null) throw new ArgumentNullException("sender");
+                var catName = "";
+                var catId = Convert.ToInt32(categoryId);
+
                 var update =
                     _db.RequestedCategories.Select(x => x).FirstOrDefault(x => x.RequestingUser == requestingUser && x.CategoryID == catId);
 
@@ -78,23 +84,31 @@ namespace SE.Admin
             }
             else if (e.CommandName == "RejectRequest")
             {
+                var args = e.CommandArgument.ToString().Split(';');
+                var categoryId = args[0];
+                if (categoryId == null) throw new ArgumentNullException("sender");
+                var requestingUser = args[1];
+                if (requestingUser == null) throw new ArgumentNullException("sender");
+
+
+                var catId = Convert.ToInt32(categoryId);
+
                 var delete =
                     _db.RequestedCategories.Select(x => x).FirstOrDefault(x => x.CategoryID == catId && x.RequestingUser == requestingUser);
+                if (delete != null)
+                {
+                    var catName = delete.Category.CategoryName;
 
+                    _db.RequestedCategories.Remove(delete);
+                    _db.SaveChanges();
 
-                _db.RequestedCategories.Remove(delete);
-                _db.SaveChanges();
-
-                var message = _membershipUser + " has rejected your request for " + catName;
-                ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
-                    String.Format("evaluateRequests('{0}'{1}'{2}'{3}'{4}');", message, ",", requestingUser, ",", "error"), true);
-
+                    var message = _membershipUser + " has rejected your request for " + catName;
+                    ScriptManager.RegisterStartupScript(this, typeof(string), "Registering",
+                        String.Format("evaluateRequests('{0}'{1}'{2}'{3}'{4}');", message, ",", requestingUser, ",", "error"), true);
+                }
             }
-            RequestSource.SelectCommand =
-                    "Select b.CategoryID,b.CategoryName,a.RequestingUser, a.Date From RequestedCategories a inner join Categories b on a.CategoryID = b.CategoryID Where a.CreatedBy = '" +
-                    _membershipUser.UserName + "' and a.IsApproved = '" + false + "'";
-            requests.DataBind();
-
+            Session["DataSource"] = Member.GetSupervisorRequests(_membershipUser.UserName);
+            BindRequests();
         }
 
         /// <summary>
@@ -125,6 +139,13 @@ namespace SE.Admin
             lblModalBody.Text =
                 "This page provides two simple tables which show both Category and Task Requests respectively. You can view the Name, Requesting User, and Date for each request that you have.";
             ScriptManager.RegisterStartupScript(Page, Page.GetType(), "myModal", "$('#myModal').modal();", true);
+        }
+
+        protected void requests_OnPageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            requests.EditIndex = -1;
+            requests.PageIndex = e.NewPageIndex;
+            BindRequests();
         }
     }
 }

@@ -3,7 +3,6 @@ var contact = $.connection.userActivityHub;
 
 
 function showNotification(message, type) {
-    console.log(message, type);
     toastr.options.closeButton = true;
     toastr[type](message);
 }
@@ -15,11 +14,25 @@ function sendRequest() {
     contact.server.sendMessage(urlParams["userName"], localStorage.getItem("currUser") + " has requested to use a category of yours.","info");
 }
 
+function sendRequest2(userName) {
+    toastr.options.closeButton = true;
+    toastr.success("Your request has been sent");
+    contact.server.getCategoryNotifications(userName);
+    contact.server.sendMessage(userName, localStorage.getItem("currUser") + " has requested to use a category of yours.", "info");
+}
+
 function evaluateRequests(eval, username, type) {
-    alert('this is the type: ' + type)
     contact.server.sendMessage(username, localStorage.getItem("currUser") + eval, type);
     contact.server.getCategoryNotifications(localStorage.getItem("currUser"));
 }
+
+function submitUserRequest(message) {
+    toastr.options.closeButton = true;
+    toastr["success"](message);
+    contact.server.getTaskRequests(localStorage.getItem("currUser"));
+    $('#taskRequestModal').modal('hide');
+}
+
 
 ipawsApp.controller('masterController', function($scope) {
     $scope.categories = [];
@@ -46,14 +59,16 @@ ipawsApp.controller('masterController', function($scope) {
 
     contact.client.yourTaskRequests = function (tasks) {
         $scope.tasks = [];
-        var messageCount = document.getElementById("messageCount2");
+        var messageCount = document.getElementsByClassName("messageCount2");
 
         if (tasks.length === 0) {
             document.getElementById("tasks").style.color = "#428bca";
             document.getElementById("tsk_down").style.color = "#428bca";
-            document.getElementById("messageCount2").style.color = "#428bca";
 
-            messageCount.innerHTML = 0;
+            for (var h = 0; length = messageCount.length, h < length; h++) {
+                messageCount[h].innerHTML = 0;
+                messageCount[h].style.color = "#428bca";
+            }
 
             $scope.tasks.push({
                 "url": "#",
@@ -66,14 +81,18 @@ ipawsApp.controller('masterController', function($scope) {
             var tsk = document.getElementById("tasks");
             var crt = document.getElementById("tsk_down");
 
-            messageCount.style.color = "yellow";
+
             tsk.style.color = "yellow";
             crt.style.color = "yellow";
 
-            messageCount.innerHTML = i + 1;
+            for (var j = 0; count = messageCount.length, j < count; j++) {
+                messageCount[j].style.color = "yellow";
+                messageCount[j].innerHTML = i + 1;
+            }
+
 
             $scope.tasks.push({
-                "url": '/Admin/Requests.aspx',
+                "url": '/Admin/UserRequests.aspx',
                 "user": tasks[i].UserName,
                 "date": tasks[i].DateCompleted.substr(0, tasks[i].DateCompleted.lastIndexOf("T")),
                 "message": "Has requested for you to create a task named " + tasks[i].TaskName + "."
@@ -84,12 +103,16 @@ ipawsApp.controller('masterController', function($scope) {
 
     contact.client.yourCategoryRequests = function (categories) {
         $scope.categories = [];
-        var messageCount = document.getElementById("messageCount");
+        var messageCount = document.getElementsByClassName("messageCount");
         console.log(categories);
         if (categories.length === 0) {
             document.getElementById("envelope").style.color = "#428bca";
             document.getElementById("msg_down").style.color = "#428bca";
-            document.getElementById("messageCount").style.color = "#428bca";
+
+            for (var h = 0; length = messageCount.length, h < length; h++) {
+                messageCount[h].innerHTML = 0;
+                messageCount[h].style.color = "#428bca";
+            }
 
             messageCount.innerHTML = 0;
 
@@ -103,15 +126,17 @@ ipawsApp.controller('masterController', function($scope) {
         for (var i = 0; len = categories.length, i < len; i++) {
             var tsk = document.getElementById("envelope");
             var crt = document.getElementById("msg_down");
-
-            messageCount.style.color = "yellow";
             tsk.style.color = "yellow";
             crt.style.color = "yellow";
 
-            messageCount.innerHTML = i + 1;
+            for (var j = 0; count = messageCount.length, j < count; j++) {
+                messageCount[j].style.color = "yellow";
+                messageCount[j].innerHTML = i + 1;
+            }
+
 
             $scope.categories.push({
-                "url": '/Admin/Requests.aspx',
+                "url": '/Admin/SupervisorRequests.aspx',
                 "user": categories[i].Requester,
                 "date": categories[i].Date.substr(0, categories[i].Date.lastIndexOf("T")),
                 "message": "Has requested permission to use " + categories[i].CategoryName + "and all of the tasks under that category"

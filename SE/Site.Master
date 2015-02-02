@@ -87,7 +87,7 @@
                 <!-- /.navbar-header -->
                 <ul class="nav navbar-top-links navbar-right">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="messageCount"></span>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="messageCount"></span>
                             <i class="fa fa-envelope fa-fw" id="envelope"></i><i class="fa fa-caret-down" id="msg_down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-messages" style="max-height: 450px; overflow-y: scroll;">
@@ -107,7 +107,7 @@
                     </li>
                     <!-- /.dropdown -->
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span id="messageCount2"></span>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="messageCount2"></span>
                             <i class="fa fa-tasks fa-fw" id="tasks"></i><i class="fa fa-caret-down" id="tsk_down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-tasks" style="max-height: 450px; overflow-y: scroll;">
@@ -151,7 +151,7 @@
                                 </div>
                                 <!-- /input-group -->
                             </li>
-                            <li style="margin: 20px 0px 0px 10px" id="ProfilePic" runat="server">
+                            <li style="margin: 20px 0 0 10px" id="ProfilePic" runat="server">
                                 <asp:Image ID="ProfilePicture" runat="server" Style="height: 200px; width: 225px" />
                             </li>
                             <li style="margin-top: 20px" runat="server" id="SupervisorHome">
@@ -161,16 +161,22 @@
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Account Management</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Requests <span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-bars fa-fw"></i>Requests<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li id="Li3" runat="server">
-                                        <a href="<%=ResolveUrl("~/Admin/Requests.aspx") %>"><i class="fa fa-user fa-fw"></i>Make A Request</a>
+                                        <a href="<%=ResolveUrl("~/Admin/MakeARequest.aspx") %>"><i class="fa fa-envelope fa-fw"></i>Make A Request</a>
                                     </li>
                                     <li id="RequestsMenu" runat="server">
-                                        <a href="<%=ResolveUrl("~/Admin/Requests.aspx") %>"><i class="fa fa-user fa-fw"></i>Supervisor Requests</a>
+                                        <a href="<%=ResolveUrl("~/Admin/SupervisorRequests.aspx") %>">
+                                            <i class="fa fa-users fa-fw"></i>Supervisor Requests
+                                              <i style="float:right" class="messageCount">0</i>
+                                        </a>
                                     </li>
                                     <li id="Li2" runat="server">
-                                        <a href="<%=ResolveUrl("~/Admin/UserRequests.aspx") %>"><i class="fa fa-user fa-fw"></i>User Requests</a>
+                                        <a href="<%=ResolveUrl("~/Admin/UserRequests.aspx") %>">
+                                            <i class="fa fa-user fa-fw"></i>User Requests
+                                              <i style="float:right" class="messageCount2">0</i>
+                                        </a>
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->

@@ -216,11 +216,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Admin\Categories.aspx" />
+    <Content Include="Admin\MakeARequest.aspx" />
     <Content Include="Admin\PreviewReport.aspx" />
     <Content Include="Admin\Profile.aspx" />
     <Content Include="Admin\Reports.aspx" />
-    <Content Include="Admin\Requests.aspx" />
+    <Content Include="Admin\SupervisorRequests.aspx" />
     <Content Include="Admin\Test.aspx" />
+    <Content Include="Admin\UserRequests.aspx" />
     <Content Include="App_Data\XmlDocument.xml" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\toastr.css" />
@@ -506,6 +508,13 @@
     <Compile Include="Admin\Categories.aspx.designer.cs">
       <DependentUpon>Categories.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\MakeARequest.aspx.cs">
+      <DependentUpon>MakeARequest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\MakeARequest.aspx.designer.cs">
+      <DependentUpon>MakeARequest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\PreviewReport.aspx.cs">
       <DependentUpon>PreviewReport.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -527,12 +536,12 @@
     <Compile Include="Admin\Reports.aspx.designer.cs">
       <DependentUpon>Reports.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Admin\Requests.aspx.cs">
-      <DependentUpon>Requests.aspx</DependentUpon>
+    <Compile Include="Admin\SupervisorRequests.aspx.cs">
+      <DependentUpon>SupervisorRequests.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Admin\Requests.aspx.designer.cs">
-      <DependentUpon>Requests.aspx</DependentUpon>
+    <Compile Include="Admin\SupervisorRequests.aspx.designer.cs">
+      <DependentUpon>SupervisorRequests.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\RouteEventArgs.cs" />
     <Compile Include="Admin\Test.aspx.cs">
@@ -541,6 +550,13 @@
     </Compile>
     <Compile Include="Admin\Test.aspx.designer.cs">
       <DependentUpon>Test.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\UserRequests.aspx.cs">
+      <DependentUpon>UserRequests.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\UserRequests.aspx.designer.cs">
+      <DependentUpon>UserRequests.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -579,7 +595,7 @@
     <Compile Include="Classes\DetailedStep.cs" />
     <Compile Include="Classes\MainStep.cs" />
     <Compile Include="Classes\Report.cs" />
-    <Compile Include="Classes\UserRequests.cs" />
+    <Compile Include="Classes\RequestClass.cs" />
     <Compile Include="Classes\Task.cs" />
     <Compile Include="Classes\Member.cs" />
     <Compile Include="Controllers\MainStepController.cs" />
@@ -601,18 +617,6 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetRole.cs">
-      <DependentUpon>iPaws.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUser.cs">
-      <DependentUpon>iPaws.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserClaim.cs">
-      <DependentUpon>iPaws.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AspNetUserLogin.cs">
-      <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\aspnet_Applications.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
@@ -657,9 +661,6 @@
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CompletedTask.cs">
-      <DependentUpon>iPaws.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>iPaws.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\DetailedStep.cs">

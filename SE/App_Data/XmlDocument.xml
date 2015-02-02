@@ -1171,6 +1171,51 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Admin.MakeARequest.requestUpdatePanel">
+            <summary>
+            requestUpdatePanel control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.MakeARequest.SearchTxt">
+            <summary>
+            SearchTxt control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.MakeARequest.Search">
+            <summary>
+            Search control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.MakeARequest.Label7">
+            <summary>
+            Label7 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.MakeARequest.QueryGridView">
+            <summary>
+            QueryGridView control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Admin.PreviewReport.TheForm">
             <summary>
             TheForm control.
@@ -1900,15 +1945,6 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Admin.Requests.RequestSource">
-            <summary>
-            RequestSource control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
         <member name="F:SE.Admin.Requests.upModal">
             <summary>
             upModal control.
@@ -1939,6 +1975,141 @@
         <member name="F:SE.Admin.Test.form1">
             <summary>
             form1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.Label1">
+            <summary>
+            Label1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.requestUpdatePanel">
+            <summary>
+            requestUpdatePanel control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.requests">
+            <summary>
+            requests control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.upModal">
+            <summary>
+            upModal control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.taskrequestid">
+            <summary>
+            taskrequestid control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.lblModalTitle">
+            <summary>
+            lblModalTitle control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.Usernamelbl">
+            <summary>
+            Usernamelbl control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.UsernameTxt">
+            <summary>
+            UsernameTxt control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.TaskNameLbl">
+            <summary>
+            TaskNameLbl control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.TaskNameTxt">
+            <summary>
+            TaskNameTxt control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.CategoryLbl">
+            <summary>
+            CategoryLbl control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.CategoryText">
+            <summary>
+            CategoryText control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.Label2">
+            <summary>
+            Label2 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.CategoryDrp">
+            <summary>
+            CategoryDrp control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Admin.UserRequests.AddTask">
+            <summary>
+            AddTask control.
             </summary>
             <remarks>
             Auto-generated field.
@@ -2604,6 +2775,33 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Site.Li3">
+            <summary>
+            Li3 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Site.RequestsMenu">
+            <summary>
+            RequestsMenu control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Site.Li2">
+            <summary>
+            Li2 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Site.Li1">
             <summary>
             Li1 control.
@@ -2616,15 +2814,6 @@
         <member name="F:SE.Site.CategoriesMenu">
             <summary>
             CategoriesMenu control.
-            </summary>
-            <remarks>
-            Auto-generated field.
-            To modify move field declaration from designer file to code-behind file.
-            </remarks>
-        </member>
-        <member name="F:SE.Site.RequestsMenu">
-            <summary>
-            RequestsMenu control.
             </summary>
             <remarks>
             Auto-generated field.

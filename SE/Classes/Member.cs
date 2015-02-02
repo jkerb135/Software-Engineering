@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Data.SqlClient;
 using System.Data;
+using System.Web.Mvc;
 using System.Web.Security;
+using SE.Models;
 
 namespace SE.Classes
 {
     public static class Member
     {
+        static readonly ipawsTeamBEntities Db = new ipawsTeamBEntities();
         public static bool ValidatePassword(string password, ref string errorMessage)
         {
 
@@ -476,7 +479,40 @@ namespace SE.Classes
             }
 
             return dt;
-        } 
+        }
+
+        public static DataTable GetSupervisorRequests(string supervisor)
+        {
+            var dt = new DataTable();
+
+            dt.Columns.Add("CategoryID");
+            dt.Columns.Add("CategoryName");
+            dt.Columns.Add("RequestingUser");
+            dt.Columns.Add("Date");
+
+            var linq = (Db.Categories.Join(Db.RequestedCategories, cat => cat.CategoryID, req => req.CategoryID,
+                (cat, req) => new {cat, req})
+                .Where(@t => @t.cat.CreatedBy == supervisor && @t.req.IsApproved == false)
+                .Select(@t => new
+                {
+                    @t.cat.CategoryID,
+                    @t.cat.CategoryName,
+                    @t.req.RequestingUser,
+                    @t.req.Date
+                })).ToList();
+
+            for(int i = 0, len = linq.Count; i < len; i++ )
+            {
+                var dr = dt.NewRow();
+                dr["CategoryID"] = linq[i].CategoryID;
+                dr["CategoryName"] = linq[i].CategoryName;
+                dr["RequestingUser"] = linq[i].RequestingUser;
+                dr["Date"] = linq[i].Date;
+
+                dt.Rows.Add(dr);
+            }
+            return dt;
+        }
 
     }
 }

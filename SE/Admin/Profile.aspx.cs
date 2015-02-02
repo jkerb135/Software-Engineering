@@ -1,13 +1,12 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Web;
-using SE.Classes;
-using System;
-using System.Data.SqlClient;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.Services;
+using SE.Classes;
 using SE.Models;
 using Category = SE.Classes.Category;
 using Task = SE.Classes.Task;
@@ -25,30 +24,31 @@ namespace SE.Admin
         static readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (IsPostBack) return;
             if (!String.Equals(_otherUser, _user, StringComparison.CurrentCultureIgnoreCase))
             {
                 YourInfo.Visible = false;
                 OtherInfo.Visible = true;
                 profileHeader.Text = "Request from " + _otherUser;
+                QueryRequestCategories();
             }
             else
             {
                 YourInfo.Visible = true;
                 OtherInfo.Visible = false;
                 QueryCatRequestStatus();
-            }
-            if (IsPostBack) return;
-            Label1.Text = " Categories";
-            Label2.Text = " Tasks";
-            Label3.Text = " Users";
-            QueryYourCategories();
-            QueryYourTasks();
-            QueryYourUsers();
-            QueryRequestCategories();
-            UsersInCategory.SelectCommand =
+                Label1.Text = " Categories";
+                Label2.Text = " Tasks";
+                Label3.Text = " Users";
+                QueryYourCategories();
+                QueryYourTasks();
+                QueryYourUsers();
+                UsersInCategory.SelectCommand =
                 addUserDataSource.SelectCommand =
                     "select UserName,IsApproved,LastActivityDate from aspnet_Membership as p inner join aspnet_Users as r on p.UserId = r.UserId inner join aspnet_UsersInRoles as t on t.UserId = p.UserId inner join MemberAssignments as z on z.AssignedUser = r.UserName where t.RoleId = 'F0D05C09-B992-45A3-8F5E-4EA772C760FD' And AssignedSupervisor = '" +
                     Membership.GetUser() + "'";
+            }
+
         }
 
         private void QueryYourCategories()
@@ -62,9 +62,10 @@ namespace SE.Admin
 
         private void QueryRequestCategories()
         {
-            RequestCatGrid.DataSource = UserRequests.CategoriesNotOwned(_user, _otherUser);
+            RequestCatGrid.DataSource = RequestClass.CategoriesNotOwned(_user, _otherUser);
             RequestCatGrid.DataBind();
         }
+
         private void QueryYourTasks()
         {
             TaskSource.SelectCommand =
@@ -564,7 +565,7 @@ namespace SE.Admin
             foreach (var status in catStatus)
             {
                 foreach (var request in from GridViewRow row in RequestCatGrid.Rows let approved = Convert.ToBoolean(status.IsApproved) let request = (Button)row.FindControl("RequestCat") where !approved &&
-                                                                                                                                                                                                  Convert.ToInt32(status.CategoryID) ==                                                                                                                                                                        Category.GetCategoryIdBySupervisor(row.Cells[0].Text, _otherUser) select request)
+                                                                                                                                                                                                  Convert.ToInt32(status.CategoryID) == Category.GetCategoryIdBySupervisor(row.Cells[0].Text, _otherUser) select request)
                 {
                     request.Text = "Pending";
                     request.CssClass = "btn btn-warning form-control";
