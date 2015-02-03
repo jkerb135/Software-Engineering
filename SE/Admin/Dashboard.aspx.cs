@@ -1,12 +1,17 @@
 using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
 using System.Web.Security;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
 using SE.Classes;
+using SE.Controllers;
 using SE.Models;
 
 namespace SE.Admin
@@ -14,8 +19,8 @@ namespace SE.Admin
     public partial class Dashboard : Page
     {
         private static Label _lbl;
-        private readonly MembershipUser _membershipUser = Membership.GetUser();
-        private readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
+        private static readonly MembershipUser _membershipUser = Membership.GetUser();
+        private static readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
 
         private enum DashView
         {
@@ -64,7 +69,6 @@ namespace SE.Admin
             _membershipUser.Comment = "Verified";
             Membership.UpdateUser(_membershipUser);
         }
-
         protected void GetActiveUsers()
         {
             var users = (_db.Users.Join(_db.MemberAssignments, user => user.UserName, memb => memb.AssignedUser,
@@ -76,6 +80,21 @@ namespace SE.Admin
                 })).ToList();
             activeUserList.DataSource = users;
             activeUserList.DataBind();
+        }
+
+        [WebMethod]
+        public static string ReBindUsers()
+        {
+            var users = (_db.Users.Join(_db.MemberAssignments, user => user.UserName, memb => memb.AssignedUser,
+                (user, memb) => new { user, memb })
+                .Where(@t => @t.memb.AssignedSupervisor == _membershipUser.UserName && @t.user.Connected)
+                .Select(@t => new User
+                {
+                    UserName = @t.user.UserName
+                })).ToList();
+            var jsonSerialiser = new JavaScriptSerializer();
+            var json = jsonSerialiser.Serialize(users);
+            return json;
         }
 
         protected void GetRecentUsers()

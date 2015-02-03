@@ -17,8 +17,24 @@
             toastr.options.closeButton = true;
             toastr.error(error);
         }
-        function showHelp() {
-
+        function updateUsers() {
+            /*$.ajax({
+                type: "POST",
+                url: "Dashboard.aspx/ReBindUsers",
+                data: '{}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    var obj = JSON.stringify(data);
+                    console.log(JSON.parse(obj));
+                },
+                failure: function (response) {
+                    alert(response.d);
+                },
+                error: function (response) {
+                    alert(JSON.stringify(response.d));
+                }
+            });*/
         }
     </script>
 </asp:Content>
@@ -190,12 +206,15 @@
                        
                                 </div>
                                 <div class="panel-body">
-                                    <asp:GridView ID="activeUserList" EmptyDataText="No Users Logged In" CssClass="table table-bordered table-striped" runat="server" AutoGenerateColumns="False" ShowHeader="False" GridLines="None">
-                                        <Columns>
-                                            <asp:BoundField DataField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundField>
-                                        </Columns>
-                                    </asp:GridView>
-                                    
+                                    <asp:UpdatePanel runat="server" ID="UpdaetPanel1">
+                                        <ContentTemplate>
+                                            <asp:GridView ID="activeUserList" EmptyDataText="No Users Logged In" CssClass="table table-bordered table-striped" runat="server" AutoGenerateColumns="False" ShowHeader="False" GridLines="None">
+                                                <Columns>
+                                                    <asp:BoundField DataField="UserName" HeaderText="Supervisor" ItemStyle-Width="10%"></asp:BoundField>
+                                                </Columns>
+                                            </asp:GridView>
+                                        </ContentTemplate>
+                                    </asp:UpdatePanel>
                                 </div>
                             </div>
                         </div>

@@ -2982,6 +2982,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Admin.Dashboard.UpdaetPanel1">
+            <summary>
+            UpdaetPanel1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Admin.Dashboard.activeUserList">
             <summary>
             activeUserList control.

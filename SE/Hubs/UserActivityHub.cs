@@ -102,31 +102,10 @@ namespace SE.Hubs
             if (toUser != null) Clients.Client(toUser.ConnectionID).yourTaskRequests(taskRequests.ToArray());
         }
 
-        public void SendTaskRequest(string user, string message)
-        {
-            var supervisor = _db.MemberAssignments.FirstOrDefault(x => x.AssignedUser == user);
-            var toUser = _db.Users.FirstOrDefault(find => find.UserName == supervisor.AssignedSupervisor.ToLower());
-            if (toUser != null) Clients.Client(toUser.ConnectionID).taskRequest(message);
-        }
-
         public void SendMessage(string userName, string message, string type)
         {
             var toUser = _db.Users.FirstOrDefault(find => find.UserName.ToLower() == userName.ToLower());
             if (toUser != null) Clients.Client(toUser.ConnectionID).recieve(message, type);
-        }
-
-        public void RefreshUsers(string userName,string message)
-        {
-            var supervisor = _db.MemberAssignments.FirstOrDefault(x => x.AssignedUser == userName);
-            var toUser = _db.Users.FirstOrDefault(find => find.UserName == supervisor.AssignedSupervisor.ToLower());
-            var users = (_db.Users.Join(_db.MemberAssignments, user => user.UserName, memb => memb.AssignedUser,
-                (user, memb) => new { user, memb })
-                .Where(@t => @t.memb.AssignedSupervisor == toUser.UserName && @t.user.Connected)
-                .Select(@t => new
-                {
-                    @t.user.UserName
-                })).ToList();
-            if (toUser != null) Clients.Client(toUser.ConnectionID).refresh(users,message);
         }
     }
 

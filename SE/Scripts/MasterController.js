@@ -1,6 +1,6 @@
 ﻿var ipawsApp = angular.module('iPaws', []);
 var contact = $.connection.userActivityHub;
-
+var user = $.connection.userHub;
 
 function showNotification(message, type) {
     toastr.options.closeButton = true;
@@ -44,8 +44,7 @@ ipawsApp.controller('masterController', function($scope) {
         contact.server.getTaskRequests(localStorage.getItem("currUser"));
     });
 
-    contact.client.taskRequest = function (message) {
-        console.log(message);
+    user.client.taskRequest = function (message) {
         toastr.options.closeButton = true;
         toastr['info'](message);
         contact.server.getTaskRequests(localStorage.getItem("currUser"));
@@ -56,10 +55,10 @@ ipawsApp.controller('masterController', function($scope) {
         toastr[type](message);
     };
 
-    contact.client.refresh = function (data, message) {
-        console.log(data);
+    user.client.refresh = function (data, message) {
         toastr.options.closeButton = true;
         toastr["success"](message);
+        updateUsers();
     };
 
     contact.client.yourTaskRequests = function (tasks) {
@@ -109,7 +108,6 @@ ipawsApp.controller('masterController', function($scope) {
     contact.client.yourCategoryRequests = function (categories) {
         $scope.categories = [];
         var messageCount = document.getElementsByClassName("messageCount");
-        console.log(categories);
         if (categories.length === 0) {
             document.getElementById("envelope").style.color = "#428bca";
             document.getElementById("msg_down").style.color = "#428bca";
@@ -151,3 +149,17 @@ ipawsApp.controller('masterController', function($scope) {
     };
 
 });
+
+function doPostBackAsync(eventName, eventArgs) {
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+
+    if (!Array.contains(prm._asyncPostBackControlIDs, eventName)) {
+        prm._asyncPostBackControlIDs.push(eventName);
+    }
+
+    if (!Array.contains(prm._asyncPostBackControlClientIDs, eventName)) {
+        prm._asyncPostBackControlClientIDs.push(eventName);
+    }
+
+    __doPostBack(eventName, eventArgs);
+}

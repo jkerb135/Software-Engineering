@@ -12,20 +12,20 @@
     <link rel="stylesheet" href="/StyleSheets/JQueryUI/themes/base/jquery.ui.all.css">
 
     <!-- Signal R Client -->
-    <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.2..js") %>"></script>
+    <script src="<%=ResolveUrl("~/Scripts/jquery.signalR-2.2.0.js") %>"></script>
     <script src="<%=ResolveUrl("~/signalr/hubs") %>"></script>
     <script>
-        $(function () {
-            var contact = $.connection.userActivityHub;
-            $.connection.hub.start().done();
- 
-            contact.client.recieve = function (message) {
-                alert(message);
-            }
-        });
-        function sendMessage() {
+        var contact = $.connection.userActivityHub;
+
+        function start() {
             alert('here');
-            contact.server.sendMessage('Dave Mackey', "hello", "Hello");
+            $.connection.hub.qs = { 'username': "supervisor" };
+            $.connection.hub.start({ jsonp: true }).done(console.log('done'));
+        }
+        function end() {
+            alert('here');
+            contact.server.disconnect("supervisor");
+            $.connection.hub.stop();
         }
     </script>
 </head>
@@ -33,7 +33,8 @@
     <form id="form1" runat="server">
     <div>
         Hello <%=Membership.GetUser().UserName%>
-        <input id="Button1" type="button" value="button" onclick="sendMessage()"/>
+        <input id="Button1" type="button" value="start" onclick="start()"/>
+        <input id="button2" type="button" value="end" onclick="end()"/>
 
     </div>
     </form>
