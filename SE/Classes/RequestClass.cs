@@ -48,7 +48,7 @@ namespace SE.Classes
             return dt;
         }
 
-        public static DataTable GetTaskRequests()
+        public static DataTable GetTaskRequests(string supervisor)
         {
             var dt = new DataTable();
 
@@ -59,7 +59,7 @@ namespace SE.Classes
             dt.Columns.Add("DateCompleted");
 
             var linq = (_db.MemberAssignments.Join(_db.UserTaskRequests, mem => mem.AssignedUser, req => req.UserName,
-                (mem, req) => new {mem, req}).Where(@t => @t.mem.AssignedSupervisor == _mem).Select(@t => new
+                (mem, req) => new { mem, req }).Where(@t => @t.mem.AssignedSupervisor == supervisor).Select(@t => new
                 {
                     @t.req.ID,
                     @t.req.TaskName,

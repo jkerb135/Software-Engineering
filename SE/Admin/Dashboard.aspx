@@ -18,23 +18,20 @@
             toastr.error(error);
         }
         function updateUsers() {
-            /*$.ajax({
-                type: "POST",
-                url: "Dashboard.aspx/ReBindUsers",
-                data: '{}',
+            $.ajax({
+                type: "Get",
+                url: "/api/users/getloggedon",
                 contentType: "application/json; charset=utf-8",
-                dataType: "json",
                 success: function (data) {
-                    var obj = JSON.stringify(data);
-                    console.log(JSON.parse(obj));
+                    console.log(data);
                 },
                 failure: function (response) {
-                    alert(response.d);
+                    console.log(response)
                 },
                 error: function (response) {
-                    alert(JSON.stringify(response.d));
+                    console.log(response);
                 }
-            });*/
+            });
         }
     </script>
 </asp:Content>

@@ -56,7 +56,7 @@ namespace SE.Admin
 
         protected void BindUserRequests()
         {
-            Session["DataSource"] = RequestClass.GetTaskRequests();
+            Session["DataSource"] = RequestClass.GetTaskRequests(_mem);
             requests.DataSource = Session["DataSource"];
             requests.DataBind();
 

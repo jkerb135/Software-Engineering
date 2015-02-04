@@ -186,7 +186,7 @@
                                 <a href="<%=ResolveUrl("~/Admin/Profile.aspx?userName="+ Membership.GetUser().UserName) %>"><i class="fa fa-user fa-fw"></i>User Assignment</a>
                             </li>
                             <li id="CategoriesMenu" runat="server">
-                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Task Manager</a>
+                                <a href="<%=ResolveUrl("~/Admin/Categories.aspx") %>"><i class="fa fa-edit fa-fw"></i>Task Management</a>
                             </li>
                             <li id="ReportsMenu" runat="server">
                                 <a href="<%=ResolveUrl("~/Admin/Reports.aspx") %>"><i class="fa fa-bar-chart-o fa-fw"></i>Reports<span class="fa arrow"></span></a>

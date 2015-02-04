@@ -208,6 +208,7 @@ namespace SE.Controllers
                 SaveChanges(_db);
             return Request.CreateResponse(HttpStatusCode.OK, "User Updated");
         }
+
         public IEnumerable<UserRequest> GetAllRequests()
         {
             return (_db.MemberAssignments.Join(_db.UserTaskRequests, mem => mem.AssignedUser, req => req.UserName,
@@ -260,7 +261,6 @@ namespace SE.Controllers
                 ); // Add the original exception as the innerException
             }
         }
-
     }
     public class ValidateModelStateAttribute : ActionFilterAttribute
     {
