@@ -24,24 +24,31 @@ namespace SE.Controllers
         {
             public int CategoryId { get; set; }
             public string CategoryName { get; set; }
-            public string AssignedUser { get; set; }
+            public List<UserTasks> Tasks { get; set; } 
+        }
+
+        public class UserTasks
+        {
+            public int TaskId { get; set; }
+            public string TaskName { get; set; }
         }
         readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
         /// <summary>
         /// Gets all categories from the database.
         /// </summary>
         /// <returns>All categories in database</returns>
-        public IEnumerable<UserCategories> GetAllCategories()
+        public IList<UserCategories> GetAllCategories()
         {
-            return
-                _db.Categories.GroupJoin(_db.CategoryAssignments, cat => cat.CategoryID,
-                    assignment => assignment.CategoryID, (cat, user) => new {cat, user})
-                    .SelectMany(@t => @t.user.DefaultIfEmpty(), (@t, b) => new UserCategories
-                    {
-                        CategoryId = @t.cat.CategoryID,
-                        CategoryName = @t.cat.CategoryName,
-                        AssignedUser = b.AssignedUser
-                    });
+            return _db.Categories.Select(c => new UserCategories
+            {
+                CategoryId = c.CategoryID,
+                CategoryName = c.CategoryName,
+                Tasks = c.Tasks.ToList().Select(t => new UserTasks
+                {
+                    TaskId = t.TaskID,
+                    TaskName = t.TaskName
+                }).ToList(),
+            }).ToList();
         }
     }
 }

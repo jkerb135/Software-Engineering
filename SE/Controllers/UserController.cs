@@ -54,10 +54,14 @@ namespace SE.Controllers
         public class NewCategory
         {
             public string CategoryName { get; set; }
-            public string AssignedUser { get; set; }
             public int CategoryId { get; set; }
-            public virtual ICollection<NewTask> Task { get; set; }
-            public ICollection<CategoryAssignment> Assignments { get; set; } 
+            public List<UserTasks> Tasks { get; set; }
+        }
+
+        public class UserTasks
+        {
+            public int TaskId { get; set; }
+            public string TaskName { get; set; }
         }
 
         public class Task
@@ -130,6 +134,24 @@ namespace SE.Controllers
                 join b in _db.CategoryAssignments on a.CategoryID equals b.CategoryID
                 where b.AssignedUser == id
                 select new Category();
+        }
+
+        public IList<NewCategory> GetByUser(string id)
+        {
+            return (from a in _db.Categories
+                    join b in _db.CategoryAssignments on a.CategoryID equals b.CategoryID
+                    where b.AssignedUser == id
+                    select new NewCategory
+                    {
+                        CategoryId = a.CategoryID,
+                        CategoryName = a.CategoryName,
+                        Tasks = a.Tasks.ToList().Select(t => new UserTasks
+                        {
+                            TaskId = t.TaskID,
+                            TaskName = t.TaskName
+                        }).ToList()
+
+                    }).ToList();
         }
 
         /// <summary>
