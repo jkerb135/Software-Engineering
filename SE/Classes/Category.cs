@@ -11,6 +11,7 @@ namespace SE.Classes
     {
         #region Properties
 
+        private bool _isPublished;
         private bool _isActive = true;
 
         public int CategoryId { get; set; }
@@ -68,7 +69,57 @@ namespace SE.Classes
                 _isActive = value;
             }
         }
+        public bool IsPublished
+        {
+            get
+            {
+                if (CategoryId <= 0) return _isPublished;
+                const string queryString = "SELECT IsPublished FROM Categories " +
+                                           "WHERE CategoryID=@categoryid";
 
+                using (var con = new SqlConnection(
+                    Methods.GetConnectionString()))
+                {
+                    var cmd = new SqlCommand(queryString, con);
+
+                    cmd.Parameters.AddWithValue("@categoryid", CategoryId);
+
+                    con.Open();
+
+                    _isPublished = Convert.ToBoolean(cmd.ExecuteScalar());
+
+                    con.Close();
+                }
+
+                return _isPublished;
+            }
+            set
+            {
+                if (CategoryId > 0)
+                {
+                    const string queryString = "UPDATE Categories " +
+                                               "SET IsPublished=@IsPublished " +
+                                               "WHERE CategoryID=@categoryid";
+
+                    using (var con = new SqlConnection(
+                        Methods.GetConnectionString()))
+                    {
+                        var cmd = new SqlCommand(queryString, con);
+
+                        cmd.Parameters.AddWithValue("@categoryid", CategoryId);
+                        cmd.Parameters.AddWithValue("@isPublished", value);
+
+                        con.Open();
+
+                        cmd.ExecuteScalar();
+
+                        con.Close();
+                    }
+                }
+
+                _isPublished = value;
+            }
+        }
         #endregion
 
         #region Constructors
