@@ -145,6 +145,7 @@
           <Property Name="CreatedBy" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="CreatedTime" Type="datetime" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsPublished" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ipawsTeamB.dbo.CategoryAssignments' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
@@ -722,7 +723,6 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
           <EntitySet Name="aspnet_SchemaVersions" EntityType="ipawsTeamBModel.aspnet_SchemaVersions" />
           <EntitySet Name="aspnet_Users" EntityType="ipawsTeamBModel.aspnet_Users" />
           <EntitySet Name="aspnet_WebEvent_Events" EntityType="ipawsTeamBModel.aspnet_WebEvent_Events" />
-          <EntitySet Name="Categories" EntityType="ipawsTeamBModel.Category" />
           <EntitySet Name="Clients" EntityType="ipawsTeamBModel.Client" />
           <EntitySet Name="CompletedMainSteps" EntityType="ipawsTeamBModel.CompletedMainStep" />
           <EntitySet Name="CompletedTasks" EntityType="ipawsTeamBModel.CompletedTask" />
@@ -773,18 +773,6 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
             <End Role="aspnet_Profile" EntitySet="aspnet_Profile" />
           </AssociationSet>
-          <AssociationSet Name="FK_CategoryAssignments_Categories" Association="ipawsTeamBModel.FK_CategoryAssignments_Categories">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="CategoryAssignment" EntitySet="CategoryAssignments" />
-          </AssociationSet>
-          <AssociationSet Name="FK_RequestedCategories_Categories" Association="ipawsTeamBModel.FK_RequestedCategories_Categories">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="RequestedCategory" EntitySet="RequestedCategories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tasks_Categories" Association="ipawsTeamBModel.FK_Tasks_Categories">
-            <End Role="Category" EntitySet="Categories" />
-            <End Role="Task" EntitySet="Tasks" />
-          </AssociationSet>
           <AssociationSet Name="FK_CompletedMainSteps_MainSteps" Association="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps">
             <End Role="MainStep" EntitySet="MainSteps" />
             <End Role="CompletedMainStep" EntitySet="CompletedMainSteps" />
@@ -818,6 +806,19 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
             <End Role="aspnet_Users" EntitySet="aspnet_Users" />
           </AssociationSet>
           <EntitySet Name="Users" EntityType="ipawsTeamBModel.User" />
+          <EntitySet Name="Categories" EntityType="ipawsTeamBModel.Category" />
+          <AssociationSet Name="FK_CategoryAssignments_Categories" Association="ipawsTeamBModel.FK_CategoryAssignments_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="CategoryAssignment" EntitySet="CategoryAssignments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RequestedCategories_Categories" Association="ipawsTeamBModel.FK_RequestedCategories_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="RequestedCategory" EntitySet="RequestedCategories" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tasks_Categories" Association="ipawsTeamBModel.FK_Tasks_Categories">
+            <End Role="Category" EntitySet="Categories" />
+            <End Role="Task" EntitySet="Tasks" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="aspnet_Applications">
           <Key>
@@ -962,19 +963,6 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
           <Property Name="ExceptionType" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
           <Property Name="Details" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Category">
-          <Key>
-            <PropertyRef Name="CategoryID" />
-          </Key>
-          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="CategoryAssignment" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="Category" ToRole="CategoryAssignment" />
-          <NavigationProperty Name="RequestedCategories" Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories" FromRole="Category" ToRole="RequestedCategory" />
-          <NavigationProperty Name="Tasks" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Category" ToRole="Task" />
-        </EntityType>
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="Id" />
@@ -1110,11 +1098,11 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
           <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Task" ToRole="Category" />
           <NavigationProperty Name="CompletedMainSteps" Relationship="ipawsTeamBModel.FK_CompletedMainSteps_Tasks" FromRole="Task" ToRole="CompletedMainStep" />
           <NavigationProperty Name="MainSteps" Relationship="ipawsTeamBModel.FK_MainSteps_Tasks" FromRole="Task" ToRole="MainStep" />
           <NavigationProperty Name="Tasks1" Relationship="ipawsTeamBModel.FK_Tasks_Tasks" FromRole="Task" ToRole="Task1" />
           <NavigationProperty Name="Task1" Relationship="ipawsTeamBModel.FK_Tasks_Tasks" FromRole="Task1" ToRole="Task" />
+          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Task" ToRole="Category" />
         </EntityType>
         <EntityType Name="UserTaskRequest">
           <Key>
@@ -1132,8 +1120,8 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
           </Key>
           <Property Name="AssignedUser" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CategoryID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="CategoryAssignment" ToRole="Category" />
           <NavigationProperty Name="MemberAssignment" Relationship="ipawsTeamBModel.FK_CategoryAssignments_MemberAssignments" FromRole="CategoryAssignment" ToRole="MemberAssignment" />
+          <NavigationProperty Name="Category" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="CategoryAssignment" ToRole="Category" />
         </EntityType>
         <EntityType Name="RequestedTask">
           <Key>
@@ -1259,46 +1247,6 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_CategoryAssignments_Categories">
-          <End Type="ipawsTeamBModel.Category" Role="Category" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ipawsTeamBModel.CategoryAssignment" Role="CategoryAssignment" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="CategoryAssignment">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_RequestedCategories_Categories">
-          <End Type="ipawsTeamBModel.Category" Role="Category" Multiplicity="1" />
-          <End Type="ipawsTeamBModel.RequestedCategory" Role="RequestedCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="RequestedCategory">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tasks_Categories">
-          <End Type="ipawsTeamBModel.Category" Role="Category" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="ipawsTeamBModel.Task" Role="Task" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Category">
-              <PropertyRef Name="CategoryID" />
-            </Principal>
-            <Dependent Role="Task">
-              <PropertyRef Name="CategoryID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_CompletedMainSteps_MainSteps">
           <End Type="ipawsTeamBModel.MainStep" Role="MainStep" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -1402,6 +1350,60 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
           <Property Name="Connected" Type="Boolean" Nullable="false" />
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="CategoryID" />
+          </Key>
+          <Property Name="CategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsPublished" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="CategoryAssignment" Relationship="ipawsTeamBModel.FK_CategoryAssignments_Categories" FromRole="Category" ToRole="CategoryAssignment" />
+          <NavigationProperty Name="RequestedCategories" Relationship="ipawsTeamBModel.FK_RequestedCategories_Categories" FromRole="Category" ToRole="RequestedCategory" />
+          <NavigationProperty Name="Tasks" Relationship="ipawsTeamBModel.FK_Tasks_Categories" FromRole="Category" ToRole="Task" />
+        </EntityType>
+        <Association Name="FK_CategoryAssignments_Categories">
+          <End Type="ipawsTeamBModel.Category" Role="Category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ipawsTeamBModel.CategoryAssignment" Role="CategoryAssignment" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="CategoryAssignment">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RequestedCategories_Categories">
+          <End Type="ipawsTeamBModel.Category" Role="Category" Multiplicity="1" />
+          <End Type="ipawsTeamBModel.RequestedCategory" Role="RequestedCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="RequestedCategory">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tasks_Categories">
+          <End Type="ipawsTeamBModel.Category" Role="Category" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ipawsTeamBModel.Task" Role="Task" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category">
+              <PropertyRef Name="CategoryID" />
+            </Principal>
+            <Dependent Role="Task">
+              <PropertyRef Name="CategoryID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1537,17 +1539,6 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
                 <ScalarProperty Name="EventTime" ColumnName="EventTime" />
                 <ScalarProperty Name="EventTimeUtc" ColumnName="EventTimeUtc" />
                 <ScalarProperty Name="EventId" ColumnName="EventId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="ipawsTeamBModel.Category">
-              <MappingFragment StoreEntitySet="Categories">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1734,6 +1725,18 @@ FROM [dbo].[RequestedTasks] AS [RequestedTasks]</DefiningQuery>
                 <ScalarProperty Name="Connected" ColumnName="Connected" />
                 <ScalarProperty Name="ConnectionID" ColumnName="ConnectionID" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="ipawsTeamBModel.Category">
+              <MappingFragment StoreEntitySet="Categories">
+                <ScalarProperty Name="IsPublished" ColumnName="IsPublished" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

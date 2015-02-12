@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_SchemaVersions" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_Users" Width="1.5" PointX="14.25" PointY="13.375" />
         <EntityTypeShape EntityType="ipawsTeamBModel.aspnet_WebEvent_Events" Width="1.5" PointX="9.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ipawsTeamBModel.Category" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="ipawsTeamBModel.Client" Width="1.5" PointX="11.75" PointY="0.75" />
         <EntityTypeShape EntityType="ipawsTeamBModel.CompletedMainStep" Width="1.5" PointX="7.5" PointY="5" />
         <EntityTypeShape EntityType="ipawsTeamBModel.CompletedTask" Width="1.5" PointX="9.75" PointY="11.75" />
@@ -39,9 +38,6 @@
         <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pe__PathI__0B91BA14" />
         <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pe__UserI__0C85DE4D" />
         <AssociationConnector Association="ipawsTeamBModel.FK__aspnet_Pr__UserI__0D7A0286" />
-        <AssociationConnector Association="ipawsTeamBModel.FK_CategoryAssignments_Categories" />
-        <AssociationConnector Association="ipawsTeamBModel.FK_RequestedCategories_Categories" />
-        <AssociationConnector Association="ipawsTeamBModel.FK_Tasks_Categories" />
         <AssociationConnector Association="ipawsTeamBModel.FK_CompletedMainSteps_MainSteps" />
         <AssociationConnector Association="ipawsTeamBModel.FK_CompletedMainSteps_MemberAssignments" />
         <AssociationConnector Association="ipawsTeamBModel.FK_CompletedMainSteps_Tasks" />
@@ -51,6 +47,10 @@
         <AssociationConnector Association="ipawsTeamBModel.FK_Tasks_Tasks" />
         <AssociationConnector Association="ipawsTeamBModel.aspnet_UsersInRoles" />
         <EntityTypeShape EntityType="ipawsTeamBModel.User" Width="1.5" PointX="14.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ipawsTeamBModel.Category" Width="1.5" PointX="0.75" PointY="6.625" />
+        <AssociationConnector Association="ipawsTeamBModel.FK_CategoryAssignments_Categories" />
+        <AssociationConnector Association="ipawsTeamBModel.FK_RequestedCategories_Categories" />
+        <AssociationConnector Association="ipawsTeamBModel.FK_Tasks_Categories" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

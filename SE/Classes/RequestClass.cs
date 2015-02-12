@@ -29,7 +29,7 @@ namespace SE.Classes
             dt.Columns.Add("CreatedTime");
 
                 var userCats = _db.Categories.Where(x => x.CreatedBy == user).Select(x => new {x.CategoryID, x.CategoryName, x.CreatedTime }).ToList();
-                var otherCats = _db.Categories.Where(x => x.CreatedBy == otherUser).Select(x => new { x.CategoryID, x.CategoryName, x.CreatedTime }).ToList();
+                var otherCats = _db.Categories.Where(x => x.CreatedBy == otherUser && x.IsPublished).Select(x => new { x.CategoryID, x.CategoryName, x.CreatedTime }).ToList();
 
                 var concat = userCats.Concat(otherCats).ToList();
                 foreach (var s in userCats)

@@ -35,7 +35,6 @@ namespace SE.Models
         public DbSet<aspnet_SchemaVersions> aspnet_SchemaVersions { get; set; }
         public DbSet<aspnet_Users> aspnet_Users { get; set; }
         public DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
-        public DbSet<Category> Categories { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<CompletedMainStep> CompletedMainSteps { get; set; }
         public DbSet<CompletedTask> CompletedTasks { get; set; }
@@ -51,5 +50,6 @@ namespace SE.Models
         public DbSet<CategoryAssignment> CategoryAssignments { get; set; }
         public DbSet<RequestedTask> RequestedTasks { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }

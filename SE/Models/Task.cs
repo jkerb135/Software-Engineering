@@ -27,10 +27,10 @@ namespace SE.Models
         public System.DateTime CreatedTime { get; set; }
         public string CreatedBy { get; set; }
     
-        public virtual Category Category { get; set; }
         public virtual ICollection<CompletedMainStep> CompletedMainSteps { get; set; }
         public virtual ICollection<MainStep> MainSteps { get; set; }
         public virtual Task Tasks1 { get; set; }
         public virtual Task Task1 { get; set; }
+        public virtual Category Category { get; set; }
     }
 }

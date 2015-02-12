@@ -37,7 +37,7 @@ namespace SE.Admin
 
             var queryvalue = SearchTxt.Text;
             var mine = _db.Categories.Where(x => x.CreatedBy == _mem).ToList();
-            var all = _db.Categories.Where(x =>(x.CategoryName.Contains(queryvalue) || x.CreatedBy.Contains(queryvalue)) && x.CreatedBy != _mem).ToList();
+            var all = _db.Categories.Where(x =>(x.CategoryName.Contains(queryvalue) || x.CreatedBy.Contains(queryvalue)) && x.CreatedBy != _mem && x.IsPublished).ToList();
 
             if (all.Count == 0)
             {

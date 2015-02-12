@@ -25,6 +25,7 @@ namespace SE.Models
         public string CreatedBy { get; set; }
         public System.DateTime CreatedTime { get; set; }
         public bool IsActive { get; set; }
+        public bool IsPublished { get; set; }
     
         public virtual CategoryAssignment CategoryAssignment { get; set; }
         public virtual ICollection<RequestedCategory> RequestedCategories { get; set; }
