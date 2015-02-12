@@ -901,6 +901,15 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Categories.PublishCategory">
+            <summary>
+            PublishCategory control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Categories.taskFilter">
             <summary>
             taskFilter control.

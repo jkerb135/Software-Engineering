@@ -217,6 +217,11 @@
                                         </div>
                                     </div>
                                     <asp:ListBox CssClass="form-control" Style="overflow-x: scroll" ID="catList" runat="server" Height="350px" OnSelectedIndexChanged="QueryTasks" AutoPostBack="True" ToolTip="Click To Navigate" AppendDataBoundItems="true" DataTextField="CategoryName" DataValueField="CategoryID"></asp:ListBox>
+                                                                    <div class="row" style="padding: 0px 0px 0px 15px;">
+                                        <div class="col-xs-11 reset">
+                                            <asp:Button ID="PublishCategory" runat="server" CssClass="btn btn-success form-control" Text="Publish" OnClick="PublishCategory_OnClick"/>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-xs-3" style="padding: 5px">
                                     <div class="row" style="padding: 0px 0px 10px 15px">

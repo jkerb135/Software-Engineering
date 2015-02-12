@@ -599,6 +599,7 @@
     <Compile Include="Classes\RequestClass.cs" />
     <Compile Include="Classes\Task.cs" />
     <Compile Include="Classes\Member.cs" />
+    <Compile Include="Classes\WebApiClass.cs" />
     <Compile Include="Controllers\MainStepController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
