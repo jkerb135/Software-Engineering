@@ -9,6 +9,17 @@
             var url = "http://acad.kutztown.edu/~jkerb135/FrontEnd/?taskId=" + taskId + "#dotask";
             window.open(url);
         }
+
+        $(document).on("change", "input", function () {
+            if (this.type === "file") {
+                if (this.files[0].size > 4096) {
+                    toastr['error']("File size is too large");
+                    this.value = "";
+                }
+            } else {
+                return;
+            }
+        });
     </script>
 </asp:Content>
 <asp:Content ID="PageBody" ContentPlaceHolderID="SiteBody" runat="server">

@@ -894,7 +894,7 @@ namespace SE
                 }
                 if (_cat.IsPublished)
                 {
-                    PublishCategory.Text = "Revoke Publish";
+                    PublishCategory.Text = "Unpublish";
                     PublishCategory.CssClass = "btn btn-danger form-control";
                 }
                 else
@@ -1781,7 +1781,7 @@ namespace SE
             else
             {
                 _cat.IsPublished = true;
-                PublishCategory.Text = "Revoke Publish";
+                PublishCategory.Text = "Unpublish";
                 PublishCategory.CssClass = "btn btn-danger form-control";
                 SuccessMessage.Text = "Category has been activated";
             }
