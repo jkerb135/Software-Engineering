@@ -13,8 +13,8 @@ namespace SE
             config.EnableCors();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{action}/{id}/{username}",
-                defaults: new { id = RouteParameter.Optional, username = RouteParameter.Optional }
+                routeTemplate: "api/{controller}/{action}/{id}/{val}",
+                defaults: new { id = RouteParameter.Optional, val = RouteParameter.Optional }
             );       
             var json = config.Formatters.JsonFormatter;
             json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;

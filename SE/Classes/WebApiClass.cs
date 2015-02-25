@@ -32,6 +32,12 @@ namespace SE.Classes
             public List<UserTasks> Tasks { get; set; }
         }
 
+        public class NewCompletedMainStep
+        {
+            public int MainStepId { get; set; }
+            public string AssignedUser { get; set; }
+        }
+
         public class NewMainStep
         {
             public string MainStepName { get; set; }
@@ -39,7 +45,9 @@ namespace SE.Classes
             public string MainStepText { get; set; }
             public string VideoPath { get; set; }
             public string AudioPath { get; set; }
-            public List<NewDetailedStep> DetailedStep { get; set; }
+            public int SortOrder { get; set; }
+            public List<NewCompletedMainStep> CompletedMainSteps { get; set; }
+            public List<NewDetailedStep> DetailedSteps { get; set; }
         }
 
         public class NewDetailedStep
@@ -90,8 +98,9 @@ namespace SE.Classes
         }
         public class CompleteStep
         {
+            public int TaskId { get; set; }
+            public int MainStepId { get; set; }
             public string MainStepName { get; set; }
-            public string AssignedUser { get; set; }
             public DateTime DateTimeComplete { get; set; }
             public double TotalTime { get; set; }
         }

@@ -86,16 +86,29 @@ namespace SE.Controllers
 
         public IList<WebApiClass.NewMainStep> GetTaskDetails(int id)
         {
-            List<WebApiClass.NewMainStep> list = new List<WebApiClass.NewMainStep>();
-            foreach (WebApiClass.NewMainStep step in (_db.MainSteps.Where(a => a.TaskID == id).Select(a => new WebApiClass.NewMainStep
-            {
-                MainStepId = a.MainStepID, MainStepName = a.MainStepName, AudioPath = a.AudioPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"), VideoPath = a.VideoPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"), DetailedStep = a.DetailedSteps.ToList().Select(t => new WebApiClass.NewDetailedStep
-                {
-                    DetailedStepId = t.DetailedStepID, DetailedStepName = t.DetailedStepName, DetailedStepText = t.DetailedStepText, ImagePath = t.ImagePath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"),
-                }).ToList()
-            })))
-                list.Add(step);
-            return list;
+            return (from a in _db.MainSteps
+                    where a.TaskID == id
+                    select new WebApiClass.NewMainStep
+                    {
+                        MainStepId = a.MainStepID,
+                        MainStepName = a.MainStepName,
+                        MainStepText = a.MainStepText,
+                        AudioPath = a.AudioPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"),
+                        VideoPath = a.VideoPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"),
+                        SortOrder = a.ListOrder,
+                        CompletedMainSteps = a.CompletedMainSteps.ToList().Select(c => new WebApiClass.NewCompletedMainStep
+                        {
+                            MainStepId = c.MainStepID,
+                            AssignedUser = c.AssignedUser
+                        }).ToList(),
+                        DetailedSteps = a.DetailedSteps.ToList().Select(d => new WebApiClass.NewDetailedStep
+                        {
+                            DetailedStepId = d.DetailedStepID,
+                            DetailedStepName = d.DetailedStepName,
+                            DetailedStepText = d.DetailedStepText,
+                            ImagePath = d.ImagePath
+                        }).ToList()
+                    }).OrderBy(x => x.SortOrder).ToList();
         }
 
         /// <summary>
@@ -121,9 +134,9 @@ namespace SE.Controllers
                     });
         }
 
-        public IEnumerable<WebApiClass.CompleteStep> GetAllCompletedSteps()
+        public IEnumerable<WebApiClass.CompleteStep> GetAllCompletedSteps(string id, int val)
         {
-            return _db.CompletedMainSteps.Select(@t => new WebApiClass.CompleteStep(){ AssignedUser = @t.AssignedUser, DateTimeComplete = @t.DateTimeComplete, MainStepName = @t.MainStepName, TotalTime = @t.TotalTime}); 
+            return _db.CompletedMainSteps.Where(@u => @u.AssignedUser == id && @u.TaskID == val).Select(@t => new WebApiClass.CompleteStep() { MainStepId = @t.MainStepID, DateTimeComplete = @t.DateTimeComplete, MainStepName = @t.MainStepName, TotalTime = @t.TotalTime }); 
         }
         [HttpPost]
         public HttpResponseMessage PostMainStepCompleted([FromBody]CompletedMainStep mainstep)
