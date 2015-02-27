@@ -2678,13 +2678,6 @@
             <param name="id">String Username</param>
             <returns></returns>
         </member>
-        <member name="M:SE.Controllers.UserController.GetTasksByUser(System.String)">
-            <summary>
-            Gets tasks assigned to user by username
-            </summary>
-            <param name="id">String Username</param>
-            <returns></returns>
-        </member>
         <member name="F:SE.Default.MainForm">
             <summary>
             MainForm control.
