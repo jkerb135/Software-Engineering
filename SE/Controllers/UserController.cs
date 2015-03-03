@@ -89,7 +89,7 @@ namespace SE.Controllers
             List<WebApiClass.NewMainStep> list = new List<WebApiClass.NewMainStep>();
             foreach (WebApiClass.NewMainStep step in (_db.MainSteps.Where(a => a.TaskID == id).Select(a => new WebApiClass.NewMainStep
             {
-                MainStepId = a.MainStepID, MainStepName = a.MainStepName, AudioPath = a.AudioPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"), VideoPath = a.VideoPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"), DetailedStep = a.DetailedSteps.ToList().Select(t => new WebApiClass.NewDetailedStep
+                MainStepId = a.MainStepID, MainStepName = a.MainStepName, MainStepText = a.MainStepText, AudioPath = a.AudioPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"), VideoPath = a.VideoPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"), DetailedStep = a.DetailedSteps.ToList().Select(t => new WebApiClass.NewDetailedStep
                 {
                     DetailedStepId = t.DetailedStepID, DetailedStepName = t.DetailedStepName, DetailedStepText = t.DetailedStepText, ImagePath = t.ImagePath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"),
                 }).ToList()
