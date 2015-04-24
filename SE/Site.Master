@@ -58,11 +58,16 @@
         //Global for logged in user
         localStorage.setItem("currUser", '<%=Membership.GetUser().UserName%>');
 
-        $(".requests li a")
-           .on('click', function (e) {
-               alert("clicked")
-               e.stopPropagation();
-           });
+        console.log(location.pathname);
+        var path = location.pathname;
+        $(function() {
+
+            if (path === "/Admin/MakeARequest.aspx" || path === "/Admin/SupervisorRequests.aspx" || path === "/Admin/UserRequests.aspx") {
+                var menu = document.getElementById("metiusmenu");
+                menu.click();
+            }
+
+        });
     </script>
 
     <asp:ContentPlaceHolder ID="SiteHead" runat="server"></asp:ContentPlaceHolder>
@@ -167,7 +172,7 @@
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Account Management</a>
                             </li>
                             <li ID="RequestsMenu" runat="server" class="requests">
-                                <a href="#"><i class="fa fa-bars fa-fw"></i>Requests<span class="fa arrow"></span></a>
+                                <a href="#" id="metiusmenu"><i class="fa fa-bars fa-fw"></i>Requests<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li id="Li3" runat="server">
                                         <a href="<%=ResolveUrl("~/Admin/MakeARequest.aspx") %>"><i class="fa fa-envelope fa-fw"></i>Make A Request</a>
