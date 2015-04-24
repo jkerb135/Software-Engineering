@@ -87,9 +87,16 @@ namespace SE.Controllers
 
         public IList<WebApiClass.MainStepClass> GetTaskDetails(int id)
         {
+<<<<<<< HEAD
+            List<WebApiClass.NewMainStep> list = new List<WebApiClass.NewMainStep>();
+            foreach (WebApiClass.NewMainStep step in (_db.MainSteps.Where(a => a.TaskID == id).Select(a => new WebApiClass.NewMainStep
+            {
+                MainStepId = a.MainStepID, MainStepName = a.MainStepName, MainStepText = a.MainStepText, AudioPath = a.AudioPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"), VideoPath = a.VideoPath.Replace("~", "http://ipawsteamb.csweb.kutztown.edu"), DetailedStep = a.DetailedSteps.ToList().Select(t => new WebApiClass.NewDetailedStep
+=======
             return (from a in _db.MainSteps
                 where a.TaskID == id
                 select new WebApiClass.MainStepClass
+>>>>>>> origin/master
                 {
                     MainStepID = a.MainStepID,
                     MainStepName = a.MainStepName,
