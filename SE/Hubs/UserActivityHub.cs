@@ -40,7 +40,6 @@ namespace SE.Hubs
             {
                 user.Connected = true;
                 user.ConnectionID = name;
-                user.UserName = username;
             }
             _db.SaveChanges();
             return base.OnConnected();

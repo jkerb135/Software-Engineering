@@ -46,7 +46,8 @@ namespace SE
                 Li1.Visible = false;
                 ProfilePic.Visible = false;
                 RequestsMenu.Visible = false;
-                
+                Requests1.Visible = Requests2.Visible = false;
+
             }
             GetPictureFromDb(userName);
         }

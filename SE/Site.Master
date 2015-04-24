@@ -57,6 +57,12 @@
     <script>
         //Global for logged in user
         localStorage.setItem("currUser", '<%=Membership.GetUser().UserName%>');
+
+        $(".requests li a")
+           .on('click', function (e) {
+               alert("clicked")
+               e.stopPropagation();
+           });
     </script>
 
     <asp:ContentPlaceHolder ID="SiteHead" runat="server"></asp:ContentPlaceHolder>
@@ -86,7 +92,7 @@
                 </div>
                 <!-- /.navbar-header -->
                 <ul class="nav navbar-top-links navbar-right">
-                    <li class="dropdown">
+                    <li class="dropdown" runat="server" ID="Requests1">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="messageCount"></span>
                             <i class="fa fa-envelope fa-fw" id="envelope"></i><i class="fa fa-caret-down" id="msg_down"></i>
                         </a>
@@ -106,7 +112,7 @@
                         <!-- /.dropdown-messages -->
                     </li>
                     <!-- /.dropdown -->
-                    <li class="dropdown">
+                    <li class="dropdown" runat="server" ID="Requests2">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="messageCount2"></span>
                             <i class="fa fa-tasks fa-fw" id="tasks"></i><i class="fa fa-caret-down" id="tsk_down"></i>
                         </a>
@@ -160,13 +166,13 @@
                             <li style="margin-top: 20px" runat="server" id="ManagerHome">
                                 <a href="<%=ResolveUrl("~/Admin/Dashboard.aspx") %>"><i class="fa fa-dashboard fa-fw"></i>Account Management</a>
                             </li>
-                            <li>
+                            <li ID="RequestsMenu" runat="server" class="requests">
                                 <a href="#"><i class="fa fa-bars fa-fw"></i>Requests<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li id="Li3" runat="server">
                                         <a href="<%=ResolveUrl("~/Admin/MakeARequest.aspx") %>"><i class="fa fa-envelope fa-fw"></i>Make A Request</a>
                                     </li>
-                                    <li id="RequestsMenu" runat="server">
+                                    <li>
                                         <a href="<%=ResolveUrl("~/Admin/SupervisorRequests.aspx") %>">
                                             <i class="fa fa-users fa-fw"></i>Supervisor Requests
                                               <i style="float:right" class="messageCount">0</i>

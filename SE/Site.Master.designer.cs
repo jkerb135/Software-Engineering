@@ -40,6 +40,24 @@ namespace SE {
         protected global::System.Web.UI.ScriptManager ScriptManage;
         
         /// <summary>
+        /// Requests1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Requests1;
+        
+        /// <summary>
+        /// Requests2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Requests2;
+        
+        /// <summary>
         /// username control.
         /// </summary>
         /// <remarks>
@@ -94,15 +112,6 @@ namespace SE {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ManagerHome;
         
         /// <summary>
-        /// Li3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Li3;
-        
-        /// <summary>
         /// RequestsMenu control.
         /// </summary>
         /// <remarks>
@@ -110,6 +119,15 @@ namespace SE {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl RequestsMenu;
+        
+        /// <summary>
+        /// Li3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Li3;
         
         /// <summary>
         /// Li2 control.

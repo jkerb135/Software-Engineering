@@ -2723,6 +2723,24 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
+        <member name="F:SE.Site.Requests1">
+            <summary>
+            Requests1 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
+        <member name="F:SE.Site.Requests2">
+            <summary>
+            Requests2 control.
+            </summary>
+            <remarks>
+            Auto-generated field.
+            To modify move field declaration from designer file to code-behind file.
+            </remarks>
+        </member>
         <member name="F:SE.Site.username">
             <summary>
             username control.
@@ -2777,18 +2795,18 @@
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Site.Li3">
+        <member name="F:SE.Site.RequestsMenu">
             <summary>
-            Li3 control.
+            RequestsMenu control.
             </summary>
             <remarks>
             Auto-generated field.
             To modify move field declaration from designer file to code-behind file.
             </remarks>
         </member>
-        <member name="F:SE.Site.RequestsMenu">
+        <member name="F:SE.Site.Li3">
             <summary>
-            RequestsMenu control.
+            Li3 control.
             </summary>
             <remarks>
             Auto-generated field.

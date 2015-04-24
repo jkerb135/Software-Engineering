@@ -25,7 +25,7 @@ namespace SE.Admin
     public partial class Dashboard : Page
     {
         private static Label _lbl;
-        private static readonly MembershipUser _membershipUser = Membership.GetUser();
+        private readonly MembershipUser _membershipUser = Membership.GetUser();
         private static readonly ipawsTeamBEntities _db = new ipawsTeamBEntities();
         
         private enum DashView
